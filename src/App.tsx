@@ -81,8 +81,28 @@ function App() {
       </main>
 
       <footer className="footer">
-        <p>© 2026 AI Legion Pro - Cloudflare Pages + Workers</p>
-        <p style={{ fontSize: '0.9em', marginTop: '10px' }}>Workers API: {API_URL}</p>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+          <div>
+            <p>© 2026 AI Legion Pro - Cloudflare Pages + Workers</p>
+            <p style={{ fontSize: '0.9em', marginTop: '10px' }}>Workers API: {API_URL}</p>
+          </div>
+          <a 
+            href="https://chat.whatsapp.com/LAu2OosQEmd73CBl56sIRi?mode=gi_t"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              fontSize: '2.5em',
+              cursor: 'pointer',
+              transition: 'transform 0.3s',
+              display: 'inline-block'
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.2)')}
+            onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
+            title="WhatsApp Grubuna Katıl"
+          >
+            💬
+          </a>
+        </div>
       </footer>
     </div>
   )

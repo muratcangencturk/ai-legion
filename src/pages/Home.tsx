@@ -10,32 +10,144 @@ interface Article {
   created_at: string
 }
 
+interface Feature {
+  id: string
+  title: string
+  description: string
+}
+
+interface HeaderFooterSettings {
+  title: string
+  description: string
+  image_url: string
+  image_size: 'small' | 'medium' | 'large'
+  image_position: 'left' | 'center' | 'right'
+}
+
 export default function Home({ apiUrl }: { apiUrl: string }) {
   const [articles, setArticles] = useState<Article[]>([])
   const [loading, setLoading] = useState(true)
+  const [features, setFeatures] = useState<Feature[]>([])
+  const [headerSettings, setHeaderSettings] = useState<HeaderFooterSettings | null>(null)
+  const [footerSettings, setFooterSettings] = useState<HeaderFooterSettings | null>(null)
 
   useEffect(() => {
-    const fetchArticles = async () => {
+    const fetchData = async () => {
       try {
-        const response = await axios.get(`${apiUrl}/api/articles`)
-        setArticles(response.data)
+        // Fetch articles
+        const articlesResponse = await axios.get(`${apiUrl}/api/articles`)
+        setArticles(articlesResponse.data)
+
+        // Load site settings from localStorage first
+        const localSettings = localStorage.getItem('siteSettings')
+        if (localSettings) {
+          const settings = JSON.parse(localSettings)
+          if (settings.features) setFeatures(settings.features)
+          if (settings.header) setHeaderSettings(settings.header)
+          if (settings.footer) setFooterSettings(settings.footer)
+        }
+
+        // Try to fetch from API
+        try {
+          const settingsResponse = await axios.get(`${apiUrl}/api/site-settings`)
+          if (settingsResponse.data.features) {
+            const parsedFeatures = JSON.parse(settingsResponse.data.features)
+            setFeatures(parsedFeatures)
+          }
+          if (settingsResponse.data.header) {
+            setHeaderSettings(JSON.parse(settingsResponse.data.header))
+          }
+          if (settingsResponse.data.footer) {
+            setFooterSettings(JSON.parse(settingsResponse.data.footer))
+          }
+        } catch (apiError) {
+          console.log('API site-settings yüklenemedi, localStorage kullanılıyor')
+        }
       } catch (error) {
-        console.error('Haberler yüklenirken hata:', error)
+        console.error('Veriler yüklenirken hata:', error)
       } finally {
         setLoading(false)
       }
     }
-    fetchArticles()
+    fetchData()
   }, [apiUrl])
+
+  // Helper function to get image size class
+  const getImageSizeClass = (size: string) => {
+    switch (size) {
+      case 'small':
+        return { maxWidth: '200px', height: 'auto' }
+      case 'large':
+        return { maxWidth: '500px', height: 'auto' }
+      default:
+        return { maxWidth: '350px', height: 'auto' }
+    }
+  }
+
+  // Helper function to get image position
+  const getImagePositionStyle = (position: string) => {
+    switch (position) {
+      case 'left':
+        return { float: 'left', marginRight: '20px', marginBottom: '20px' }
+      case 'right':
+        return { float: 'right', marginLeft: '20px', marginBottom: '20px' }
+      default:
+        return { display: 'block', margin: '20px auto', textAlign: 'center' as const }
+    }
+  }
 
   return (
     <div>
-      <div className="hero">
-        <h1>🏛️ AI LEGION PRO</h1>
-        <p>Yapay Zeka Haberleri, Araçları ve Öğretici Yazılar</p>
-        <p style={{ fontSize: '0.9em', color: '#d4af37' }}>Roma Temalı Modern Platform</p>
-      </div>
+      {/* Custom Header Section */}
+      {headerSettings && (headerSettings.title || headerSettings.description || headerSettings.image_url) && (
+        <div className="hero" style={{ paddingBottom: '40px' }}>
+          {headerSettings.image_url && (
+            <div style={{ ...getImagePositionStyle(headerSettings.image_position), marginBottom: '20px' }}>
+              <img 
+                src={headerSettings.image_url} 
+                alt="Header"
+                style={{ ...getImageSizeClass(headerSettings.image_size), borderRadius: '8px' }}
+              />
+            </div>
+          )}
+          {headerSettings.title && (
+            <h2 style={{ color: '#d4af37', marginBottom: '10px', fontSize: '2em' }}>
+              {headerSettings.title}
+            </h2>
+          )}
+          {headerSettings.description && (
+            <p style={{ color: '#e0d5b7', fontSize: '1.1em', marginBottom: '10px' }}>
+              {headerSettings.description}
+            </p>
+          )}
+        </div>
+      )}
 
+      {/* Default Hero Section */}
+      {!headerSettings || (!headerSettings.title && !headerSettings.description && !headerSettings.image_url) && (
+        <div className="hero">
+          <h1>🏛️ AI LEGION PRO</h1>
+          <p>Yapay Zeka Haberleri, Araçları ve Öğretici Yazılar</p>
+          <p style={{ fontSize: '0.9em', color: '#d4af37' }}>Roma Temalı Modern Platform</p>
+        </div>
+      )}
+
+      {/* Features Section */}
+      {features && features.length > 0 && (
+        <div style={{ marginTop: '40px', padding: '20px', background: '#1a1a1a', borderRadius: '8px', borderLeft: '4px solid #c41e3a' }}>
+          <h3 style={{ color: '#d4af37', marginBottom: '20px' }}>✨ Özellikler</h3>
+          <div className="grid">
+            {features.map(feature => (
+              <div key={feature.id} className="card">
+                <h4 style={{ color: '#d4af37' }}>{feature.title}</h4>
+                <p>{feature.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Articles Section */}
       <div style={{ marginTop: '40px' }}>
         <h2 style={{ color: '#d4af37', marginBottom: '20px' }}>📰 Son Haberler</h2>
         
@@ -63,6 +175,7 @@ export default function Home({ apiUrl }: { apiUrl: string }) {
         )}
       </div>
 
+      {/* Featured Tools Section */}
       <div style={{ marginTop: '40px', padding: '20px', background: '#1a1a1a', borderRadius: '8px', borderLeft: '4px solid #c41e3a' }}>
         <h3 style={{ color: '#d4af37' }}>🚀 Öne Çıkan Araçlar</h3>
         <div className="grid" style={{ marginTop: '15px' }}>
@@ -80,6 +193,31 @@ export default function Home({ apiUrl }: { apiUrl: string }) {
           </div>
         </div>
       </div>
+
+      {/* Custom Footer Section */}
+      {footerSettings && (footerSettings.title || footerSettings.description || footerSettings.image_url) && (
+        <div style={{ marginTop: '60px', padding: '40px 20px', background: '#1a1a1a', borderRadius: '8px', borderTop: '2px solid #d4af37' }}>
+          {footerSettings.image_url && (
+            <div style={{ ...getImagePositionStyle(footerSettings.image_position), marginBottom: '20px' }}>
+              <img 
+                src={footerSettings.image_url} 
+                alt="Footer"
+                style={{ ...getImageSizeClass(footerSettings.image_size), borderRadius: '8px' }}
+              />
+            </div>
+          )}
+          {footerSettings.title && (
+            <h3 style={{ color: '#d4af37', marginBottom: '10px' }}>
+              {footerSettings.title}
+            </h3>
+          )}
+          {footerSettings.description && (
+            <p style={{ color: '#e0d5b7', marginBottom: '20px' }}>
+              {footerSettings.description}
+            </p>
+          )}
+        </div>
+      )}
     </div>
   )
 }

@@ -1,3 +1,5 @@
-[env.production]
+name = "ai-legion-api"
+main = "workers/index.js"
+compatibility_date = "2024-01-01"
+compatibility_flags = ["nodejs_compat"]
 account_id = "4f1af60da80287972f967b91a204bd9c"
-name = "ai-legion"
