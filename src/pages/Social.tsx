@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import ShareActions from '../components/ShareActions'
 
+type Language = 'tr' | 'en'
+
 interface Post {
   id: string
   user_id: string
@@ -12,7 +14,17 @@ interface Post {
   created_at: string
 }
 
-export default function Social({ apiUrl, user, setUser }: { apiUrl: string; user: any; setUser: any }) {
+const text = {
+  tr: {
+    title: '💬 Sosyal Feed', loginInfo: 'Paylaşım yapmak için giriş yapın. Okuma herkes için açık.', username: 'Kullanıcı adı', password: 'Şifre', login: 'Giriş Yap', welcome: 'Hoş geldiniz,', thoughts: 'Neler düşünüyorsunuz?', post: '📤 Post At', logout: 'Çıkış Yap', loading: 'Postlar yükleniyor...', noPosts: 'Henüz post yok. İlk postu siz atın!', user: 'Kullanıcı', loginFailed: 'Giriş başarısız: ', postError: 'Post atarken hata: ', likeError: 'Beğeni atarken hata:', shareTitle: 'AI Legion sosyal gönderisi'
+  },
+  en: {
+    title: '💬 Social Feed', loginInfo: 'Log in to post. Reading is open to everyone.', username: 'Username', password: 'Password', login: 'Log In', welcome: 'Welcome,', thoughts: 'What are you thinking?', post: '📤 Post', logout: 'Log Out', loading: 'Loading posts...', noPosts: 'No posts yet. Be the first to post!', user: 'User', loginFailed: 'Login failed: ', postError: 'Error posting: ', likeError: 'Error while liking:', shareTitle: 'AI Legion social post'
+  }
+}
+
+export default function Social({ apiUrl, user, setUser, language }: { apiUrl: string; user: any; setUser: any; language: Language }) {
+  const t = text[language]
   const [posts, setPosts] = useState<Post[]>([])
   const [newPost, setNewPost] = useState('')
   const [loading, setLoading] = useState(true)
@@ -20,16 +32,14 @@ export default function Social({ apiUrl, user, setUser }: { apiUrl: string; user
   const [password, setPassword] = useState('')
   const [isLoggedIn, setIsLoggedIn] = useState(Boolean(user))
 
-  useEffect(() => {
-    fetchPosts()
-  }, [])
+  useEffect(() => { fetchPosts() }, [])
 
   const fetchPosts = async () => {
     try {
       const response = await axios.get(`${apiUrl}/api/posts`)
       setPosts(response.data)
     } catch (error) {
-      console.error('Postlar yüklenirken hata:', error)
+      console.error('Error loading posts:', error)
     } finally {
       setLoading(false)
     }
@@ -44,23 +54,19 @@ export default function Social({ apiUrl, user, setUser }: { apiUrl: string; user
       setUsername('')
       setPassword('')
     } catch (error) {
-      alert('Giriş başarısız: ' + (error as any).response?.data?.error)
+      alert(t.loginFailed + (error as any).response?.data?.error)
     }
   }
 
   const handlePostSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!newPost.trim() || !isLoggedIn) return
-
     try {
-      await axios.post(`${apiUrl}/api/posts`, {
-        content: newPost,
-        token: user?.token
-      })
+      await axios.post(`${apiUrl}/api/posts`, { content: newPost, token: user?.token })
       setNewPost('')
       fetchPosts()
     } catch (error) {
-      alert('Post atarken hata: ' + (error as any).response?.data?.error)
+      alert(t.postError + (error as any).response?.data?.error)
     }
   }
 
@@ -70,67 +76,40 @@ export default function Social({ apiUrl, user, setUser }: { apiUrl: string; user
       await axios.post(`${apiUrl}/api/posts/${postId}/like`, { token: user?.token })
       fetchPosts()
     } catch (error) {
-      console.error('Like atarken hata:', error)
+      console.error(t.likeError, error)
     }
   }
 
   return (
     <div>
-      <h2 style={{ color: '#d4af37', marginBottom: '20px' }}>💬 Sosyal Feed</h2>
-
+      <h2 style={{ color: '#d4af37', marginBottom: '20px' }}>{t.title}</h2>
       {!isLoggedIn ? (
         <div className="card" style={{ marginBottom: '20px' }}>
-          <p style={{ marginBottom: '10px' }}>Paylaşım yapmak için giriş yapın. Okuma herkes için açık.</p>
+          <p style={{ marginBottom: '10px' }}>{t.loginInfo}</p>
           <form onSubmit={handleLogin} className="login-row">
-            <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Kullanıcı adı" required />
-            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Şifre" required />
-            <button type="submit">Giriş Yap</button>
+            <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder={t.username} required />
+            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder={t.password} required />
+            <button type="submit">{t.login}</button>
           </form>
         </div>
       ) : (
         <div className="card" style={{ marginBottom: '30px' }}>
-          <p style={{ marginBottom: '10px' }}>Hoş geldiniz, <strong>{user?.username}</strong>!</p>
+          <p style={{ marginBottom: '10px' }}>{t.welcome} <strong>{user?.username}</strong>!</p>
           <form onSubmit={handlePostSubmit}>
-            <textarea
-              value={newPost}
-              onChange={(e) => setNewPost(e.target.value)}
-              placeholder="Neler düşünüyorsunuz?"
-              style={{ width: '100%', minHeight: '100px', marginBottom: '10px' }}
-            />
-            <button type="submit">📤 Post At</button>
-            <button type="button" onClick={() => setIsLoggedIn(false)} style={{ marginLeft: '10px', background: '#c41e3a' }}>
-              Çıkış Yap
-            </button>
+            <textarea value={newPost} onChange={(e) => setNewPost(e.target.value)} placeholder={t.thoughts} style={{ width: '100%', minHeight: '100px', marginBottom: '10px' }} />
+            <button type="submit">{t.post}</button>
+            <button type="button" onClick={() => setIsLoggedIn(false)} style={{ marginLeft: '10px', background: '#c41e3a' }}>{t.logout}</button>
           </form>
         </div>
       )}
-
-      {loading ? (
-        <div className="loading">Postlar yükleniyor...</div>
-      ) : posts.length === 0 ? (
-        <div className="card">
-          <p>Henüz post yok. İlk postu siz atın!</p>
-        </div>
-      ) : (
-        posts.map(post => (
-          <article key={post.id} className="post clickable-card">
-            <div className="post-header">
-              <span>Kullanıcı #{post.user_id.substring(0, 8)}</span>
-              <small>{new Date(post.created_at).toLocaleString('tr-TR')}</small>
-            </div>
-            <div className="post-content">{post.content}</div>
-            <div className="post-actions">
-              <span onClick={() => handleLike(post.id)} className="post-action">❤️ {post.likes_count}</span>
-              <span className="post-action">🔄 {post.reposts_count}</span>
-              <span className="post-action">💬 {post.comments_count}</span>
-            </div>
-            <div className="card-footer-row">
-              <span />
-              <ShareActions path={`/social/${post.id}`} title="AI Legion sosyal gönderisi" />
-            </div>
-          </article>
-        ))
-      )}
+      {loading ? <div className="loading">{t.loading}</div> : posts.length === 0 ? <div className="card"><p>{t.noPosts}</p></div> : posts.map(post => (
+        <article key={post.id} className="post clickable-card">
+          <div className="post-header"><span>{t.user} #{post.user_id.substring(0, 8)}</span><small>{new Date(post.created_at).toLocaleString(language === 'tr' ? 'tr-TR' : 'en-US')}</small></div>
+          <div className="post-content">{post.content}</div>
+          <div className="post-actions"><span onClick={() => handleLike(post.id)} className="post-action">❤️ {post.likes_count}</span><span className="post-action">🔄 {post.reposts_count}</span><span className="post-action">💬 {post.comments_count}</span></div>
+          <div className="card-footer-row"><span /><ShareActions path={`/social/${post.id}`} title={t.shareTitle} language={language} /></div>
+        </article>
+      ))}
     </div>
   )
 }
