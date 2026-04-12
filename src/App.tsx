@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import axios from 'axios'
 import Home from './pages/Home'
 import Social from './pages/Social'
@@ -6,6 +6,7 @@ import Tools from './pages/Tools'
 import Tutorials from './pages/Tutorials'
 import Profile from './pages/Profile'
 import AdminPanel from './pages/AdminPanel'
+import Arena from './pages/Arena'
 
 const API_URL = 'https://ai-legion-api.muratcangencturk.workers.dev'
 
@@ -13,6 +14,7 @@ const NAV_ITEMS = [
   { key: 'home', label: '📰 Haberler' },
   { key: 'social', label: '💬 Sosyal' },
   { key: 'tools', label: '🤖 Araçlar' },
+  { key: 'arena', label: '⚔️ Arena' },
   { key: 'tutorials', label: '📚 Öğretici' },
   { key: 'profile', label: '👤 Profil' },
   { key: 'admin', label: '⚙️ Admin' }
@@ -22,6 +24,7 @@ const pageTitles: Record<string, string> = {
   home: 'AI Legion | Güncel AI Haberleri',
   social: 'AI Legion | Sosyal Akış',
   tools: 'AI Legion | AI Araçları',
+  arena: 'AI Legion | Model Arena',
   tutorials: 'AI Legion | Öğretici İçerikler',
   profile: 'AI Legion | Profil',
   admin: 'AI Legion | Admin Panel'
@@ -30,6 +33,7 @@ const pageTitles: Record<string, string> = {
 function App() {
   const [currentPage, setCurrentPage] = useState('home')
   const [user, setUser] = useState<any>(null)
+  const [brandLogo, setBrandLogo] = useState('')
 
   useEffect(() => {
     const checkHealth = async () => {
@@ -41,13 +45,19 @@ function App() {
       }
     }
     checkHealth()
+
+    const localSettings = localStorage.getItem('siteSettings')
+    if (localSettings) {
+      const parsed = JSON.parse(localSettings)
+      if (parsed?.header?.image_url) setBrandLogo(parsed.header.image_url)
+    }
   }, [])
 
   useEffect(() => {
     document.title = pageTitles[currentPage] || pageTitles.home
   }, [currentPage])
 
-  const renderPage = () => {
+  const pageContent = useMemo(() => {
     switch (currentPage) {
       case 'home':
         return <Home apiUrl={API_URL} onNavigate={setCurrentPage} />
@@ -55,6 +65,8 @@ function App() {
         return <Social apiUrl={API_URL} user={user} setUser={setUser} />
       case 'tools':
         return <Tools apiUrl={API_URL} />
+      case 'arena':
+        return <Arena />
       case 'tutorials':
         return <Tutorials />
       case 'profile':
@@ -64,23 +76,22 @@ function App() {
       default:
         return <Home apiUrl={API_URL} onNavigate={setCurrentPage} />
     }
-  }
+  }, [currentPage, user])
 
   return (
     <div>
       <header className="header">
         <div className="container">
           <div className="top-row">
-            <h1 className="site-title">🏛️ AI LEGION</h1>
+            <div className="brand-wrap">
+              {brandLogo ? <img src={brandLogo} alt="AI Legion Logo" className="brand-logo" /> : <span className="logo-fallback">🏛️</span>}
+              <h1 className="site-title">AI LEGION</h1>
+            </div>
             {user && <span style={{ color: '#d4af37' }}>👤 {user.username}</span>}
           </div>
           <nav className="nav" aria-label="Ana navigasyon">
             {NAV_ITEMS.map(item => (
-              <button
-                key={item.key}
-                className={`nav-link ${currentPage === item.key ? 'active' : ''}`}
-                onClick={() => setCurrentPage(item.key)}
-              >
+              <button key={item.key} className={`nav-link ${currentPage === item.key ? 'active' : ''}`} onClick={() => setCurrentPage(item.key)}>
                 {item.label}
               </button>
             ))}
@@ -88,24 +99,15 @@ function App() {
         </div>
       </header>
 
-      <main className="container">{renderPage()}</main>
+      <main className="container page-shell" key={currentPage}>
+        {pageContent}
+      </main>
 
       <footer className="footer">
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '20px', flexWrap: 'wrap' }}>
-          <div>
-            <p>© 2026 AI Legion - Cloudflare Pages + Workers</p>
-            <p style={{ fontSize: '0.9em', marginTop: '10px' }}>Workers API: {API_URL}</p>
-          </div>
-          <a
-            href="https://chat.whatsapp.com/LAu2OosQEmd73CBl56sIRi?mode=gi_t"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ fontSize: '2.2em', cursor: 'pointer', transition: 'transform 0.3s', display: 'inline-block' }}
-            onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.15)')}
-            onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
-            title="WhatsApp Grubuna Katıl"
-          >
-            💬
+        <div className="footer-row">
+          <span>AI LEGION</span>
+          <a href="https://chat.whatsapp.com/LAu2OosQEmd73CBl56sIRi?mode=gi_t" target="_blank" rel="noopener noreferrer" className="wa-link">
+            WhatsApp grubumuza katılın
           </a>
         </div>
       </footer>

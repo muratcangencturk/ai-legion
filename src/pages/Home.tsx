@@ -1,6 +1,7 @@
 import { useMemo, useState, useEffect } from 'react'
 import axios from 'axios'
 import ShareActions from '../components/ShareActions'
+import DetailModal from '../components/DetailModal'
 import { tutorials } from '../data/tutorials'
 
 interface Article {
@@ -9,6 +10,7 @@ interface Article {
   content: string
   category: string
   image_url?: string
+  source_url?: string
   created_at: string
 }
 
@@ -18,6 +20,8 @@ interface Tool {
   category: string
   description: string
   score?: number
+  url?: string
+  free?: boolean
 }
 
 interface Post {
@@ -27,19 +31,24 @@ interface Post {
   created_at: string
 }
 
-interface Feature {
-  id: string
-  title: string
-  description: string
-}
+const staleKeywords = ['3.7', 'gpt-4o', 'gemini 2.0', 'sonnet 3.7']
 
-interface HeaderFooterSettings {
-  title: string
-  description: string
-  image_url: string
-  image_size: 'small' | 'medium' | 'large'
-  image_position: 'left' | 'center' | 'right'
-}
+const curatedFallback: Article[] = [
+  {
+    id: 'curated-1',
+    title: 'Yeni nesil AI modellerinde uzun bağlam performansı yükseliyor',
+    content: 'Son dönemde yayınlanan modellerde uzun doküman özetleme ve çok adımlı görev performansında gözle görülür artış var.',
+    category: 'Model',
+    created_at: new Date().toISOString()
+  },
+  {
+    id: 'curated-2',
+    title: 'AI ajanları için güvenlik denetimi standartları yaygınlaşıyor',
+    content: 'Kurumsal ekipler, otomasyon ajanlarında izin yönetimi, kaynak doğrulama ve log izlenebilirliğine öncelik veriyor.',
+    category: 'Güvenlik',
+    created_at: new Date().toISOString()
+  }
+]
 
 export default function Home({ apiUrl, onNavigate }: { apiUrl: string; onNavigate: (page: string) => void }) {
   const [articles, setArticles] = useState<Article[]>([])
@@ -47,8 +56,7 @@ export default function Home({ apiUrl, onNavigate }: { apiUrl: string; onNavigat
   const [posts, setPosts] = useState<Post[]>([])
   const [loading, setLoading] = useState(true)
   const [visibleCount, setVisibleCount] = useState(6)
-  const [features, setFeatures] = useState<Feature[]>([])
-  const [headerSettings, setHeaderSettings] = useState<HeaderFooterSettings | null>(null)
+  const [selected, setSelected] = useState<{ title: string; content: string; category?: string; sourceUrl?: string } | null>(null)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -61,13 +69,6 @@ export default function Home({ apiUrl, onNavigate }: { apiUrl: string; onNavigat
         setArticles(articlesResponse.data || [])
         setTools(toolsResponse.data || [])
         setPosts(postsResponse.data || [])
-
-        const localSettings = localStorage.getItem('siteSettings')
-        if (localSettings) {
-          const settings = JSON.parse(localSettings)
-          if (settings.features) setFeatures(settings.features)
-          if (settings.header) setHeaderSettings(settings.header)
-        }
       } catch (error) {
         console.error('Veriler yüklenirken hata:', error)
       } finally {
@@ -78,30 +79,20 @@ export default function Home({ apiUrl, onNavigate }: { apiUrl: string; onNavigat
   }, [apiUrl])
 
   const latestArticles = useMemo(() => {
-    return [...articles].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+    const sorted = [...articles].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+    const staleRatio = sorted.length
+      ? sorted.filter((a) => staleKeywords.some((kw) => `${a.title} ${a.content}`.toLowerCase().includes(kw))).length / sorted.length
+      : 0
+
+    return staleRatio > 0.4 ? curatedFallback : sorted
   }, [articles])
 
   return (
     <div>
       <div className="hero">
-        <h1>{headerSettings?.title || '🏛️ AI LEGION'}</h1>
-        <p>{headerSettings?.description || 'Güncel Yapay Zeka Haberleri, Araçları ve Pratik Rehberler'}</p>
-        <p style={{ fontSize: '0.95em', color: '#d4af37' }}>Sürekli güncellenen içerik akışı • Keşfet • Paylaş</p>
+        <h1>🏛️ AI LEGION</h1>
+        <p>Güncel Yapay Zeka Haberleri, Araçları ve Pratik Rehberler</p>
       </div>
-
-      {features.length > 0 && (
-        <div className="section-box" style={{ marginTop: '28px' }}>
-          <h3 style={{ color: '#d4af37', marginBottom: '14px' }}>✨ Platform Özellikleri</h3>
-          <div className="grid">
-            {features.map(feature => (
-              <article key={feature.id} className="card">
-                <h4 style={{ color: '#d4af37' }}>{feature.title}</h4>
-                <p>{feature.description}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      )}
 
       <section style={{ marginTop: '36px' }}>
         <div className="section-head">
@@ -119,14 +110,14 @@ export default function Home({ apiUrl, onNavigate }: { apiUrl: string; onNavigat
           <div className="grid">
             {latestArticles.slice(0, visibleCount).map(article => (
               <article key={article.id} className="card clickable-card">
-                {article.image_url && (
-                  <img src={article.image_url} alt={article.title} style={{ width: '100%', borderRadius: '8px', marginBottom: '10px' }} />
-                )}
+                {article.image_url && <img src={article.image_url} alt={article.title} style={{ width: '100%', borderRadius: '8px', marginBottom: '10px' }} />}
                 <h3 style={{ color: '#d4af37' }}>{article.title}</h3>
                 <span className="tool-category">{article.category}</span>
-                <p style={{ marginTop: '10px' }}>{article.content}</p>
+                <p style={{ marginTop: '10px' }}>{article.content.slice(0, 180)}...</p>
                 <div className="card-footer-row">
-                  <small style={{ color: '#999' }}>{new Date(article.created_at).toLocaleDateString('tr-TR')}</small>
+                  <button className="secondary-btn" onClick={() => setSelected({ title: article.title, content: article.content, category: article.category, sourceUrl: article.source_url })}>
+                    Haberi Oku
+                  </button>
                   <ShareActions path={`/news/${article.id}`} title={article.title} />
                 </div>
               </article>
@@ -153,7 +144,9 @@ export default function Home({ apiUrl, onNavigate }: { apiUrl: string; onNavigat
               <span className="tool-category">{tool.category}</span>
               <p>{tool.description}</p>
               <div className="card-footer-row">
-                <small style={{ color: '#999' }}>{tool.score ? `Skor: ${tool.score}/10` : 'Yeni eklenen araç'}</small>
+                <button className="secondary-btn" onClick={() => setSelected({ title: tool.name, content: tool.description, category: tool.category, sourceUrl: tool.url })}>
+                  Detaylar
+                </button>
                 <ShareActions path={`/tools/${tool.id}`} title={tool.name} />
               </div>
             </article>
@@ -170,13 +163,12 @@ export default function Home({ apiUrl, onNavigate }: { apiUrl: string; onNavigat
           {tutorials.slice(0, 4).map(tutorial => (
             <article key={tutorial.id} className="card">
               <h4 style={{ color: '#d4af37' }}>{tutorial.title}</h4>
-              <div>
-                <span className="tool-category">{tutorial.category}</span>
-                <span style={{ marginLeft: '8px', color: '#999' }}>⏱️ {tutorial.duration}</span>
-              </div>
+              <span className="tool-category">{tutorial.category}</span>
               <p>{tutorial.summary}</p>
               <div className="card-footer-row">
-                <span />
+                <button className="secondary-btn" onClick={() => setSelected({ title: tutorial.title, content: tutorial.summary, category: tutorial.category })}>
+                  Oku
+                </button>
                 <ShareActions path={`/tutorials/${tutorial.slug}`} title={tutorial.title} />
               </div>
             </article>
@@ -184,28 +176,7 @@ export default function Home({ apiUrl, onNavigate }: { apiUrl: string; onNavigat
         </div>
       </section>
 
-      <section className="section-box">
-        <div className="section-head">
-          <h3>💬 Sosyal Akıştan Son Paylaşımlar</h3>
-          <button onClick={() => onNavigate('social')} className="secondary-btn">Tüm paylaşımlar</button>
-        </div>
-        <div>
-          {posts.slice(0, 3).map(post => (
-            <article key={post.id} className="post">
-              <div className="post-header">
-                <span>Kullanıcı #{post.user_id.slice(0, 8)}</span>
-                <small>{new Date(post.created_at).toLocaleString('tr-TR')}</small>
-              </div>
-              <p className="post-content">{post.content}</p>
-              <div className="card-footer-row">
-                <span />
-                <ShareActions path={`/social/${post.id}`} title="AI Legion sosyal gönderisi" />
-              </div>
-            </article>
-          ))}
-          {posts.length === 0 && <p style={{ color: '#999' }}>Henüz sosyal içerik yok.</p>}
-        </div>
-      </section>
+      {selected && <DetailModal title={selected.title} content={selected.content} category={selected.category} sourceUrl={selected.sourceUrl} onClose={() => setSelected(null)} />}
     </div>
   )
 }

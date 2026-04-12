@@ -21,8 +21,8 @@ export default function Social({ apiUrl, user, setUser }: { apiUrl: string; user
   const [isLoggedIn, setIsLoggedIn] = useState(Boolean(user))
 
   useEffect(() => {
-    if (isLoggedIn) fetchPosts()
-  }, [isLoggedIn])
+    fetchPosts()
+  }, [])
 
   const fetchPosts = async () => {
     try {
@@ -50,7 +50,7 @@ export default function Social({ apiUrl, user, setUser }: { apiUrl: string; user
 
   const handlePostSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!newPost.trim()) return
+    if (!newPost.trim() || !isLoggedIn) return
 
     try {
       await axios.post(`${apiUrl}/api/posts`, {
@@ -65,6 +65,7 @@ export default function Social({ apiUrl, user, setUser }: { apiUrl: string; user
   }
 
   const handleLike = async (postId: string) => {
+    if (!isLoggedIn) return
     try {
       await axios.post(`${apiUrl}/api/posts/${postId}/like`, { token: user?.token })
       fetchPosts()
@@ -73,46 +74,36 @@ export default function Social({ apiUrl, user, setUser }: { apiUrl: string; user
     }
   }
 
-  if (!isLoggedIn) {
-    return (
-      <div style={{ maxWidth: '420px', margin: '50px auto' }}>
-        <div className="card">
-          <h2 style={{ color: '#d4af37', marginBottom: '20px' }}>💬 Sosyal Akış</h2>
-          <form onSubmit={handleLogin}>
-            <div style={{ marginBottom: '15px' }}>
-              <label style={{ display: 'block', marginBottom: '5px' }}>Kullanıcı Adı:</label>
-              <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Kullanıcı adınız" required />
-            </div>
-            <div style={{ marginBottom: '15px' }}>
-              <label style={{ display: 'block', marginBottom: '5px' }}>Şifre:</label>
-              <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Şifreniz" required />
-            </div>
-            <button type="submit" style={{ width: '100%' }}>Giriş Yap</button>
-          </form>
-        </div>
-      </div>
-    )
-  }
-
   return (
     <div>
       <h2 style={{ color: '#d4af37', marginBottom: '20px' }}>💬 Sosyal Feed</h2>
 
-      <div className="card" style={{ marginBottom: '30px' }}>
-        <p style={{ marginBottom: '10px' }}>Hoş geldiniz, <strong>{user?.username}</strong>!</p>
-        <form onSubmit={handlePostSubmit}>
-          <textarea
-            value={newPost}
-            onChange={(e) => setNewPost(e.target.value)}
-            placeholder="Neler düşünüyorsunuz?"
-            style={{ width: '100%', minHeight: '100px', marginBottom: '10px' }}
-          />
-          <button type="submit">📤 Post At</button>
-          <button type="button" onClick={() => setIsLoggedIn(false)} style={{ marginLeft: '10px', background: '#c41e3a' }}>
-            Çıkış Yap
-          </button>
-        </form>
-      </div>
+      {!isLoggedIn ? (
+        <div className="card" style={{ marginBottom: '20px' }}>
+          <p style={{ marginBottom: '10px' }}>Paylaşım yapmak için giriş yapın. Okuma herkes için açık.</p>
+          <form onSubmit={handleLogin} className="login-row">
+            <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Kullanıcı adı" required />
+            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Şifre" required />
+            <button type="submit">Giriş Yap</button>
+          </form>
+        </div>
+      ) : (
+        <div className="card" style={{ marginBottom: '30px' }}>
+          <p style={{ marginBottom: '10px' }}>Hoş geldiniz, <strong>{user?.username}</strong>!</p>
+          <form onSubmit={handlePostSubmit}>
+            <textarea
+              value={newPost}
+              onChange={(e) => setNewPost(e.target.value)}
+              placeholder="Neler düşünüyorsunuz?"
+              style={{ width: '100%', minHeight: '100px', marginBottom: '10px' }}
+            />
+            <button type="submit">📤 Post At</button>
+            <button type="button" onClick={() => setIsLoggedIn(false)} style={{ marginLeft: '10px', background: '#c41e3a' }}>
+              Çıkış Yap
+            </button>
+          </form>
+        </div>
+      )}
 
       {loading ? (
         <div className="loading">Postlar yükleniyor...</div>

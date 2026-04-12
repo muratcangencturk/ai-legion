@@ -5,6 +5,7 @@ export interface TutorialItem {
   duration: string
   summary: string
   slug: string
+  sourceUrl?: string
 }
 
 export const tutorials: TutorialItem[] = [
@@ -14,7 +15,8 @@ export const tutorials: TutorialItem[] = [
     category: 'Başlangıç',
     duration: '18 dk',
     summary: 'Günlük iş akışında AI kullanımını adım adım anlatan pratik rehber.',
-    slug: 'gpt-uretkenlik-akisi'
+    slug: 'gpt-uretkenlik-akisi',
+    sourceUrl: 'https://platform.openai.com/docs'
   },
   {
     id: 2,
@@ -22,7 +24,8 @@ export const tutorials: TutorialItem[] = [
     category: 'İleri',
     duration: '28 dk',
     summary: 'Rol, bağlam, çıktı şablonu ve değerlendirme teknikleriyle güçlü prompt yazımı.',
-    slug: 'modern-prompt-tasarimi'
+    slug: 'modern-prompt-tasarimi',
+    sourceUrl: 'https://www.promptingguide.ai/'
   },
   {
     id: 3,
@@ -30,7 +33,8 @@ export const tutorials: TutorialItem[] = [
     category: 'Görüntü',
     duration: '22 dk',
     summary: 'Referans, varyasyon ve kalite ayarlarıyla tutarlı görsel sonuçlar alma.',
-    slug: 'gorsel-uretim-stil-kontrolu'
+    slug: 'gorsel-uretim-stil-kontrolu',
+    sourceUrl: 'https://docs.midjourney.com/'
   },
   {
     id: 4,
@@ -38,7 +42,8 @@ export const tutorials: TutorialItem[] = [
     category: 'Kod',
     duration: '25 dk',
     summary: 'Kod öneri araçlarıyla güvenli ve sürdürülebilir geliştirme pratiği.',
-    slug: 'kod-yardimcilari-hizli-gelistirme'
+    slug: 'kod-yardimcilari-hizli-gelistirme',
+    sourceUrl: 'https://docs.github.com/en/copilot'
   },
   {
     id: 5,
@@ -46,6 +51,7 @@ export const tutorials: TutorialItem[] = [
     category: 'Güvenlik',
     duration: '20 dk',
     summary: 'Halüsinasyon azaltma, kaynak doğrulama ve risk yönetimi için temel checklist.',
-    slug: 'ai-guvenlik-dogrulama-kontrol-listesi'
+    slug: 'ai-guvenlik-dogrulama-kontrol-listesi',
+    sourceUrl: 'https://owasp.org/www-project-top-10-for-large-language-model-applications/'
   }
 ]
