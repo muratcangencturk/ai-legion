@@ -1,10 +1,25 @@
-export default function Profile({ user }: { apiUrl: string; user: any }) {
+type Language = 'tr' | 'en'
+
+const text = {
+  tr: {
+    needLogin: 'Profil görmek için giriş yapmanız gerekir.',
+    bio: 'Biyografi: Yapay zeka meraklısı',
+    statsInfo: 'Bu profildeki istatistikler canlı veri geldikçe otomatik gösterilir.',
+    edit: 'Profili Düzenle'
+  },
+  en: {
+    needLogin: 'You must be logged in to view the profile.',
+    bio: 'Bio: AI enthusiast',
+    statsInfo: 'Profile stats are automatically shown as live data arrives.',
+    edit: 'Edit Profile'
+  }
+}
+
+export default function Profile({ user, language }: { apiUrl: string; user: any; language: Language }) {
+  const t = text[language]
+
   if (!user) {
-    return (
-      <div className="card">
-        <p>Profil görmek için giriş yapmanız gerekir.</p>
-      </div>
-    )
+    return <div className="card"><p>{t.needLogin}</p></div>
   }
 
   return (
@@ -13,13 +28,9 @@ export default function Profile({ user }: { apiUrl: string; user: any }) {
         <div style={{ fontSize: '4em', marginBottom: '10px' }}>👤</div>
         <h2 style={{ color: '#d4af37' }}>{user.username}</h2>
         <p style={{ color: '#999' }}>@{user.username.toLowerCase()}</p>
-        <p style={{ marginTop: '10px' }}>Biyografi: Yapay zeka meraklısı</p>
-
-        <div style={{ marginTop: '20px', color: '#999' }}>
-          Bu profildeki istatistikler canlı veri geldikçe otomatik gösterilir.
-        </div>
-
-        <button style={{ marginTop: '20px' }}>Profili Düzenle</button>
+        <p style={{ marginTop: '10px' }}>{t.bio}</p>
+        <div style={{ marginTop: '20px', color: '#999' }}>{t.statsInfo}</div>
+        <button style={{ marginTop: '20px' }}>{t.edit}</button>
       </div>
     </div>
   )

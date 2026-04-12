@@ -11,6 +11,13 @@ button:hover { background: #c41e3a; color: #e0d5b7; }
 .logo-fallback { font-size: 1.7rem; }
 .site-title { color: #d4af37; font-size: 1.6rem; letter-spacing: 0.5px; }
 
+.header-controls { display: flex; align-items: center; gap: 12px; }
+.lang-switch { display: flex; gap: 8px; }
+.lang-item { background: transparent; color: #d4af37; border: 1px solid #d4af37; padding: 4px 8px; min-width: 52px; display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.lang-item .flag { font-size: 1.05rem; line-height: 1; }
+.lang-item small { font-size: 0.62rem; letter-spacing: 0.5px; }
+.lang-item.active, .lang-item:hover { background: #d4af37; color: #0a0a0a; }
+
 .nav { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 6px; }
 .nav-link { white-space: nowrap; background: transparent; border: 1px solid #d4af37; color: #d4af37; padding: 8px 12px; }
 .nav-link.active, .nav-link:hover { background: #d4af37; color: #0a0a0a; }

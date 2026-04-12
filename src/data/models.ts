@@ -2,10 +2,10 @@ export interface ModelSpec {
   id: string
   name: string
   provider: string
-  openSource: 'Açık Kaynak' | 'Kapalı Kaynak'
-  parameters: string
-  speed: string
-  systemNeeds: string
+  openSource: { tr: string; en: string }
+  parameters: { tr: string; en: string }
+  speed: { tr: string; en: string }
+  systemNeeds: { tr: string; en: string }
   strengths: number
   coding: number
   multimodal: number
@@ -15,12 +15,12 @@ export interface ModelSpec {
 export const modelSpecs: ModelSpec[] = [
   {
     id: 'gpt',
-    name: 'GPT Serisi',
+    name: 'GPT Series',
     provider: 'OpenAI',
-    openSource: 'Kapalı Kaynak',
-    parameters: 'Paylaşılmıyor',
-    speed: 'Çok hızlı',
-    systemNeeds: 'Bulut API ile kullanılır',
+    openSource: { tr: 'Kapalı Kaynak', en: 'Closed Source' },
+    parameters: { tr: 'Paylaşılmıyor', en: 'Not disclosed' },
+    speed: { tr: 'Çok hızlı', en: 'Very fast' },
+    systemNeeds: { tr: 'Bulut API ile kullanılır', en: 'Used through cloud API' },
     strengths: 9,
     coding: 9,
     multimodal: 9,
@@ -28,12 +28,12 @@ export const modelSpecs: ModelSpec[] = [
   },
   {
     id: 'claude',
-    name: 'Claude Serisi',
+    name: 'Claude Series',
     provider: 'Anthropic',
-    openSource: 'Kapalı Kaynak',
-    parameters: 'Paylaşılmıyor',
-    speed: 'Hızlı',
-    systemNeeds: 'Bulut API ile kullanılır',
+    openSource: { tr: 'Kapalı Kaynak', en: 'Closed Source' },
+    parameters: { tr: 'Paylaşılmıyor', en: 'Not disclosed' },
+    speed: { tr: 'Hızlı', en: 'Fast' },
+    systemNeeds: { tr: 'Bulut API ile kullanılır', en: 'Used through cloud API' },
     strengths: 9,
     coding: 8,
     multimodal: 8,
@@ -41,12 +41,12 @@ export const modelSpecs: ModelSpec[] = [
   },
   {
     id: 'gemini',
-    name: 'Gemini Serisi',
+    name: 'Gemini Series',
     provider: 'Google',
-    openSource: 'Kapalı Kaynak',
-    parameters: 'Paylaşılmıyor',
-    speed: 'Hızlı',
-    systemNeeds: 'Bulut API ile kullanılır',
+    openSource: { tr: 'Kapalı Kaynak', en: 'Closed Source' },
+    parameters: { tr: 'Paylaşılmıyor', en: 'Not disclosed' },
+    speed: { tr: 'Hızlı', en: 'Fast' },
+    systemNeeds: { tr: 'Bulut API ile kullanılır', en: 'Used through cloud API' },
     strengths: 8,
     coding: 8,
     multimodal: 9,
@@ -54,12 +54,12 @@ export const modelSpecs: ModelSpec[] = [
   },
   {
     id: 'llama',
-    name: 'Llama Serisi',
+    name: 'Llama Series',
     provider: 'Meta',
-    openSource: 'Açık Kaynak',
-    parameters: '8B / 70B / 405B varyantlar',
-    speed: 'Donanıma bağlı',
-    systemNeeds: 'Yerel GPU veya bulut sunucu',
+    openSource: { tr: 'Açık Kaynak', en: 'Open Source' },
+    parameters: { tr: '8B / 70B / 405B varyantlar', en: '8B / 70B / 405B variants' },
+    speed: { tr: 'Donanıma bağlı', en: 'Hardware dependent' },
+    systemNeeds: { tr: 'Yerel GPU veya bulut sunucu', en: 'Local GPU or cloud server' },
     strengths: 8,
     coding: 7,
     multimodal: 7,
