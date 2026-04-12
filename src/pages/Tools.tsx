@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-import ShareActions from '../components/ShareActions'
 
 interface Tool {
   id: string
@@ -21,12 +20,13 @@ export default function Tools({ apiUrl }: { apiUrl: string }) {
         setTools(response.data)
       } catch (error) {
         console.error('Araçlar yüklenirken hata:', error)
+        // Demo veri göster
         setTools([
-          { id: '1', name: 'GPT Serisi', category: 'LLM', description: 'Metin üretimi, kod ve analiz için güçlü yardımcılar.' },
-          { id: '2', name: 'Claude Serisi', category: 'LLM', description: 'Uzun içerik ve yapılandırılmış çıktı üretimi için ideal.' },
-          { id: '3', name: 'Midjourney', category: 'Görüntü', description: 'Yüksek kaliteli yaratıcı görseller oluşturur.' },
-          { id: '4', name: 'Runway', category: 'Video', description: 'Kısa video üretimi ve düzenleme otomasyonları.' },
-          { id: '5', name: 'Suno', category: 'Müzik', description: 'Hızlı prototip müzik üretimi.' }
+          { id: '1', name: 'GPT-5.4', category: 'LLM', description: 'OpenAI\'nin en güçlü modeli', score: 9.8 },
+          { id: '2', name: 'Claude Opus 4.6', category: 'LLM', description: 'Anthropic\'in gelişmiş modeli', score: 9.7 },
+          { id: '3', name: 'Midjourney v7', category: 'Görüntü', description: 'Profesyonel görüntü oluşturma', score: 9.6 },
+          { id: '4', name: 'Runway Gen-3', category: 'Video', description: 'Video oluşturma ve düzenleme', score: 9.5 },
+          { id: '5', name: 'Suno', category: 'Müzik', description: 'AI müzik oluşturma', score: 9.4 },
         ])
       } finally {
         setLoading(false)
@@ -50,13 +50,13 @@ export default function Tools({ apiUrl }: { apiUrl: string }) {
       ) : (
         categories.map(category => (
           toolsByCategory[category].length > 0 && (
-            <section key={category} style={{ marginBottom: '40px' }}>
+            <div key={category} style={{ marginBottom: '40px' }}>
               <h3 style={{ color: '#d4af37', marginBottom: '15px', paddingBottom: '10px', borderBottom: '2px solid #d4af37' }}>
                 {category === 'LLM' && '🧠'} {category === 'Görüntü' && '🖼️'} {category === 'Video' && '🎬'} {category === 'Müzik' && '🎵'} {category === 'Genel' && '⚙️'} {category}
               </h3>
               <div className="grid">
                 {toolsByCategory[category].map(tool => (
-                  <article key={tool.id} className="tool-card clickable-card">
+                  <div key={tool.id} className="tool-card">
                     <h4>{tool.name}</h4>
                     {tool.score && (
                       <div style={{ marginBottom: '10px' }}>
@@ -64,14 +64,13 @@ export default function Tools({ apiUrl }: { apiUrl: string }) {
                       </div>
                     )}
                     <p>{tool.description}</p>
-                    <div className="card-footer-row">
-                      <button style={{ marginTop: '10px', fontSize: '0.9em', padding: '8px 12px' }}>Detaylar →</button>
-                      <ShareActions path={`/tools/${tool.id}`} title={tool.name} />
-                    </div>
-                  </article>
+                    <button style={{ marginTop: '10px', fontSize: '0.9em', padding: '8px 12px' }}>
+                      Detaylar →
+                    </button>
+                  </div>
                 ))}
               </div>
-            </section>
+            </div>
           )
         ))
       )}
