@@ -17,8 +17,8 @@ interface Tool {
 }
 
 const text = {
-  tr: { title: '🤖 AI Araçları', modelCards: 'Model Özellik Kartları', license: 'Lisans', parameters: 'Parametre', speed: 'Hız', system: 'Sistem', loading: 'Araçlar yükleniyor...', free: 'Ücretsiz plan var', paid: 'Ücretli plan ağırlıklı', details: 'Detaylar' },
-  en: { title: '🤖 AI Tools', modelCards: 'Model Capability Cards', license: 'License', parameters: 'Parameters', speed: 'Speed', system: 'System', loading: 'Loading tools...', free: 'Free plan available', paid: 'Mostly paid plans', details: 'Details' }
+  tr: { title: '🤖 AI Araçları', modelCards: 'Model Özellik Kartları', license: 'Lisans', parameters: 'Parametre', speed: 'Token Hızı', system: 'Sistem', loading: 'Araçlar yükleniyor...', free: 'Ücretsiz plan var', paid: 'Ücretli plan ağırlıklı', details: 'Detaylar' },
+  en: { title: '🤖 AI Tools', modelCards: 'Model Capability Cards', license: 'License', parameters: 'Parameters', speed: 'Token Speed', system: 'System', loading: 'Loading tools...', free: 'Free plan available', paid: 'Mostly paid plans', details: 'Details' }
 }
 
 const categories: Record<Language, string[]> = {
@@ -61,7 +61,7 @@ export default function Tools({ apiUrl, language }: { apiUrl: string; language: 
             <h4 style={{ color: '#d4af37' }}>{model.name}</h4>
             <p><strong>{t.license}:</strong> {model.openSource[language]}</p>
             <p><strong>{t.parameters}:</strong> {model.parameters[language]}</p>
-            <p><strong>{t.speed}:</strong> {model.speed[language]}</p>
+            <p><strong>{t.speed}:</strong> {model.generationSpeed[language]}</p>
             <p><strong>{t.system}:</strong> {model.systemNeeds[language]}</p>
           </article>
         ))}</div>

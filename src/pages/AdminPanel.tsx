@@ -93,7 +93,7 @@ export default function AdminPanel({ apiUrl, language }: { apiUrl: string; langu
             <div className="card" style={{ textAlign: 'center' }}><div style={{ fontSize: '2em', color: '#d4af37', marginBottom: '10px' }}>👥</div><div style={{ fontSize: '1.5em', fontWeight: 'bold', color: '#d4af37' }}>{stats.users_count}</div><small>{tt('Toplam Kullanıcı', 'Total Users')}</small></div>
             <div className="card" style={{ textAlign: 'center' }}><div style={{ fontSize: '2em', color: '#d4af37', marginBottom: '10px' }}>📝</div><div style={{ fontSize: '1.5em', fontWeight: 'bold', color: '#d4af37' }}>{stats.posts_count}</div><small>{tt('Toplam Post', 'Total Posts')}</small></div>
             <div className="card" style={{ textAlign: 'center' }}><div style={{ fontSize: '2em', color: '#d4af37', marginBottom: '10px' }}>📰</div><div style={{ fontSize: '1.5em', fontWeight: 'bold', color: '#d4af37' }}>{stats.articles_count}</div><small>{tt('Toplam Makale', 'Total Articles')}</small></div>
-          </div><div className="card" style={{ marginTop: '30px' }}><h3 style={{ color: '#d4af37' }}>🔧 {tt('Sistem Bilgisi', 'System Info')}</h3><p>API URL: {apiUrl}</p><p>Platform: Cloudflare Pages + Workers</p><p>Database: Supabase PostgreSQL</p></div></div>}
+          </div><div className="card" style={{ marginTop: '30px' }}><h3 style={{ color: '#d4af37' }}>🔧 {tt('Sistem Bilgisi', 'System Info')}</h3><p>API URL: {apiUrl}</p><p>Platform: Netlify + GitHub</p><p>Database: Supabase PostgreSQL (Managed)</p></div></div>}
 
           {activeTab === 'content' && <div className="card" style={{ marginBottom: '30px' }}>
             <h3 style={{ color: '#d4af37', marginBottom: '20px' }}>✨ {tt('Özellikler Yönetimi', 'Feature Management')}</h3>

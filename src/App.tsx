@@ -8,55 +8,50 @@ import Profile from './pages/Profile'
 import AdminPanel from './pages/AdminPanel'
 import Arena from './pages/Arena'
 
-const API_URL = 'https://ai-legion-api.muratcangencturk.workers.dev'
+const API_URL = 'https://ai-legion-api.netlify.app'
 
 type Language = 'tr' | 'en'
 
 const NAV_ITEMS: Record<Language, { key: string; label: string }[]> = {
   tr: [
-    { key: 'home', label: '📰 Haberler' },
-    { key: 'social', label: '💬 Sosyal' },
-    { key: 'tools', label: '🤖 Araçlar' },
-    { key: 'arena', label: '⚔️ Arena' },
-    { key: 'tutorials', label: '📚 Öğretici' },
-    { key: 'profile', label: '👤 Profil' },
-    { key: 'admin', label: '⚙️ Admin' }
+    { key: 'home', label: 'Haberler' },
+    { key: 'social', label: 'Sosyal' },
+    { key: 'tools', label: 'Araçlar' },
+    { key: 'arena', label: 'Arena' },
+    { key: 'tutorials', label: 'Öğretici' },
+    { key: 'profile', label: 'Profil' },
+    { key: 'admin', label: 'Admin' }
   ],
   en: [
-    { key: 'home', label: '📰 News' },
-    { key: 'social', label: '💬 Social' },
-    { key: 'tools', label: '🤖 Tools' },
-    { key: 'arena', label: '⚔️ Arena' },
-    { key: 'tutorials', label: '📚 Tutorials' },
-    { key: 'profile', label: '👤 Profile' },
-    { key: 'admin', label: '⚙️ Admin' }
+    { key: 'home', label: 'News' },
+    { key: 'social', label: 'Social' },
+    { key: 'tools', label: 'Tools' },
+    { key: 'arena', label: 'Arena' },
+    { key: 'tutorials', label: 'Tutorials' },
+    { key: 'profile', label: 'Profile' },
+    { key: 'admin', label: 'Admin' }
   ]
 }
 
 const pageTitles: Record<Language, Record<string, string>> = {
   tr: {
-    home: 'AI Legion | Güncel AI Haberleri',
-    social: 'AI Legion | Sosyal Akış',
-    tools: 'AI Legion | AI Araçları',
-    arena: 'AI Legion | Model Arena',
-    tutorials: 'AI Legion | Öğretici İçerikler',
+    home: 'AI Legion | Akış',
+    social: 'AI Legion | Sosyal',
+    tools: 'AI Legion | Araçlar',
+    arena: 'AI Legion | Arena',
+    tutorials: 'AI Legion | Öğreticiler',
     profile: 'AI Legion | Profil',
-    admin: 'AI Legion | Admin Panel'
+    admin: 'AI Legion | Admin'
   },
   en: {
-    home: 'AI Legion | Latest AI News',
-    social: 'AI Legion | Social Feed',
-    tools: 'AI Legion | AI Tools',
-    arena: 'AI Legion | Model Arena',
+    home: 'AI Legion | Feed',
+    social: 'AI Legion | Social',
+    tools: 'AI Legion | Tools',
+    arena: 'AI Legion | Arena',
     tutorials: 'AI Legion | Tutorials',
     profile: 'AI Legion | Profile',
-    admin: 'AI Legion | Admin Panel'
+    admin: 'AI Legion | Admin'
   }
-}
-
-const uiText: Record<Language, { mainNav: string; joinWhatsapp: string }> = {
-  tr: { mainNav: 'Ana navigasyon', joinWhatsapp: 'WhatsApp grubumuza katılın' },
-  en: { mainNav: 'Main navigation', joinWhatsapp: 'Join our WhatsApp group' }
 }
 
 function App() {
@@ -64,22 +59,20 @@ function App() {
   const [user, setUser] = useState<any>(null)
   const [brandLogo, setBrandLogo] = useState('')
   const [language, setLanguage] = useState<Language>('tr')
+  const [selectedProfile, setSelectedProfile] = useState<string>('')
 
   useEffect(() => {
     const checkHealth = async () => {
       try {
-        const response = await axios.get(`${API_URL}/health`)
-        console.log('✅ Workers API is running:', response.data)
+        await axios.get(`${API_URL}/health`)
       } catch (error) {
-        console.error('❌ Workers API connection error:', error)
+        console.error('API connection error:', error)
       }
     }
     checkHealth()
 
     const savedLanguage = localStorage.getItem('siteLanguage') as Language | null
-    if (savedLanguage === 'tr' || savedLanguage === 'en') {
-      setLanguage(savedLanguage)
-    }
+    if (savedLanguage === 'tr' || savedLanguage === 'en') setLanguage(savedLanguage)
 
     const localSettings = localStorage.getItem('siteSettings')
     if (localSettings) {
@@ -92,17 +85,17 @@ function App() {
     document.title = pageTitles[language][currentPage] || pageTitles[language].home
   }, [currentPage, language])
 
-  const changeLanguage = (nextLanguage: Language) => {
-    setLanguage(nextLanguage)
-    localStorage.setItem('siteLanguage', nextLanguage)
-  }
-
   const pageContent = useMemo(() => {
+    const openProfile = (username: string) => {
+      setSelectedProfile(username)
+      setCurrentPage('profile')
+    }
+
     switch (currentPage) {
       case 'home':
-        return <Home apiUrl={API_URL} onNavigate={setCurrentPage} language={language} />
+        return <Home apiUrl={API_URL} onNavigate={setCurrentPage} language={language} onOpenProfile={openProfile} />
       case 'social':
-        return <Social apiUrl={API_URL} user={user} setUser={setUser} language={language} />
+        return <Social apiUrl={API_URL} user={user} setUser={setUser} language={language} onOpenProfile={openProfile} />
       case 'tools':
         return <Tools apiUrl={API_URL} language={language} />
       case 'arena':
@@ -110,13 +103,13 @@ function App() {
       case 'tutorials':
         return <Tutorials language={language} />
       case 'profile':
-        return <Profile apiUrl={API_URL} user={user} language={language} />
+        return <Profile apiUrl={API_URL} user={user} language={language} selectedProfile={selectedProfile} />
       case 'admin':
         return <AdminPanel apiUrl={API_URL} language={language} />
       default:
-        return <Home apiUrl={API_URL} onNavigate={setCurrentPage} language={language} />
+        return <Home apiUrl={API_URL} onNavigate={setCurrentPage} language={language} onOpenProfile={openProfile} />
     }
-  }, [currentPage, user, language])
+  }, [currentPage, user, language, selectedProfile])
 
   return (
     <div>
@@ -124,24 +117,17 @@ function App() {
         <div className="container">
           <div className="top-row">
             <div className="brand-wrap">
-              {brandLogo ? <img src={brandLogo} alt="AI Legion Logo" className="brand-logo" /> : <span className="logo-fallback">🏛️</span>}
+              {brandLogo
+                ? <img src={brandLogo} alt="AI Legion Logo" className="brand-logo" />
+                : <div className="logo-fallback">AL</div>}
               <h1 className="site-title">AI LEGION</h1>
             </div>
-            <div className="header-controls">
-              <div className="lang-switch" aria-label="Language selector">
-                <button type="button" className={`lang-item ${language === 'tr' ? 'active' : ''}`} onClick={() => changeLanguage('tr')}>
-                  <span className="flag">🇹🇷</span>
-                  <small>TR</small>
-                </button>
-                <button type="button" className={`lang-item ${language === 'en' ? 'active' : ''}`} onClick={() => changeLanguage('en')}>
-                  <span className="flag">🇬🇧</span>
-                  <small>ENG</small>
-                </button>
-              </div>
-              {user && <span style={{ color: '#d4af37' }}>👤 {user.username}</span>}
+            <div className="lang-switch" aria-label="Language selector">
+              <button type="button" className={`lang-item ${language === 'tr' ? 'active' : ''}`} onClick={() => { setLanguage('tr'); localStorage.setItem('siteLanguage', 'tr') }}>TR</button>
+              <button type="button" className={`lang-item ${language === 'en' ? 'active' : ''}`} onClick={() => { setLanguage('en'); localStorage.setItem('siteLanguage', 'en') }}>EN</button>
             </div>
           </div>
-          <nav className="nav" aria-label={uiText[language].mainNav}>
+          <nav className="nav">
             {NAV_ITEMS[language].map(item => (
               <button key={item.key} className={`nav-link ${currentPage === item.key ? 'active' : ''}`} onClick={() => setCurrentPage(item.key)}>
                 {item.label}
@@ -157,10 +143,9 @@ function App() {
 
       <footer className="footer">
         <div className="footer-row">
-          <span>AI LEGION</span>
-          <a href="https://chat.whatsapp.com/LAu2OosQEmd73CBl56sIRi?mode=gi_t" target="_blank" rel="noopener noreferrer" className="wa-link">
-            {uiText[language].joinWhatsapp}
-          </a>
+          <a href="https://x.com" target="_blank" rel="noopener noreferrer" className="footer-icon">𝕏</a>
+          <a href="https://chat.whatsapp.com/LAu2OosQEmd73CBl56sIRi?mode=gi_t" target="_blank" rel="noopener noreferrer" className="footer-icon">🟢</a>
+          <span className="footer-muted">AI LEGION</span>
         </div>
       </footer>
     </div>
