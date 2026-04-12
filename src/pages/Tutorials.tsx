@@ -7,6 +7,7 @@ export default function Tutorials() {
   const [selectedId, setSelectedId] = useState<number | null>(null)
   const selected = tutorials.find((tutorial) => tutorial.id === selectedId)
 
+export default function Tutorials() {
   return (
     <div>
       <h2 style={{ color: '#d4af37', marginBottom: '30px' }}>📚 Öğretici Yazılar</h2>
