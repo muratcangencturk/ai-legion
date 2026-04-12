@@ -3,35 +3,29 @@ type Language = 'tr' | 'en'
 const text = {
   tr: {
     needLogin: 'Profil görmek için giriş yapmanız gerekir.',
-    bio: 'Biyografi: Yapay zeka meraklısı',
-    statsInfo: 'Bu profildeki istatistikler canlı veri geldikçe otomatik gösterilir.',
+    bio: 'Biyografi: AI Legion üyesi',
     edit: 'Profili Düzenle'
   },
   en: {
-    needLogin: 'You must be logged in to view the profile.',
-    bio: 'Bio: AI enthusiast',
-    statsInfo: 'Profile stats are automatically shown as live data arrives.',
+    needLogin: 'You must be logged in to view profile.',
+    bio: 'Bio: AI Legion member',
     edit: 'Edit Profile'
   }
 }
 
-export default function Profile({ user, language }: { apiUrl: string; user: any; language: Language }) {
+export default function Profile({ user, language, selectedProfile }: { apiUrl: string; user: any; language: Language; selectedProfile?: string }) {
   const t = text[language]
+  const profileName = selectedProfile || user?.username
 
-  if (!user) {
-    return <div className="card"><p>{t.needLogin}</p></div>
-  }
+  if (!profileName) return <div className="card"><p>{t.needLogin}</p></div>
 
   return (
-    <div>
-      <div className="card" style={{ textAlign: 'center', marginBottom: '30px' }}>
-        <div style={{ fontSize: '4em', marginBottom: '10px' }}>👤</div>
-        <h2 style={{ color: '#d4af37' }}>{user.username}</h2>
-        <p style={{ color: '#999' }}>@{user.username.toLowerCase()}</p>
-        <p style={{ marginTop: '10px' }}>{t.bio}</p>
-        <div style={{ marginTop: '20px', color: '#999' }}>{t.statsInfo}</div>
-        <button style={{ marginTop: '20px' }}>{t.edit}</button>
-      </div>
+    <div className="card" style={{ textAlign: 'center', marginTop: '24px' }}>
+      <div className="avatar-circle">{profileName.slice(0, 1).toUpperCase()}</div>
+      <h2>{profileName}</h2>
+      <p>@{profileName.toLowerCase().replace(/\s+/g, '')}</p>
+      <p style={{ marginTop: '10px' }}>{t.bio}</p>
+      {user?.username === profileName && <button style={{ marginTop: '20px' }}>{t.edit}</button>}
     </div>
   )
 }

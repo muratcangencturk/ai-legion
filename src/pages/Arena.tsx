@@ -3,72 +3,73 @@ import { modelSpecs } from '../data/models'
 
 type Language = 'tr' | 'en'
 
-const metrics = {
-  tr: [
-    { key: 'strengths', label: 'Genel Akıl Yürütme' },
-    { key: 'coding', label: 'Kod Yeteneği' },
-    { key: 'multimodal', label: 'Multimodal' },
-    { key: 'pricePerformance', label: 'Fiyat/Performans' }
-  ],
-  en: [
-    { key: 'strengths', label: 'General Reasoning' },
-    { key: 'coding', label: 'Coding Ability' },
-    { key: 'multimodal', label: 'Multimodal' },
-    { key: 'pricePerformance', label: 'Price/Performance' }
-  ]
-} as const
-
 const text = {
-  tr: { title: '⚔️ Model Arena', provider: 'Sağlayıcı', license: 'Lisans', parameters: 'Parametre', speed: 'Hız', system: 'Sistem', score: 'Karşılaştırma Skoru', leading: 'Önde', tie: 'Berabere' },
-  en: { title: '⚔️ Model Arena', provider: 'Provider', license: 'License', parameters: 'Parameters', speed: 'Speed', system: 'System', score: 'Comparison Score', leading: 'Leading', tie: 'Tie' }
+  tr: { title: 'Model Arena', provider: 'Sağlayıcı', license: 'Lisans', parameters: 'Parametre', speed: 'Token üretim hızı', system: 'Sistem', pricing: 'Plan ücret detayı', score: 'Resmi benchmark skorları', aiLegion: 'AI Legion skoru', rate: '10 yıldız üzerinden puanla', details: 'Detaylar' },
+  en: { title: 'Model Arena', provider: 'Provider', license: 'License', parameters: 'Parameters', speed: 'Token generation speed', system: 'System', pricing: 'Plan pricing detail', score: 'Official benchmark scores', aiLegion: 'AI Legion score', rate: 'Rate out of 10 stars', details: 'Details' }
 }
 
 export default function Arena({ language }: { language: Language }) {
   const t = text[language]
   const [leftId, setLeftId] = useState(modelSpecs[0].id)
   const [rightId, setRightId] = useState(modelSpecs[1].id)
+  const [ratings, setRatings] = useState<Record<string, number>>(() => {
+    const raw = localStorage.getItem('arenaRatings')
+    return raw ? JSON.parse(raw) : {}
+  })
 
   const left = useMemo(() => modelSpecs.find((m) => m.id === leftId)!, [leftId])
   const right = useMemo(() => modelSpecs.find((m) => m.id === rightId)!, [rightId])
-  const currentMetrics = metrics[language]
 
-  const leftWins = currentMetrics.filter((m) => left[m.key] > right[m.key]).length
-  const rightWins = currentMetrics.filter((m) => right[m.key] > left[m.key]).length
+  const rateModel = (modelId: string, score: number) => {
+    const next = { ...ratings, [modelId]: score }
+    setRatings(next)
+    localStorage.setItem('arenaRatings', JSON.stringify(next))
+  }
+
+  const legionScore = (modelId: string, base: number) => ((ratings[modelId] || base) / 10).toFixed(1)
 
   return (
     <div>
-      <h2 style={{ color: '#d4af37', marginBottom: '24px' }}>{t.title}</h2>
+      <h2 className="section-title">{t.title}</h2>
       <div className="arena-selectors card">
         <select value={leftId} onChange={(e) => setLeftId(e.target.value)}>{modelSpecs.map((m) => <option key={m.id} value={m.id}>{m.name}</option>)}</select>
-        <span style={{ color: '#d4af37', fontWeight: 700 }}>VS</span>
+        <span style={{ fontWeight: 700 }}>VS</span>
         <select value={rightId} onChange={(e) => setRightId(e.target.value)}>{modelSpecs.map((m) => <option key={m.id} value={m.id}>{m.name}</option>)}</select>
       </div>
 
-      <div className="grid">{[left, right].map((m) => (
-        <article className="card" key={m.id}>
-          <h3 style={{ color: '#d4af37' }}>{m.name}</h3>
-          <p><strong>{t.provider}:</strong> {m.provider}</p>
-          <p><strong>{t.license}:</strong> {m.openSource[language]}</p>
-          <p><strong>{t.parameters}:</strong> {m.parameters[language]}</p>
-          <p><strong>{t.speed}:</strong> {m.speed[language]}</p>
-          <p><strong>{t.system}:</strong> {m.systemNeeds[language]}</p>
-        </article>
-      ))}</div>
+      <div className="grid uniform-grid">
+        {[left, right].map((m) => (
+          <article className="card uniform-card" key={m.id}>
+            <h3>{m.name}</h3>
+            <p><strong>{t.provider}:</strong> {m.provider}</p>
+            <p><strong>{t.license}:</strong> {m.openSource[language]}</p>
+            <p><strong>{t.parameters}:</strong> {m.parameters[language]}</p>
+            <p><strong>{t.speed}:</strong> {m.generationSpeed[language]}</p>
+            <p><strong>{t.pricing}:</strong> {m.pricing[language]}</p>
+            <p><strong>{t.system}:</strong> {m.systemNeeds[language]}</p>
+            <p><strong>{t.aiLegion}:</strong> ★ {legionScore(m.id, m.elo)}</p>
+            <div style={{ marginTop: '8px' }}>
+              <small>{t.rate}</small>
+              <input type="range" min={1} max={10} step={0.5} value={ratings[m.id] || 8} onChange={(e) => rateModel(m.id, Number(e.target.value))} />
+            </div>
+          </article>
+        ))}
+      </div>
 
       <div className="card">
-        <h3 style={{ color: '#d4af37', marginBottom: '12px' }}>{t.score}</h3>
-        {currentMetrics.map((metric) => {
-          const l = left[metric.key]
-          const r = right[metric.key]
-          const leftPct = Math.round((l / (l + r)) * 100)
+        <h3>{t.score}</h3>
+        {[{ key: 'aime', label: 'AIME' }, { key: 'codebench', label: 'CodeBench' }, { key: 'swebench', label: 'SWE-bench' }, { key: 'elo', label: 'ELO' }].map((metric) => {
+          const l = left[metric.key as keyof typeof left] as number
+          const r = right[metric.key as keyof typeof right] as number
+          const pct = Math.round((l / (l + r)) * 100)
           return (
-            <div key={metric.key} style={{ marginBottom: '12px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}><small>{metric.label}</small><small>{left.name} {l} - {r} {right.name}</small></div>
-              <div className="arena-bar"><div className="arena-bar-left" style={{ width: `${leftPct}%` }} /></div>
+            <div key={metric.key} style={{ marginTop: '12px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}><small>{metric.label}</small><small>{l} - {r}</small></div>
+              <div className="arena-bar"><div className="arena-bar-left" style={{ width: `${pct}%` }} /></div>
             </div>
           )
         })}
-        <p style={{ marginTop: '10px' }}><strong>{t.leading}:</strong> {leftWins === rightWins ? t.tie : leftWins > rightWins ? left.name : right.name}</p>
+        <button className="secondary-btn" style={{ marginTop: '12px' }}>{t.details}</button>
       </div>
     </div>
   )
