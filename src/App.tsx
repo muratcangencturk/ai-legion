@@ -8,7 +8,7 @@ import Profile from './pages/Profile'
 import AdminPanel from './pages/AdminPanel'
 import Arena from './pages/Arena'
 
-const API_URL = 'https://ai-legion-api.muratcangencturk.workers.dev'
+const API_URL = 'https://ai-legion-api.netlify.app'
 
 type Language = 'tr' | 'en'
 
