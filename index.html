@@ -65,7 +65,7 @@
     .btn-sm{padding:4px 10px;font-size:12px;border-radius:12px}
     
     /* LAYOUT */
-    .container{max-width:1240px;margin:0 auto;padding:16px 20px;display:grid;grid-template-columns:220px 1fr 260px;gap:16px}
+    .container{max-width:1240px;margin:0 auto;padding:16px 20px;display:grid;grid-template-columns:1fr 260px;gap:16px}
     @media(max-width:1024px){.container{grid-template-columns:1fr}.sidebar-left,.sidebar-right{display:none}}
     @media(max-width:768px){
       nav{padding:0 15px}
@@ -107,6 +107,7 @@
     .article-title{font-size:15px;font-weight:700;margin-bottom:6px;color:var(--text);line-height:1.4}
     .article-summary{color:var(--text2);font-size:13px;line-height:1.5}
     .article-meta{display:flex;justify-content:space-between;margin-top:10px;font-size:11px;color:var(--text3)}
+    .articles-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
     
     /* POST COMPOSER */
     .composer{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:14px}
@@ -169,6 +170,7 @@
     .score-good{color:#4caf50;font-weight:600}
     .score-mid{color:var(--gold);font-weight:600}
     .score-low{color:var(--text2)}
+    .arena-left{color:#e0245e;font-weight:700}.arena-right{color:#1da1f2;font-weight:700}
     
     /* PROMPT CARD */
     .prompt-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:18px;transition:all 0.3s;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,0.2)}
@@ -286,30 +288,18 @@
     <button class="nav-btn" onclick="showPage('tools')">🛠️ Araçlar</button>
     <button class="nav-btn" onclick="showPage('learn')">📚 Öğren</button>
     <button class="nav-btn" onclick="showPage('prompts')">✨ Promptlar</button>
+    <button class="nav-btn" onclick="showPage('arena')">⚔️ Arena</button>
   </div>
   <div class="nav-right" id="nav-right">
     <button class="btn btn-outline btn-sm" onclick="openModal('login-modal')">Giriş</button>
     <button class="btn btn-gold btn-sm" onclick="openModal('register-modal')">Kayıt Ol</button>
+    <button class="btn btn-outline btn-sm" id="nav-profile-btn" style="display:none" onclick="showPage('profile')">👤 Profilim</button>
+    <button class="btn btn-outline btn-sm" id="nav-admin-btn" style="display:none" onclick="showPage('admin')">⚙️ Admin Panel</button>
   </div>
 </nav>
 
 <!-- MAIN CONTAINER -->
 <div class="container">
-  <!-- LEFT SIDEBAR -->
-  <div class="sidebar sidebar-left">
-    <div class="sidebar-menu">
-      <button class="sidebar-item active" onclick="showPage('home')"><span class="icon">🏠</span> Haberler</button>
-      <button class="sidebar-item" onclick="showPage('social')"><span class="icon">💬</span> Sosyal</button>
-      <button class="sidebar-item" onclick="showPage('models')"><span class="icon">🏆</span> Model Sıralaması</button>
-      <button class="sidebar-item" onclick="showPage('tools')"><span class="icon">🛠️</span> AI Araçları</button>
-      <button class="sidebar-item" onclick="showPage('learn')"><span class="icon">📚</span> Öğren</button>
-      <button class="sidebar-item" onclick="showPage('prompts')"><span class="icon">✨</span> Promptlar</button>
-      <div class="sidebar-divider"></div>
-      <button class="sidebar-item" onclick="showPage('profile')" id="profile-menu-btn" style="display:none"><span class="icon">👤</span> Profilim</button>
-      <button class="sidebar-item" onclick="showPage('admin')" id="admin-menu-btn" style="display:none"><span class="icon">⚙️</span> Admin Panel</button>
-    </div>
-  </div>
-
   <!-- MAIN CONTENT -->
   <div class="main">
 
@@ -321,7 +311,7 @@
           <div class="section-title">⚔️ Son AI Haberleri</div>
           <button class="btn btn-gold btn-sm" id="add-article-btn" style="display:none" onclick="openModal('add-article-modal')">+ Haber Ekle</button>
         </div>
-        <div id="articles-list"><div class="loading"><div class="spinner"></div></div></div>
+        <div id="articles-list" class="articles-grid"><div class="loading"><div class="spinner"></div></div></div>
       </div>
     </div>
 
@@ -333,11 +323,12 @@
             <div class="composer-avatar" id="composer-avatar">?</div>
             <textarea id="post-input" placeholder="AI dünyasında ne oluyor? Paylaş..." maxlength="500" oninput="updateCharCount()"></textarea>
           </div>
+          <div id="drop-zone" style="display:none;border:2px dashed var(--gold);border-radius:8px;padding:16px;text-align:center;color:var(--gold);font-size:13px;margin-bottom:10px;cursor:pointer" ondrop="handleDrop(event)" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)">📎/🖼️ Görsel eklemek için sürükle veya tıkla</div>
           <div class="composer-divider"></div>
     <div class="composer-footer">
       <div class="composer-actions">
         <input type="file" id="post-image-upload" accept="image/*" style="display:none;" onchange="previewImage(event)">
-        <button class="composer-action" onclick="document.getElementById('post-image-upload').click()"><i class="fas fa-image"></i></button>
+        <button class="composer-action" id="image-upload-btn" onclick="document.getElementById('post-image-upload').click()"><i class="fas fa-paperclip"></i></button>
         <button class="composer-action"><i class="fas fa-poll"></i></button>
       </div>
       <div id="image-preview" style="display:none; margin-top: 10px;">
@@ -439,6 +430,55 @@
       <div class="prompts-grid" id="prompts-list"><div class="loading"><div class="spinner"></div></div></div>
     </div>
 
+    <!-- ARENA -->
+    <div class="page" id="page-arena">
+      <div class="section-header">
+        <div class="section-title">⚔️ Model Kıyaslama Arenası</div>
+      </div>
+      <div class="card" style="margin-bottom:16px">
+        <p style="font-size:13px;color:var(--text2);line-height:1.6;text-align:center">
+          İki model seç, benchmarklarını karşılaştır. <span class="arena-left">Sol model kırmızı</span> | <span class="arena-right">Sağ model mavi</span>
+        </p>
+      </div>
+      <div class="card" style="margin-bottom:16px">
+        <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:16px;align-items:end">
+          <div>
+            <label style="display:block;color:var(--gold);font-size:12px;margin-bottom:8px;text-transform:uppercase">Sol Model</label>
+            <select id="arena-left-model" class="form-control" style="background:var(--bg3);border:1px solid var(--border2);border-radius:8px;color:var(--arena-left,#e0245e);padding:10px;font-size:14px;width:100%">
+              <option value="claude-opus-47">Claude Opus 4.7 (Anthropic)</option>
+              <option value="gpt-55">GPT-5.5 (OpenAI)</option>
+              <option value="gemini-31-pro">Gemini 3.1 Pro (Google)</option>
+              <option value="grok-4">Grok 4 (xAI)</option>
+              <option value="claude-sonnet-47">Claude Sonnet 4.7 (Anthropic)</option>
+              <option value="deepseek-v4">DeepSeek V4 (DeepSeek)</option>
+              <option value="llama-4-scout">Llama 4 Scout (Meta)</option>
+              <option value="mistral-large-3">Mistral Large 3 (Mistral)</option>
+              <option value="qwen-35-max">Qwen 3.5 Max (Alibaba)</option>
+              <option value="command-rplus">Command R+ (Cohere)</option>
+            </select>
+          </div>
+          <div style="font-size:28px;color:var(--gold);padding-bottom:10px">⚔️</div>
+          <div>
+            <label style="display:block;color:var(--gold);font-size:12px;margin-bottom:8px;text-transform:uppercase">Sağ Model</label>
+            <select id="arena-right-model" class="form-control" style="background:var(--bg3);border:1px solid var(--border2);border-radius:8px;color:var(--arena-right,#1da1f2);padding:10px;font-size:14px;width:100%">
+              <option value="claude-opus-47">Claude Opus 4.7 (Anthropic)</option>
+              <option value="gpt-55" selected>GPT-5.5 (OpenAI)</option>
+              <option value="gemini-31-pro">Gemini 3.1 Pro (Google)</option>
+              <option value="grok-4">Grok 4 (xAI)</option>
+              <option value="claude-sonnet-47">Claude Sonnet 4.7 (Anthropic)</option>
+              <option value="deepseek-v4">DeepSeek V4 (DeepSeek)</option>
+              <option value="llama-4-scout">Llama 4 Scout (Meta)</option>
+              <option value="mistral-large-3">Mistral Large 3 (Mistral)</option>
+              <option value="qwen-35-max">Qwen 3.5 Max (Alibaba)</option>
+              <option value="command-rplus">Command R+ (Cohere)</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn btn-gold" style="margin-top:16px;width:100%" onclick="runArenaComparison()">🔍 Karşılaştır</button>
+      </div>
+      <div id="arena-results"></div>
+    </div>
+
     <!-- PROFILE -->
     <div class="page" id="page-profile">
       <div id="profile-content"><div class="loading"><div class="spinner"></div></div></div>
@@ -492,29 +532,21 @@
   <div class="sidebar sidebar-right">
     <div class="card">
       <div style="font-weight:700;color:var(--gold);margin-bottom:12px;font-size:14px">🔥 Trending</div>
-      <div class="trending-item"><div class="trending-tag">#ClaudeOpus46</div><div class="trending-count">3.2K post</div></div>
-      <div class="trending-item"><div class="trending-tag">#GPT54</div><div class="trending-count">2.8K post</div></div>
+      <div class="trending-item"><div class="trending-tag">#ClaudeOpus47</div><div class="trending-count">3.2K post</div></div>
+      <div class="trending-item"><div class="trending-tag">#GPT55</div><div class="trending-count">2.8K post</div></div>
       <div class="trending-item"><div class="trending-tag">#AIAgents</div><div class="trending-count">1.9K post</div></div>
-      <div class="trending-item"><div class="trending-tag">#DeepSeekV3</div><div class="trending-count">1.4K post</div></div>
-      <div class="trending-item"><div class="trending-tag">#Midjourney7</div><div class="trending-count">1.1K post</div></div>
-      <div class="trending-item"><div class="trending-tag">#AILegion</div><div class="trending-count">890 post</div></div>
+      <div class="trending-item"><div class="trending-tag">#DeepSeekV4</div><div class="trending-count">1.4K post</div></div>
+      <div class="trending-item"><div class="trending-tag">#MidjourneyV7</div><div class="trending-count">1.1K post</div></div>
+      <div class="trending-item"><div class="trending-tag">#Grok4</div><div class="trending-count">890 post</div></div>
     </div>
     <div class="card" style="margin-top:12px">
       <div style="font-weight:700;color:var(--gold);margin-bottom:10px;font-size:14px">📊 Bu Haftanın Lideri</div>
       <div style="display:flex;align-items:center;gap:10px;padding:8px;background:var(--bg3);border-radius:8px">
         <div style="font-size:24px">🥇</div>
         <div>
-          <div style="font-weight:700;color:var(--text);font-size:13px">Gemini 2.5 Pro</div>
-          <div style="color:var(--text3);font-size:11px">LMSYS Elo: 1439</div>
+          <div style="font-weight:700;color:var(--text);font-size:13px">Claude Opus 4.7</div>
+          <div style="color:var(--text3);font-size:11px">LMSYS Elo: 1506</div>
         </div>
-      </div>
-    </div>
-    <div class="card" style="margin-top:12px">
-      <div style="font-weight:700;color:var(--gold);margin-bottom:10px;font-size:14px">ℹ️ AI Legion</div>
-      <p style="color:var(--text2);font-size:12px;line-height:1.6">Türkiye nin ilk AI topluluğu. Güncel haberler, model karşılaştırmaları, araç rehberleri ve profesyonel promptlar.</p>
-      <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap">
-        <span style="font-size:11px;color:var(--text3)">📅 Nisan 2026</span>
-        <span style="font-size:11px;color:var(--text3)">⚔️ Legion</span>
       </div>
     </div>
   </div>
@@ -615,7 +647,15 @@
     </div>
     <div class="form-group"><label>Özet</label><input type="text" id="art-summary" placeholder="Kısa özet (1-2 cümle)"></div>
     <div class="form-group"><label>İçerik</label><textarea id="art-content" placeholder="Haber içeriği..." style="min-height:150px"></textarea></div>
-    <div class="form-group"><label>Görsel URL (opsiyonel)</label><input type="url" id="art-image" placeholder="https://..."></div>
+    <div class="form-group"><label>Görsel</label>
+      <input type="file" id="art-image-file" accept="image/*" style="display:none" onchange="previewArticleImage(event)">
+      <div id="article-drop-zone" style="border:2px dashed var(--gold);border-radius:8px;padding:20px;text-align:center;color:var(--gold);font-size:13px;cursor:pointer;margin-bottom:8px" ondrop="handleArticleDrop(event)" ondragover="handleArticleDragOver(event)" ondragleave="handleArticleDragLeave(event)" onclick="document.getElementById('art-image-file').click()">📎/🖼️ Görsel eklemek için sürükle veya tıkla</div>
+      <div id="article-image-preview" style="display:none;align-items:center;gap:10px;margin-top:10px">
+        <img id="article-preview-img" src="" style="max-width:120px;max-height:80px;border-radius:8px;object-fit:cover">
+        <button class="btn btn-red btn-sm" onclick="removeArticleImage()">Kaldır</button>
+      </div>
+      <input type="url" id="art-image" placeholder="VEYA doğrudan URL gir: https://..." style="margin-top:8px">
+    </div>
     <div class="modal-footer">
       <button class="btn btn-outline" onclick="closeModal('add-article-modal')">İptal</button>
       <button class="btn btn-gold" onclick="addArticle()">Yayınla</button>
@@ -653,6 +693,34 @@
       document.getElementById('preview-image').src = '';
       document.getElementById('image-preview').style.display = 'none';
       document.getElementById('post-image-upload').value = '';
+    }
+
+    function handleDragOver(e) {
+      e.preventDefault();
+      document.getElementById('drop-zone').style.display = 'block';
+      document.getElementById('drop-zone').style.background = 'rgba(201,168,76,0.1)';
+    }
+
+    function handleDragLeave(e) {
+      document.getElementById('drop-zone').style.display = 'none';
+    }
+
+    function handleDrop(e) {
+      e.preventDefault();
+      document.getElementById('drop-zone').style.display = 'none';
+      const files = e.dataTransfer.files;
+      if (files.length > 0 && files[0].type.startsWith('image/')) {
+        const input = document.getElementById('post-image-upload');
+        const dt = new DataTransfer();
+        dt.items.add(files[0]);
+        input.files = dt.files;
+        previewImage({ target: input });
+      }
+    }
+
+    function toggleDropZone() {
+      const dz = document.getElementById('drop-zone');
+      dz.style.display = dz.style.display === 'none' ? 'block' : 'none';
     }
 
 
@@ -745,6 +813,7 @@ function showPage(page) {
   if (!pageEl) return;
   pageEl.classList.add('active');
   document.querySelectorAll(`[onclick*="showPage('${page}')"]`).forEach(b => b.classList.add('active'));
+  window.scrollTo({ top: 0, behavior: 'smooth' });
   if (page === 'social') {
     document.getElementById('composer-section').style.display = currentUser ? 'block' : 'none';
     document.getElementById('login-prompt-social').style.display = currentUser ? 'none' : 'block';
@@ -765,11 +834,12 @@ function updateNavForUser() {
       <span style="color:var(--text2);font-size:13px">@${currentUser.username}</span>
       ${currentUser.is_admin ? '<span class="badge badge-admin">Admin</span>' : ''}
     </div>
+    ${currentUser.is_admin ? '<button class="btn btn-outline btn-sm" onclick="showPage(\''+'admin'+'\')">⚙️ Admin Panel</button>' : ''}
     <button class="btn btn-outline btn-sm" onclick="logout()">Çıkış</button>
   `;
-  document.getElementById('profile-menu-btn').style.display = 'flex';
+  document.getElementById('nav-profile-btn').style.display = 'inline-flex';
   if (currentUser.is_admin) {
-    document.getElementById('admin-menu-btn').style.display = 'flex';
+    document.getElementById('nav-admin-btn').style.display = 'inline-flex';
     document.getElementById('add-article-btn').style.display = 'inline-flex';
   }
   const compAvatar = document.getElementById('composer-avatar');
@@ -828,7 +898,7 @@ async function loadArticles() {
       return;
     }
     const emojis = { 'Haberler': '📰', 'Duyuru': '📢', 'Araştırma': '🔬', 'Kıyaslama': '📊', 'Öğretici': '📚' };
-    container.innerHTML = articles.map(a => `
+    container.innerHTML = '<div class="articles-grid">' + articles.map(a => `
       <div class="article-card" onclick="showArticle(${JSON.stringify(a).replace(/"/g,'&quot;')})">
         <div class="article-img-placeholder">${emojis[a.category] || '📰'}</div>
         <div class="article-body">
@@ -841,7 +911,7 @@ async function loadArticles() {
           </div>
         </div>
       </div>
-    `).join('');
+    `).join('') + '</div>';
   } catch(e) { document.getElementById('articles-list').innerHTML = '<div class="empty-state"><div class="icon">⚠️</div><p>Haberler yüklenemedi</p></div>'; }
 }
 
@@ -865,7 +935,7 @@ function hideArticle() {
   document.getElementById('articles-list-view').style.display = 'block';
 }
 
-async function addArticle() {
+function addArticle() {
   const title = document.getElementById('art-title').value.trim();
   const category = document.getElementById('art-category').value;
   const summary = document.getElementById('art-summary').value.trim();
@@ -879,8 +949,53 @@ async function addArticle() {
       showToast('Haber yayınlandı! 📰');
       loadArticles();
       ['art-title','art-summary','art-content','art-image'].forEach(id => document.getElementById(id).value = '');
+      removeArticleImage();
     }
   } catch(e) { showToast('Hata oluştu'); }
+}
+
+function previewArticleImage(event) {
+  const reader = new FileReader();
+  reader.onload = function() {
+    document.getElementById('article-preview-img').src = reader.result;
+    document.getElementById('article-image-preview').style.display = 'flex';
+  };
+  if (event.target.files[0]) {
+    if (event.target.files[0].size > 2 * 1024 * 1024) {
+      showToast('Görsel boyutu 2MB dan büyük olamaz.');
+      event.target.value = '';
+      return;
+    }
+    reader.readAsDataURL(event.target.files[0]);
+  }
+}
+
+function removeArticleImage() {
+  document.getElementById('article-preview-img').src = '';
+  document.getElementById('article-image-preview').style.display = 'none';
+  document.getElementById('art-image-file').value = '';
+}
+
+function handleArticleDragOver(e) {
+  e.preventDefault();
+  document.getElementById('article-drop-zone').style.background = 'rgba(201,168,76,0.1)';
+}
+
+function handleArticleDragLeave(e) {
+  document.getElementById('article-drop-zone').style.background = 'transparent';
+}
+
+function handleArticleDrop(e) {
+  e.preventDefault();
+  document.getElementById('article-drop-zone').style.background = 'transparent';
+  const files = e.dataTransfer.files;
+  if (files.length > 0 && files[0].type.startsWith('image/')) {
+    const input = document.getElementById('art-image-file');
+    const dt = new DataTransfer();
+    dt.items.add(files[0]);
+    input.files = dt.files;
+    previewArticleImage({ target: input });
+  }
 }
 
 // POSTS
@@ -1023,16 +1138,16 @@ function switchFeedTab(el, type) {
 async function loadModels() {
   try {
     const models = [
-      { rank: 1, name: 'Gemini 2.5 Pro', company: 'Google', lmsys_elo: 1439, mmlu: 90.2, swe_bench: 63.8, aime: 86.7, humaneval: 93.5, free: true, url: 'https://gemini.google.com', description: 'Google en güçlü model. 1M token context, multimodal lider.' },
-      { rank: 2, name: 'Claude 3.7 Sonnet', company: 'Anthropic', lmsys_elo: 1388, mmlu: 88.7, swe_bench: 70.3, aime: 80.0, humaneval: 92.1, free: true, url: 'https://claude.ai', description: 'Anthropic flagship. Kod yazma ve analiz lideri, extended thinking.' },
-      { rank: 3, name: 'GPT-4.1', company: 'OpenAI', lmsys_elo: 1369, mmlu: 90.2, swe_bench: 54.6, aime: 72.0, humaneval: 91.8, free: false, url: 'https://chat.openai.com', description: 'OpenAI en yeni model. 1M token context, coding güçlü.' },
-      { rank: 4, name: 'Grok 3', company: 'xAI', lmsys_elo: 1361, mmlu: 91.4, swe_bench: 65.6, aime: 93.3, humaneval: 89.4, free: true, url: 'https://grok.x.ai', description: 'xAI modeli. AIME de lider, gerçek zamanlı X erişimi.' },
-      { rank: 5, name: 'o3-mini (high)', company: 'OpenAI', lmsys_elo: 1347, mmlu: 86.9, swe_bench: 49.3, aime: 87.3, humaneval: 90.2, free: true, url: 'https://chat.openai.com', description: 'OpenAI reasoning modeli. Matematik ve kodda güçlü.' },
-      { rank: 6, name: 'DeepSeek R1', company: 'DeepSeek', lmsys_elo: 1340, mmlu: 90.8, swe_bench: 49.2, aime: 79.8, humaneval: 85.6, free: true, url: 'https://chat.deepseek.com', description: 'Açık kaynak reasoning devi. Tamamen ücretsiz.' },
-      { rank: 7, name: 'Llama 4 Maverick', company: 'Meta', lmsys_elo: 1320, mmlu: 85.5, swe_bench: 42.0, aime: 60.0, humaneval: 82.2, free: true, url: 'https://llama.meta.com', description: 'Meta açık kaynak MoE model. 128 uzman, çok dilli.' },
-      { rank: 8, name: 'Gemini 2.0 Flash', company: 'Google', lmsys_elo: 1354, mmlu: 87.9, swe_bench: 55.2, aime: 73.0, humaneval: 90.2, free: true, url: 'https://gemini.google.com', description: 'Google hızlı model. Düşük maliyet, yüksek performans.' },
-      { rank: 9, name: 'Qwen 2.5 Max', company: 'Alibaba', lmsys_elo: 1310, mmlu: 90.6, swe_bench: 61.2, aime: 65.0, humaneval: 84.1, free: true, url: 'https://qwen.aliyun.com', description: 'Alibaba güçlü model. Matematik ve kodlamada başarılı.' },
-      { rank: 10, name: 'Mistral Large 2', company: 'Mistral', lmsys_elo: 1250, mmlu: 84.0, swe_bench: 45.1, aime: 42.0, humaneval: 78.9, free: true, url: 'https://mistral.ai', description: 'Avrupa AI şampiyonu. 128K context, çok dilli.' },
+      { rank: 1, name: 'Claude Opus 4.7', company: 'Anthropic', lmsys_elo: 1506, mmlu: 88.7, swe_bench: 74.2, aime: 85.0, humaneval: 92.1, free: true, url: 'https://claude.ai', description: 'Anthropic en güçlü model. İnsanlığı geride bırakan yapay zeka.' },
+      { rank: 2, name: 'GPT-5.5', company: 'OpenAI', lmsys_elo: 1498, mmlu: 88.2, swe_bench: 74.9, aime: 83.0, humaneval: 91.8, free: false, url: 'https://chat.openai.com', description: 'OpenAI devrim niteliğinde güncelleme. 1M token context.' },
+      { rank: 3, name: 'Gemini 3.1 Pro', company: 'Google', lmsys_elo: 1489, mmlu: 87.9, swe_bench: 80.6, aime: 79.0, humaneval: 90.2, free: true, url: 'https://gemini.google.com', description: 'Google en güçlü modeli. Artık herkes için ücretsiz.' },
+      { rank: 4, name: 'Grok 4', company: 'xAI', lmsys_elo: 1471, mmlu: 87.1, swe_bench: 75.0, aime: 78.0, humaneval: 89.4, free: true, url: 'https://grok.x.ai', description: 'xAI modeli. Gerçek zamanlı X erişimi.' },
+      { rank: 5, name: 'Claude Sonnet 4.7', company: 'Anthropic', lmsys_elo: 1463, mmlu: 87.5, swe_bench: 82.1, aime: 80.0, humaneval: 91.2, free: true, url: 'https://claude.ai', description: 'Anthropic flagship. Kod yazma ve analiz lideri.' },
+      { rank: 6, name: 'DeepSeek V4', company: 'DeepSeek', lmsys_elo: 1452, mmlu: 87.1, swe_bench: 49.2, aime: 39.2, humaneval: 82.6, free: true, url: 'https://chat.deepseek.com', description: 'Çin den gelen açık kaynak devrimi.' },
+      { rank: 7, name: 'Llama 4 Scout', company: 'Meta', lmsys_elo: 1421, mmlu: 79.6, swe_bench: 32.0, aime: 50.0, humaneval: 75.2, free: true, url: 'https://llama.meta.com', description: 'Meta açık kaynak MoE model. 128 uzman.' },
+      { rank: 8, name: 'Mistral Large 3', company: 'Mistral', lmsys_elo: 1398, mmlu: 81.2, swe_bench: 45.1, aime: 42.0, humaneval: 78.9, free: true, url: 'https://mistral.ai', description: 'Avrupa nın ilk trilyon parametreli modeli.' },
+      { rank: 9, name: 'Qwen 3.5 Max', company: 'Alibaba', lmsys_elo: 1387, mmlu: 85.3, swe_bench: 61.2, aime: 65.0, humaneval: 84.1, free: true, url: 'https://qwen.aliyun.com', description: 'Alibaba güçlü model. Matematik ve kodlamada başarılı.' },
+      { rank: 10, name: 'Command R+', company: 'Cohere', lmsys_elo: 1352, mmlu: 75.7, swe_bench: 28.4, aime: 31.0, humaneval: 71.3, free: true, url: 'https://cohere.com', description: 'Cohere enterprise model. Çok dilli.' },
     ];
     const container = document.getElementById('models-table');
     const maxElo = Math.max(...models.map(m => m.lmsys_elo));
@@ -1082,24 +1197,77 @@ async function loadModels() {
   } catch(e) { document.getElementById('models-table').innerHTML = '<div class="loading">Veriler yüklenemedi</div>'; }
 }
 
+// ARENA
+const arenaModels = {
+  'claude-opus-47': { name: 'Claude Opus 4.7', lmsys: 1506, mmlu: 88.7, swe_bench: 74.2, aime: 85.0, humaneval: 92.1, color: '#e0245e' },
+  'gpt-55': { name: 'GPT-5.5', lmsys: 1498, mmlu: 88.2, swe_bench: 74.9, aime: 83.0, humaneval: 91.8, color: '#1da1f2' },
+  'gemini-31-pro': { name: 'Gemini 3.1 Pro', lmsys: 1489, mmlu: 87.9, swe_bench: 80.6, aime: 79.0, humaneval: 90.2, color: '#1da1f2' },
+  'grok-4': { name: 'Grok 4', lmsys: 1471, mmlu: 87.1, swe_bench: 75.0, aime: 78.0, humaneval: 89.4, color: '#1da1f2' },
+  'claude-sonnet-47': { name: 'Claude Sonnet 4.7', lmsys: 1463, mmlu: 87.5, swe_bench: 82.1, aime: 80.0, humaneval: 91.2, color: '#e0245e' },
+  'deepseek-v4': { name: 'DeepSeek V4', lmsys: 1452, mmlu: 87.1, swe_bench: 49.2, aime: 39.2, humaneval: 82.6, color: '#1da1f2' },
+  'llama-4-scout': { name: 'Llama 4 Scout', lmsys: 1421, mmlu: 79.6, swe_bench: 32.0, aime: 50.0, humaneval: 75.2, color: '#1da1f2' },
+  'mistral-large-3': { name: 'Mistral Large 3', lmsys: 1398, mmlu: 81.2, swe_bench: 45.1, aime: 42.0, humaneval: 78.9, color: '#1da1f2' },
+  'qwen-35-max': { name: 'Qwen 3.5 Max', lmsys: 1387, mmlu: 85.3, swe_bench: 61.2, aime: 65.0, humaneval: 84.1, color: '#1da1f2' },
+  'command-rplus': { name: 'Command R+', lmsys: 1352, mmlu: 75.7, swe_bench: 28.4, aime: 31.0, humaneval: 71.3, color: '#1da1f2' },
+};
+
+
+function runArenaComparison() {
+  const leftId = document.getElementById('arena-left-model').value;
+  const rightId = document.getElementById('arena-right-model').value;
+  const left = arenaModels[leftId];
+  const right = arenaModels[rightId];
+  const metrics = [
+    { key: 'lmsys', label: 'LMSYS Elo', high: true },
+    { key: 'mmlu', label: 'MMLU %', high: true },
+    { key: 'swe_bench', label: 'SWE-bench %', high: true },
+    { key: 'aime', label: 'AIME %', high: true },
+    { key: 'humaneval', label: 'HumanEval %', high: true },
+  ];
+  const maxVal = { lmsys: 1600, mmlu: 100, swe_bench: 100, aime: 100, humaneval: 100 };
+  let html = '<div class="card"><div style="display:grid;grid-template-columns:1fr auto 1fr;gap:20px;margin-bottom:16px">';
+  html += '<div style="text-align:center"><div class="arena-left" style="font-size:16px;font-weight:700;margin-bottom:4px">SOL</div><div style="font-size:20px;font-weight:800;color:var(--arena-left,#e0245e)">' + left.name + '</div></div>';
+  html += '<div style="font-size:28px;align-self:center">⚔️</div>';
+  html += '<div style="text-align:center"><div class="arena-right" style="font-size:16px;font-weight:700;margin-bottom:4px">SAĞ</div><div style="font-size:20px;font-weight:800;color:var(--arena-right,#1da1f2)">' + right.name + '</div></div></div>';
+  html += '<div style="display:flex;flex-direction:column;gap:12px">';
+  metrics.forEach(m => {
+    const lVal = left[m.key], rVal = right[m.key];
+    const lPct = Math.round((lVal / maxVal[m.key]) * 100);
+    const rPct = Math.round((rVal / maxVal[m.key]) * 100);
+    const lWin = m.high ? lVal > rVal : lVal < rVal;
+    const rWin = m.high ? rVal > lVal : rVal < lVal;
+    html += '<div>';
+    html += '<div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px">
+      <span class="arena-left">Sol: ' + lVal + '</span><span style="color:var(--text2)">' + m.label + '</span><span class="arena-right">Sağ: ' + rVal + '</span>
+    </div>';
+    html += '<div style="position:relative;height:24px;background:var(--bg3);border-radius:12px;overflow:hidden">';
+    html += '<div style="position:absolute;left:0;top:0;height:100%;width:' + lPct + '%;background:linear-gradient(90deg,var(--arena-left,#e0245e),#ff4466);border-radius:12px 0 0 12px"></div>';
+    html += '<div style="position:absolute;right:0;top:0;height:100%;width:' + rPct + '%;background:linear-gradient(90deg,#3399ff,var(--arena-right,#1da1f2));border-radius:0 12px 12px 0"></div>';
+    html += '<div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:10px;font-weight:700;color:#fff;background:var(--bg);padding:2px 8px;border-radius:10px">vs</div>';
+    html += '</div></div>';
+  });
+  html += '</div></div>';
+  document.getElementById('arena-results').innerHTML = html;
+}
+
 // TOOLS
 async function loadTools() {
   try {
     allTools = [
-      { id: 1, name: 'Claude 3.7 Sonnet', category: 'LLM', description: 'Anthropic en güçlü model. Kod yazma ve analiz lideri. SWE-bench: 70.3%', url: 'https://claude.ai', free: true, rating: 4.9, benchmark: { lmsys: 1302, mmlu: '88.7%', swe_bench: '70.3%', aime: '80%' } },
-      { id: 2, name: 'GPT-4o', category: 'LLM', description: 'OpenAI flagship. Multimodal, hızlı. MMLU: 88.2%', url: 'https://chat.openai.com', free: true, rating: 4.9, benchmark: { lmsys: 1290, mmlu: '88.2%', swe_bench: '69.1%', aime: '76%' } },
-      { id: 3, name: 'Gemini 2.0 Flash', category: 'LLM', description: 'Google multimodal. 1M token context window.', url: 'https://gemini.google.com', free: true, rating: 4.8, benchmark: { lmsys: 1280, mmlu: '87.9%', swe_bench: '65.2%', aime: '73%' } },
-      { id: 4, name: 'DeepSeek V3', category: 'LLM', description: 'Açık kaynak devi. GPT-4 seviyesi, tamamen ücretsiz.', url: 'https://chat.deepseek.com', free: true, rating: 4.7, benchmark: { lmsys: 1252, mmlu: '87.1%', swe_bench: '49.2%', aime: '39.2%' } },
-      { id: 5, name: 'Grok 3', category: 'LLM', description: 'xAI modeli. Gerçek zamanlı X/Twitter erişimi.', url: 'https://grok.x.ai', free: true, rating: 4.7 },
-      { id: 6, name: 'Midjourney V6.1', category: 'Görüntü', description: 'Sanatsal görüntü üretiminde altın standart.', url: 'https://midjourney.com', free: false, rating: 4.9 },
+      { id: 1, name: 'Claude Opus 4.7', category: 'LLM', description: 'Anthropic en güçlü model. Kod yazma ve analiz lideri.', url: 'https://claude.ai', free: true, rating: 4.9, benchmark: { lmsys: 1506, mmlu: '88.7%', swe_bench: '74.2%', aime: '85%' } },
+      { id: 2, name: 'GPT-5.5', category: 'LLM', description: 'OpenAI devrim niteliğinde güncelleme. Multimodal.', url: 'https://chat.openai.com', free: false, rating: 4.9, benchmark: { lmsys: 1498, mmlu: '88.2%', swe_bench: '74.9%', aime: '83%' } },
+      { id: 3, name: 'Gemini 3.1 Pro', category: 'LLM', description: 'Google en güçlü modeli. Artık herkes için ücretsiz.', url: 'https://gemini.google.com', free: true, rating: 4.8, benchmark: { lmsys: 1489, mmlu: '87.9%', swe_bench: '80.6%', aime: '79%' } },
+      { id: 4, name: 'DeepSeek V4', category: 'LLM', description: 'Çin den gelen açık kaynak devrimi. GPT-4 seviyesi.', url: 'https://chat.deepseek.com', free: true, rating: 4.7, benchmark: { lmsys: 1452, mmlu: '87.1%', swe_bench: '49.2%', aime: '39.2%' } },
+      { id: 5, name: 'Grok 4', category: 'LLM', description: 'xAI modeli. Gerçek zamanlı X/Twitter erişimi.', url: 'https://grok.x.ai', free: true, rating: 4.7 },
+      { id: 6, name: 'Midjourney V7', category: 'Görüntü', description: 'Sanatsal görüntü üretiminde altın standart.', url: 'https://midjourney.com', free: false, rating: 4.9 },
       { id: 7, name: 'DALL-E 3', category: 'Görüntü', description: 'OpenAI görüntü üretici. ChatGPT ile entegre.', url: 'https://chat.openai.com', free: true, rating: 4.7 },
       { id: 8, name: 'Flux 1.1 Pro', category: 'Görüntü', description: 'Gerçekçi fotoğraf kalitesinde görüntüler.', url: 'https://fal.ai', free: false, rating: 4.8 },
       { id: 9, name: 'Stable Diffusion 3.5', category: 'Görüntü', description: 'Açık kaynak görüntü üretici. Yerel çalıştırılabilir.', url: 'https://stability.ai', free: true, rating: 4.4 },
-      { id: 10, name: 'Ideogram 2.0', category: 'Görüntü', description: 'Metin içeren görsellerde en iyi. Logo ve poster için ideal.', url: 'https://ideogram.ai', free: true, rating: 4.6 },
-      { id: 11, name: 'Sora', category: 'Video', description: 'OpenAI video üretici. Sinematik kalite.', url: 'https://sora.com', free: false, rating: 4.8 },
-      { id: 12, name: 'Runway Gen-3 Alpha', category: 'Video', description: 'Profesyonel video üretici. Karakter tutarlılığı mükemmel.', url: 'https://runwayml.com', free: true, rating: 4.7 },
-      { id: 13, name: 'Kling AI 2.0', category: 'Video', description: 'Sinematik gerçekçilik. 2 dakikaya kadar video.', url: 'https://klingai.com', free: true, rating: 4.7 },
-      { id: 14, name: 'Google Veo 2', category: 'Video', description: 'Google video AI. 4K çıktı, sinematik kalite.', url: 'https://deepmind.google', free: false, rating: 4.8 },
+      { id: 10, name: 'Ideogram 3.0', category: 'Görüntü', description: 'Metin içeren görsellerde en iyi. Logo ve poster için ideal.', url: 'https://ideogram.ai', free: true, rating: 4.6 },
+      { id: 11, name: 'Sora 1.5', category: 'Video', description: 'OpenAI video üretici. Sinematik kalite.', url: 'https://sora.com', free: false, rating: 4.8 },
+      { id: 12, name: 'Runway Gen-4.5', category: 'Video', description: 'Profesyonel video üretici. Karakter tutarlılığı mükemmel.', url: 'https://runwayml.com', free: true, rating: 4.7 },
+      { id: 13, name: 'Kling AI 3.0', category: 'Video', description: 'Sinematik gerçekçilik. 2 dakikaya kadar video.', url: 'https://klingai.com', free: true, rating: 4.7 },
+      { id: 14, name: 'Google Veo 3.1', category: 'Video', description: 'Google video AI. 4K çıktı, sinematik kalite.', url: 'https://deepmind.google', free: false, rating: 4.8 },
       { id: 15, name: 'ElevenLabs', category: 'Ses', description: 'Ses klonlama ve TTS lideri. 30 saniye sesle mükemmel klonlama.', url: 'https://elevenlabs.io', free: true, rating: 4.9 },
       { id: 16, name: 'Suno v4', category: 'Müzik', description: 'Sözlü müzik üretiminde lider. Profesyonel kalite.', url: 'https://suno.ai', free: true, rating: 4.8 },
       { id: 17, name: 'Udio', category: 'Müzik', description: 'Farklı müzik stillerinde yüksek kalite.', url: 'https://udio.com', free: true, rating: 4.6 },
@@ -1111,6 +1279,7 @@ async function loadTools() {
       { id: 23, name: 'Windsurf', category: 'Geliştirici', description: 'Codeium AI editörü. Cursor rakibi, geniş ücretsiz tier.', url: 'https://codeium.com/windsurf', free: true, rating: 4.6 },
       { id: 24, name: 'Cartesia', category: 'Ses', description: '90ms gecikme ile en hızlı TTS. Voice agent için ideal.', url: 'https://cartesia.ai', free: true, rating: 4.7 },
       { id: 25, name: 'Nano Banana', category: 'Görüntü', description: 'Hızlı AI görüntü üretici. Referans görüntü desteği.', url: 'https://nanobanana.ai', free: true, rating: 4.5 },
+      { id: 26, name: 'GPT Image 1.5', category: 'Görüntü', description: 'OpenAI görüntü üretim modeli. Foto-gerçekçi görseller.', url: 'https://chat.openai.com', free: true, rating: 4.8 },
     ];
     document.getElementById('tools-count').textContent = allTools.length + ' araç';
     renderTools(allTools);
@@ -1161,14 +1330,12 @@ function renderTools(tools) {
 // LEARN
 function loadLearnContent() {
   allLearn = [
-    { category: 'Başlangıç', emoji: '🌱', title: 'Prompt Engineering: AI dan En İyi Sonuçları Nasıl Alırsınız?', summary: 'Doğru prompt yazmak bir sanattır. GPT-5.4, Claude Opus 4.6 ve Gemini 3.1 için en etkili prompt tekniklerini öğrenin.', readTime: '10 dk', content: 'Prompt engineering, AI modellerinden istediğiniz sonuçları almanın en kritik becerisidir...' },
-    { category: 'İleri Seviye', emoji: '🚀', title: 'AI Agents Nedir? n8n ve LangChain ile Otomasyon', summary: 'AI agent lar kendi başlarına görev yapabilen sistemlerdir. Bu yazıda sıfırdan bir AI agent nasıl kurulur öğrenin.', readTime: '15 dk', content: 'AI agent lar, belirli bir hedefi gerçekleştirmek için otonom kararlar alabilen sistemlerdir...' },
-    { category: 'Para Kazanma', emoji: '💰', title: 'AI ile Para Kazanmanın 10 Yolu (2026)', summary: 'Freelance AI danışmanlık, otomasyon ajansı, AI araç geliştirme. Gerçek örnekler ve gelir rakamlarıyla.', readTime: '12 dk', content: '2026 yılında AI ile para kazanmanın en etkili yolları şunlardır...' },
-    { category: 'Kıyaslama', emoji: '📊', title: 'Claude Opus 4.6 vs GPT-5.4 vs Gemini 3.1: Hangisi Daha İyi?', summary: '2026 nın en güçlü AI modellerini 10 farklı kategoride test ettik. Benchmark sonuçları ve gerçek kullanım örnekleri.', readTime: '8 dk', content: 'Bu karşılaştırmada LMSYS Chatbot Arena, SWE-bench ve AIME 2026 verilerini kullandık...' },
-    { category: 'Otomasyon', emoji: '⚡', title: 'n8n ile Sıfırdan AI Otomasyon Sistemi Kur', summary: 'n8n in 400+ entegrasyonunu kullanarak tamamen otomatik bir iş akışı nasıl kurulur? Adım adım rehber.', readTime: '20 dk', content: 'n8n, açık kaynaklı bir otomasyon platformudur ve AI entegrasyonları için mükemmeldir...' },
-    { category: 'Başlangıç', emoji: '🌱', title: 'ChatGPT den Claude a Geçiş Rehberi', summary: 'Claude Opus 4.6 nın güçlü olduğu alanlar ve ChatGPT den farklı kullanım ipuçları.', readTime: '7 dk', content: 'Claude, özellikle uzun metin analizi ve kod yazımında ChatGPT den öne çıkıyor...' },
-    { category: 'İleri Seviye', emoji: '🚀', title: 'RAG Sistemi Kurma: Vector Database ve Embedding Rehberi', summary: 'Kendi verilerinizle konuşan bir AI sistemi nasıl kurulur? Supabase, Pinecone ve Chroma karşılaştırması.', readTime: '18 dk', content: 'RAG (Retrieval Augmented Generation), AI modellerine kendi verilerinizi entegre etmenin en etkili yoludur...' },
-    { category: 'Para Kazanma', emoji: '💰', title: 'AI Ajans Kurma Rehberi: İlk 3 Ayda 10K$ Nasıl Kazanılır?', summary: 'KOBİ lere AI otomasyon servisleri satmak için eksiksiz rehber. Fiyatlandırma, satış ve teslimat.', readTime: '14 dk', content: 'AI ajans modeli, 2026 da en hızlı büyüyen freelance kategorilerinden biridir...' },
+    { category: 'Haberler', emoji: '📰', title: 'Claude Opus 4.7 Çıktı: İnsanlığı Geride Bırakan Yapay Zeka', summary: 'Anthropic in yeni amiral gemisi modeli tüm benchmarklarda zirveyi aldı. Kod yazma, matematik ve multimodal yeteneklerde devrim.', readTime: '5 dk', content: 'Claude Opus 4.7, Anthropic in en güçlü yapay zeka modeli olarak piyasaya çıktı...' },
+    { category: 'Haberler', emoji: '📰', title: 'Gemini 3.1 Pro: Google ın En Güçlü Modeli Artık Herkes İçin Ücretsiz', summary: 'Google, Gemini 3.1 Pro yu tamamen ücretsiz hale getirdi. 1M token context ve gelişmiş multimodal yetenekler.', readTime: '4 dk', content: 'Google, Gemini 3.1 Pro yu tüm kullanıcılar için ücretsiz olarak sunmaya başladı...' },
+    { category: 'Haberler', emoji: '📰', title: 'GPT-5.5 Tanıtıldı: OpenAI den Devrim Niteliğinde Güncelleme', summary: 'OpenAI, GPT-5.5 ile yapay zeka dünyasında çıtayı yükseltiyor. 1M token context ve agent yetenekleri.', readTime: '6 dk', content: 'OpenAI, GPT-5.5 i duyurdu. Yeni model, 1 milyon token context window ile geliyor...' },
+    { category: 'Haberler', emoji: '📰', title: 'DeepSeek V4: Çin den Gelen Açık Kaynak Devrimi', summary: 'DeepSeek V4, açık kaynak dünyasında devrim yarattı. GPT-4.5 seviyesinde performans, tamamen ücretsiz.', readTime: '5 dk', content: 'DeepSeek, V4 modeliyle yapay zeka arena sında büyük bir sürpriz yaptı...' },
+    { category: 'Araştırma', emoji: '🔬', title: 'AI Agent lar 2026 da İş Gücünü Nasıl Değiştirecek?', summary: 'Otonom AI agentların iş dünyasına etkileri, hangi mesleklerin dönüşeceği ve yeni fırsatlar.', readTime: '12 dk', content: 'AI agentlar, 2026 da iş gücünü temelden dönüştürmeye başlıyor...' },
+    { category: 'Haberler', emoji: '📰', title: 'Mistral Large 3: Avrupa nın İlk Trilyon Parametreli Modeli', summary: 'Fransız AI şirketi Mistral, trilyon parametreli yeni modeli Large 3 ü duyurdu.', readTime: '4 dk', content: 'Mistral, Avrupa nın en güçlü yapay zeka modeli olarak Mistral Large 3 ü tanıttı...' },
   ];
   renderLearn(allLearn);
 }
@@ -1182,17 +1349,17 @@ function filterLearn(cat, el) {
 function renderLearn(items) {
   const container = document.getElementById('learn-list');
   if (!items.length) { container.innerHTML = '<div class="empty-state"><div class="icon">📚</div><p>Bu kategoride içerik yok</p></div>'; return; }
-  container.innerHTML = items.map(a => `
+  container.innerHTML = '<div class="articles-grid">' + items.map(a => `
     <div class="article-card">
       <div class="article-img-placeholder">${a.emoji}</div>
       <div class="article-body">
         <span class="article-category">${a.category}</span>
         <div class="article-title">${a.title}</div>
         <div class="article-summary">${a.summary}</div>
-        <div class="article-meta"><span>✍️ AI Legion Ekibi</span><span>📖 ${a.readTime} okuma</span></div>
+        <div class="article-meta"><span>✍️ ${a.author || 'AI Legion Ekibi'}</span><span>📖 ${a.readTime} okuma</span></div>
       </div>
     </div>
-  `).join('');
+  `).join('') + '</div>';
 }
 
 // PROMPTS
@@ -1491,7 +1658,7 @@ async function adminDeleteArticle(id) {
 </script>
 <footer>
     <div class="container" style="text-align:center; padding:20px; color:var(--text2); font-size:13px;">
-      © 2026 AI Legion Pro. Tüm hakları saklıdır. | <a href="https://chat.whatsapp.com/LAu2OosQEmd73CBl56sIRi?mode=gi_t" target="_blank" style="color:var(--gold); text-decoration:none;">WhatsApp Grubumuza Katılın! 💬</a>
+      © 2026 AI Legion. Tüm hakları saklıdır. <a href="https://chat.whatsapp.com/LAu2OosQEmd73CBl56sIRi?mode=gi_t" target="_blank" style="color:var(--gold); text-decoration:none;">WhatsApp Grubumuza Katılın! 💬</a>
     </div>
   </footer>
 </body>
