@@ -724,7 +724,7 @@
 
 
 const SUPABASE_URL = 'https://cnxeckhygerxdhlahimp.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNueGVja2h5Z2VyeGRobGFoaW1wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ1OTQ1MTYsImV4cCI6MjA5MDE3MDUxNn0.fQsNzmKcqNJAdCS9ts226xzWOllK8lnt3tTUyCEAD5Q';
+const SUPABASE_KEY = 'sb_publishable_-Q9jXB9o2XHE39H4GL9lqw_eulC8lK5';
 const SB_HEADERS = { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' };
 async function sb(path, opts = {}) {
   const res = await fetch(SUPABASE_URL + '/rest/v1' + path, { ...opts, headers: { ...SB_HEADERS, ...(opts.headers||{}) } });

@@ -4,7 +4,8 @@ import { cors } from 'hono/cors';
 const app = new Hono();
 
 const SUPABASE_URL = 'https://cnxeckhygerxdhlahimp.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNueGVja2h5Z2VyeGRobGFoaW1wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ1OTQ1MTYsImV4cCI6MjA5MDE3MDUxNn0.fQsNzmKcqNJAdCS9ts226xzWOllK8lnt3tTUyCEAD5Q';
+const SUPABASE_KEY = 'sb_publishable_-Q9jXB9o2XHE39H4GL9lqw_eulC8lK5';
+
 
 const supabaseHeaders = {
   'apikey': SUPABASE_KEY,
