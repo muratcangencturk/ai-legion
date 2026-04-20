@@ -962,7 +962,7 @@ function hideArticle() {
   document.getElementById('articles-list-view').style.display = 'block';
 }
 
-function addArticle() {
+async function addArticle() {
   const title = document.getElementById('art-title').value.trim();
   const category = document.getElementById('art-category').value;
   const summary = document.getElementById('art-summary').value.trim();
