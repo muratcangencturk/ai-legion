@@ -69,10 +69,10 @@
     @media(max-width:1024px){.container{grid-template-columns:1fr}.sidebar-left,.sidebar-right{display:none}}
     @media(max-width:768px){
       nav{padding:0 15px}
-      .nav-links{display:none;flex-direction:column;position:absolute;top:58px;left:0;width:100%;background:var(--bg);border-top:1px solid var(--border);padding:10px 0;box-shadow:0 2px 5px rgba(0,0,0,0.2);}
-      .nav-links.open{display:flex}
-      .nav-btn{width:100%;text-align:left;padding:12px 20px;border-radius:0}
-      .hamburger-menu{display:block}
+      .nav-links{display:flex;overflow-x:auto;gap:2px;padding:0;flex-wrap:nowrap;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+      .nav-links::-webkit-scrollbar{display:none}
+      .hamburger-menu{display:none!important}
+      .nav-btn{min-width:max-content;white-space:nowrap}
       .container{padding:10px 15px}
       .models-table-wrapper{overflow-x:auto;}
       .data-table-wrapper{overflow-x:auto;}
@@ -288,13 +288,13 @@
     <button class="nav-btn" onclick="showPage('prompts')">✨ Promptlar</button>
     <button class="nav-btn" onclick="showPage('arena')">⚔️ Arena</button>
   </div>
+  <button class="hamburger-menu" id="hamburger-btn" onclick="toggleNav()">☰</button>
   <div class="nav-right" id="nav-right">
     <button class="btn btn-outline btn-sm" onclick="openModal('login-modal')">Giriş</button>
     <button class="btn btn-gold btn-sm" onclick="openModal('register-modal')">Kayıt Ol</button>
     <button class="btn btn-outline btn-sm" id="nav-profile-btn" style="display:none" onclick="showPage('profile')">👤 Profilim</button>
     <button class="btn btn-outline btn-sm" id="nav-admin-btn" style="display:none" onclick="showPage('admin')">⚙️ Admin Panel</button>
   </div>
-</nav>
 </nav>
 
 <!-- MAIN CONTAINER -->
@@ -369,6 +369,45 @@
         </p>
       </div>
       <div style="overflow-x:auto;background:var(--bg2);border:1px solid var(--border);border-radius:12px">
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-bottom:16px">
+        <div class="card" style="border:1px solid #f59e0b30;background:linear-gradient(135deg,#1a1400,#0d0d00)">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+            <div style="width:48px;height:48px;border-radius:12px;background:#f59e0b;display:flex;align-items:center;justify-content:center;font-size:24px">🦷</div>
+            <div>
+              <div style="font-weight:700;color:#f59e0b;font-size:16px">OpenClaw</div>
+              <div style="font-size:11px;color:#a0850055">Açık kaynak AI Agent Framework</div>
+            </div>
+          </div>
+          <div style="font-size:12px;color:#d4c5a0;line-height:1.6;margin-bottom:12px">
+            <strong style="color:#f59e0b">⭢ Context:</strong> 196k token<br>
+            <strong style="color:#f59e0b">⭢ Modeller:</strong> Claude, GPT, Gemini, Llama, DeepSeek<br>
+            <strong style="color:#f59e0b">⭢ Özellikler:</strong> Token optimizasyonu (-65%), caveman mode, multi-agent, cron job, session yönetimi<br>
+            <strong style="color:#f59e0b">⭢ Platform:</strong> CLI, Telegram, Discord, Web<br>
+            <strong style="color:#f59e0b">⭢ GitHub:</strong> 2.3k ⭐ | MIT License<br>
+            <strong style="color:#f59e0b">⭢ Eksiler:</strong> Kurulum teknik bilgi gerektirir, GUI yok
+          </div>
+          <a href="https://openclaw.ai" target="_blank" class="btn btn-sm" style="background:#f59e0b;color:#000;display:inline-block;text-align:center">🌐 openclaw.ai</a>
+        </div>
+        <div class="card" style="border:1px solid #10b98130;background:linear-gradient(135deg,#001a10,#000d0a)">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+            <div style="width:48px;height:48px;border-radius:12px;background:#10b981;display:flex;align-items:center;justify-content:center;font-size:24px">⚡</div>
+            <div>
+              <div style="font-weight:700;color:#10b981;font-size:16px">Hermes</div>
+              <div style="font-size:11px;color:#10b98155">Çoklu Model AI Asistan</div>
+            </div>
+          </div>
+          <div style="font-size:12px;color:#d4c5a0;line-height:1.6;margin-bottom:12px">
+            <strong style="color:#10b981">⭢ Context:</strong> Değişken (modele bağlı)<br>
+            <strong style="color:#10b981">⭢ Modeller:</strong> Claude, GPT, MiniMax, Gemini, Llama<br>
+            <strong style="color:#10b981">⭢ Özellikler:</strong> Memory, cron job, browser araçları, dosya yönetimi, voice<br>
+            <strong style="color:#10b981">⭢ Platform:</strong> CLI, Telegram, Discord, macOS<br>
+            <strong style="color:#10b981">⭢ GitHub:</strong> Aktif geliştirme | Apache 2.0<br>
+            <strong style="color:#10b981">⭢ Eksiler:</strong> Yeni proje, henüz olgunlaşmamış
+          </div>
+          <a href="https://github.com/imacverse/hermes" target="_blank" class="btn btn-sm" style="background:#10b981;color:#000;display:inline-block;text-align:center">⚡ hermmes.ai</a>
+        </div>
+      </div>
         <div id="models-table"><div class="loading"><div class="spinner"></div></div></div>
       </div>
     </div>
@@ -527,29 +566,6 @@
 
   </div>
 
-  <!-- RIGHT SIDEBAR -->
-  <div class="sidebar sidebar-right">
-    <div class="card">
-      <div style="font-weight:700;color:var(--gold);margin-bottom:12px;font-size:14px">🔥 Trending</div>
-      <div class="trending-item"><div class="trending-tag">#YapayZeka</div><div class="trending-count">4.2K post</div></div>
-      <div class="trending-item"><div class="trending-tag">#ChatGPT</div><div class="trending-count">3.8K post</div></div>
-      <div class="trending-item"><div class="trending-tag">#ClaudeAI</div><div class="trending-count">2.5K post</div></div>
-      <div class="trending-item"><div class="trending-tag">#Gemini</div><div class="trending-count">2.1K post</div></div>
-      <div class="trending-item"><div class="trending-tag">#AIAgents</div><div class="trending-count">1.7K post</div></div>
-      <div class="trending-item"><div class="trending-tag">#OpenAI</div><div class="trending-count">1.3K post</div></div>
-    </div>
-    <div class="card" style="margin-top:12px">
-      <div style="font-weight:700;color:var(--gold);margin-bottom:10px;font-size:14px">📊 Bu Haftanın Lideri</div>
-      <div style="display:flex;align-items:center;gap:10px;padding:8px;background:var(--bg3);border-radius:8px">
-        <div style="font-size:24px">🥇</div>
-        <div>
-          <div style="font-weight:700;color:var(--text);font-size:13px">Claude Opus 4.7</div>
-          <div style="color:var(--text3);font-size:11px">LMSYS Elo: 1506</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 
 <!-- LOGIN MODAL -->
 <div class="modal-overlay" id="login-modal">
@@ -1208,6 +1224,8 @@ const arenaModels = {
   'mistral-large-3': { name: 'Mistral Large 3', lmsys: 1398, mmlu: 81.2, swe_bench: 45.1, aime: 42.0, humaneval: 78.9, color: '#1da1f2' },
   'qwen-35-max': { name: 'Qwen 3.5 Max', lmsys: 1387, mmlu: 85.3, swe_bench: 61.2, aime: 65.0, humaneval: 84.1, color: '#1da1f2' },
   'command-rplus': { name: 'Command R+', lmsys: 1352, mmlu: 75.7, swe_bench: 28.4, aime: 31.0, humaneval: 71.3, color: '#1da1f2' },
+  'openclaw': { name: 'OpenClaw', lmsys: 1320, mmlu: 82.1, swe_bench: 45.0, aime: 38.0, humaneval: 78.9, color: '#f59e0b' },
+  'hermes': { name: 'Hermes', lmsys: 1340, mmlu: 85.0, swe_bench: 52.0, aime: 48.0, humaneval: 80.0, color: '#10b981' },
 };
 
 
@@ -1280,6 +1298,8 @@ async function loadTools() {
       { id: 25, name: 'Nano Banana', category: 'Görüntü', description: 'Hızlı AI görüntü üretici. Referans görüntü desteği.', url: 'https://nanobanana.ai', free: true, rating: 4.5 },
       { id: 26, name: 'GPT Image 1.5', category: 'Görüntü', description: 'OpenAI görüntü üretim modeli. Foto-gerçekçi görseller.', url: 'https://chat.openai.com', free: true, rating: 4.8 },
     ];
+      { id: 27, name: "OpenClaw", category: "Agent", description: "Açık kaynak AI agent framework. Claude, GPT, Gemini entegrasyonu. Token optimizasyonu, caveman mode, multi-agent.", url: "https://openclaw.ai", free: true, rating: 4.8 },
+      { id: 28, name: "Hermes", category: "Agent", description: "Çoklu model destekli AI asistan. Telegram, Discord, browser araçları. Cron job, hafıza, session yönetimi.", url: "https://hermes.ai", free: true, rating: 4.7 },
     document.getElementById('tools-count').textContent = allTools.length + ' araç';
     renderTools(allTools);
   } catch(e) { document.getElementById('tools-list').innerHTML = '<div class="loading">Araçlar yüklenemedi</div>'; }
