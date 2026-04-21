@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI Legion - Yapay Zeka Topluluğu</title>
+  <link rel="icon" href="logo.jpg" type="image/jpeg">
   <meta name="description" content="Türkiye nin ilk AI topluluğu. Güncel haberler, model karşılaştırmaları, araçlar ve profesyonel promptlar.">
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
@@ -1165,12 +1166,12 @@ function switchFeedTab(el, type) {
 async function loadModels() {
   try {
     const models = [
-      { rank: 1, name: 'Claude Opus 4.7', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Claude_AI_logo.svg/64px-Claude_AI_logo.svg.png', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Claude_AI_logo.svg/64px-Claude_AI_logo.svg.png', company: 'Anthropic', lmsys_elo: 1506, mmlu: 88.7, swe_bench: 74.2, aime: 85.0, humaneval: 92.1, free: true, url: 'https://claude.ai', description: 'Anthropic en güçlü model. İnsanlığı geride bırakan yapay zeka.' },
-      { rank: 2, name: 'GPT-5.5', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/ChatGPT_logo.svg/64px-ChatGPT_logo.svg.png', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/ChatGPT_logo.svg/64px-ChatGPT_logo.svg.png', company: 'OpenAI', lmsys_elo: 1498, mmlu: 88.2, swe_bench: 74.9, aime: 83.0, humaneval: 91.8, free: false, url: 'https://chat.openai.com', description: 'OpenAI devrim niteliğinde güncelleme. 1M token context.' },
-      { rank: 3, name: 'Gemini 3.1 Pro', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Google_Gemini_logo.svg/64px-Google_Gemini_logo.svg.png', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Google_Gemini_logo.svg/64px-Google_Gemini_logo.svg.png', company: 'Google', lmsys_elo: 1489, mmlu: 87.9, swe_bench: 80.6, aime: 79.0, humaneval: 90.2, free: true, url: 'https://gemini.google.com', description: 'Google en güçlü modeli. Artık herkes için ücretsiz.' },
-      { rank: 4, name: 'Grok 4', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Grok_logo.svg/64px-Grok_logo.svg.png', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Grok_logo.svg/64px-Grok_logo.svg.png', company: 'xAI', lmsys_elo: 1471, mmlu: 87.1, swe_bench: 75.0, aime: 78.0, humaneval: 89.4, free: true, url: 'https://grok.x.ai', description: 'xAI modeli. Gerçek zamanlı X erişimi.' },
+      { rank: 1, name: 'Claude Opus 4.7', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Claude_AI_logo.svg/64px-Claude_AI_logo.svg.png', company: 'Anthropic', lmsys_elo: 1506, mmlu: 88.7, swe_bench: 74.2, aime: 85.0, humaneval: 92.1, free: true, url: 'https://claude.ai', description: 'Anthropic en güçlü model. İnsanlığı geride bırakan yapay zeka.' },
+      { rank: 2, name: 'GPT-5.5', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/ChatGPT_logo.svg/64px-ChatGPT_logo.svg.png', company: 'OpenAI', lmsys_elo: 1498, mmlu: 88.2, swe_bench: 74.9, aime: 83.0, humaneval: 91.8, free: false, url: 'https://chat.openai.com', description: 'OpenAI devrim niteliğinde güncelleme. 1M token context.' },
+      { rank: 3, name: 'Gemini 3.1 Pro', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Google_Gemini_logo.svg/64px-Google_Gemini_logo.svg.png', company: 'Google', lmsys_elo: 1489, mmlu: 87.9, swe_bench: 80.6, aime: 79.0, humaneval: 90.2, free: true, url: 'https://gemini.google.com', description: 'Google en güçlü modeli. Artık herkes için ücretsiz.' },
+      { rank: 4, name: 'Grok 4', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Grok_logo.svg/64px-Grok_logo.svg.png', company: 'xAI', lmsys_elo: 1471, mmlu: 87.1, swe_bench: 75.0, aime: 78.0, humaneval: 89.4, free: true, url: 'https://grok.x.ai', description: 'xAI modeli. Gerçek zamanlı X erişimi.' },
       { rank: 5, name: 'Claude Sonnet 4.7', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Claude_AI_logo.svg/64px-Claude_AI_logo.svg.png', company: 'Anthropic', lmsys_elo: 1463, mmlu: 87.5, swe_bench: 82.1, aime: 80.0, humaneval: 91.2, free: true, url: 'https://claude.ai', description: 'Anthropic flagship. Kod yazma ve analiz lideri.' },
-      { rank: 6, name: 'DeepSeek V4', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/DeepSeek_logo.svg/64px-DeepSeek_logo.svg.png', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/DeepSeek_logo.svg/64px-DeepSeek_logo.svg.png', company: 'DeepSeek', lmsys_elo: 1452, mmlu: 87.1, swe_bench: 49.2, aime: 39.2, humaneval: 82.6, free: true, url: 'https://chat.deepseek.com', description: 'Çin den gelen açık kaynak devrimi.' },
+      { rank: 6, name: 'DeepSeek V4', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/DeepSeek_logo.svg/64px-DeepSeek_logo.svg.png', company: 'DeepSeek', lmsys_elo: 1452, mmlu: 87.1, swe_bench: 49.2, aime: 39.2, humaneval: 82.6, free: true, url: 'https://chat.deepseek.com', description: 'Çin den gelen açık kaynak devrimi.' },
       { rank: 7, name: 'Llama 4 Scout', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Meta-Logo.png/64px-Meta-Logo.png', company: 'Meta', lmsys_elo: 1421, mmlu: 79.6, swe_bench: 32.0, aime: 50.0, humaneval: 75.2, free: true, url: 'https://llama.meta.com', description: 'Meta açık kaynak MoE model. 128 uzman.' },
       { rank: 8, name: 'Mistral Large 3', image: 'https://mistral.ai/images/logo.png', company: 'Mistral', lmsys_elo: 1398, mmlu: 81.2, swe_bench: 45.1, aime: 42.0, humaneval: 78.9, free: true, url: 'https://mistral.ai', description: 'Avrupa nın ilk trilyon parametreli modeli.' },
       { rank: 9, name: 'Qwen 3.5 Max', image: 'https://qwen-static.baidu.com/qwen-img/logo.png', company: 'Alibaba', lmsys_elo: 1387, mmlu: 85.3, swe_bench: 61.2, aime: 65.0, humaneval: 84.1, free: true, url: 'https://qwen.aliyun.com', description: 'Alibaba güçlü model. Matematik ve kodlamada başarılı.' },
@@ -1241,8 +1242,8 @@ const arenaModels = {
   'mistral-large-3': { name: 'Mistral Large 3', lmsys: 1398, mmlu: 81.2, swe_bench: 45.1, aime: 42.0, humaneval: 78.9, color: '#1da1f2' },
   'qwen-35-max': { name: 'Qwen 3.5 Max', lmsys: 1387, mmlu: 85.3, swe_bench: 61.2, aime: 65.0, humaneval: 84.1, color: '#1da1f2' },
   'command-rplus': { name: 'Command R+', lmsys: 1352, mmlu: 75.7, swe_bench: 28.4, aime: 31.0, humaneval: 71.3, color: '#1da1f2' },
-  'openclaw': { name: 'OpenClaw', image: 'https://openclaw.ai/favicon.ico', image: 'https://openclaw.ai/favicon.ico', lmsys: 1320, mmlu: 82.1, swe_bench: 45.0, aime: 38.0, humaneval: 78.9, color: '#f59e0b' },
-  'hermes': { name: 'Hermes', image: 'https://github.com/imacverse/hermes/raw/main/public/icon.png', image: 'https://github.com/imacverse/hermes/raw/main/public/icon.png', lmsys: 1340, mmlu: 85.0, swe_bench: 52.0, aime: 48.0, humaneval: 80.0, color: '#10b981' },
+  'openclaw': { name: 'OpenClaw', image: 'https://openclaw.ai/favicon.ico', lmsys: 1320, mmlu: 82.1, swe_bench: 45.0, aime: 38.0, humaneval: 78.9, color: '#f59e0b' },
+  'hermes': { name: 'Hermes', image: 'https://github.com/imacverse/hermes/raw/main/public/icon.png', lmsys: 1340, mmlu: 85.0, swe_bench: 52.0, aime: 48.0, humaneval: 80.0, color: '#10b981' },
 };
 
 
