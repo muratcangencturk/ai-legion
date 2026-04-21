@@ -1272,9 +1272,7 @@ function runArenaComparison() {
     const lWin = m.high ? lVal > rVal : lVal < rVal;
     const rWin = m.high ? rVal > lVal : rVal < lVal;
     html += '<div>';
-    html += '<div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px">
-      <span class="arena-left">Sol: ' + lVal + '</span><span style="color:var(--text2)">' + m.label + '</span><span class="arena-right">Sağ: ' + rVal + '</span>
-    </div>';
+    html += '<div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><span class="arena-left">Sol: ' + lVal + '</span><span style="color:var(--text2)">' + m.label + '</span><span class="arena-right">Sağ: ' + rVal + '</span></div>';
     html += '<div style="position:relative;height:24px;background:var(--bg3);border-radius:12px;overflow:hidden">';
     html += '<div style="position:absolute;left:0;top:0;height:100%;width:' + lPct + '%;background:linear-gradient(90deg,var(--arena-left,#e0245e),#ff4466);border-radius:12px 0 0 12px"></div>';
     html += '<div style="position:absolute;right:0;top:0;height:100%;width:' + rPct + '%;background:linear-gradient(90deg,#3399ff,var(--arena-right,#1da1f2));border-radius:0 12px 12px 0"></div>';
