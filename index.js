@@ -37,7 +37,7 @@ app.get('/api/posts', async (c) => {
     const postsWithUsers = await Promise.all(posts.map(async (post) => {
       try {
         const users = await supabase(`/users?id=eq.${post.user_id}&limit=1`);
-        const user = users[0] || { username: 'unknown', avatar_url: '' };
+        const user = users[0] ? { id: users[0].id, username: users[0].username, avatar_url: users[0].avatar_url, bio: users[0].bio, is_admin: users[0].is_admin } : { username: 'unknown', avatar_url: '' };
         const likes = await supabase(`/likes?post_id=eq.${post.id}`);
         const comments = await supabase(`/comments?post_id=eq.${post.id}`);
         const reposts = await supabase(`/reposts?post_id=eq.${post.id}`);
