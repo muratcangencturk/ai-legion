@@ -862,10 +862,13 @@ function updateNavForUser() {
     ${currentUser.is_admin ? '<button class="btn btn-outline btn-sm" onclick="showPage(\''+'admin'+'\')">⚙️ Admin Panel</button>' : ''}
     <button class="btn btn-outline btn-sm" onclick="logout()">Çıkış</button>
   `;
-  document.getElementById('nav-profile-btn').style.display = 'inline-flex';
+  const profileBtn = document.getElementById('nav-profile-btn');
+  if (profileBtn) profileBtn.style.display = 'inline-flex';
   if (currentUser.is_admin) {
-    document.getElementById('nav-admin-btn').style.display = 'inline-flex';
-    document.getElementById('add-article-btn').style.display = 'inline-flex';
+    const adminBtn = document.getElementById('nav-admin-btn');
+    if (adminBtn) adminBtn.style.display = 'inline-flex';
+    const addArticleBtn = document.getElementById('add-article-btn');
+    if (addArticleBtn) addArticleBtn.style.display = 'inline-flex';
   }
   const compAvatar = document.getElementById('composer-avatar');
   if (compAvatar) compAvatar.textContent = initial;
