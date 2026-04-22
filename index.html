@@ -19,6 +19,10 @@
   <meta property="twitter:title" content="AI Legion - Yapay Zeka Topluluğu">
   <meta property="twitter:description" content="Türkiye nin ilk AI topluluğu. Güncel haberler, model karşılaştırmaları, araçlar ve profesyonel promptlar.">
   <meta property="twitter:image" content="https://ai-legion.netlify.app/logo.jpg">
+  <meta name="keywords" content="yapay zeka, AI, AI Legion, yapay zeka haberleri, GPT, Claude, Gemini, AI araçları, AI modelleri, AI agentları, prompt mühendisliği, makine öğrenmesi, derin öğrenme, LLM, büyük dil modelleri">
+  <meta name="author" content="AI Legion">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://ai-legion.netlify.app/">
 
   <!-- Structured Data (Schema.org) -->
   <script type="application/ld+json">
@@ -32,6 +36,8 @@
   </script>
   <style>
     *{margin:0;padding:0;box-sizing:border-box}
+    img{max-width:100%;height:auto}
+    img,video,iframe,svg{max-width:100%}
     :root{
       --bg:#0a0a0a;--bg2:#111111;--bg3:#1a1a1a;--bg4:#222222;
       --gold:#c9a84c;--gold2:#e8c56a;--gold3:#f5d98a;
@@ -41,7 +47,7 @@
       --green:#2d6a2d;--green2:#3d8a3d;
       --blue:#1a3a6a;--blue2:#2a5a9a;
     }
-    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
     
     /* SCROLLBAR */
     ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg2)}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
@@ -53,7 +59,8 @@
     .logo-icon img{width:100%;height:100%;object-fit:cover}
     .nav-links{display:flex;gap:2px;flex-wrap:wrap}
     .hamburger-menu{display:none;background:none;border:none;color:var(--text);font-size:24px;cursor:pointer}
-    .mobile-nav{display:none;position:fixed;top:58px;left:0;right:0;bottom:0;background:rgba(10,10,10,0.98);backdrop-filter:blur(20px);z-index:99;padding:16px;overflow-y:auto}
+    .mobile-nav{display:none;position:fixed;top:58px;left:0;right:0;bottom:0;background:rgba(10,10,10,0.98);backdrop-filter:blur(20px);z-index:99;padding:16px;overflow-y:auto;animation:slideDown 0.2s ease}
+    @keyframes slideDown{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
     .mobile-nav.open{display:block}
     .mobile-nav .nav-btn{display:block;width:100%;text-align:left;padding:14px 16px;font-size:15px;border-radius:10px;margin-bottom:4px}
     .nav-btn{background:none;border:none;color:var(--text2);padding:8px 12px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;transition:all 0.2s;white-space:nowrap}
@@ -81,17 +88,57 @@
       nav{padding:0 15px;flex-wrap:nowrap}
       .nav-links{display:none!important}
       .hamburger-menu{display:block!important}
+      .nav-right .btn{padding:4px 8px;font-size:11px}
       .container{padding:10px 15px}
       .models-table-wrapper{overflow-x:auto;}
       .data-table-wrapper{overflow-x:auto;}
       .footer-content{padding:20px 15px}
       .news-grid{grid-template-columns:1fr!important}
       .tools-grid{grid-template-columns:1fr!important}
+      .articles-grid{grid-template-columns:1fr!important}
       .prompts-grid{grid-template-columns:1fr!important}
       .admin-stats-grid{grid-template-columns:repeat(2,1fr)!important}
       .modal{margin:10px;padding:16px}
       .tabs{gap:0}
       .tab{padding:8px 12px;font-size:12px}
+      .section-header{flex-direction:column;align-items:flex-start;gap:8px}
+      .section-title{font-size:15px}
+      .card{padding:14px;margin-bottom:10px}
+      .article-card{margin-bottom:10px}
+      .article-body{padding:10px}
+      .article-title{font-size:14px}
+      .article-summary{font-size:12px}
+      .post{padding:10px 12px}
+      .profile-stats{gap:12px;flex-wrap:wrap}
+      .form-group input,.form-group select,.form-group textarea{font-size:16px}
+      .featured-main .featured-overlay .article-title{font-size:16px}
+      .featured-side .featured-overlay .article-title{font-size:13px}
+      /* Arena comparison grid: stack on mobile */
+      [style*="grid-template-columns:1fr auto 1fr"]{grid-template-columns:1fr!important}
+      /* Prevent text overflow */
+      .tool-card,.prompt-card{word-break:break-word;overflow-wrap:break-word}
+      .tool-desc,.prompt-desc{font-size:11px}
+      .tool-name{font-size:14px}
+      .modal-wide{max-width:100%;margin:8px}
+      .data-table{font-size:11px}
+      .data-table th,.data-table td{padding:6px 8px}
+      .arena-select-grid,.arena-header-grid{grid-template-columns:1fr!important;gap:10px!important}
+      .arena-select-grid>div:nth-child(2){display:none}
+      .arena-select-grid>div:first-child label{text-align:center}
+      .arena-select-grid>div:last-child label{text-align:center}
+      .article-detail{padding:16px!important}
+      .article-detail h1{font-size:18px!important}
+      .article-detail .content{font-size:13px!important}
+      .elo-bar{width:60px}
+      select{max-width:100%;font-size:16px}
+      .modal-overlay{padding:10px}
+      .admin-tab{padding:8px 10px;font-size:11px}
+    }
+    @media(min-width:769px) and (max-width:1024px){
+      .tools-grid{grid-template-columns:repeat(2,1fr)!important}
+      .articles-grid{grid-template-columns:repeat(2,1fr)!important}
+      .prompts-grid{grid-template-columns:repeat(2,1fr)!important}
+      .news-grid{grid-template-columns:repeat(2,1fr)!important}
     }
     
     /* SIDEBAR */
@@ -116,10 +163,10 @@
     /* ARTICLE CARD */
     .article-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;overflow:hidden;cursor:pointer;transition:all 0.3s;box-shadow:0 4px 16px rgba(0,0,0,0.2)}
     .article-card:hover{border-color:var(--gold);transform:translateY(-4px);box-shadow:0 12px 40px rgba(201,168,76,0.2)}
-    .article-img{width:100%;height:160px;object-fit:cover;background:linear-gradient(135deg,var(--red),var(--bg3))}
-    .article-img-placeholder{width:100%;height:160px;background:linear-gradient(135deg,var(--red) 0%,var(--bg3) 100%);display:flex;align-items:center;justify-content:center;font-size:40px}
+    .article-img{width:100%;height:100%;object-fit:cover;display:block}
+    .article-img-placeholder{width:100%;height:160px;background:linear-gradient(135deg,var(--red) 0%,var(--bg3) 100%);display:flex;align-items:center;justify-content:center;font-size:40px;overflow:hidden}
     .article-body{padding:14px}
-    .article-category{background:var(--red);color:var(--gold2);font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;display:inline-block;margin-bottom:8px;text-transform:uppercase;letter-spacing:1px}
+    .article-detail-img{width:100%;max-height:400px;object-fit:cover;border-radius:12px;margin-bottom:16px}
     .article-title{font-size:15px;font-weight:700;margin-bottom:6px;color:var(--text);line-height:1.4}
     .article-summary{color:var(--text2);font-size:13px;line-height:1.5}
     .article-meta{display:flex;justify-content:space-between;margin-top:10px;font-size:11px;color:var(--text3)}
@@ -130,7 +177,6 @@
     .featured-side{position:relative;border-radius:12px;overflow:hidden;min-height:152px;cursor:pointer;transition:all 0.3s}
     .featured-side:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(201,168,76,0.2)}
     .featured-overlay{position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,0.85) 0%,rgba(0,0,0,0.1) 60%);padding:16px;display:flex;flex-direction:column;justify-content:flex-end}
-    .featured-overlay .article-category{margin-bottom:6px}
     .featured-main .featured-overlay .article-title{font-size:20px;font-weight:800;line-height:1.3;margin-bottom:4px;color:#fff}
     .featured-side .featured-overlay .article-title{font-size:14px;font-weight:700;line-height:1.3;color:#fff}
     .featured-overlay .article-meta{color:rgba(255,255,255,0.7)}
@@ -177,6 +223,7 @@
     .tool-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:18px;transition:all 0.3s;cursor:pointer;position:relative;box-shadow:0 4px 16px rgba(0,0,0,0.2);display:flex;flex-direction:column;gap:0}
     .tool-card:hover{border-color:var(--gold);transform:translateY(-4px);box-shadow:0 12px 40px rgba(201,168,76,0.2)}
     .tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+    .articles-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
     .tool-card:hover{border-color:var(--gold);transform:translateY(-2px);box-shadow:0 8px 24px rgba(201,168,76,0.1)}
     .tool-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
     .tool-icon{width:40px;height:40px;border-radius:10px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;position:relative;overflow:hidden}
@@ -318,6 +365,7 @@
     <button class="nav-btn" onclick="showPage('social')">💬 Sosyal</button>
     <button class="nav-btn" onclick="showPage('models')">🏆 Modeller</button>
     <button class="nav-btn" onclick="showPage('tools')">🛠️ Araçlar</button>
+    <button class="nav-btn" onclick="showPage('agents')">🤖 Agentlar</button>
     <button class="nav-btn" onclick="showPage('learn')">📚 Öğren</button>
     <button class="nav-btn" onclick="showPage('prompts')">✨ Promptlar</button>
     <button class="nav-btn" onclick="showPage('arena')">⚔️ Arena</button>
@@ -328,6 +376,7 @@
     <button class="nav-btn" onclick="showPage('social');closeNav()">💬 Sosyal</button>
     <button class="nav-btn" onclick="showPage('models');closeNav()">🏆 Modeller</button>
     <button class="nav-btn" onclick="showPage('tools');closeNav()">🛠️ Araçlar</button>
+    <button class="nav-btn" onclick="showPage('agents');closeNav()">🤖 Agentlar</button>
     <button class="nav-btn" onclick="showPage('learn');closeNav()">📚 Öğren</button>
     <button class="nav-btn" onclick="showPage('prompts');closeNav()">✨ Promptlar</button>
     <button class="nav-btn" onclick="showPage('arena');closeNav()">⚔️ Arena</button>
@@ -478,6 +527,23 @@
       <div class="prompts-grid" id="prompts-list"><div class="loading"><div class="spinner"></div></div></div>
     </div>
 
+    <!-- AGENTS -->
+    <div class="page" id="page-agents">
+      <div class="section-header">
+        <div class="section-title">🤖 AI Agentlar</div>
+        <div style="font-size:12px;color:var(--text3)" id="agents-count"></div>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px" id="agents-tabs">
+        <button class="tab active" onclick="filterAgents('all',this)">Tümü</button>
+        <button class="tab" onclick="filterAgents('Framework',this)">🔧 Framework</button>
+        <button class="tab" onclick="filterAgents('Asistan',this)">💬 Asistan</button>
+        <button class="tab" onclick="filterAgents('Otomasyon',this)">⚡ Otomasyon</button>
+        <button class="tab" onclick="filterAgents('Kod',this)">💻 Kod</button>
+        <button class="tab" onclick="filterAgents('Araştırma',this)">🔍 Araştırma</button>
+      </div>
+      <div class="tools-grid" id="agents-list"></div>
+    </div>
+
     <!-- ARENA -->
     <div class="page" id="page-arena">
       <div class="section-header">
@@ -578,6 +644,7 @@
       </div>
     </div>
 
+  </div>
   </div>
 
 
@@ -788,19 +855,50 @@ const defaultNavItems = [
   { id: 'social', label: '💬 Sosyal', visible: true },
   { id: 'models', label: '🏆 Modeller', visible: true },
   { id: 'tools', label: '🛠️ Araçlar', visible: true },
+  { id: 'agents', label: '🤖 Agentlar', visible: true },
   { id: 'learn', label: '📚 Öğren', visible: true },
   { id: 'prompts', label: '✨ Promptlar', visible: true },
+  { id: 'arena', label: '⚔️ Arena', visible: true },
 ];
-let navConfig = JSON.parse(localStorage.getItem('nav_config') || 'null') || defaultNavItems;
+let navConfig = JSON.parse(localStorage.getItem('nav_config') || 'null');
+if (navConfig) {
+  // Merge: add new items that don't exist in saved config
+  const savedIds = navConfig.map(i => i.id);
+  defaultNavItems.forEach(item => {
+    if (!savedIds.includes(item.id)) { navConfig.push(item); }
+  });
+  // Ensure all items have the 'visible' property
+  navConfig.forEach(item => { if (item.visible === undefined) item.visible = true; });
+} else {
+  navConfig = [...defaultNavItems];
+}
 
 function applyNavConfig() {
   const navLinks = document.getElementById('nav-links');
+  const mobileNav = document.getElementById('mobile-nav');
   navLinks.innerHTML = '';
+  // Build mobile nav buttons (keeping auth sections)
+  let mobileHTML = '';
   navConfig.forEach(item => {
     if (item.visible) {
-      navLinks.innerHTML += `<button class="nav-btn" onclick="showPage('${item.id}')">${item.label}</button>`;
+      const btn = `<button class="nav-btn" onclick="showPage('${item.id}')">${item.label}</button>`;
+      navLinks.innerHTML += btn;
+      mobileHTML += `<button class="nav-btn" onclick="showPage('${item.id}');closeNav()">${item.label}</button>`;
     }
   });
+  // Update mobile nav while preserving auth buttons section
+  const mobileAuth = document.getElementById('mobile-auth-buttons');
+  const mobileUser = document.getElementById('mobile-user-buttons');
+  // Rebuild mobile-nav content
+  mobileNav.innerHTML = mobileHTML;
+  mobileNav.innerHTML += '<div style="height:1px;background:var(--border);margin:12px 0"></div>';
+  mobileNav.innerHTML += '<div id="mobile-auth-buttons" style="display:flex;flex-direction:column;gap:8px;padding:0 8px">';
+  mobileNav.innerHTML += '<button class="btn btn-gold" onclick="openModal(\'login-modal\');closeNav()">Giriş Yap</button>';
+  mobileNav.innerHTML += '<button class="btn btn-outline" onclick="openModal(\'register-modal\');closeNav()">Kayıt Ol</button>';
+  mobileNav.innerHTML += '</div>';
+  mobileNav.innerHTML += '<div id="mobile-user-buttons" style="display:none;flex-direction:column;gap:8px;padding:0 8px"></div>';
+  // Re-apply user state to mobile nav if logged in
+  if (currentUser) updateNavForUser();
 }
 
 function renderNavManager() {
@@ -863,6 +961,7 @@ function showPage(page) {
     document.getElementById('composer-section').style.display = currentUser ? 'block' : 'none';
     document.getElementById('login-prompt-social').style.display = currentUser ? 'none' : 'block';
   }
+  if (page === 'agents') loadAgents();
   if (page === 'profile' && currentUser) loadProfile(currentUser.username);
  if (page === 'admin' && currentUser?.is_admin) { loadAdminStats(); loadAdminPosts(); renderNavManager(); }
 }
@@ -958,7 +1057,6 @@ async function loadArticles() {
       container.innerHTML = '<div class="empty-state"><div class="icon">📰</div><p>Henüz haber yok</p></div>';
       return;
     }
-    const emojis = { 'Haberler': '📰', 'Duyuru': '📢', 'Araştırma': '🔬', 'Kıyaslama': '📊', 'Öğretici': '📚' };
     const gradients = [
       'linear-gradient(135deg,#7a1515,#1a0a0a)',
       'linear-gradient(135deg,#1a3a6a,#0a0a1a)',
@@ -974,7 +1072,6 @@ async function loadArticles() {
       html += `<div class="featured-news">`;
       html += `<div class="featured-main" onclick="showArticle(${JSON.stringify(a).replace(/"/g,'&quot;')})" style="background:${bg}">
         <div class="featured-overlay">
-          <span class="article-category">${a.category || 'Haberler'}</span>
           <div class="article-title">${a.title}</div>
           <div class="article-meta"><span>✍️ ${a.author || 'AI Legion'}</span><span>${new Date(a.created_at).toLocaleDateString('tr-TR')}</span></div>
         </div>
@@ -985,7 +1082,6 @@ async function loadArticles() {
         const sbg = s.image_url ? `url(${s.image_url}) center/cover` : gradients[i % gradients.length];
         html += `<div class="featured-side" onclick="showArticle(${JSON.stringify(s).replace(/"/g,'&quot;')})" style="background:${sbg}">
           <div class="featured-overlay">
-            <span class="article-category">${s.category || 'Haberler'}</span>
             <div class="article-title">${s.title}</div>
             <div class="article-meta"><span>${new Date(s.created_at).toLocaleDateString('tr-TR')}</span></div>
           </div>
@@ -998,11 +1094,9 @@ async function loadArticles() {
     if (rest.length) {
       html += '<div class="news-grid">';
       rest.forEach(a => {
-        const emoji = emojis[a.category] || '📰';
         html += `<div class="article-card" onclick="showArticle(${JSON.stringify(a).replace(/"/g,'&quot;')})">
-          <div class="article-img-placeholder" style="background:${gradients[(a.id || 0) % gradients.length]}">${a.image_url ? `<img src="${a.image_url}" style="width:100%;height:100%;object-fit:cover;border-radius:8px" onerror="this.parentElement.innerHTML='${emoji}'" loading="lazy">` : emoji}</div>
+          <div class="article-img-placeholder" style="background:${gradients[(a.id || 0) % gradients.length]}">${a.image_url ? `<img src="${a.image_url}" class="article-img" onerror="this.parentElement.innerHTML='📰'" loading="lazy">` : '📰'}</div>
           <div class="article-body">
-            <span class="article-category">${a.category || 'Haberler'}</span>
             <div class="article-title">${a.title}</div>
             <div class="article-summary">${a.summary || (a.content || '').substring(0, 120) + '...'}</div>
             <div class="article-meta">
@@ -1022,10 +1116,11 @@ function showArticle(article) {
   document.getElementById('articles-list-view').style.display = 'none';
   const detail = document.getElementById('article-detail-view');
   detail.style.display = 'block';
+  const imgHtml = article.image_url ? `<img src="${article.image_url}" class="article-detail-img" onerror="this.style.display='none'" loading="lazy">` : '';
   detail.innerHTML = `
     <button class="back-btn" onclick="hideArticle()">← Haberlere Dön</button>
     <div class="article-detail">
-      <span class="article-category">${article.category || 'Haberler'}</span>
+      ${imgHtml}
       <h1>${article.title}</h1>
       <div style="color:var(--text3);font-size:12px;margin-bottom:20px">✍️ ${article.author || 'AI Legion'} · ${new Date(article.created_at).toLocaleDateString('tr-TR')}</div>
       <div class="content">${(article.content || '').split('\n').map(p => p ? `<p>${p}</p>` : '').join('')}</div>
@@ -1335,7 +1430,7 @@ function runArenaComparison() {
     { key: 'humaneval', label: 'HumanEval %', high: true },
   ];
   const maxVal = { lmsys: 1600, mmlu: 100, swe_bench: 100, aime: 100, humaneval: 100 };
-  let html = '<div class="card"><div style="display:grid;grid-template-columns:1fr auto 1fr;gap:20px;margin-bottom:16px">';
+  let html = '<div class="card"><div style="display:grid;grid-template-columns:1fr auto 1fr;gap:20px;margin-bottom:16px" class="arena-header-grid">';
   html += '<div style="text-align:center"><div class="arena-left" style="font-size:16px;font-weight:700;margin-bottom:4px">SOL</div><div style="font-size:20px;font-weight:800;color:var(--arena-left,#e0245e)">' + left.name + '</div></div>';
   html += '<div style="font-size:28px;align-self:center">⚔️</div>';
   html += '<div style="text-align:center"><div class="arena-right" style="font-size:16px;font-weight:700;margin-bottom:4px">SAĞ</div><div style="font-size:20px;font-weight:800;color:var(--arena-right,#1da1f2)">' + right.name + '</div></div></div>';
@@ -1356,6 +1451,60 @@ function runArenaComparison() {
   });
   html += '</div></div>';
   document.getElementById('arena-results').innerHTML = html;
+}
+
+// AGENTS
+let allAgents = [];
+const agentCategories = { 'Framework': '🔧', 'Asistan': '💬', 'Otomasyon': '⚡', 'Kod': '💻', 'Araştırma': '🔍' };
+
+function loadAgents() {
+  allAgents = [
+    { id: 1, name: 'OpenClaw', category: 'Framework', emoji: '🕵️', description: 'Açık kaynak AI agent framework. Context pruning ile %65 token tasarrufu. Multi-agent orchestration, caveman mode, Claude/GPT/Gemini desteği.', url: 'https://github.com/openclaw/openclaw', repo: 'openclaw/openclaw', stars: '12.4k', free: true, rating: 4.8, tags: ['Açık Kaynak', 'Multi-LLM', 'Token Optimizasyonu'], features: ['Multi-agent orchestration', 'Context pruning (%65 tasarruf)', 'Caveman mode', 'Claude/GPT/Gemini desteği', 'Telegram & Discord entegrasyonu'] },
+    { id: 2, name: 'Hermes Agent', category: 'Asistan', emoji: '🤖', description: 'Çoklu model destekli AI asistan platformu. Telegram, Discord, CLI, browser araçları, kalıcı hafıza, cron job ve otomasyon.', url: 'https://github.com/imacverse/hermes', repo: 'imacverse/hermes', stars: '8.2k', free: true, rating: 4.7, tags: ['Açık Kaynak', 'Multi-Platform', 'Otomasyon'], features: ['Telegram, Discord, CLI entegrasyonu', 'Kalıcı hafıza (session-based)', 'Cron job zamanlayıcı', 'Browser araçları', 'Çoklu model desteği'] },
+    { id: 3, name: 'AutoGPT', category: 'Framework', emoji: '🔧', description: 'Otonom AI agent framework. Kendi kendine hedef belirleme, planlama ve görev tamamlama. GPT-4/5 tabanlı.', url: 'https://github.com/Significant-Gravitas/AutoGPT', repo: 'Significant-Gravitas/AutoGPT', stars: '172k', free: true, rating: 4.5, tags: ['Açık Kaynak', 'Otonom', 'GPT'], features: ['Otonom hedef belirleme', 'Uzun vadeli hafıza', 'Internet erişimi', 'Dosya okuma/yazma', 'Kod çalıştırma'] },
+    { id: 4, name: 'CrewAI', category: 'Framework', emoji: '👥', description: 'Multi-agent orchestration framework. AI agentları rol, hedef ve araçlarla tanımla, ekip olarak çalıştır.', url: 'https://github.com/crewAIInc/crewAI', repo: 'crewAIInc/crewAI', stars: '28k', free: true, rating: 4.6, tags: ['Açık Kaynak', 'Multi-Agent', 'Orchestration'], features: ['Rol tabanlı agent tanımlama', 'Sequential & parallel görevler', 'Araç entegrasyonu', 'Human input', 'Hafıza yönetimi'] },
+    { id: 5, name: 'LangChain', category: 'Framework', emoji: '🔗', description: 'LLM uygulama geliştirme framework. Zincirleme işlemler, RAG, agentlar ve araç entegrasyonu.', url: 'https://github.com/langchain-ai/langchain', repo: 'langchain-ai/langchain', stars: '98k', free: true, rating: 4.5, tags: ['Açık Kaynak', 'LLM', 'RAG'], features: ['Zincirleme işlemler (Chains)', 'RAG pipeline', 'Agent framework', '600+ entegrasyon', 'Hafıza yönetimi'] },
+    { id: 6, name: 'Manus', category: 'Asistan', emoji: '✋', description: 'Otonom AI ajan. Web gezme, kod yazma, dosya yönetimi ve çok adımlı görevleri bağımsız tamamlama.', url: 'https://manus.im', stars: '', free: false, rating: 4.8, tags: ['Otonom', 'Web', 'Kod'], features: ['Tam otonom görev tamamlama', 'Web gezme ve analiz', 'Kod yazma ve çalıştırma', 'Dosya yönetimi', 'Çok adımlı planlama'] },
+    { id: 7, name: 'Devin', category: 'Kod', emoji: '💻', description: 'Cognition AI tarafından geliştirilen otonom yazılım mühendisi. Tam geliştirme döngüsünü bağımsız yönetiyor.', url: 'https://devin.ai', stars: '', free: false, rating: 4.4, tags: ['SaaS', 'Otonom', 'Yazılım'], features: ['Bağımsız kod yazma', 'Bug tespit ve düzeltme', 'Deployment otomasyonu', 'Dokümantasyon', 'PR oluşturma'] },
+    { id: 8, name: 'Cursor Agent', category: 'Kod', emoji: '⚡', description: 'AI kod editörünün agent modu. Tüm kod tabanını analiz eder, çok dosyalı değişiklikler yapar.', url: 'https://cursor.sh', stars: '', free: true, rating: 4.8, tags: ['IDE', 'Kod', 'Multi-File'], features: ['Tüm kod tabanını analiz', 'Çok dosyalı düzenleme', 'Terminal komutu çalıştırma', 'Bağlam farkındalığı', 'Claude/GPT desteği'] },
+    { id: 9, name: 'n8n', category: 'Otomasyon', emoji: '🔄', description: 'Açık kaynak iş otomasyonu. 400+ entegrasyon, AI agent düğümleri, görsel workflow editörü.', url: 'https://n8n.io', repo: 'n8n-io/n8n', stars: '62k', free: true, rating: 4.7, tags: ['Açık Kaynak', 'Otomasyon', 'Workflow'], features: ['400+ entegrasyon', 'Görsel workflow editörü', 'AI agent düğümleri', 'Webhook desteği', 'Self-host seçeneği'] },
+    { id: 10, name: 'Perplexity Deep Research', category: 'Araştırma', emoji: '🔍', description: 'AI destekli derin araştırma asistanı. Birden fazla kaynak tarar, raporlar oluşturur.', url: 'https://perplexity.ai', stars: '', free: true, rating: 4.7, tags: ['Araştırma', 'Rapor', 'Web'], features: ['Derin araştırma modu', 'Kaynak doğrulama', 'Akademik arama', 'Rapor oluşturma', 'Güncel veri erişimi'] },
+    { id: 11, name: 'Replit Agent', category: 'Kod', emoji: '🌀', description: 'Tarayıcı içinde tam栈lı uygulama geliştirme. AI agent olarak projeleri sıfırdan oluşturur.', url: 'https://replit.com', stars: '', free: true, rating: 4.3, tags: ['IDE', 'Full-Stack', 'Deploy'], features: ['Sıfırdan proje oluşturma', 'Full-stack geliştirme', 'Otomatik deploy', 'İşbirliği', 'Çoklu dil desteği'] },
+    { id: 12, name: 'Make (Integromat)', category: 'Otomasyon', emoji: '⚙️', description: 'Görsel otomasyon platformu. AI entegrasyonları ile karmaşık workflowlar oluştur.', url: 'https://make.com', stars: '', free: false, rating: 4.5, tags: ['Otomasyon', 'No-Code', 'AI'], features: ['Görsel scenario editörü', '1800+ entegrasyon', 'AI modülleri', 'Zamanlanmış çalışma', 'Error handling'] },
+  ];
+  document.getElementById('agents-count').textContent = allAgents.length + ' agent';
+  renderAgents(allAgents);
+}
+
+function filterAgents(cat, el) {
+  if (el) { document.querySelectorAll('#agents-tabs .tab').forEach(t => t.classList.remove('active')); el.classList.add('active'); }
+  const filtered = cat === 'all' ? allAgents : allAgents.filter(a => a.category === cat);
+  document.getElementById('agents-count').textContent = filtered.length + ' agent';
+  renderAgents(filtered);
+}
+
+function renderAgents(agents) {
+  const container = document.getElementById('agents-list');
+  if (!agents.length) { container.innerHTML = '<div class="empty-state"><div class="icon">🤖</div><p>Bu kategoride agent yok</p></div>'; return; }
+  container.innerHTML = agents.map(a => `
+    <div class="tool-card" onclick="window.open('${a.url}','_blank')" style="display:flex;flex-direction:column">
+      <div class="tool-header">
+        <div class="tool-icon"><span style="font-size:24px">${a.emoji || agentCategories[a.category] || '🤖'}</span></div>
+        <div>
+          <div class="tool-name">${a.name}</div>
+          <span class="tool-category-badge">${a.category}</span>
+        </div>
+      </div>
+      <div class="tool-desc">${a.description}</div>
+      ${a.features ? `<div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:10px">${a.features.slice(0, 4).map(f => `<span style="background:var(--bg3);color:var(--text2);font-size:10px;padding:2px 6px;border-radius:4px">${f}</span>`).join('')}</div>` : ''}
+      ${a.tags ? `<div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:10px">${a.tags.map(t => `<span style="background:rgba(201,168,76,0.1);color:var(--gold);font-size:10px;padding:2px 6px;border-radius:4px;border:1px solid rgba(201,168,76,0.2)">${t}</span>`).join('')}</div>` : ''}
+      <div class="tool-footer" style="margin-top:auto">
+        <span class="${a.free ? 'free-badge' : 'paid-badge'}">${a.free ? '✓ Ücretsiz' : '$ Ücretli'}</span>
+        <span class="rating">★ ${a.rating}</span>
+        ${a.stars ? `<span style="color:var(--text3);font-size:11px;margin-left:4px">⭐ ${a.stars}</span>` : ''}
+      </div>
+    </div>
+  `).join('');
 }
 
 // TOOLS
@@ -1468,9 +1617,8 @@ function renderLearn(items) {
   if (!items.length) { container.innerHTML = '<div class="empty-state"><div class="icon">📚</div><p>Bu kategoride içerik yok</p></div>'; return; }
   container.innerHTML = '<div class="articles-grid">' + items.map(a => `
     <div class="article-card">
-      <div class="article-img-placeholder">${a.image ? '<img src="'+a.image+'" style="width:100%;height:100%;object-fit:cover;border-radius:8px" onerror="this.parentElement.innerHTML=a.emoji" loading="lazy">' : a.emoji}</div>
+      <div class="article-img-placeholder">${a.image ? '<img src="'+a.image+'" class="article-img" onerror="this.parentElement.innerHTML=\'📚\'" loading="lazy">' : (a.emoji || '📚')}</div>
       <div class="article-body">
-        <span class="article-category">${a.category}</span>
         <div class="article-title">${a.title}</div>
         <div class="article-summary">${a.summary}</div>
         <div class="article-meta"><span>✍️ ${a.author || 'AI Legion Ekibi'}</span><span>📖 ${a.readTime} okuma</span></div>
