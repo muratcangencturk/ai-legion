@@ -73,7 +73,7 @@
     .main{width:100%}
     /* FOOTER */
     footer{background:var(--bg2);border-top:1px solid var(--border);margin-top:40px;padding:0;width:100%}
-    .footer-content{max-width:1240px;margin:0 auto;padding:24px 20px;text-align:center;color:var(--text2);font-size:13px;display:flex;flex-direction:column;align-items:center;gap:8px}
+    .footer-content{width:100%;max-width:1240px;margin:0 auto;padding:24px 20px;text-align:center;color:var(--text2);font-size:13px;display:flex;flex-direction:column;align-items:center;gap:8px}
     .footer-content a{color:var(--gold);text-decoration:none}
     .footer-content a:hover{text-decoration:underline}
 
@@ -174,14 +174,13 @@
     .action-btn.bookmarked{color:var(--gold)}
     
     /* TOOL CARD */
-    .tool-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:18px;transition:all 0.3s;cursor:pointer;position:relative;box-shadow:0 4px 16px rgba(0,0,0,0.2)}
+    .tool-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:18px;transition:all 0.3s;cursor:pointer;position:relative;box-shadow:0 4px 16px rgba(0,0,0,0.2);display:flex;flex-direction:column;gap:0}
     .tool-card:hover{border-color:var(--gold);transform:translateY(-4px);box-shadow:0 12px 40px rgba(201,168,76,0.2)}
     .tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
     .tool-card:hover{border-color:var(--gold);transform:translateY(-2px);box-shadow:0 8px 24px rgba(201,168,76,0.1)}
     .tool-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-    .tool-icon{width:36px;height:36px;border-radius:8px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;position:relative}
-    .emoji-icon{font-size:18px}
-    .emoji-fallback{font-size:18px}
+    .tool-icon{width:40px;height:40px;border-radius:10px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;position:relative;overflow:hidden}
+    .tool-icon img{width:32px;height:32px;object-fit:contain;border-radius:6px}
     .tool-name{font-size:15px;font-weight:700;color:var(--gold)}
     .tool-category-badge{font-size:10px;color:var(--text3);background:var(--bg3);padding:2px 6px;border-radius:4px;display:inline-block;margin-bottom:6px}
     .tool-desc{font-size:12px;color:var(--text2);line-height:1.5;margin-bottom:10px}
@@ -1409,10 +1408,15 @@ const catEmojis = { 'LLM': '🤖', 'Görüntü': '🎨', 'Video': '🎬', 'Ses':
 function renderTools(tools) {
   const container = document.getElementById('tools-list');
   if (!tools.length) { container.innerHTML = '<div class="empty-state"><div class="icon">🔍</div><p>Bu kategoride araç yok</p></div>'; return; }
-  container.innerHTML = tools.map(t => `
+  container.innerHTML = tools.map(t => {
+    const emoji = catEmojis[t.category] || '🛠️';
+    const iconHtml = t.image
+      ? `<div class="tool-icon"><img src="${t.image}" style="width:32px;height:32px;object-fit:contain;border-radius:6px;background:var(--bg3)" onerror="this.parentNode.innerHTML='<span style=&quot;font-size:22px&quot;>${emoji}</span>'" loading="lazy"></div>`
+      : `<div class="tool-icon"><span style="font-size:22px">${emoji}</span></div>`;
+    return `
     <div class="tool-card" onclick="window.open('${t.url}','_blank')">
       <div class="tool-header">
-        <div class="tool-icon">${t.image ? `<img src="${t.image}" style="width:32px;height:32px;object-fit:contain;border-radius:6px" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" loading="lazy"><span class="emoji-fallback" style="display:none;font-size:18px">${catEmojis[t.category] || '🛠️'}</span>` : `<span class="emoji-icon">${catEmojis[t.category] || '🛠️'}</span>`}</div>
+        ${iconHtml}
         <div>
           <div class="tool-name">${t.name}</div>
           <span class="tool-category-badge">${t.category}</span>
@@ -1434,8 +1438,8 @@ function renderTools(tools) {
         <span class="${t.free ? 'free-badge' : 'paid-badge'}">${t.free ? '✓ Ücretsiz' : '$ Ücretli'}</span>
         <span class="rating">★ ${t.rating}</span>
       </div>
-    </div>
-  `).join('');
+    </div>`;
+  }).join('');
 }
 
 // LEARN
