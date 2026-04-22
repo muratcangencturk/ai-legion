@@ -1,5 +1,5 @@
+headersOrigin = "config"
 plugins = []
-headers = []
 redirects = []
 
 [functions]
@@ -8,7 +8,7 @@ redirects = []
 
 [build]
 publish = "/Users/murotos/ai-legion-site"
-publishOrigin = "default"
+publishOrigin = "config"
 
 [build.environment]
 
@@ -23,3 +23,15 @@ publishOrigin = "default"
 [build.processing.js]
 
 [build.services]
+
+[[headers]]
+for = "/*.html"
+
+[headers.values]
+Content-Type = "text/html; charset=utf-8"
+
+[[headers]]
+for = "/*"
+
+[headers.values]
+Cache-Control = "no-cache"
