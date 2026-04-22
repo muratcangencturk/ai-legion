@@ -179,7 +179,9 @@
     .tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
     .tool-card:hover{border-color:var(--gold);transform:translateY(-2px);box-shadow:0 8px 24px rgba(201,168,76,0.1)}
     .tool-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-    .tool-icon{width:36px;height:36px;border-radius:8px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+    .tool-icon{width:36px;height:36px;border-radius:8px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;position:relative}
+    .emoji-icon{font-size:18px}
+    .emoji-fallback{font-size:18px}
     .tool-name{font-size:15px;font-weight:700;color:var(--gold)}
     .tool-category-badge{font-size:10px;color:var(--text3);background:var(--bg3);padding:2px 6px;border-radius:4px;display:inline-block;margin-bottom:6px}
     .tool-desc{font-size:12px;color:var(--text2);line-height:1.5;margin-bottom:10px}
@@ -502,6 +504,8 @@
               <option value="mistral-large-3">Mistral Large 3 (Mistral)</option>
               <option value="qwen-35-max">Qwen 3.5 Max (Alibaba)</option>
               <option value="command-rplus">Command R+ (Cohere)</option>
+              <option value="openclaw">OpenClaw (Açık Kaynak)</option>
+              <option value="hermes">Hermes (Çoklu Model)</option>
             </select>
           </div>
           <div style="font-size:28px;color:var(--gold);padding-bottom:10px">⚔️</div>
@@ -518,6 +522,8 @@
               <option value="mistral-large-3">Mistral Large 3 (Mistral)</option>
               <option value="qwen-35-max">Qwen 3.5 Max (Alibaba)</option>
               <option value="command-rplus">Command R+ (Cohere)</option>
+              <option value="openclaw">OpenClaw (Açık Kaynak)</option>
+              <option value="hermes">Hermes (Çoklu Model)</option>
             </select>
           </div>
         </div>
@@ -1357,20 +1363,20 @@ function runArenaComparison() {
 async function loadTools() {
   try {
     allTools = [
-      { id: 1, name: 'Claude Opus 4.7', category: 'LLM', description: 'Anthropic en güçlü model. Kod yazma ve analiz lideri.', url: 'https://claude.ai', free: true, rating: 4.9, benchmark: { lmsys: 1506, mmlu: '88.7%', swe_bench: '74.2%', aime: '85%' } },
-      { id: 2, name: 'GPT-5.5', category: 'LLM', description: 'OpenAI devrim niteliğinde güncelleme. Multimodal.', url: 'https://chat.openai.com', free: false, rating: 4.9, benchmark: { lmsys: 1498, mmlu: '88.2%', swe_bench: '74.9%', aime: '83%' } },
-      { id: 3, name: 'Gemini 3.1 Pro', category: 'LLM', description: 'Google en güçlü modeli. Artık herkes için ücretsiz.', url: 'https://gemini.google.com', free: true, rating: 4.8, benchmark: { lmsys: 1489, mmlu: '87.9%', swe_bench: '80.6%', aime: '79%' } },
-      { id: 4, name: 'DeepSeek V4', category: 'LLM', description: 'Çin den gelen açık kaynak devrimi. GPT-4 seviyesi.', url: 'https://chat.deepseek.com', free: true, rating: 4.7, benchmark: { lmsys: 1452, mmlu: '87.1%', swe_bench: '49.2%', aime: '39.2%' } },
-      { id: 5, name: 'Grok 4', category: 'LLM', description: 'xAI modeli. Gerçek zamanlı X/Twitter erişimi.', url: 'https://grok.x.ai', free: true, rating: 4.7 },
+      { id: 1, name: 'Claude Opus 4.7', image: 'https://claude.ai/favicon.ico', category: 'LLM', description: 'Anthropic en güçlü model. Kod yazma ve analiz lideri.', url: 'https://claude.ai', free: true, rating: 4.9, benchmark: { lmsys: 1506, mmlu: '88.7%', swe_bench: '74.2%', aime: '85%' } },
+      { id: 2, name: 'GPT-5.5', image: 'https://chat.openai.com/favicon.ico', category: 'LLM', description: 'OpenAI devrim niteliğinde güncelleme. Multimodal.', url: 'https://chat.openai.com', free: false, rating: 4.9, benchmark: { lmsys: 1498, mmlu: '88.2%', swe_bench: '74.9%', aime: '83%' } },
+      { id: 3, name: 'Gemini 3.1 Pro', image: 'https://gemini.google.com/favicon.ico', category: 'LLM', description: 'Google en güçlü modeli. Artık herkes için ücretsiz.', url: 'https://gemini.google.com', free: true, rating: 4.8, benchmark: { lmsys: 1489, mmlu: '87.9%', swe_bench: '80.6%', aime: '79%' } },
+      { id: 4, name: 'DeepSeek V4', image: 'https://chat.deepseek.com/favicon.ico', category: 'LLM', description: 'Çin den gelen açık kaynak devrimi. GPT-4 seviyesi.', url: 'https://chat.deepseek.com', free: true, rating: 4.7, benchmark: { lmsys: 1452, mmlu: '87.1%', swe_bench: '49.2%', aime: '39.2%' } },
+      { id: 5, name: 'Grok 4', image: 'https://grok.x.ai/favicon.ico', category: 'LLM', description: 'xAI modeli. Gerçek zamanlı X/Twitter erişimi.', url: 'https://grok.x.ai', free: true, rating: 4.7 },
       { id: 6, name: 'Midjourney V7', image: 'https://cdn.midjourney.com/static/img/favicon.ico', category: 'Görüntü', description: 'Sanatsal görüntü üretiminde altın standart.', url: 'https://midjourney.com', free: false, rating: 4.9 },
-      { id: 7, name: 'DALL-E 3', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/ChatGPT_logo.svg/64px-ChatGPT_logo.svg.png', category: 'Görüntü', description: 'OpenAI görüntü üretici. ChatGPT ile entegre.', url: 'https://chat.openai.com', free: true, rating: 4.7 },
+      { id: 7, name: 'DALL-E 3', image: 'https://chat.openai.com/favicon.ico', category: 'Görüntü', description: 'OpenAI görüntü üretici. ChatGPT ile entegre.', url: 'https://chat.openai.com', free: true, rating: 4.7 },
       { id: 8, name: 'Flux 1.1 Pro', image: 'https://fal.ai/favicon.ico', category: 'Görüntü', description: 'Gerçekçi fotoğraf kalitesinde görüntüler.', url: 'https://fal.ai', free: false, rating: 4.8 },
       { id: 9, name: 'Stable Diffusion 3.5', image: 'https://stability.ai/favicon.ico', category: 'Görüntü', description: 'Açık kaynak görüntü üretici. Yerel çalıştırılabilir.', url: 'https://stability.ai', free: true, rating: 4.4 },
       { id: 10, name: 'Ideogram 3.0', image: 'https://ideogram.ai/favicon.ico', category: 'Görüntü', description: 'Metin içeren görsellerde en iyi. Logo ve poster için ideal.', url: 'https://ideogram.ai', free: true, rating: 4.6 },
-      { id: 11, name: 'Sora 1.5', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/ChatGPT_logo.svg/64px-ChatGPT_logo.svg.png', category: 'Video', description: 'OpenAI video üretici. Sinematik kalite.', url: 'https://sora.com', free: false, rating: 4.8 },
+      { id: 11, name: 'Sora 1.5', image: 'https://sora.com/favicon.ico', category: 'Video', description: 'OpenAI video üretici. Sinematik kalite.', url: 'https://sora.com', free: false, rating: 4.8 },
       { id: 12, name: 'Runway Gen-4.5', image: 'https://runwayml.com/favicon.ico', category: 'Video', description: 'Profesyonel video üretici. Karakter tutarlılığı mükemmel.', url: 'https://runwayml.com', free: true, rating: 4.7 },
       { id: 13, name: 'Kling AI 3.0', image: 'https://klingai.com/favicon.ico', category: 'Video', description: 'Sinematik gerçekçilik. 2 dakikaya kadar video.', url: 'https://klingai.com', free: true, rating: 4.7 },
-      { id: 14, name: 'Google Veo 3.1', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Google_Gemini_logo.svg/64px-Google_Gemini_logo.svg.png', category: 'Video', description: 'Google video AI. 4K çıktı, sinematik kalite.', url: 'https://deepmind.google', free: false, rating: 4.8 },
+      { id: 14, name: 'Google Veo 3.1', image: 'https://deepmind.google/favicon.ico', category: 'Video', description: 'Google video AI. 4K çıktı, sinematik kalite.', url: 'https://deepmind.google', free: false, rating: 4.8 },
       { id: 15, name: 'ElevenLabs', image: 'https://elevenlabs.io/favicon.ico', category: 'Ses', description: 'Ses klonlama ve TTS lideri. 30 saniye sesle mükemmel klonlama.', url: 'https://elevenlabs.io', free: true, rating: 4.9 },
       { id: 16, name: 'Suno v4', image: 'https://cdn.suno.ai/icon.png', category: 'Müzik', description: 'Sözlü müzik üretiminde lider. Profesyonel kalite.', url: 'https://suno.ai', free: true, rating: 4.8 },
       { id: 17, name: 'Udio', image: 'https://udio.com/favicon.ico', category: 'Müzik', description: 'Farklı müzik stillerinde yüksek kalite.', url: 'https://udio.com', free: true, rating: 4.6 },
@@ -1382,7 +1388,7 @@ async function loadTools() {
       { id: 23, name: 'Windsurf', image: 'https://codeium.com/favicon.ico', category: 'Geliştirici', description: 'Codeium AI editörü. Cursor rakibi, geniş ücretsiz tier.', url: 'https://codeium.com/windsurf', free: true, rating: 4.6 },
       { id: 24, name: 'Cartesia', image: 'https://cartesia.ai/favicon.ico', category: 'Ses', description: '90ms gecikme ile en hızlı TTS. Voice agent için ideal.', url: 'https://cartesia.ai', free: true, rating: 4.7 },
       { id: 25, name: 'Nano Banana', image: 'https://nanobanana.ai/favicon.ico', category: 'Görüntü', description: 'Hızlı AI görüntü üretici. Referans görüntü desteği.', url: 'https://nanobanana.ai', free: true, rating: 4.5 },
-      { id: 26, name: 'GPT Image 1.5', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/ChatGPT_logo.svg/64px-ChatGPT_logo.svg.png', category: 'Görüntü', description: 'OpenAI görüntü üretim modeli. Foto-gerçekçi görseller.', url: 'https://chat.openai.com', free: true, rating: 4.8 },
+      { id: 26, name: 'GPT Image 1.5', image: 'https://chat.openai.com/favicon.ico', category: 'Görüntü', description: 'OpenAI görüntü üretim modeli. Foto-gerçekçi görseller.', url: 'https://chat.openai.com', free: true, rating: 4.8 },
       { id: 27, name: 'OpenClaw', category: 'Ajan', description: 'Açık kaynak AI agent framework. Claude, GPT, Gemini desteği ile token optimizasyonu (%65 tasarruf), multi-agent orchestration ve caveman mode.', url: 'https://openclaw.ai', free: true, rating: 4.8 },
       { id: 28, name: 'Hermes', category: 'Ajan', description: 'Çoklu model destekli AI asistan platformu. Telegram, Discord ve CLI entegrasyonu. Kalıcı hafıza, cron job, browser araçları ve otomasyon.', url: 'https://github.com/imacverse/hermes', free: true, rating: 4.7 },
     ];
@@ -1406,7 +1412,7 @@ function renderTools(tools) {
   container.innerHTML = tools.map(t => `
     <div class="tool-card" onclick="window.open('${t.url}','_blank')">
       <div class="tool-header">
-        <div class="tool-icon">${t.image ? `<img src="${t.image}" style="width:32px;height:32px;object-fit:contain" onerror="this.parentElement.innerHTML=catEmojis[t.category]+'<span style=\"font-size:10px;display:block;margin-top:2px\">'+t.category+'</span>'" loading="lazy">` : catEmojis[t.category] || '🛠️'}</div>
+        <div class="tool-icon">${t.image ? `<img src="${t.image}" style="width:32px;height:32px;object-fit:contain;border-radius:6px" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" loading="lazy"><span class="emoji-fallback" style="display:none;font-size:18px">${catEmojis[t.category] || '🛠️'}</span>` : `<span class="emoji-icon">${catEmojis[t.category] || '🛠️'}</span>`}</div>
         <div>
           <div class="tool-name">${t.name}</div>
           <span class="tool-category-badge">${t.category}</span>
