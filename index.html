@@ -69,10 +69,10 @@
     .btn-sm{padding:4px 10px;font-size:12px;border-radius:12px}
     
     /* LAYOUT */
-    .container{max-width:1240px;margin:0 auto;padding:16px 20px;display:grid;grid-template-columns:1fr 260px;gap:16px}
-    @media(max-width:1024px){.container{grid-template-columns:1fr}.sidebar-left,.sidebar-right{display:none}}
+    .container{max-width:1240px;margin:0 auto;padding:16px 20px;display:flex;flex-direction:column;gap:16px}
+    .main{width:100%}
     /* FOOTER */
-    footer{background:var(--bg2);border-top:1px solid var(--border);margin-top:40px;padding:0;grid-column:1/-1}
+    footer{background:var(--bg2);border-top:1px solid var(--border);margin-top:40px;padding:0}
     .footer-content{max-width:1240px;margin:0 auto;padding:24px 20px;text-align:center;color:var(--text2);font-size:13px;display:flex;flex-direction:column;align-items:center;gap:8px}
     .footer-content a{color:var(--gold);text-decoration:none}
     .footer-content a:hover{text-decoration:underline}
@@ -85,7 +85,7 @@
       .models-table-wrapper{overflow-x:auto;}
       .data-table-wrapper{overflow-x:auto;}
       .footer-content{padding:20px 15px}
-      .articles-grid{grid-template-columns:1fr!important}
+      .news-grid{grid-template-columns:1fr!important}
       .tools-grid{grid-template-columns:1fr!important}
       .prompts-grid{grid-template-columns:1fr!important}
       .admin-stats-grid{grid-template-columns:repeat(2,1fr)!important}
@@ -114,7 +114,7 @@
     .card:hover{border-color:var(--gold2);box-shadow:0 8px 32px rgba(201,168,76,0.15)}
     
     /* ARTICLE CARD */
-    .article-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:14px;cursor:pointer;transition:all 0.3s;box-shadow:0 4px 16px rgba(0,0,0,0.2)}
+    .article-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;overflow:hidden;cursor:pointer;transition:all 0.3s;box-shadow:0 4px 16px rgba(0,0,0,0.2)}
     .article-card:hover{border-color:var(--gold);transform:translateY(-4px);box-shadow:0 12px 40px rgba(201,168,76,0.2)}
     .article-img{width:100%;height:160px;object-fit:cover;background:linear-gradient(135deg,var(--red),var(--bg3))}
     .article-img-placeholder{width:100%;height:160px;background:linear-gradient(135deg,var(--red) 0%,var(--bg3) 100%);display:flex;align-items:center;justify-content:center;font-size:40px}
@@ -123,7 +123,24 @@
     .article-title{font-size:15px;font-weight:700;margin-bottom:6px;color:var(--text);line-height:1.4}
     .article-summary{color:var(--text2);font-size:13px;line-height:1.5}
     .article-meta{display:flex;justify-content:space-between;margin-top:10px;font-size:11px;color:var(--text3)}
-    .articles-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+    /* FEATURED NEWS */
+    .featured-news{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+    .featured-main{grid-row:1/3;position:relative;border-radius:16px;overflow:hidden;min-height:320px;cursor:pointer;transition:all 0.3s}
+    .featured-main:hover{transform:translateY(-2px);box-shadow:0 16px 48px rgba(201,168,76,0.25)}
+    .featured-side{position:relative;border-radius:12px;overflow:hidden;min-height:152px;cursor:pointer;transition:all 0.3s}
+    .featured-side:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(201,168,76,0.2)}
+    .featured-overlay{position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,0.85) 0%,rgba(0,0,0,0.1) 60%);padding:16px;display:flex;flex-direction:column;justify-content:flex-end}
+    .featured-overlay .article-category{margin-bottom:6px}
+    .featured-main .featured-overlay .article-title{font-size:20px;font-weight:800;line-height:1.3;margin-bottom:4px;color:#fff}
+    .featured-side .featured-overlay .article-title{font-size:14px;font-weight:700;line-height:1.3;color:#fff}
+    .featured-overlay .article-meta{color:rgba(255,255,255,0.7)}
+    .news-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+    @media(max-width:768px){
+      .featured-news{grid-template-columns:1fr;gap:10px}
+      .featured-main{min-height:240px;grid-row:auto}
+      .featured-side{min-height:140px}
+      .news-grid{grid-template-columns:1fr}
+    }
     
     /* POST COMPOSER */
     .composer{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:14px}
@@ -400,45 +417,6 @@
         </p>
       </div>
       <div style="overflow-x:auto;background:var(--bg2);border:1px solid var(--border);border-radius:12px">
-
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-bottom:16px">
-        <div class="card" style="border:1px solid #f59e0b30;background:linear-gradient(135deg,#1a1400,#0d0d00)">
-          <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
-            <div style="width:48px;height:48px;border-radius:12px;background:#f59e0b;display:flex;align-items:center;justify-content:center;font-size:24px">🦷</div>
-            <div>
-              <div style="font-weight:700;color:#f59e0b;font-size:16px">OpenClaw</div>
-              <div style="font-size:11px;color:#a0850055">Açık kaynak AI Agent Framework</div>
-            </div>
-          </div>
-          <div style="font-size:12px;color:#d4c5a0;line-height:1.6;margin-bottom:12px">
-            <strong style="color:#f59e0b">⭢ Context:</strong> 196k token<br>
-            <strong style="color:#f59e0b">⭢ Modeller:</strong> Claude, GPT, Gemini, Llama, DeepSeek<br>
-            <strong style="color:#f59e0b">⭢ Özellikler:</strong> Token optimizasyonu (-65%), caveman mode, multi-agent, cron job, session yönetimi<br>
-            <strong style="color:#f59e0b">⭢ Platform:</strong> CLI, Telegram, Discord, Web<br>
-            <strong style="color:#f59e0b">⭢ GitHub:</strong> 2.3k ⭐ | MIT License<br>
-            <strong style="color:#f59e0b">⭢ Eksiler:</strong> Kurulum teknik bilgi gerektirir, GUI yok
-          </div>
-          <a href="https://openclaw.ai" target="_blank" class="btn btn-sm" style="background:#f59e0b;color:#000;display:inline-block;text-align:center">🌐 openclaw.ai</a>
-        </div>
-        <div class="card" style="border:1px solid #10b98130;background:linear-gradient(135deg,#001a10,#000d0a)">
-          <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
-            <div style="width:48px;height:48px;border-radius:12px;background:#10b981;display:flex;align-items:center;justify-content:center;font-size:24px">⚡</div>
-            <div>
-              <div style="font-weight:700;color:#10b981;font-size:16px">Hermes</div>
-              <div style="font-size:11px;color:#10b98155">Çoklu Model AI Asistan</div>
-            </div>
-          </div>
-          <div style="font-size:12px;color:#d4c5a0;line-height:1.6;margin-bottom:12px">
-            <strong style="color:#10b981">⭢ Context:</strong> Değişken (modele bağlı)<br>
-            <strong style="color:#10b981">⭢ Modeller:</strong> Claude, GPT, MiniMax, Gemini, Llama<br>
-            <strong style="color:#10b981">⭢ Özellikler:</strong> Memory, cron job, browser araçları, dosya yönetimi, voice<br>
-            <strong style="color:#10b981">⭢ Platform:</strong> CLI, Telegram, Discord, macOS<br>
-            <strong style="color:#10b981">⭢ GitHub:</strong> Aktif geliştirme | Apache 2.0<br>
-            <strong style="color:#10b981">⭢ Eksiler:</strong> Yeni proje, henüz olgunlaşmamış
-          </div>
-          <a href="https://github.com/imacverse/hermes" target="_blank" class="btn btn-sm" style="background:#10b981;color:#000;display:inline-block;text-align:center">⚡ hermmes.ai</a>
-        </div>
-      </div>
         <div id="models-table"><div class="loading"><div class="spinner"></div></div></div>
       </div>
     </div>
@@ -953,7 +931,7 @@ async function register() {
     const user = result[0];
     currentUser = { ...user, password_hash: undefined };
     localStorage.setItem('ai_legion_user', JSON.stringify(currentUser));
-    updateNavForUser
+    updateNavForUser();
     closeModal('register-modal');
     showToast('Legiona katıldın, ' + currentUser.username + '! ⚔️');
   } catch(e) { document.getElementById('reg-error').textContent = 'Bağlantı hatası'; }
@@ -976,22 +954,62 @@ async function loadArticles() {
       return;
     }
     const emojis = { 'Haberler': '📰', 'Duyuru': '📢', 'Araştırma': '🔬', 'Kıyaslama': '📊', 'Öğretici': '📚' };
-    container.innerHTML = '<div class="articles-grid">' + articles.map(a => `
-      <div class="article-card" onclick="showArticle(${JSON.stringify(a).replace(/"/g,'&quot;')})">
-        <div class="article-img" style="width:100%;height:120px;background:#1a1a1a;border-radius:8px;overflow:hidden;display:flex;align-items:center;justify-content:center">
-          ${a.image_url ? `<img src="${a.image_url}" style="width:100%;height:100%;object-fit:contain" onerror="this.parentElement.innerHTML='📰'">` : emojis[a.category] || '📰'}
-        </div>
-        <div class="article-body">
+    const gradients = [
+      'linear-gradient(135deg,#7a1515,#1a0a0a)',
+      'linear-gradient(135deg,#1a3a6a,#0a0a1a)',
+      'linear-gradient(135deg,#2d6a2d,#0a0a0a)',
+      'linear-gradient(135deg,#6a4a1a,#0a0a0a)',
+      'linear-gradient(135deg,#4a1a6a,#0a0a0a)',
+    ];
+    let html = '';
+    // Featured: first 3 articles
+    if (articles.length >= 1) {
+      const a = articles[0];
+      const bg = a.image_url ? `url(${a.image_url}) center/cover` : gradients[0];
+      html += `<div class="featured-news">`;
+      html += `<div class="featured-main" onclick="showArticle(${JSON.stringify(a).replace(/"/g,'&quot;')})" style="background:${bg}">
+        <div class="featured-overlay">
           <span class="article-category">${a.category || 'Haberler'}</span>
           <div class="article-title">${a.title}</div>
-          <div class="article-summary">${a.summary || (a.content || '').substring(0, 120) + '...'}</div>
-          <div class="article-meta">
-            <span>✍️ ${a.author || 'AI Legion'}</span>
-            <span>${new Date(a.created_at).toLocaleDateString('tr-TR')}</span>
-          </div>
+          <div class="article-meta"><span>✍️ ${a.author || 'AI Legion'}</span><span>${new Date(a.created_at).toLocaleDateString('tr-TR')}</span></div>
         </div>
-      </div>
-    `).join('') + '</div>';
+      </div>`;
+      // Side articles (next 2)
+      for (let i = 1; i < Math.min(3, articles.length); i++) {
+        const s = articles[i];
+        const sbg = s.image_url ? `url(${s.image_url}) center/cover` : gradients[i % gradients.length];
+        html += `<div class="featured-side" onclick="showArticle(${JSON.stringify(s).replace(/"/g,'&quot;')})" style="background:${sbg}">
+          <div class="featured-overlay">
+            <span class="article-category">${s.category || 'Haberler'}</span>
+            <div class="article-title">${s.title}</div>
+            <div class="article-meta"><span>${new Date(s.created_at).toLocaleDateString('tr-TR')}</span></div>
+          </div>
+        </div>`;
+      }
+      html += `</div>`;
+    }
+    // Remaining articles as grid
+    const rest = articles.slice(3);
+    if (rest.length) {
+      html += '<div class="news-grid">';
+      rest.forEach(a => {
+        const emoji = emojis[a.category] || '📰';
+        html += `<div class="article-card" onclick="showArticle(${JSON.stringify(a).replace(/"/g,'&quot;')})">
+          <div class="article-img-placeholder" style="background:${gradients[(a.id || 0) % gradients.length]}">${a.image_url ? `<img src="${a.image_url}" style="width:100%;height:100%;object-fit:cover;border-radius:8px" onerror="this.parentElement.innerHTML='${emoji}'" loading="lazy">` : emoji}</div>
+          <div class="article-body">
+            <span class="article-category">${a.category || 'Haberler'}</span>
+            <div class="article-title">${a.title}</div>
+            <div class="article-summary">${a.summary || (a.content || '').substring(0, 120) + '...'}</div>
+            <div class="article-meta">
+              <span>✍️ ${a.author || 'AI Legion'}</span>
+              <span>${new Date(a.created_at).toLocaleDateString('tr-TR')}</span>
+            </div>
+          </div>
+        </div>`;
+      });
+      html += '</div>';
+    }
+    container.innerHTML = html;
   } catch(e) { document.getElementById('articles-list').innerHTML = '<div class="empty-state"><div class="icon">⚠️</div><p>Haberler yüklenemedi</p></div>'; }
 }
 
@@ -1365,8 +1383,8 @@ async function loadTools() {
       { id: 24, name: 'Cartesia', image: 'https://cartesia.ai/favicon.ico', category: 'Ses', description: '90ms gecikme ile en hızlı TTS. Voice agent için ideal.', url: 'https://cartesia.ai', free: true, rating: 4.7 },
       { id: 25, name: 'Nano Banana', image: 'https://nanobanana.ai/favicon.ico', category: 'Görüntü', description: 'Hızlı AI görüntü üretici. Referans görüntü desteği.', url: 'https://nanobanana.ai', free: true, rating: 4.5 },
       { id: 26, name: 'GPT Image 1.5', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/ChatGPT_logo.svg/64px-ChatGPT_logo.svg.png', category: 'Görüntü', description: 'OpenAI görüntü üretim modeli. Foto-gerçekçi görseller.', url: 'https://chat.openai.com', free: true, rating: 4.8 },
-      { id: 27, name: 'OpenClaw', category: 'Agent', description: 'Açık kaynak AI agent framework. Claude, GPT, Gemini entegrasyonu. Token optimizasyonu, caveman mode, multi-agent.', url: 'https://openclaw.ai', free: true, rating: 4.8 },
-      { id: 28, name: 'Hermes', category: 'Agent', description: 'Çoklu model destekli AI asistan. Telegram, Discord, browser araçları. Cron job, hafıza, session yönetimi.', url: 'https://hermes.ai', free: true, rating: 4.7 },
+      { id: 27, name: 'OpenClaw', category: 'Ajan', description: 'Açık kaynak AI agent framework. Claude, GPT, Gemini desteği ile token optimizasyonu (%65 tasarruf), multi-agent orchestration ve caveman mode.', url: 'https://openclaw.ai', free: true, rating: 4.8 },
+      { id: 28, name: 'Hermes', category: 'Ajan', description: 'Çoklu model destekli AI asistan platformu. Telegram, Discord ve CLI entegrasyonu. Kalıcı hafıza, cron job, browser araçları ve otomasyon.', url: 'https://github.com/imacverse/hermes', free: true, rating: 4.7 },
     ];
     document.getElementById('tools-count').textContent = allTools.length + ' araç';
     renderTools(allTools);
@@ -1380,7 +1398,7 @@ function filterTools(cat, el) {
   renderTools(filtered);
 }
 
-const catEmojis = { 'LLM': '🤖', 'Görüntü': '🎨', 'Video': '🎬', 'Ses': '🎵', 'Müzik': '🎼', 'Geliştirici': '💻', 'Arama': '🔍', 'Ajan': '🕵️', 'Otomasyon': '⚡' };
+const catEmojis = { 'LLM': '🤖', 'Görüntü': '🎨', 'Video': '🎬', 'Ses': '🎵', 'Müzik': '🎼', 'Geliştirici': '💻', 'Arama': '🔍', 'Ajan': '🕵️', 'Agent': '🕵️', 'Otomasyon': '⚡' };
 
 function renderTools(tools) {
   const container = document.getElementById('tools-list');
@@ -1613,7 +1631,7 @@ async function loadAdminUsers() {
               <td style="color:var(--text2)">${u.email||'-'}</td>
               <td>${u.is_admin ? '<span class="badge badge-admin">Admin</span>' : '-'}</td>
             <td style="color:var(--text3)">${new Date(u.created_at).toLocaleDateString('tr-TR')}</td>
-              <td><button class="btn btn-gold btn-sm" onclick="adminEditUser('${u.id}')">Düzenle</button> ${!u.is_admin ? `<button class="btn btn-red btn-sm" onclick="adminDeleteUser('${u.id}')">Sil</button>` : ''}</td>d>
+              <td><button class="btn btn-gold btn-sm" onclick="adminEditUser('${u.id}')">Düzenle</button> ${!u.is_admin ? `<button class="btn btn-red btn-sm" onclick="adminDeleteUser('${u.id}')">Sil</button>` : ''}</td>
             </tr>
           `).join('')}
         </tbody>
@@ -1638,7 +1656,8 @@ async function loadAdminArticles() {
               <td><span class="article-category" style="font-size:10px">${a.category}</span></td>
               <td style="color:var(--text2)">${a.author||'-'}</td>
               <td style="color:var(--text3)">${new Date(a.created_at).toLocaleDateString('tr-TR')}</td>
-             <td><button class="btn btn-gold btn-sm" onclick="adminEditArticle('${a.id}')">Düzenle</button> <button class="btn btn-red btn-sm" onclick="adminDeleteArticle('${a.id}')">Sil</button></td></tr>/tr>
+              <td><button class="btn btn-gold btn-sm" onclick="adminEditArticle('${a.id}')">Düzenle</button> <button class="btn btn-red btn-sm" onclick="adminDeleteArticle('${a.id}')">Sil</button></td>
+            </tr>
           `).join('')}
         </tbody>
       </table>
@@ -1651,8 +1670,8 @@ function switchAdminTab(tab, el) {
   document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
   el.classList.add('active');
   document.getElementById('admin-' + tab).classList.add('active');
-  if (tab === 'users') loadAdminUsers
-  if (tab === 'articles') loadAdminArticles
+  if (tab === 'users') loadAdminUsers();
+  if (tab === 'articles') loadAdminArticles();
   if (tab === 'nav') renderNavManager();
 }
 async function adminEditPost(id, content) {
@@ -1710,7 +1729,7 @@ async function adminDeleteUser(id) {
     await sb(`/users?id=eq.${id}`, { method: 'DELETE' });
     showToast('Kullanıcı silindi');
     loadAdminUsers();
-    loadAdminStats();ats();
+    loadAdminStats();
   } catch(e) { showToast("Hata oluştu"); }
 }
 
