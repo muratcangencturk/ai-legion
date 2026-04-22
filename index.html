@@ -51,8 +51,11 @@
     .logo{display:flex;align-items:center;gap:10px;font-size:17px;font-weight:800;color:var(--gold);letter-spacing:2px;text-decoration:none;cursor:pointer}
     .logo-icon{width:44px;height:44px;border-radius:50%;border:2px solid var(--gold);overflow:hidden;box-shadow:0 0 20px rgba(201,168,76,0.3);background:var(--bg2)}
     .logo-icon img{width:100%;height:100%;object-fit:cover}
-    .nav-links{display:flex;gap:2px}
+    .nav-links{display:flex;gap:2px;flex-wrap:wrap}
     .hamburger-menu{display:none;background:none;border:none;color:var(--text);font-size:24px;cursor:pointer}
+    .mobile-nav{display:none;position:fixed;top:58px;left:0;right:0;bottom:0;background:rgba(10,10,10,0.98);backdrop-filter:blur(20px);z-index:99;padding:16px;overflow-y:auto}
+    .mobile-nav.open{display:block}
+    .mobile-nav .nav-btn{display:block;width:100%;text-align:left;padding:14px 16px;font-size:15px;border-radius:10px;margin-bottom:4px}
     .nav-btn{background:none;border:none;color:var(--text2);padding:8px 12px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;transition:all 0.2s;white-space:nowrap}
     .nav-btn:hover,.nav-btn.active{background:var(--bg3);color:var(--gold)}
     .nav-right{display:flex;align-items:center;gap:8px}
@@ -68,15 +71,27 @@
     /* LAYOUT */
     .container{max-width:1240px;margin:0 auto;padding:16px 20px;display:grid;grid-template-columns:1fr 260px;gap:16px}
     @media(max-width:1024px){.container{grid-template-columns:1fr}.sidebar-left,.sidebar-right{display:none}}
+    /* FOOTER */
+    footer{background:var(--bg2);border-top:1px solid var(--border);margin-top:40px;padding:0}
+    .footer-content{max-width:1240px;margin:0 auto;padding:24px 20px;text-align:center;color:var(--text2);font-size:13px;display:flex;flex-direction:column;align-items:center;gap:8px}
+    .footer-content a{color:var(--gold);text-decoration:none}
+    .footer-content a:hover{text-decoration:underline}
+
     @media(max-width:768px){
-      nav{padding:0 15px}
-      .nav-links{display:flex;overflow-x:auto;gap:2px;padding:0;flex-wrap:nowrap;-webkit-overflow-scrolling:touch;scrollbar-width:none}
-      .nav-links::-webkit-scrollbar{display:none}
-      .hamburger-menu{display:none!important}
-      .nav-btn{min-width:max-content;white-space:nowrap}
+      nav{padding:0 15px;flex-wrap:nowrap}
+      .nav-links{display:none!important}
+      .hamburger-menu{display:block!important}
       .container{padding:10px 15px}
       .models-table-wrapper{overflow-x:auto;}
       .data-table-wrapper{overflow-x:auto;}
+      .footer-content{padding:20px 15px}
+      .articles-grid{grid-template-columns:1fr!important}
+      .tools-grid{grid-template-columns:1fr!important}
+      .prompts-grid{grid-template-columns:1fr!important}
+      .admin-stats-grid{grid-template-columns:repeat(2,1fr)!important}
+      .modal{margin:10px;padding:16px}
+      .tabs{gap:0}
+      .tab{padding:8px 12px;font-size:12px}
     }
     
     /* SIDEBAR */
@@ -290,6 +305,15 @@
     <button class="nav-btn" onclick="showPage('arena')">⚔️ Arena</button>
   </div>
   <button class="hamburger-menu" id="hamburger-btn" onclick="toggleNav()">☰</button>
+  <div class="mobile-nav" id="mobile-nav">
+    <button class="nav-btn active" onclick="showPage('home');closeNav()">🏠 Haberler</button>
+    <button class="nav-btn" onclick="showPage('social');closeNav()">💬 Sosyal</button>
+    <button class="nav-btn" onclick="showPage('models');closeNav()">🏆 Modeller</button>
+    <button class="nav-btn" onclick="showPage('tools');closeNav()">🛠️ Araçlar</button>
+    <button class="nav-btn" onclick="showPage('learn');closeNav()">📚 Öğren</button>
+    <button class="nav-btn" onclick="showPage('prompts');closeNav()">✨ Promptlar</button>
+    <button class="nav-btn" onclick="showPage('arena');closeNav()">⚔️ Arena</button>
+  </div>
   <div class="nav-right" id="nav-right">
     <button class="btn btn-outline btn-sm" onclick="openModal('login-modal')">Giriş</button>
     <button class="btn btn-gold btn-sm" onclick="openModal('register-modal')">Kayıt Ol</button>
@@ -684,7 +708,14 @@
 
   <script>
     function toggleNav() {
-      document.getElementById('nav-links').classList.toggle('open');
+      const mn = document.getElementById('mobile-nav');
+      mn.classList.toggle('open');
+      const btn = document.getElementById('hamburger-btn');
+      btn.textContent = mn.classList.contains('open') ? '✕' : '☰';
+    }
+    function closeNav() {
+      document.getElementById('mobile-nav').classList.remove('open');
+      document.getElementById('hamburger-btn').textContent = '☰';
     }
 
     function previewImage(event) {
@@ -1697,8 +1728,9 @@ async function adminDeleteArticle(id) {
 }
 </script>
 <footer>
-    <div class="container" style="text-align:center; padding:20px; color:var(--text2); font-size:13px;">
-      © 2026 AI Legion. Tüm hakları saklıdır. <a href="https://chat.whatsapp.com/LAu2OosQEmd73CBl56sIRi?mode=gi_t" target="_blank" style="color:var(--gold); text-decoration:none;">WhatsApp Grubumuza Katılın! 💬</a>
+    <div class="footer-content">
+      &copy; 2026 AI Legion. Tüm hakları saklıdır.<br>
+      <a href="https://chat.whatsapp.com/LAu2OosQEmd73CBl56sIRi?mode=gi_t" target="_blank">WhatsApp Grubumuza Katılın! 💬</a>
     </div>
   </footer>
 </body>
