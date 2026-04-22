@@ -313,6 +313,12 @@
     <button class="nav-btn" onclick="showPage('learn');closeNav()">📚 Öğren</button>
     <button class="nav-btn" onclick="showPage('prompts');closeNav()">✨ Promptlar</button>
     <button class="nav-btn" onclick="showPage('arena');closeNav()">⚔️ Arena</button>
+    <div style="height:1px;background:var(--border);margin:12px 0"></div>
+    <div id="mobile-auth-buttons" style="display:flex;flex-direction:column;gap:8px;padding:0 8px">
+      <button class="btn btn-gold" onclick="openModal('login-modal');closeNav()">Giriş Yap</button>
+      <button class="btn btn-outline" onclick="openModal('register-modal');closeNav()">Kayıt Ol</button>
+    </div>
+    <div id="mobile-user-buttons" style="display:none;flex-direction:column;gap:8px;padding:0 8px"></div>
   </div>
   <div class="nav-right" id="nav-right">
     <button class="btn btn-outline btn-sm" onclick="openModal('login-modal')">Giriş</button>
@@ -903,6 +909,18 @@ function updateNavForUser() {
   }
   const compAvatar = document.getElementById('composer-avatar');
   if (compAvatar) compAvatar.textContent = initial;
+  // Update mobile nav auth buttons
+  const mobileAuth = document.getElementById('mobile-auth-buttons');
+  const mobileUser = document.getElementById('mobile-user-buttons');
+  if (mobileAuth) mobileAuth.style.display = 'none';
+  if (mobileUser) {
+    mobileUser.style.display = 'flex';
+    mobileUser.innerHTML = `
+      <button class="nav-btn" onclick="showPage('profile');closeNav()">👤 @${currentUser.username}</button>
+      ${currentUser.is_admin ? '<button class="nav-btn" onclick="showPage(\'admin\');closeNav()">⚙️ Admin Panel</button>' : ''}
+      <button class="btn btn-outline" onclick="logout();closeNav()">Çıkış Yap</button>
+    `;
+  }
 }
 
 async function login() {
