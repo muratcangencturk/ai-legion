@@ -558,6 +558,17 @@
     </div>
 
     <div class="page active" id="page-home">
+      
+      <div id="daily-question" style="background:linear-gradient(135deg,var(--bg2),var(--bg3));border:1px solid var(--bg3);border-radius:12px;padding:16px 20px;margin-bottom:20px;max-width:700px">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+          <span style="font-size:20px">🧠</span>
+          <span style="font-size:14px;font-weight:700;color:var(--gold)">Günün Sorusu</span>
+        </div>
+        <div id="dq-question" style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:12px"></div>
+        <div id="dq-options" style="display:flex;flex-direction:column;gap:8px"></div>
+        <div id="dq-result" style="margin-top:10px;font-size:13px;font-weight:600;display:none"></div>
+      </div>
+
       <div id="article-detail-view" style="display:none"></div>
       <div id="articles-list-view">
         <div class="section-header">
@@ -1267,6 +1278,7 @@ function resetNavConfig() {
 document.addEventListener('DOMContentLoaded', () => {
   const saved = localStorage.getItem('ai_legion_user');if (saved) { currentUser = JSON.parse(saved); updateNavForUser(); }
   applyNavConfig();
+  initDailyQuestion();
   loadArticles();
   loadPosts();
   loadTools();
@@ -1401,8 +1413,9 @@ function loadDiscoverFeed() {
     section += '<a class="discover-section-more" onclick="showPage(\'' + pageId + '\');return false;">Tümünü Gör →</a>';
     section += '</div>';
     items.forEach(function(item) {
+      var iconHtml = item.iconHtml || '<div class="discover-item-icon">' + (item.icon || '🔗') + '</div>';
       section += '<div class="discover-item" onclick="' + (item.onclick || '') + '">';
-      section += '<div class="discover-item-icon">' + (item.icon || '🔗') + '</div>';
+      section += iconHtml;
       section += '<div class="discover-item-body">';
       section += '<div class="discover-item-title">' + item.title + '</div>';
       section += '<div class="discover-item-meta">';
@@ -1413,32 +1426,37 @@ function loadDiscoverFeed() {
     section += '</div>';
     return section;
   }
+  function makeIcon(src, fallback) {
+    if (!src || (!src.startsWith('http') && !src.startsWith('/'))) return '<div class="discover-item-icon">' + (src || fallback || '🔗') + '</div>';
+    return '<div class="discover-item-icon"><img src="' + src + '" style="width:24px;height:24px;object-fit:contain;border-radius:4px" onerror="this.outerHTML=\'' + (fallback || '🔗') + '\'" loading="lazy"></div>';
+  }
 
   // MODELS
   if (typeof allModels !== 'undefined' && allModels.length) {
     var items = allModels.slice(0, 3).map(function(m) {
-      return { icon: '🏆', title: m.name + (m.benchmark && m.benchmark.lmsys ? ' (Elo: ' + m.benchmark.lmsys + ')' : ''), meta1: '⭐ ' + (m.rating || '-'), meta2: m.free ? '✓ Ücretsiz' : '$ Ücretli', onclick: "showPage('models')" };
+      return { iconHtml: makeIcon(m.icon, '🏆'), title: m.name + (m.lmsys_elo ? ' (Elo: ' + m.lmsys_elo + ')' : ''), meta1: '⭐ ' + (m.rating || '-'), meta2: m.free ? '✓ Ücretsiz' : '$ Ücretli', onclick: "showPage('models')" };
     });
     html += renderDiscoverSection('En İyi Modeller', '🏆', items, 'models');
   }
   // TOOLS
   if (typeof allTools !== 'undefined' && allTools.length) {
     var items = allTools.slice(0, 3).map(function(t) {
-      return { icon: '🛠️', title: t.name + ' - ' + (t.category || ''), meta1: '⭐ ' + (t.rating || '-'), meta2: t.free ? '✓ Ücretsiz' : '$ Ücretli', onclick: "window.open('" + (t.url || '#') + "','_blank')" };
+      return { iconHtml: makeIcon(t.image, '🛠️'), title: t.name + ' - ' + (t.category || ''), meta1: '⭐ ' + (t.rating || '-'), meta2: t.free ? '✓ Ücretsiz' : '$ Ücretli', onclick: "window.open('" + (t.url || '#') + "','_blank')" };
     });
     html += renderDiscoverSection('Popüler Araçlar', '🛠️', items, 'tools');
   }
   // VIDEOS
   if (typeof allVideos !== 'undefined' && allVideos.length) {
     var items = allVideos.slice(0, 3).map(function(v) {
-      return { icon: v.platform === 'youtube' ? '▶️' : v.platform === 'x' ? '𝕏' : '📸', title: v.title || 'Video', meta1: '👁 ' + (v.views || '-'), meta2: '📅 ' + new Date(v.date).toLocaleDateString('tr-TR'), onclick: "showPage('videos')" };
+      var platformIcon = v.platform === 'youtube' ? '▶️' : v.platform === 'x' ? '𝕏' : '📸';
+      return { iconHtml: makeIcon(v.thumbnail, platformIcon), title: v.title || 'Video', meta1: '👁 ' + (v.views || '-'), meta2: '📅 ' + (v.date || ''), onclick: "showPage('videos')" };
     });
     html += renderDiscoverSection('Son Videolar', '🎬', items, 'videos');
   }
   // AGENTS
   if (typeof allAgents !== 'undefined' && allAgents.length) {
     var items = allAgents.slice(0, 3).map(function(a) {
-      return { icon: a.emoji || '🤖', title: a.name + ' - ' + (a.category || ''), meta1: '⭐ ' + (a.rating || '-'), meta2: a.stars ? '⭐ ' + a.stars : (a.free ? '✓ Ücretsiz' : '$ Ücretli'), onclick: "window.open('" + (a.url || '#') + "','_blank')" };
+      return { iconHtml: makeIcon(a.icon, a.emoji || '🤖'), title: a.name + ' - ' + (a.category || ''), meta1: '⭐ ' + (a.rating || '-'), meta2: a.free ? '✓ Ücretsiz' : '$ Ücretli', onclick: "window.open('" + (a.url || '#') + "','_blank')" };
     });
     html += renderDiscoverSection('Öne Çıkan Agentlar', '🤖', items, 'agents');
   }
@@ -1459,11 +1477,10 @@ function loadDiscoverFeed() {
 
   feed.innerHTML = html || '<div class="discover-empty"><div style="font-size:48px;margin-bottom:12px">🔍</div><p>Keşfet içeriği yükleniyor...</p></div>';
 
-  // Async: load articles and posts after sync data
   sb('/articles?order=created_at.desc&limit=3').then(function(articles) {
     if (Array.isArray(articles) && articles.length) {
       var items = articles.slice(0, 3).map(function(a) {
-        return { icon: '📰', title: a.title || 'Başlıksız', meta1: '✍️ ' + (a.author || 'AI Legion'), meta2: '📅 ' + new Date(a.created_at).toLocaleDateString('tr-TR'), onclick: "showPage('home')" };
+        return { icon: '📰', title: a.title || 'Başlıksız', meta1: '✍️ ' + (a.author || 'AI Legion'), meta2: '📅 ' + (a.created_at ? new Date(a.created_at).toLocaleDateString('tr-TR') : '-'), onclick: "showPage('home')" };
       });
       var sec = renderDiscoverSection('Son Haberler', '📰', items, 'home');
       feed.innerHTML = sec + feed.innerHTML;
@@ -1473,8 +1490,8 @@ function loadDiscoverFeed() {
   sb('/posts?order=created_at.desc&limit=3').then(function(posts) {
     if (Array.isArray(posts) && posts.length) {
       var items = posts.slice(0, 3).map(function(p) {
-        var username = (p.user && p.user.username) || p.username || 'unknown';
-        return { icon: '💬', title: (p.content || '').substring(0, 100) + ((p.content || '').length > 100 ? '...' : ''), meta1: '👤 @' + username, meta2: '❤️ ' + (p.likes_count || 0), onclick: "showPage('social')" };
+        var username = (p.user && p.user.username) || p.username || 'kullanıcı';
+        return { icon: '💬', title: (p.content || '').substring(0, 80) + ((p.content || '').length > 80 ? '...' : ''), meta1: '👤 @' + username, meta2: '❤️ ' + (p.likes_count || 0), onclick: "showPage('social')" };
       });
       var sec = renderDiscoverSection('Son Paylaşımlar', '💬', items, 'social');
       feed.innerHTML = sec + feed.innerHTML;
@@ -1494,29 +1511,70 @@ async function loadArticles() {
     function getImg(a, idx) {
       if (a.image_url && !a.image_url.includes('unsplash') && a.image_url.indexOf('http') === 0) return a.image_url;
       var t = (a.title || '').toLowerCase();
-      var kw = 'artificial-intelligence';
-      if (t.includes('gpt') || t.includes('openai')) kw = 'chatgpt-openai';
-      else if (t.includes('claude') || t.includes('anthropic')) kw = 'claude-ai-anthropic';
-      else if (t.includes('gemini') || t.includes('google')) kw = 'google-gemini-ai';
-      else if (t.includes('llama') || t.includes('meta')) kw = 'meta-ai-llama';
-      else if (t.includes('deepseek')) kw = 'deepseek-ai-chip';
-      else if (t.includes('mistral')) kw = 'mistral-ai-france';
-      else if (t.includes('grok') || t.includes('xai')) kw = 'xai-grok';
-      else if (t.includes('regulat') || t.includes('act') || t.includes('yasa') || t.includes('kanun')) kw = 'ai-regulation-law';
-      else if (t.includes('robot') || t.includes('robotik')) kw = 'humanoid-robot-ai';
-      else if (t.includes('agent') || t.includes('ajan')) kw = 'ai-agent-automation';
-      else if (t.includes('chip') || t.includes('gpu') || t.includes('nvidia')) kw = 'nvidia-gpu-chip';
-      else if (t.includes('security') || t.includes('güvenlik') || t.includes('cyber')) kw = 'cybersecurity-ai';
-      else if (t.includes('health') || t.includes('sağlık') || t.includes('medical')) kw = 'ai-healthcare-medical';
-      else if (t.includes('code') || t.includes('kod') || t.includes('program')) kw = 'ai-coding-developer';
-      else if (t.includes('image') || t.includes('görüntü') || t.includes('diffusion') || t.includes('midjourney') || t.includes('dall')) kw = 'ai-image-generation';
-      else if (t.includes('open source') || t.includes('açık kaynak') || t.includes('hugging')) kw = 'open-source-ai';
-      else if (t.includes('quantum')) kw = 'quantum-computing';
-      else if (t.includes('microsoft') || t.includes('copilot')) kw = 'microsoft-copilot-ai';
-      else if (t.includes('apple') || t.includes('siri')) kw = 'apple-ai-siri';
-      else if (t.includes('tesla') || t.includes('optimus')) kw = 'tesla-robot-ai';
-      else if (t.includes('startup') || t.includes('yatırım') || t.includes('fund')) kw = 'ai-startup-investment';
-      return 'https://loremflickr.com/600/300/' + kw + ';'
+      var imgMap = {
+        'gpt': 'https://images.pexels.com/photos/1089440/pexels-photo-1089440.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'openai': 'https://images.pexels.com/photos/1089440/pexels-photo-1089440.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'chatgpt': 'https://images.pexels.com/photos/8438966/pexels-photo-8438966.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'claude': 'https://images.pexels.com/photos/8294552/pexels-photo-8294552.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'anthropic': 'https://images.pexels.com/photos/8294552/pexels-photo-8294552.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'gemini': 'https://images.pexels.com/photos/2599244/pexels-photo-2599244.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'google': 'https://images.pexels.com/photos/2599244/pexels-photo-2599244.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'grok': 'https://images.pexels.com/photos/265152/pexels-photo-265152.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'deepseek': 'https://images.pexels.com/photos/5380642/pexels-photo-5380642.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'llama': 'https://images.pexels.com/photos/5930251/pexels-photo-5930251.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'meta': 'https://images.pexels.com/photos/5930251/pexels-photo-5930251.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'mistral': 'https://images.pexels.com/photos/326415/pexels-photo-326415.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'qwen': 'https://images.pexels.com/photos/3735709/pexels-photo-3735709.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'alibaba': 'https://images.pexels.com/photos/3735709/pexels-photo-3735709.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'copilot': 'https://images.pexels.com/photos/4160059/pexels-photo-4160059.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'microsoft': 'https://images.pexels.com/photos/4160059/pexels-photo-4160059.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'phi': 'https://images.pexels.com/photos/577582/pexels-photo-577582.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'agent': 'https://images.pexels.com/photos/5624598/pexels-photo-5624598.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'robot': 'https://images.pexels.com/photos/2599244/pexels-photo-2599244.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'startup': 'https://images.pexels.com/photos/1095814/pexels-photo-1095814.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'yatirim': 'https://images.pexels.com/photos/1095814/pexels-photo-1095814.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'fund': 'https://images.pexels.com/photos/1095814/pexels-photo-1095814.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'security': 'https://images.pexels.com/photos/5767450/pexels-photo-5767450.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'cybersecurity': 'https://images.pexels.com/photos/5767450/pexels-photo-5767450.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'code': 'https://images.pexels.com/photos/669996/pexels-photo-669996.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'program': 'https://images.pexels.com/photos/270348/pexels-photo-270348.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'chip': 'https://images.pexels.com/photos/2588086/pexels-photo-2588086.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'nvidia': 'https://images.pexels.com/photos/2588086/pexels-photo-2588086.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'gpu': 'https://images.pexels.com/photos/2588086/pexels-photo-2588086.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'apple': 'https://images.pexels.com/photos/160107/pexels-photo-160107.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'siri': 'https://images.pexels.com/photos/160107/pexels-photo-160107.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'tesla': 'https://images.pexels.com/photos/5624598/pexels-photo-5624598.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'data': 'https://images.pexels.com/photos/2004161/pexels-photo-2004161.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'kimi': 'https://images.pexels.com/photos/8727444/pexels-photo-8727444.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'glm': 'https://images.pexels.com/photos/356056/pexels-photo-356056.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'minimax': 'https://images.pexels.com/photos/11035465/pexels-photo-11035465.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'video': 'https://images.pexels.com/photos/11035465/pexels-photo-11035465.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'openclaw': 'https://images.pexels.com/photos/267350/pexels-photo-267350.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'hermes': 'https://images.pexels.com/photos/267350/pexels-photo-267350.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'prompt': 'https://images.pexels.com/photos/301931/pexels-photo-301931.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'rag': 'https://images.pexels.com/photos/574069/pexels-photo-574069.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'finetun': 'https://images.pexels.com/photos/325229/pexels-photo-325229.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'benchmark': 'https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'model': 'https://images.pexels.com/photos/2047902/pexels-photo-2047902.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+      };
+      for (var key in imgMap) {
+        if (t.includes(key)) return imgMap[key];
+      }
+      var defaults = [
+        'https://images.pexels.com/photos/1677442136019/pexels-photo-1677442136019.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'https://images.pexels.com/photos/356056/pexels-photo-356056.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'https://images.pexels.com/photos/4160059/pexels-photo-4160059.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'https://images.pexels.com/photos/2004161/pexels-photo-2004161.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'https://images.pexels.com/photos/1095814/pexels-photo-1095814.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'https://images.pexels.com/photos/8438966/pexels-photo-8438966.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'https://images.pexels.com/photos/5380642/pexels-photo-5380642.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'https://images.pexels.com/photos/574069/pexels-photo-574069.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'https://images.pexels.com/photos/270348/pexels-photo-270348.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'https://images.pexels.com/photos/2588086/pexels-photo-2588086.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'https://images.pexels.com/photos/325229/pexels-photo-325229.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'https://images.pexels.com/photos/326415/pexels-photo-326415.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+      ];
+      return defaults[idx % defaults.length];
     }
     let html = '';
     if (articles.length >= 1) {
@@ -1561,30 +1619,50 @@ function showArticle(article) {
   const detail = document.getElementById('article-detail-view');
   detail.style.display = 'block';
   function getImg(a, idx) {
-    if (a.image_url && !a.image_url.includes('unsplash') && a.image_url.indexOf('http') === 0) return a.image_url;
-    if (a.image && !a.image.includes('unsplash') && a.image.indexOf('http') === 0) return a.image;
     var t = (a.title || '').toLowerCase();
-    var kw = 'artificial-intelligence';
-    if (t.includes('gpt') || t.includes('openai')) kw = 'chatgpt-openai';
-    else if (t.includes('claude') || t.includes('anthropic')) kw = 'claude-ai-anthropic';
-    else if (t.includes('gemini') || t.includes('google')) kw = 'google-gemini-ai';
-    else if (t.includes('llama') || t.includes('meta')) kw = 'meta-ai-llama';
-    else if (t.includes('deepseek')) kw = 'deepseek-ai-chip';
-    else if (t.includes('mistral')) kw = 'mistral-ai-france';
-    else if (t.includes('grok') || t.includes('xai')) kw = 'xai-grok';
-    else if (t.includes('regulat') || t.includes('act') || t.includes('yasa')) kw = 'ai-regulation-law';
-    else if (t.includes('robot') || t.includes('robotik')) kw = 'humanoid-robot-ai';
-    else if (t.includes('agent') || t.includes('ajan')) kw = 'ai-agent-automation';
-    else if (t.includes('chip') || t.includes('gpu') || t.includes('nvidia')) kw = 'nvidia-gpu-chip';
-    else if (t.includes('security') || t.includes('güvenlik') || t.includes('cyber')) kw = 'cybersecurity-ai';
-    else if (t.includes('health') || t.includes('sağlık') || t.includes('medical')) kw = 'ai-healthcare-medical';
-    else if (t.includes('code') || t.includes('kod') || t.includes('program')) kw = 'ai-coding-developer';
-    else if (t.includes('image') || t.includes('görüntü') || t.includes('diffusion') || t.includes('midjourney') || t.includes('dall')) kw = 'ai-image-generation';
-    else if (t.includes('open source') || t.includes('açık kaynak') || t.includes('hugging')) kw = 'open-source-ai';
-    else if (t.includes('quantum')) kw = 'quantum-computing';
-    else if (t.includes('microsoft') || t.includes('copilot')) kw = 'microsoft-copilot-ai';
-    else if (t.includes('apple') || t.includes('siri')) kw = 'apple-ai-siri';
-    return 'https://loremflickr.com/800/400/' + kw + ';';
+    var imgMap = {
+      'gpt': 'https://images.pexels.com/photos/1089440/pexels-photo-1089440.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+      'openai': 'https://images.pexels.com/photos/1089440/pexels-photo-1089440.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+      'chatgpt': 'https://images.pexels.com/photos/8438966/pexels-photo-8438966.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+      'claude': 'https://images.pexels.com/photos/8294552/pexels-photo-8294552.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+      'anthropic': 'https://images.pexels.com/photos/8294552/pexels-photo-8294552.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+      'gemini': 'https://images.pexels.com/photos/2599244/pexels-photo-2599244.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+      'google': 'https://images.pexels.com/photos/2599244/pexels-photo-2599244.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+      'grok': 'https://images.pexels.com/photos/265152/pexels-photo-265152.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+      'deepseek': 'https://images.pexels.com/photos/5380642/pexels-photo-5380642.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+      'llama': 'https://images.pexels.com/photos/5930251/pexels-photo-5930251.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+      'meta': 'https://images.pexels.com/photos/5930251/pexels-photo-5930251.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+      'mistral': 'https://images.pexels.com/photos/326415/pexels-photo-326415.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+      'qwen': 'https://images.pexels.com/photos/3735709/pexels-photo-3735709.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+      'alibaba': 'https://images.pexels.com/photos/3735709/pexels-photo-3735709.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+      'copilot': 'https://images.pexels.com/photos/4160059/pexels-photo-4160059.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+      'microsoft': 'https://images.pexels.com/photos/4160059/pexels-photo-4160059.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+      'phi': 'https://images.pexels.com/photos/577582/pexels-photo-577582.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+      'agent': 'https://images.pexels.com/photos/5624598/pexels-photo-5624598.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+      'robot': 'https://images.pexels.com/photos/2599244/pexels-photo-2599244.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+      'startup': 'https://images.pexels.com/photos/1095814/pexels-photo-1095814.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+      'security': 'https://images.pexels.com/photos/5767450/pexels-photo-5767450.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+      'code': 'https://images.pexels.com/photos/669996/pexels-photo-669996.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+      'chip': 'https://images.pexels.com/photos/2588086/pexels-photo-2588086.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+      'nvidia': 'https://images.pexels.com/photos/2588086/pexels-photo-2588086.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+      'apple': 'https://images.pexels.com/photos/160107/pexels-photo-160107.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+      'data': 'https://images.pexels.com/photos/2004161/pexels-photo-2004161.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+    };
+    if (a.image_url && a.image_url.indexOf('http') === 0) return a.image_url;
+    for (var key in imgMap) {
+      if (t.includes(key)) return imgMap[key];
+    }
+    var defaults = [
+      'https://images.pexels.com/photos/356056/pexels-photo-356056.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+      'https://images.pexels.com/photos/4160059/pexels-photo-4160059.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+      'https://images.pexels.com/photos/2004161/pexels-photo-2004161.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+      'https://images.pexels.com/photos/1095814/pexels-photo-1095814.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+      'https://images.pexels.com/photos/8438966/pexels-photo-8438966.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+      'https://images.pexels.com/photos/5380642/pexels-photo-5380642.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+      'https://images.pexels.com/photos/574069/pexels-photo-574069.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+      'https://images.pexels.com/photos/270348/pexels-photo-270348.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+    ];
+    return defaults[idx % defaults.length];
   }
   var imgSrc = getImg(article, Math.floor(Math.random() * 14));
   var imgHtml = '<div style="margin-bottom:20px"><img src="' + imgSrc + '" style="width:100%;max-height:400px;object-fit:cover;border-radius:12px" onerror="this.style.display=\'none\'" loading="lazy"></div>';
@@ -1876,37 +1954,37 @@ async function loadModels() {
       { rank: 1, name: 'Claude Opus 4.7', icon: 'https://img.icons8.com/fluency/48/claude.png', company: 'Anthropic', lmsys_elo: 1506, mmlu: 88.7, swe_bench: 74.2, aime: 85.0, humaneval: 92.1, free: true, url: 'https://claude.ai', description: 'Anthropic en güçlü model. İnsanlığı geride bırakan yapay zeka.', vram: 'API' },
       { rank: 2, name: 'GPT-5.5', icon: 'https://img.icons8.com/fluency/48/chatgpt.png', company: 'OpenAI', lmsys_elo: 1498, mmlu: 88.2, swe_bench: 74.9, aime: 83.0, humaneval: 91.8, free: false, url: 'https://chat.openai.com', description: 'OpenAI devrim niteliğinde güncelleme. 1M token context.', vram: 'API' },
       { rank: 3, name: 'Gemini 3.1 Pro', icon: 'https://img.icons8.com/fluency/48/google-logo.png', company: 'Google', lmsys_elo: 1489, mmlu: 87.9, swe_bench: 80.6, aime: 79.0, humaneval: 90.2, free: true, url: 'https://gemini.google.com', description: 'Google en güçlü modeli. Artık herkes için ücretsiz.', vram: 'API' },
-      { rank: 4, name: 'Grok 4', icon: 'https://img.icons8.com/fluency/48/x.png', company: 'xAI', lmsys_elo: 1471, mmlu: 87.1, swe_bench: 75.0, aime: 78.0, humaneval: 89.4, free: true, url: 'https://grok.x.ai', description: 'xAI modeli. Gerçek zamanlı X erişimi.', vram: 'API' },
+      { rank: 4, name: 'Grok 4', icon: 'https://img.icons8.com/fluency/48/x.png', company: 'xAI', lmsys_elo: 1471, mmlu: 87.1, swe_bench: 75.0, aime: 78.0, humaneval: 89.4, free: true, url: 'https://grok.x.ai', description: 'Elon Musk\u2019ın xAI şirketinin amiral gemisi model. Gerçek zamanlı X (Twitter) verilerine erişerek güncel bilgi sağlıyor. Muhakeme ve kod yazmada güçlü.', vram: 'API' },
       { rank: 5, name: 'Claude Sonnet 4.7', icon: 'https://img.icons8.com/fluency/48/claude.png', company: 'Anthropic', lmsys_elo: 1463, mmlu: 87.5, swe_bench: 82.1, aime: 80.0, humaneval: 91.2, free: true, url: 'https://claude.ai', description: 'Anthropic flagship. Kod yazma ve analiz lideri.', vram: 'API' },
-      { rank: 6, name: 'DeepSeek V4', icon: 'https://img.icons8.com/fluency/48/deepseek.png', company: 'DeepSeek', lmsys_elo: 1452, mmlu: 87.1, swe_bench: 49.2, aime: 39.2, humaneval: 82.6, free: true, url: 'https://chat.deepseek.com', description: 'Çin den gelen açık kaynak devrimi.', vram: 'API' },
-      { rank: 7, name: 'Llama 4 Scout', icon: 'https://img.icons8.com/fluency/48/meta.png', company: 'Meta', lmsys_elo: 1421, mmlu: 79.6, swe_bench: 32.0, aime: 50.0, humaneval: 75.2, free: true, url: 'https://llama.meta.com', description: 'Meta açık kaynak MoE model. 128 uzman.', vram: '24GB' },
-      { rank: 8, name: 'Mistral Large 3', icon: 'https://img.icons8.com/fluency/48/wind.png', company: 'Mistral', lmsys_elo: 1398, mmlu: 81.2, swe_bench: 45.1, aime: 42.0, humaneval: 78.9, free: true, url: 'https://mistral.ai', description: 'Avrupa nın ilk trilyon parametreli modeli.', vram: 'API' },
+      { rank: 6, name: 'DeepSeek V4', icon: 'https://img.icons8.com/fluency/48/deepseek.png', company: 'DeepSeek', lmsys_elo: 1452, mmlu: 87.1, swe_bench: 49.2, aime: 39.2, humaneval: 82.6, free: true, url: 'https://chat.deepseek.com', description: 'Çin\u2019den gelen açık kaynak devrimi. DeepSeek V4, GPT-4 seviyesinde performans sunarken tamamen açık kaynak ve ücretsiz erişime açık. MoE mimarisiyla verimli çıkarım.', vram: 'API' },
+      { rank: 7, name: 'Llama 4 Scout', icon: 'https://img.icons8.com/fluency/48/meta.png', company: 'Meta', lmsys_elo: 1421, mmlu: 79.6, swe_bench: 32.0, aime: 50.0, humaneval: 75.2, free: true, url: 'https://llama.meta.com', description: 'Meta\u2019nın açık kaynak MoE (Mixture of Experts) mimarisi. 17B aktif parametre ile 128 uzman arasında geçiş yaparak verimli çıkarım sunar. 10M token context.', vram: '24GB' },
+      { rank: 8, name: 'Mistral Large 3', icon: 'https://img.icons8.com/fluency/48/wind.png', company: 'Mistral', lmsys_elo: 1398, mmlu: 81.2, swe_bench: 45.1, aime: 42.0, humaneval: 78.9, free: true, url: 'https://mistral.ai', description: 'Avrupa\u2019nın ilk trilyon parametreli modeli.', vram: 'API' },
       { rank: 9, name: 'Qwen 3.5 Max', icon: 'https://img.icons8.com/fluency/48/cloud.png', company: 'Alibaba', lmsys_elo: 1387, mmlu: 85.3, swe_bench: 61.2, aime: 65.0, humaneval: 84.1, free: true, url: 'https://qwen.aliyun.com', description: 'Alibaba güçlü model. Matematik ve kodlamada başarılı.', vram: 'API' },
-      { rank: 10, name: 'Command R+', icon: 'https://img.icons8.com/fluency/48/text-box.png', company: 'Cohere', lmsys_elo: 1352, mmlu: 75.7, swe_bench: 28.4, aime: 31.0, humaneval: 71.3, free: true, url: 'https://cohere.com', description: 'Cohere enterprise model. Çok dilli.', vram: 'API' },
+      { rank: 10, name: 'Command R+', icon: 'https://img.icons8.com/fluency/48/text-box.png', company: 'Cohere', lmsys_elo: 1352, mmlu: 75.7, swe_bench: 28.4, aime: 31.0, humaneval: 71.3, free: true, url: 'https://cohere.com', description: 'Cohere\u2019nin enterprise odaklı büyük modeli. RAG (Retrieval Augmented Generation) desteği, çok dilli kapasite ve kurumsal güvenlik özellikleriyle öne çıkıyor.', vram: 'API' },
       { rank: 11, name: 'GPT-4.1', icon: 'https://img.icons8.com/fluency/48/chatgpt.png', company: 'OpenAI', lmsys_elo: 1345, mmlu: 85.2, swe_bench: 54.9, aime: 52.0, humaneval: 87.3, free: false, url: 'https://chat.openai.com', description: 'OpenAI orta seviye model. Hızlı ve verimli.', vram: 'API' },
-      { rank: 12, name: 'Claude Haiku 4.7', icon: 'https://img.icons8.com/fluency/48/claude.png', company: 'Anthropic', lmsys_elo: 1338, mmlu: 82.1, swe_bench: 42.3, aime: 45.0, humaneval: 85.6, free: true, url: 'https://claude.ai', description: 'Anthropic hızlı model. Ucuz ve hızlı.', vram: 'API' },
+      { rank: 12, name: 'Claude Haiku 4.7', icon: 'https://img.icons8.com/fluency/48/claude.png', company: 'Anthropic', lmsys_elo: 1338, mmlu: 82.1, swe_bench: 42.3, aime: 45.0, humaneval: 85.6, free: true, url: 'https://claude.ai', description: 'Anthropic\u2019in hızlı ve ekonomik modeli. Claude Opus 4.7\u2019nin hafif versiyonu olarak düşük gecikme ve maliyetle yüksek kaliteli yanıtlar sunuyor.', vram: 'API' },
       { rank: 13, name: 'Gemini 3.1 Flash', icon: 'https://img.icons8.com/fluency/48/google-logo.png', company: 'Google', lmsys_elo: 1325, mmlu: 80.5, swe_bench: 48.7, aime: 55.0, humaneval: 83.9, free: true, url: 'https://gemini.google.com', description: 'Google hızlı model. Uygulama geliştiriciler için ideal.', vram: 'API' },
       { rank: 14, name: 'GLM-5', icon: 'https://img.icons8.com/fluency/48/language.png', company: 'Zhipu AI', lmsys_elo: 1312, mmlu: 79.8, swe_bench: 38.1, aime: 42.0, humaneval: 79.4, free: true, url: 'https://chatglm.cn', description: 'Çin en güçlü modeli. Türkçe desteği güçlü.', vram: 'API' },
-      { rank: 15, name: 'Yi Lightning', icon: 'https://img.icons8.com/fluency/48/lightning-bolt.png', company: '01.AI', lmsys_elo: 1298, mmlu: 77.2, swe_bench: 35.6, aime: 38.0, humaneval: 76.8, free: true, url: 'https://www.01.ai', description: '01.AI hızlı ve ekonomik model.', vram: 'API' },
-      { rank: 16, name: 'Phi-4', icon: 'https://img.icons8.com/fluency/48/chip.png', company: 'Microsoft', lmsys_elo: 1285, mmlu: 76.9, swe_bench: 32.1, aime: 35.0, humaneval: 74.2, free: true, url: 'https://azure.microsoft.com', description: 'Microsoft küçük ama etkili model.', vram: '12GB' },
+      { rank: 15, name: 'Yi Lightning', icon: 'https://img.icons8.com/fluency/48/lightning-bolt.png', company: '01.AI', lmsys_elo: 1298, mmlu: 77.2, swe_bench: 35.6, aime: 38.0, humaneval: 76.8, free: true, url: 'https://www.01.ai', description: '01.AI\u2019nın hızlı ve ekonomik modeli. Düşük maliyetle yüksek performans sunarak API erişimini kolaylaştırıyor. Özellikle Türkçe ve Çince dillerinde güçlü.', vram: 'API' },
+      { rank: 16, name: 'Phi-4', icon: 'https://img.icons8.com/fluency/48/chip.png', company: 'Microsoft', lmsys_elo: 1285, mmlu: 76.9, swe_bench: 32.1, aime: 35.0, humaneval: 74.2, free: true, url: 'https://azure.microsoft.com', description: 'Microsoft\u2019un küçük ama etkili modeli. 3.8B parametreyle 70B+ modellerle rekabet eden performans. Edge cihazlarda ve mobilde çalışabilecek kadar hafif.', vram: '12GB' },
       { rank: 17, name: 'Gemma 4 27B', icon: 'https://img.icons8.com/fluency/48/google-logo.png', company: 'Google', lmsys_elo: 1272, mmlu: 75.1, swe_bench: 29.8, aime: 33.0, humaneval: 72.1, free: true, url: 'https://ai.google.dev', description: 'Google açık kaynak model. Küçük ama güçlü.', vram: '24GB' },
-      { rank: 18, name: 'Jamba 2', icon: 'https://img.icons8.com/fluency/48/brain--v1.png', company: 'AI21 Labs', lmsys_elo: 1261, mmlu: 74.3, swe_bench: 28.5, aime: 30.0, humaneval: 70.8, free: true, url: 'https://ai21.com', description: 'AI21 SSM-Transformer hibrit model.', vram: 'API' },
-      { rank: 19, name: 'Mistral Small 3', icon: 'https://img.icons8.com/fluency/48/wind--v1.png', company: 'Mistral', lmsys_elo: 1248, mmlu: 73.5, swe_bench: 26.2, aime: 28.0, humaneval: 69.1, free: true, url: 'https://mistral.ai', description: 'Mistral hafif model. API ile erişim.', vram: '24GB' },
-      { rank: 20, name: 'DeepSeek V3', icon: 'https://img.icons8.com/fluency/48/deepseek.png', company: 'DeepSeek', lmsys_elo: 1235, mmlu: 72.8, swe_bench: 24.1, aime: 26.0, humaneval: 67.5, free: true, url: 'https://chat.deepseek.com', description: 'DeepSeek önceki nesil. Hâlâ güçlü.', vram: 'API' },
-      { rank: 21, name: 'Grok-2', icon: 'https://img.icons8.com/fluency/48/x.png', company: 'xAI', lmsys_elo: 1220, mmlu: 71.5, swe_bench: 22.0, aime: 30.0, humaneval: 66.8, free: true, url: 'https://grok.x.ai', description: 'xAI ikinci nesil model. Hızlı çıkarım.', vram: 'API' },
+      { rank: 18, name: 'Jamba 2', icon: 'https://img.icons8.com/fluency/48/brain--v1.png', company: 'AI21 Labs', lmsys_elo: 1261, mmlu: 74.3, swe_bench: 28.5, aime: 30.0, humaneval: 70.8, free: true, url: 'https://ai21.com', description: 'AI21 Labs\u2019ın SSM-Transformer hibrit mimarisi. State Space Models ile Transformer\u2019ı birleştirerek uzun context\u2019lerde verimli çıkarım sağlıyor.', vram: 'API' },
+      { rank: 19, name: 'Mistral Small 3', icon: 'https://img.icons8.com/fluency/48/wind--v1.png', company: 'Mistral', lmsys_elo: 1248, mmlu: 73.5, swe_bench: 26.2, aime: 28.0, humaneval: 69.1, free: true, url: 'https://mistral.ai', description: 'Mistral\u2019ın hafif ve ekonomik modeli. Hızlı çıkarım süresi ve düşük API maliyetiyle üretken uygulamalarda ideal. Fonksiyon çağırma desteği mevcut.', vram: '24GB' },
+      { rank: 20, name: 'DeepSeek V3', icon: 'https://img.icons8.com/fluency/48/deepseek.png', company: 'DeepSeek', lmsys_elo: 1235, mmlu: 72.8, swe_bench: 24.1, aime: 26.0, humaneval: 67.5, free: true, url: 'https://chat.deepseek.com', description: 'DeepSeek V3, önceki nesil olmasına rağmen hâlä güçlü performans sunuyor. Açık kaynak topluluğunda yaygın olarak kullanılıyor.', vram: 'API' },
+      { rank: 21, name: 'Grok-2', icon: 'https://img.icons8.com/fluency/48/x.png', company: 'xAI', lmsys_elo: 1220, mmlu: 71.5, swe_bench: 22.0, aime: 30.0, humaneval: 66.8, free: true, url: 'https://grok.x.ai', description: 'xAI\u2019nın ikinci nesil modeli. Hızlı çıkarım süresi ve gerçek zamanlı bilgi erişimiyle sohbet ve analitik görevlerde etkili.', vram: 'API' },
       { rank: 22, name: 'Llama 3.1 405B', icon: 'https://img.icons8.com/fluency/48/meta.png', company: 'Meta', lmsys_elo: 1208, mmlu: 70.2, swe_bench: 20.5, aime: 28.0, humaneval: 65.2, free: true, url: 'https://llama.meta.com', description: 'Meta en büyük açık kaynak modeli. 405B parametre.', vram: '8x80GB' },
       { rank: 23, name: 'Mixtral 8x22B', icon: 'https://img.icons8.com/fluency/48/tornado.png', company: 'Mistral', lmsys_elo: 1195, mmlu: 69.8, swe_bench: 18.2, aime: 25.0, humaneval: 63.5, free: true, url: 'https://mistral.ai', description: 'Mistral MoE model. 22Bx8 uzman karışımı.', vram: '80GB+' },
-      { rank: 24, name: 'Qwen2-Max', icon: 'https://img.icons8.com/fluency/48/cloud--v1.png', company: 'Alibaba', lmsys_elo: 1182, mmlu: 68.5, swe_bench: 19.8, aime: 32.0, humaneval: 64.1, free: true, url: 'https://qwen.aliyun.com', description: 'Alibaba Qwen2 serisi en büyük model.', vram: 'API' },
-      { rank: 25, name: 'Falcon 180B', icon: 'https://img.icons8.com/fluency/48/bird.png', company: 'TII', lmsys_elo: 1168, mmlu: 67.2, swe_bench: 15.1, aime: 22.0, humaneval: 61.8, free: true, url: 'https://falconllm.tii.ae', description: 'BAJI açık kaynak model. 180B parametre.', vram: '8x80GB' },
+      { rank: 24, name: 'Qwen2-Max', icon: 'https://img.icons8.com/fluency/48/cloud--v1.png', company: 'Alibaba', lmsys_elo: 1182, mmlu: 68.5, swe_bench: 19.8, aime: 32.0, humaneval: 64.1, free: true, url: 'https://qwen.aliyun.com', description: 'Alibaba\u2019nın Qwen2 serisinin en büyük modeli. Çok dilli destek, fonksiyon çağırma ve uzun context penceresiyle亚太 pazarında lider.', vram: 'API' },
+      { rank: 25, name: 'Falcon 180B', icon: 'https://img.icons8.com/fluency/48/bird.png', company: 'TII', lmsys_elo: 1168, mmlu: 67.2, swe_bench: 15.1, aime: 22.0, humaneval: 61.8, free: true, url: 'https://falconllm.tii.ae', description: 'BAJI (TII) açık kaynak dev model. 180B parametreyle en büyük açık kaynak modellerden biri. Araştırma ve geliştirme için güçlü bir araç.', vram: '8x80GB' },
       { rank: 26, name: 'InternLM2', icon: 'https://img.icons8.com/fluency/48/source-code.png', company: 'Shanghai AI Lab', lmsys_elo: 1155, mmlu: 66.8, swe_bench: 16.5, aime: 24.0, humaneval: 62.4, free: true, url: 'https://internlm.intern-ai.org.cn', description: 'Shanghai AI Lab açık kaynak modeli. Güçlü Çince.', vram: 'API' },
-      { rank: 27, name: 'DBRX', icon: 'https://img.icons8.com/fluency/48/server.png', company: 'Databricks', lmsys_elo: 1142, mmlu: 65.5, swe_bench: 14.8, aime: 20.0, humaneval: 60.2, free: true, url: 'https://www.databricks.com', description: 'Databricks açık kaynak MoE modeli.', vram: '80GB+' },
-      { rank: 28, name: 'Granite 34B', icon: 'https://img.icons8.com/fluency/48/rock.png', company: 'IBM', lmsys_elo: 1130, mmlu: 64.2, swe_bench: 13.5, aime: 18.0, humaneval: 58.9, free: true, url: 'https://www.ibm.com/granite', description: 'IBM enterprise AI modeli. İş odaklı.', vram: '48GB' },
+      { rank: 27, name: 'DBRX', icon: 'https://img.icons8.com/fluency/48/server.png', company: 'Databricks', lmsys_elo: 1142, mmlu: 65.5, swe_bench: 14.8, aime: 20.0, humaneval: 60.2, free: true, url: 'https://www.databricks.com', description: 'Databricks\u2019in açık kaynak MoE modeli. 132B toplam, 36B aktif parametreyle verimli uzman seçimi yaparak mükemmel performans sunuyor.', vram: '80GB+' },
+      { rank: 28, name: 'Granite 34B', icon: 'https://img.icons8.com/fluency/48/rock.png', company: 'IBM', lmsys_elo: 1130, mmlu: 64.2, swe_bench: 13.5, aime: 18.0, humaneval: 58.9, free: true, url: 'https://www.ibm.com/granite', description: 'IBM\u2019in enterprise odaklı AI modeli. İş zekası, danışmanlık ve kurumsal otomasyon senaryoları için optimize edilmiş. IBM watsonx platformunda.', vram: '48GB' },
       { rank: 29, name: 'StarCoder2 15B', icon: 'https://img.icons8.com/fluency/48/star.png', company: 'BigCode', lmsys_elo: 1118, mmlu: 62.0, swe_bench: 25.2, aime: 15.0, humaneval: 72.5, free: true, url: 'https://huggingface.co/bigcode', description: 'BigCode açık kaynak kod modeli. Kod üretiminde güçlü.', vram: '16GB' },
       { rank: 30, name: 'Phi-3.5 MoE', icon: 'https://img.icons8.com/fluency/48/processor.png', company: 'Microsoft', lmsys_elo: 1105, mmlu: 61.8, swe_bench: 12.1, aime: 16.0, humaneval: 57.2, free: true, url: 'https://azure.microsoft.com', description: 'Microsoft MoE küçük model. Verimli ve hızlı.', vram: '8GB' },
       { rank: 31, name: 'Yi-1.5 34B', icon: 'https://img.icons8.com/fluency/48/tornado.png', company: '01.AI', lmsys_elo: 1092, mmlu: 60.5, swe_bench: 11.5, aime: 19.0, humaneval: 56.8, free: true, url: 'https://www.01.ai', description: '01.AI önceki nesil model. Güçlü çok dilli.', vram: '48GB' },
-      { rank: 32, name: 'Cohere Command R+', icon: 'https://img.icons8.com/fluency/48/shield.png', company: 'Cohere', lmsys_elo: 1080, mmlu: 59.2, swe_bench: 10.8, aime: 17.0, humaneval: 55.5, free: true, url: 'https://cohere.com', description: 'Cohere RAG odaklı enterprise model.', vram: 'API' },
+      { rank: 32, name: 'Cohere Command R+', icon: 'https://img.icons8.com/fluency/48/shield.png', company: 'Cohere', lmsys_elo: 1080, mmlu: 59.2, swe_bench: 10.8, aime: 17.0, humaneval: 55.5, free: true, url: 'https://cohere.com', description: 'Cohere\u2019nin RAG (Retrieval Augmented Generation) odaklı enterprise modeli. Veri tabanlarından bilgi çekme ve yanıtlama konusunda uzmanlaşmış.', vram: 'API' },
       { rank: 33, name: 'Perplexity', icon: 'https://img.icons8.com/fluency/48/crystal-ball.png', company: 'Perplexity AI', lmsys_elo: 1068, mmlu: 58.5, swe_bench: 8.2, aime: 14.0, humaneval: 52.1, free: true, url: 'https://www.perplexity.ai', description: 'Perplexity AI arama odaklı asistan. Gerçek zamanlı.', vram: 'API' },
-      { rank: 34, name: 'Gemma 3 27B', icon: 'https://img.icons8.com/fluency/48/crown.png', company: 'Google', lmsys_elo: 1055, mmlu: 57.8, swe_bench: 9.5, aime: 16.0, humaneval: 54.2, free: true, url: 'https://ai.google.dev', description: 'Google önceki nesil açık kaynak model.', vram: '16GB' },
+      { rank: 34, name: 'Gemma 3 27B', icon: 'https://img.icons8.com/fluency/48/crown.png', company: 'Google', lmsys_elo: 1055, mmlu: 57.8, swe_bench: 9.5, aime: 16.0, humaneval: 54.2, free: true, url: 'https://ai.google.dev', description: 'Google\u2019ın önceki nesil açık kaynak modeli. Araştırma ve eğitim için ideal, hâlâ aktif kullanım görüyor. Gemma serisinin güvenilir üyesi.', vram: '16GB' },
       { rank: 35, name: 'Midjourney v6', icon: 'https://img.icons8.com/fluency/48/paint-palette.png', company: 'Midjourney', lmsys_elo: 0, mmlu: 0, swe_bench: 0, aime: 0, humaneval: 0, free: false, url: 'https://www.midjourney.com', description: 'Sanat düzeyinde görsel üretim AI. Yaratıcılık sınırsız.', vram: 'API' },
       { rank: 36, name: 'DALL-E 3', icon: 'https://img.icons8.com/fluency/48/image--v1.png', company: 'OpenAI', lmsys_elo: 0, mmlu: 0, swe_bench: 0, aime: 0, humaneval: 0, free: false, url: 'https://openai.com/dall-e-3', description: 'OpenAI görsel üretim modeli. Metinden görsel.', vram: 'API' },
       { rank: 37, name: 'Stable Diffusion 3', icon: 'https://img.icons8.com/fluency/48/gallery.png', company: 'Stability AI', lmsys_elo: 0, mmlu: 0, swe_bench: 0, aime: 0, humaneval: 0, free: true, url: 'https://stability.ai', description: 'Açık kaynak görsel üretim. SD3 ile kalite arttı.', vram: '8GB' },
@@ -2162,13 +2240,26 @@ function playVideo(url, platform, title) {
   var container = document.getElementById('video-embed-container');
   var info = document.getElementById('video-embed-info');
   container.innerHTML = '';
+  info.innerHTML = '';
   modal.style.display = 'flex';
   document.body.style.overflow = 'hidden';
-  var embedUrl = '';
   if (platform === 'youtube') {
     var vid = extractYTId(url);
-    embedUrl = 'https://www.youtube.com/embed/' + vid + '?autoplay=1&rel=0&modestbranding=1&playsinline=1';
-    container.innerHTML = '<div style="position:relative;width:100%;height:0;padding-bottom:56.25%;background:#000;border-radius:12px;overflow:hidden"><iframe src="' + embedUrl + '" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;border-radius:12px" allow="autoplay;encrypted-media;fullscreen;picture-in-picture" allowfullscreen frameborder="0" scrolling="no"></iframe></div>';
+    var embedUrl = 'https://www.youtube.com/embed/' + vid + '?rel=0&modestbranding=1&playsinline=1';
+    container.style.position = 'relative';
+    container.style.paddingBottom = '56.25%';
+    container.style.height = '0';
+    container.style.overflow = 'hidden';
+    container.style.borderRadius = '12px';
+    container.style.background = '#000';
+    var iframe = document.createElement('iframe');
+    iframe.src = embedUrl;
+    iframe.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;border:0;border-radius:12px;';
+    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+    iframe.allowFullscreen = true;
+    iframe.setAttribute('allowfullscreen', '');
+    iframe.setAttribute('frameborder', '0');
+    container.appendChild(iframe);
   } else if (platform === 'x') {
     window.open(url, '_blank');
     closeVideoEmbed();
@@ -2176,8 +2267,20 @@ function playVideo(url, platform, title) {
   } else if (platform === 'instagram') {
     var reelMatch = url.match(/reel\/([^/]+)/);
     if (reelMatch) {
-      embedUrl = 'https://www.instagram.com/reel/' + reelMatch[1] + '/embed/';
-      container.innerHTML = '<div style="position:relative;width:100%;height:0;padding-bottom:56.25%;background:#000;border-radius:12px;overflow:hidden"><iframe src="' + embedUrl + '" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;border-radius:12px" allowfullscreen frameborder="0" scrolling="no"></iframe></div>';
+      var embedUrl = 'https://www.instagram.com/reel/' + reelMatch[1] + '/embed/';
+      container.style.position = 'relative';
+      container.style.paddingBottom = '56.25%';
+      container.style.height = '0';
+      container.style.overflow = 'hidden';
+      container.style.borderRadius = '12px';
+      container.style.background = '#000';
+      var iframe = document.createElement('iframe');
+      iframe.src = embedUrl;
+      iframe.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;border:0;border-radius:12px;';
+      iframe.allowFullscreen = true;
+      iframe.setAttribute('allowfullscreen', '');
+      iframe.setAttribute('frameborder', '0');
+      container.appendChild(iframe);
     } else {
       window.open(url, '_blank');
       closeVideoEmbed();
@@ -2196,7 +2299,9 @@ function closeVideoEmbed(event) {
   if (event && event.target !== event.currentTarget) return;
   const modal = document.getElementById('video-embed-modal');
   modal.style.display = 'none';
-  document.getElementById('video-embed-container').innerHTML = '';
+  var container = document.getElementById('video-embed-container');
+  container.innerHTML = '';
+  container.style.cssText = 'width:100%;position:relative;border-radius:12px;background:#000';
   document.body.style.overflow = '';
 }
 
@@ -2238,25 +2343,18 @@ function filterAgents(cat, el) {
 function renderAgents(agents) {
   const container = document.getElementById('agents-list');
   if (!agents.length) { container.innerHTML = '<div class="empty-state"><div class="icon">🤖</div><p>Bu kategoride agent yok</p></div>'; return; }
-  container.innerHTML = agents.map(a => `
-    <div class="tool-card" onclick="window.open('${a.url}','_blank')" style="display:flex;flex-direction:column">
-      <div class="tool-header">
-        <div class="tool-icon"><span style="font-size:24px">${a.emoji || agentCategories[a.category] || '🤖'}</span></div>
-        <div>
-          <div class="tool-name">${a.name}</div>
-          <span class="tool-category-badge">${a.category}</span>
-        </div>
-      </div>
-      <div class="tool-desc">${a.description}</div>
-      ${a.features ? `<div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:10px">${a.features.slice(0, 4).map(f => `<span style="background:var(--bg3);color:var(--text2);font-size:10px;padding:2px 6px;border-radius:4px">${f}</span>`).join('')}</div>` : ''}
-      ${a.tags ? `<div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:10px">${a.tags.map(t => `<span style="background:rgba(201,168,76,0.1);color:var(--gold);font-size:10px;padding:2px 6px;border-radius:4px;border:1px solid rgba(201,168,76,0.2)">${t}</span>`).join('')}</div>` : ''}
-      <div class="tool-footer" style="margin-top:auto">
-        <span class="${a.free ? 'free-badge' : 'paid-badge'}">${a.free ? '✓ Ücretsiz' : '$ Ücretli'}</span>
-        <span class="rating">★ ${a.rating}</span>
-        ${a.stars ? `<span style="color:var(--text3);font-size:11px;margin-left:4px">⭐ ${a.stars}</span>` : ''}
-      </div>
-    </div>
-  `).join('');
+  container.innerHTML = agents.map(a => {
+    const iconSrc = a.icon || a.image || '';
+    const isRealIcon = iconSrc && (iconSrc.startsWith('http') || iconSrc.startsWith('/'));
+    const fallbackEmoji = a.emoji || '🤖';
+    const iconHtml = isRealIcon
+      ? '<div class="tool-icon"><img src="' + iconSrc + '" style="width:32px;height:32px;object-fit:contain;border-radius:6px;background:var(--bg3)" onerror="this.outerHTML=\'<span style=font-size:24px>' + fallbackEmoji + '</span>\'" loading="lazy"></div>'
+      : '<div class="tool-icon"><span style="font-size:24px">' + fallbackEmoji + '</span></div>';
+    const featuresHtml = a.features ? '<div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:10px">' + a.features.slice(0, 4).map(f => '<span style="background:var(--bg3);color:var(--text2);font-size:10px;padding:2px 6px;border-radius:4px">' + f + '</span>').join('') + '</div>' : '';
+    const footerBadge = a.free ? '<span class="free-badge">✓ Ücretsiz</span>' : '<span class="paid-badge">$ Ücretli</span>';
+    const starsBadge = a.stars ? '<span class="rating">⭐ ' + a.stars + '</span>' : '<span class="rating">★ ' + (a.rating || '4.5') + '</span>';
+    return '<div class="tool-card" onclick="window.open(\'' + (a.url || '#') + '\',\'_blank\')" style="display:flex;flex-direction:column"><div class="tool-header">' + iconHtml + '<div><div class="tool-name">' + a.name + '</div><span class="tool-category-badge">' + (a.category || '') + '</span></div></div><div class="tool-desc">' + (a.description || '') + '</div>' + featuresHtml + '<div class="tool-footer">' + footerBadge + starsBadge + '</div></div>';
+  }).join('');
 }
 
 // TOOLS
@@ -2266,7 +2364,7 @@ async function loadTools() {
       { id: 1, name: 'Claude Opus 4.7', image: 'https://img.icons8.com/fluency/48/ai.png', category: 'LLM', description: 'Anthropic en güçlü model. Kod yazma ve analiz lideri.', url: 'https://claude.ai', free: true, rating: 4.9, benchmark: { lmsys: 1506, mmlu: '88.7%', swe_bench: '74.2%', aime: '85%' } },
       { id: 2, name: 'GPT-5.5', image: 'https://img.icons8.com/fluency/48/chatgpt.png', category: 'LLM', description: 'OpenAI devrim niteliğinde güncelleme. Multimodal.', url: 'https://chat.openai.com', free: false, rating: 4.9, benchmark: { lmsys: 1498, mmlu: '88.2%', swe_bench: '74.9%', aime: '83%' } },
       { id: 3, name: 'Gemini 3.1 Pro', image: 'https://img.icons8.com/fluency/48/google-logo.png', category: 'LLM', description: 'Google en güçlü modeli. Artık herkes için ücretsiz.', url: 'https://gemini.google.com', free: true, rating: 4.8, benchmark: { lmsys: 1489, mmlu: '87.9%', swe_bench: '80.6%', aime: '79%' } },
-      { id: 4, name: 'DeepSeek V4', image: 'https://img.icons8.com/fluency/48/ai.png', category: 'LLM', description: 'Çin den gelen açık kaynak devrimi. GPT-4 seviyesi.', url: 'https://chat.deepseek.com', free: true, rating: 4.7, benchmark: { lmsys: 1452, mmlu: '87.1%', swe_bench: '49.2%', aime: '39.2%' } },
+      { id: 4, name: 'DeepSeek V4', image: 'https://img.icons8.com/fluency/48/ai.png', category: 'LLM', description: 'Çin\u2019den gelen açık kaynak devrimi. DeepSeek V4, GPT-4 seviyesinde performans sunarken tamamen açık kaynak ve ücretsiz erişime açık. MoE mimarisiyla verimli çıkarım. GPT-4 seviyesi.', url: 'https://chat.deepseek.com', free: true, rating: 4.7, benchmark: { lmsys: 1452, mmlu: '87.1%', swe_bench: '49.2%', aime: '39.2%' } },
       { id: 5, name: 'Grok 4', image: 'https://img.icons8.com/fluency/48/twitterx.png', category: 'LLM', description: 'xAI modeli. Gerçek zamanlı X/Twitter erişimi.', url: 'https://grok.x.ai', free: true, rating: 4.7 },
       { id: 6, name: 'Midjourney V7', image: 'https://img.icons8.com/fluency/48/picture.png', category: 'Görüntü', description: 'Sanatsal görüntü üretiminde altın standart.', url: 'https://midjourney.com', free: false, rating: 4.9 },
       { id: 7, name: 'DALL-E 3', image: 'https://img.icons8.com/fluency/48/ai.png', category: 'Görüntü', description: 'OpenAI görüntü üretici. ChatGPT ile entegre.', url: 'https://chat.openai.com', free: true, rating: 4.7 },
@@ -2347,31 +2445,31 @@ function renderTools(tools) {
 // LEARN
 function loadLearnContent() {
   allLearn = [
-    { category: 'Haberler', emoji: '📰', image: '🤖', title: 'Claude Opus 4.7 Çıktı: İnsanlığı Geride Bırakan Yapay Zeka', summary: 'Anthropic in yeni amiral gemisi modeli tüm benchmarklarda zirveyi aldı. Kod yazma, matematik ve multimodal yeteneklerde devrim.', readTime: '5 dk', content: 'Claude Opus 4.7, Anthropic in en güçlü yapay zeka modeli olarak piyasaya çıktı...' , image_url: 'https://loremflickr.com/600/300/claude-anthropic-ai'},
-    { category: 'Haberler', emoji: '📰', image: '🔍', title: 'Gemini 3.1 Pro: Google ın En Güçlü Modeli Artık Herkes İçin Ücretsiz', summary: 'Google, Gemini 3.1 Pro yu tamamen ücretsiz hale getirdi. 1M token context ve gelişmiş multimodal yetenekler.', readTime: '4 dk', content: 'Google, Gemini 3.1 Pro yu tüm kullanıcılar için ücretsiz olarak sunmaya başladı...' , image_url: 'https://loremflickr.com/600/300/google-gemini-model'},
-    { category: 'Haberler', emoji: '📰', image: '🤖', title: 'GPT-5.5 Tanıtıldı: OpenAI den Devrim Niteliğinde Güncelleme', summary: 'OpenAI, GPT-5.5 ile yapay zeka dünyasında çıtayı yükseltiyor. 1M token context ve agent yetenekleri.', readTime: '6 dk', content: 'OpenAI, GPT-5.5 i duyurdu. Yeni model, 1 milyon token context window ile geliyor...' , image_url: 'https://loremflickr.com/600/300/openai-gpt-chatgpt'},
-    { category: 'Haberler', emoji: '📰', image: '🧠', title: 'DeepSeek V4: Çin den Gelen Açık Kaynak Devrimi', summary: 'DeepSeek V4, açık kaynak dünyasında devrim yarattı. GPT-4.5 seviyesinde performans, tamamen ücretsiz.', readTime: '5 dk', content: 'DeepSeek, V4 modeliyle yapay zeka arena sında büyük bir sürpriz yaptı...' , image_url: 'https://loremflickr.com/600/300/deepseek-opensource-ai'},
-    { category: 'Araştırma', emoji: '🔬', image: '🧠', title: 'AI Agent lar 2026 da İş Gücünü Nasıl Değiştirecek?', summary: 'Otonom AI agentların iş dünyasına etkileri, hangi mesleklerin dönüşeceği ve yeni fırsatlar.', readTime: '12 dk', content: 'AI agentlar, 2026 da iş gücünü temelden dönüştürmeye başlıyor...' , image_url: 'https://loremflickr.com/600/300/ai-agent-workforce'},
-    { category: 'Haberler', emoji: '📰', image: '🧠', title: 'Mistral Large 3: Avrupa nın İlk Trilyon Parametreli Modeli', summary: 'Fransız AI şirketi Mistral, trilyon parametreli yeni modeli Large 3 ü duyurdu.', readTime: '4 dk', content: 'Mistral, Avrupa nın en güçlü yapay zeka modeli olarak Mistral Large 3 ü tanıttı...' , image_url: 'https://loremflickr.com/600/300/mistral-ai-europe'},
-    { category: 'Agent', emoji: '🕹️', image: '🔒', title: 'OpenClaw: Açık Kaynak AI Agent Framework ü Token Gider %65 Azaltıyor', summary: 'OpenClaw, context pruning ve caveman mode ile GPT-4 maliyetini %65 düşürüyor. Claude, GPT, Gemini desteği ile Türkiye de yaygın kullanım.', readTime: '5 dk', content: 'OpenClaw, açık kaynak AI agent framework olarak dikkat çekiyor...' , image_url: 'https://loremflickr.com/600/300/openclaw-agent-framework'},
-    { category: 'Agent', icon: 'https://img.icons8.com/fluency/48/robot.png', emoji: '🤖', image: '🧠', title: 'Hermes Agent: Türkiye den Çoklu Model Destekli AI Asistan', summary: 'Hermes, Telegram, Discord, browser araçları ile entegre çalışıyor. Cron job, session yönetimi ve uzun hafıza özellikleriyle öne çıkıyor.', readTime: '4 dk', content: 'Hermes, çoklu model desteği ve güçlü araç entegrasyonlarıyla AI asistan deneyimini üst seviyeye taşıyor...' , image_url: 'https://loremflickr.com/600/300/hermes-ai-assistant'},
-    { category: 'Başlangıç', emoji: '🌱', image: '👶', title: 'AI e Yeni Başlayanlar İçin Tam Rehber 2026', summary: 'Yapay zekaya sıfırdan başlamak isteyenler için adım adım rehber. Temel kavramlar, araçlar ve ilk projeler.', readTime: '15 dk', content: 'Yapay zeka dünyasına adım atmak hiç bu kadar kolay olmamıştı...' , image_url: 'https://loremflickr.com/600/300/crewai-langchain-agent'},
-    { category: 'Para Kazanma', emoji: '💰', image: '💰', title: 'Yapay Zeka ile Para Kazanma: 15 Kanıtlanmış Yol', summary: 'Freelance yazılım, içerik üretimi, AI ajan kiralama ve daha fazlası. Her seviyeye uygun stratejiler.', readTime: '20 dk', content: 'AI ile para kazanmak artık sadece büyük şirketlerin tekelinde değil...' , image_url: 'https://loremflickr.com/600/300/ai-money-income'},
-    { category: 'İleri Seviye', emoji: '🚀', image: '🚀', title: 'RAG (Retrieval Augmented Generation) Neden Önemli?', summary: 'Kurumsal verilerle AI kullanmanın en etkili yolu. RAG mimarisi, vektör veritabanları ve best practice ler.', readTime: '10 dk', content: 'RAG, kurumsal AI uygulamalarının temel taşı haline geldi...' , image_url: 'https://loremflickr.com/600/300/rag-retrieval-augmented'},
-    { category: 'Kıyaslama', emoji: '📊', image: '📊', title: 'LLM Benchmark Rehberi: MMLU, SWE-bench ve Ötesi', summary: 'Model karşılaştırma metrikleri ne anlama geliyor? Hangi benchmark hangi yeteneği ölçüyor?', readTime: '8 dk', content: 'LLM benchmarkları, modellerin gerçek dünyadaki performansını anlamak için kritik...' , image_url: 'https://loremflickr.com/600/300/llm-benchmark-evaluation'},
-    { category: 'Otomasyon', icon: 'https://img.icons8.com/fluency/48/lightning-bolt.png', emoji: '⚡', image: '⚙️', title: 'AI Otomasyon ile İş Akışlarını Hızlandırma', summary: 'n8n, Make ve özel AI agentları ile tekrarlayan işleri otomatikleştirme. Gerçek dünya örnekleri.', readTime: '12 dk', content: 'AI otomasyon, iş dünyasında devrim yaratıyor...' , image_url: 'https://loremflickr.com/600/300/ai-automation-workflow'},
-    { category: 'Başlangıç', emoji: '🌱', image: '💬', title: 'Prompt Mühendisliği 101: Etkili Prompt Yazma Sanatı', summary: 'AI dan en iyi sonucu almak için prompt yazma teknikleri. CoT, few-shot, role-playing ve daha fazlası.', readTime: '10 dk', content: 'Prompt mühendisliği, AI ile çalışmanın en temel becerisi...' , image_url: 'https://loremflickr.com/600/300/prompt-engineering-craft'},
-    { category: 'Para Kazanma', emoji: '💰', image: '🏪', title: 'AI ile SaaS Ürünü Oluşturma: Sıfırdan Lansmana', summary: 'AI tabanlı bir SaaS ürünü nasıl oluşturulur? Fikir, MVP, pazar doğrulama ve büyüme stratejileri.', readTime: '18 dk', content: 'AI tabanlı SaaS ürünleri, 2026 nın en kârlı girişim alanlarından...' , image_url: 'https://loremflickr.com/600/300/ai-saas-product'},
-    { category: 'İleri Seviye', emoji: '🚀', image: '🧠', title: 'Fine-Tuning vs RAG: Hangi Yöntemi Ne Zaman Kullanmalı?', summary: 'Model ince ayarı mı, RAG mı? Her yaklaşımın avantajları, maliyetleri ve kullanım senaryoları.', readTime: '12 dk', content: 'Kurumsal AI projelerinde en sık sorulan sorulardan biri...' , image_url: 'https://loremflickr.com/600/300/fine-tuning-ml'},
-    { category: 'Kıyaslama', emoji: '📊', image: '🖥️', title: 'Açık Kaynak vs Kapalı Kaynak AI Modelleri: 2026 Karşılaştırması', summary: 'Open source ve proprietary modellerin maliyet, performans ve güvenlik karşılaştırması.', readTime: '10 dk', content: 'Açık kaynak AI modelleri, kapalı kaynak rakiplerine karşı giderek daha rekabetçi hale geliyor...' , image_url: 'https://loremflickr.com/600/300/opensource-vs-closed-ai'},
-    { category: 'Otomasyon', icon: 'https://img.icons8.com/fluency/48/lightning-bolt.png', emoji: '⚡', image: '🔄', title: 'Multi-Agent Sistemleri: AI Agentları Birlikte Çalıştırma', summary: 'CrewAI, AutoGen ve AutoGPT ile birden fazla AI agentı koordine etme. Gerçek dünya mimarileri.', readTime: '14 dk', content: 'Multi-agent sistemler, karmaşık görevleri paralel ve koordineli şekilde çözmek için...' , image_url: 'https://loremflickr.com/600/300/multi-agent-system'},
-    { category: 'Para Kazanma', emoji: '💰', image: '💼', title: 'Freelance AI Geliştirici Olmak: Başlangıç Rehberi', summary: 'Upwork ve Fiverr da AI projeleri almak, fiyatlandırma stratejileri ve portföy oluşturma.', readTime: '15 dk', content: 'Freelance AI geliştiriciler, 2026 da en çok aranan profesyoneller arasında...' , image_url: 'https://loremflickr.com/600/300/freelance-developer-ai'},
-    { category: 'Haberler', emoji: '📰', image: '🌙', title: 'Kimi K2.6 Tanıtıldı: Moonshot AI Uzun Context Lideri', summary: 'Moonshot AI Kimi K2.6 ile 2M token context sunuyor. Çin AI ekosisteminin en güçlü modeli benchmarkları alt üst etti.', readTime: '5 dk', content: 'Moonshot AI, Kimi K2.6 modelini duyurdu. 2 milyon token context window ile gelen model, uzun belge analizi ve çok adımlı akıl yürütmede rakiplerini geride bırakıyor. Nisan 2026 itibarıyla LMSYS arena sıralamasında ilk 10 da.', image_url: 'https://loremflickr.com/600/300/moonshot-ai-kimi' },
-    { category: 'Haberler', emoji: '📰', image: '🧠', title: 'GLM 5.1: Zhipu AI Multi-Model Devrimi', summary: 'Zhipu AI GLM 5.1 ile görsel, ses ve metin birleştiren tam multimodal deneyim sunuyor. Agent araçları ile otonom görev yapabiliyor.', readTime: '6 dk', content: 'Zhipu AI, GLM 5.1 modeli ile multimodal AI konusunda Çin in en iddialı hamlesini yaptı. Model, görsel anlama, ses işleme ve araç kullanımı konusunda eşsiz yetenekler sunuyor. Nisan 2026 da piyasaya sürüldü.', image_url: 'https://loremflickr.com/600/300/zhipu-ai-glm' },
-    { category: 'Haberler', emoji: '📰', image: '🎬', title: 'MiniMax 2.7: Video Üretiminde Yeni Çağ', summary: 'MiniMax 2.7 ile 4K video üretimi mümkün. Sora ve Runway i geride bırakan sinematik kalite.', readTime: '4 dk', content: 'MiniMax, 2.7 versiyonu ile video üretiminde çıtayı yükseltti. 4K çözünürlükte sinematik kalitede videolar üretebilen model, karakter tutarlılığı ve fizik simülasyonunda rakiplerini geçiyor.', image_url: 'https://loremflickr.com/600/300/minimax-video-ai' },
-    { category: 'Haberler', emoji: '📰', image: '☁️', title: 'Qwen 3.6 Max: Alibaba Benchmark Lideri', summary: 'Alibaba Qwen 3.6 Max MMLU, SWE-bench ve AIME de zirveye çıktı. Açık kaynak varyantları da yayınlandı.', readTime: '5 dk', content: 'Alibaba, Qwen 3.6 Max ile AI benchmarklarında lider konuma yükseldi. 120B ve 35B açık kaynak varyantları da yayınlanarak topluluk büyük ilgi gösterdi.', image_url: 'https://loremflickr.com/600/300/alibaba-qwen-ai' },
-    { category: 'Araştırma', emoji: '🔬', image: '🦙', title: 'Açık Kaynak AI Modelleri 2026: Self-Host Rehberi', summary: 'Llama 4, Qwen 3.6, DeepSeek R1 ve daha fazlası. Hangi donanımda hangi model çalışır? RTX 4090, A100 ve Mac Studio karşılaştırması.', readTime: '15 dk', content: '2026 da açık kaynak AI modelleri kendi sunucunuzda çalıştırmak hiç bu kadar kolay olmamıştı. Bu rehberde Llama 4 Scout, Qwen 3.6 varyantları, DeepSeek R1 ve Phi-4 gibi modellerin donanım gereksinimlerini ve performanslarını karşılaştırıyoruz.', image_url: 'https://loremflickr.com/600/300/self-host-ai-models' },
-    { category: 'Agent', emoji: '🕹️', image: '🤖', title: 'AI Agent Frameworkleri Kıyaslaması 2026: CrewAI vs AutoGen vs OpenClaw', summary: '2026 en iyi agent framework ü hangisi? Çoklu agent koordinasyonu, maliyet ve özellik karşılaştırması.', readTime: '12 dk', content: 'AI agent frameworkleri 2026 da olgunlaşmaya devam ediyor. CrewAI, AutoGen ve OpenClaw ın artıları, eksileri ve gerçek dünya kullanım senaryolarını inceliyoruz.', image_url: 'https://loremflickr.com/600/300/crewai-langchain-agent' },
+    { category: 'Haberler', emoji: '📰', image: '🤖', title: 'Claude Opus 4.7 Çıktı: İnsanlığı Geride Bırakan Yapay Zeka', summary: 'Anthropic in yeni amiral gemisi modeli tüm benchmarklarda zirveyi aldı. Kod yazma, matematik ve multimodal yeteneklerde devrim.', readTime: '5 dk', content: 'Claude Opus 4.7, Anthropic in en güçlü yapay zeka modeli olarak piyasaya çıktı...' , image_url: 'https://images.pexels.com/photos/8294552/pexels-photo-8294552.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop'},
+    { category: 'Haberler', emoji: '📰', image: '🔍', title: 'Gemini 3.1 Pro: Google\u2019ın En Güçlü Modeli Artık Herkes İçin Ücretsiz', summary: 'Google, Gemini 3.1 Pro yu tamamen ücretsiz hale getirdi. 1M token context ve gelişmiş multimodal yetenekler.', readTime: '4 dk', content: 'Google, Gemini 3.1 Pro yu tüm kullanıcılar için ücretsiz olarak sunmaya başladı...' , image_url: 'https://images.pexels.com/photos/2599244/pexels-photo-2599244.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop'},
+    { category: 'Haberler', emoji: '📰', image: '🤖', title: 'GPT-5.5 Tanıtıldı: OpenAI\u2019den Devrim Niteliğinde Güncelleme', summary: 'OpenAI, GPT-5.5 ile yapay zeka dünyasında çıtayı yükseltiyor. 1M token context ve agent yetenekleri.', readTime: '6 dk', content: 'OpenAI, GPT-5.5 i duyurdu. Yeni model, 1 milyon token context window ile geliyor...' , image_url: 'https://images.pexels.com/photos/1089440/pexels-photo-1089440.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop'},
+    { category: 'Haberler', emoji: '📰', image: '🧠', title: 'DeepSeek V4: Çin\u2019den Gelen Açık Kaynak Devrimi', summary: 'DeepSeek V4, açık kaynak dünyasında devrim yarattı. GPT-4.5 seviyesinde performans, tamamen ücretsiz.', readTime: '5 dk', content: 'DeepSeek, V4 modeliyle yapay zeka arena sında büyük bir sürpriz yaptı...' , image_url: 'https://images.pexels.com/photos/5380642/pexels-photo-5380642.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop'},
+    { category: 'Araştırma', emoji: '🔬', image: '🧠', title: 'AI Agent lar 2026 da İş Gücünü Nasıl Değiştirecek?', summary: 'Otonom AI agentların iş dünyasına etkileri, hangi mesleklerin dönüşeceği ve yeni fırsatlar.', readTime: '12 dk', content: 'AI agentlar, 2026 da iş gücünü temelden dönüştürmeye başlıyor...' , image_url: 'https://images.pexels.com/photos/5624598/pexels-photo-5624598.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop'},
+    { category: 'Haberler', emoji: '📰', image: '🧠', title: 'Mistral Large 3: Avrupa\u2019nın İlk Trilyon Parametreli Modeli', summary: 'Fransız AI şirketi Mistral, trilyon parametreli yeni modeli Large 3 ü duyurdu.', readTime: '4 dk', content: 'Mistral, Avrupa\u2019nın en güçlü yapay zeka modeli olarak Mistral Large 3 ü tanıttı...' , image_url: 'https://images.pexels.com/photos/356056/pexels-photo-356056.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=cropmistral-ai-europe'},
+    { category: 'Agent', emoji: '🕹️', image: '🔒', title: 'OpenClaw: Açık Kaynak AI Agent Framework\u2019ü Token Gider %65 Azaltıyor', summary: 'OpenClaw, context pruning ve caveman mode ile GPT-4 maliyetini %65 düşürüyor. Claude, GPT, Gemini desteği ile Türkiye de yaygın kullanım.', readTime: '5 dk', content: 'OpenClaw, açık kaynak AI agent framework olarak dikkat çekiyor...' , image_url: 'https://images.pexels.com/photos/356056/pexels-photo-356056.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=cropopenclaw-agent-framework'},
+    { category: 'Agent', icon: 'https://img.icons8.com/fluency/48/robot.png', emoji: '🤖', image: '🧠', title: 'Hermes Agent: Türkiye den Çoklu Model Destekli AI Asistan', summary: 'Hermes, Telegram, Discord, browser araçları ile entegre çalışıyor. Cron job, session yönetimi ve uzun hafıza özellikleriyle öne çıkıyor.', readTime: '4 dk', content: 'Hermes, çoklu model desteği ve güçlü araç entegrasyonlarıyla AI asistan deneyimini üst seviyeye taşıyor...' , image_url: 'https://images.pexels.com/photos/356056/pexels-photo-356056.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crophermes-ai-assistant'},
+    { category: 'Başlangıç', emoji: '🌱', image: '👶', title: 'AI e Yeni Başlayanlar İçin Tam Rehber 2026', summary: 'Yapay zekaya sıfırdan başlamak isteyenler için adım adım rehber. Temel kavramlar, araçlar ve ilk projeler.', readTime: '15 dk', content: 'Yapay zeka dünyasına adım atmak hiç bu kadar kolay olmamıştı...' , image_url: 'https://images.pexels.com/photos/356056/pexels-photo-356056.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=cropcrewai-langchain-agent'},
+    { category: 'Para Kazanma', emoji: '💰', image: '💰', title: 'Yapay Zeka ile Para Kazanma: 15 Kanıtlanmış Yol', summary: 'Freelance yazılım, içerik üretimi, AI ajan kiralama ve daha fazlası. Her seviyeye uygun stratejiler.', readTime: '20 dk', content: 'AI ile para kazanmak artık sadece büyük şirketlerin tekelinde değil...' , image_url: 'https://images.pexels.com/photos/356056/pexels-photo-356056.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=cropai-money-income'},
+    { category: 'İleri Seviye', emoji: '🚀', image: '🚀', title: 'RAG (Retrieval Augmented Generation) Neden Önemli?', summary: 'Kurumsal verilerle AI kullanmanın en etkili yolu. RAG mimarisi, vektör veritabanları ve best practice ler.', readTime: '10 dk', content: 'RAG, kurumsal AI uygulamalarının temel taşı haline geldi...' , image_url: 'https://images.pexels.com/photos/574069/pexels-photo-574069.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop'},
+    { category: 'Kıyaslama', emoji: '📊', image: '📊', title: 'LLM Benchmark Rehberi: MMLU, SWE-bench ve Ötesi', summary: 'Model karşılaştırma metrikleri ne anlama geliyor? Hangi benchmark hangi yeteneği ölçüyor?', readTime: '8 dk', content: 'LLM benchmarkları, modellerin gerçek dünyadaki performansını anlamak için kritik...' , image_url: 'https://images.pexels.com/photos/356056/pexels-photo-356056.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=cropllm-benchmark-evaluation'},
+    { category: 'Otomasyon', icon: 'https://img.icons8.com/fluency/48/lightning-bolt.png', emoji: '⚡', image: '⚙️', title: 'AI Otomasyon ile İş Akışlarını Hızlandırma', summary: 'n8n, Make ve özel AI agentları ile tekrarlayan işleri otomatikleştirme. Gerçek dünya örnekleri.', readTime: '12 dk', content: 'AI otomasyon, iş dünyasında devrim yaratıyor...' , image_url: 'https://images.pexels.com/photos/356056/pexels-photo-356056.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=cropai-automation-workflow'},
+    { category: 'Başlangıç', emoji: '🌱', image: '💬', title: 'Prompt Mühendisliği 101: Etkili Prompt Yazma Sanatı', summary: 'AI dan en iyi sonucu almak için prompt yazma teknikleri. CoT, few-shot, role-playing ve daha fazlası.', readTime: '10 dk', content: 'Prompt mühendisliği, AI ile çalışmanın en temel becerisi...' , image_url: 'https://images.pexels.com/photos/301931/pexels-photo-301931.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop-craft'},
+    { category: 'Para Kazanma', emoji: '💰', image: '🏪', title: 'AI ile SaaS Ürünü Oluşturma: Sıfırdan Lansmana', summary: 'AI tabanlı bir SaaS ürünü nasıl oluşturulur? Fikir, MVP, pazar doğrulama ve büyüme stratejileri.', readTime: '18 dk', content: 'AI tabanlı SaaS ürünleri, 2026 nın en kârlı girişim alanlarından...' , image_url: 'https://images.pexels.com/photos/356056/pexels-photo-356056.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=cropai-saas-product'},
+    { category: 'İleri Seviye', emoji: '🚀', image: '🧠', title: 'Fine-Tuning vs RAG: Hangi Yöntemi Ne Zaman Kullanmalı?', summary: 'Model ince ayarı mı, RAG mı? Her yaklaşımın avantajları, maliyetleri ve kullanım senaryoları.', readTime: '12 dk', content: 'Kurumsal AI projelerinde en sık sorulan sorulardan biri...' , image_url: 'https://images.pexels.com/photos/356056/pexels-photo-356056.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=cropfine-tuning-ml'},
+    { category: 'Kıyaslama', emoji: '📊', image: '🖥️', title: 'Açık Kaynak vs Kapalı Kaynak AI Modelleri: 2026 Karşılaştırması', summary: 'Open source ve proprietary modellerin maliyet, performans ve güvenlik karşılaştırması.', readTime: '10 dk', content: 'Açık kaynak AI modelleri, kapalı kaynak rakiplerine karşı giderek daha rekabetçi hale geliyor...' , image_url: 'https://images.pexels.com/photos/356056/pexels-photo-356056.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=cropopensource-vs-closed-ai'},
+    { category: 'Otomasyon', icon: 'https://img.icons8.com/fluency/48/lightning-bolt.png', emoji: '⚡', image: '🔄', title: 'Multi-Agent Sistemleri: AI Agentları Birlikte Çalıştırma', summary: 'CrewAI, AutoGen ve AutoGPT ile birden fazla AI agentı koordine etme. Gerçek dünya mimarileri.', readTime: '14 dk', content: 'Multi-agent sistemler, karmaşık görevleri paralel ve koordineli şekilde çözmek için...' , image_url: 'https://images.pexels.com/photos/4160059/pexels-photo-4160059.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop'},
+    { category: 'Para Kazanma', emoji: '💰', image: '💼', title: 'Freelance AI Geliştirici Olmak: Başlangıç Rehberi', summary: 'Upwork ve Fiverr da AI projeleri almak, fiyatlandırma stratejileri ve portföy oluşturma.', readTime: '15 dk', content: 'Freelance AI geliştiriciler, 2026 da en çok aranan profesyoneller arasında...' , image_url: 'https://images.pexels.com/photos/356056/pexels-photo-356056.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=cropfreelance-developer-ai'},
+    { category: 'Haberler', emoji: '📰', image: '🌙', title: 'Kimi K2.6 Tanıtıldı: Moonshot AI Uzun Context Lideri', summary: 'Moonshot AI Kimi K2.6 ile 2M token context sunuyor. Çin AI ekosisteminin en güçlü modeli benchmarkları alt üst etti.', readTime: '5 dk', content: 'Moonshot AI, Kimi K2.6 modelini duyurdu. 2 milyon token context window ile gelen model, uzun belge analizi ve çok adımlı akıl yürütmede rakiplerini geride bırakıyor. Nisan 2026 itibarıyla LMSYS arena sıralamasında ilk 10 da.', image_url: 'https://images.pexels.com/photos/356056/pexels-photo-356056.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=cropmoonshot-ai-kimi' },
+    { category: 'Haberler', emoji: '📰', image: '🧠', title: 'GLM 5.1: Zhipu AI Multi-Model Devrimi', summary: 'Zhipu AI GLM 5.1 ile görsel, ses ve metin birleştiren tam multimodal deneyim sunuyor. Agent araçları ile otonom görev yapabiliyor.', readTime: '6 dk', content: 'Zhipu AI, GLM 5.1 modeli ile multimodal AI konusunda Çin in en iddialı hamlesini yaptı. Model, görsel anlama, ses işleme ve araç kullanımı konusunda eşsiz yetenekler sunuyor. Nisan 2026 da piyasaya sürüldü.', image_url: 'https://images.pexels.com/photos/356056/pexels-photo-356056.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=cropzhipu-ai-glm' },
+    { category: 'Haberler', emoji: '📰', image: '🎬', title: 'MiniMax 2.7: Video Üretiminde Yeni Çağ', summary: 'MiniMax 2.7 ile 4K video üretimi mümkün. Sora ve Runway i geride bırakan sinematik kalite.', readTime: '4 dk', content: 'MiniMax, 2.7 versiyonu ile video üretiminde çıtayı yükseltti. 4K çözünürlükte sinematik kalitede videolar üretebilen model, karakter tutarlılığı ve fizik simülasyonunda rakiplerini geçiyor.', image_url: 'https://images.pexels.com/photos/3735709/pexels-photo-3735709.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop-ai' },
+    { category: 'Haberler', emoji: '📰', image: '☁️', title: 'Qwen 3.6 Max: Alibaba Benchmark Lideri', summary: 'Alibaba Qwen 3.6 Max MMLU, SWE-bench ve AIME de zirveye çıktı. Açık kaynak varyantları da yayınlandı.', readTime: '5 dk', content: 'Alibaba, Qwen 3.6 Max ile AI benchmarklarında lider konuma yükseldi. 120B ve 35B açık kaynak varyantları da yayınlanarak topluluk büyük ilgi gösterdi.', image_url: 'https://images.pexels.com/photos/356056/pexels-photo-356056.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=cropalibaba-qwen-ai' },
+    { category: 'Araştırma', emoji: '🔬', image: '🦙', title: 'Açık Kaynak AI Modelleri 2026: Self-Host Rehberi', summary: 'Llama 4, Qwen 3.6, DeepSeek R1 ve daha fazlası. Hangi donanımda hangi model çalışır? RTX 4090, A100 ve Mac Studio karşılaştırması.', readTime: '15 dk', content: '2026 da açık kaynak AI modelleri kendi sunucunuzda çalıştırmak hiç bu kadar kolay olmamıştı. Bu rehberde Llama 4 Scout, Qwen 3.6 varyantları, DeepSeek R1 ve Phi-4 gibi modellerin donanım gereksinimlerini ve performanslarını karşılaştırıyoruz.', image_url: 'https://images.pexels.com/photos/2588086/pexels-photo-2588086.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop-models' },
+    { category: 'Agent', emoji: '🕹️', image: '🤖', title: 'AI Agent Frameworkleri Kıyaslaması 2026: CrewAI vs AutoGen vs OpenClaw', summary: '2026 en iyi agent framework ü hangisi? Çoklu agent koordinasyonu, maliyet ve özellik karşılaştırması.', readTime: '12 dk', content: 'AI agent frameworkleri 2026 da olgunlaşmaya devam ediyor. CrewAI, AutoGen ve OpenClaw ın artıları, eksileri ve gerçek dünya kullanım senaryolarını inceliyoruz.', image_url: 'https://images.pexels.com/photos/356056/pexels-photo-356056.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=cropcrewai-langchain-agent' },
   ];
   renderLearn(allLearn);
 }
@@ -2736,6 +2834,69 @@ async function adminDeleteArticle(id) {
     loadAdminArticles();
   } catch(e) { showToast("Hata oluştu"); }
 }
+
+
+// Daily Question Feature
+var dailyQuestions = [
+  { q: 'Claude Opus 4.7 hangi şirketin modelidir?', options: ['OpenAI', 'Anthropic', 'Google'], correct: 1 },
+  { q: 'GPT-5.5\u2019in context window kapasitesi ne kadardır?', options: ['128K token', '1M token', '32K token'], correct: 1 },
+  { q: 'DeepSeek V4 hangi ülkenin AI şirketidir?', options: ['ABD', 'Çin', 'İngiltere'], correct: 1 },
+  { q: 'Llama 4 Scout kaç parametrelidir?', options: ['17Bx16 (MoE)', '405B', '70B'], correct: 0 },
+  { q: 'SWE-bench ölçümü neyi değerlendirir?', options: ['Matematik', 'Kod yazma', 'Genel bilgi'], correct: 1 },
+  { q: 'RAG kısaltmasının açılımı nedir?', options: ['Random Access Generation', 'Retrieval Augmented Generation', 'Recursive Agent Grammar'], correct: 1 },
+  { q: 'Mistral AI hangi ülkenin şirketidir?', options: ['ABD', 'Almanya', 'Fransa'], correct: 2 },
+  { q: '2026\u2019da en yüksek LMSYS Elo puanına sahip model hangisidir?', options: ['Claude Opus 4.7', 'GPT-5.5', 'Gemini 3.1 Pro'], correct: 0 },
+  { q: 'Phi-4 modelini hangi şirket geliştirmiştir?', options: ['Google', 'Microsoft', 'Meta'], correct: 1 },
+  { q: 'Prompt engineering\u2019de CoT ne demektir?', options: ['Chain of Thought', 'Code of Training', 'Context of Text'], correct: 0 },
+  { q: 'Qwen 3.6 Max hangi şirketin modelidir?', options: ['Tencent', 'Alibaba', 'Baidu'], correct: 1 },
+  { q: 'AI Agent\u2019ların en önemli özelliği nedir?', options: ['Sadece metin üretmek', 'Otonom görev yapabilme', 'Resim çizme'], correct: 1 },
+  { q: 'Fine-tuning nedir?', options: ['Modeli sıfırdan eğitmek', 'Mevcut modeli özel veriyle uyarlama', 'Modeli silmek'], correct: 1 },
+  { q: 'Sora hangi şirketin video üretim AI\u2019sidır?', options: ['Google', 'Runway', 'OpenAI'], correct: 2 },
+  { q: 'Kimi K2.6\u2019nın en belirgin özelliği nedir?', options: ['2M token context', 'Görsel üretim', 'Ses klonlama'], correct: 0 },
+];
+
+function initDailyQuestion() {
+  var dayIndex = Math.floor(Date.now() / 86400000) % dailyQuestions.length;
+  var dq = dailyQuestions[dayIndex];
+  document.getElementById('dq-question').textContent = dq.q;
+  var optionsDiv = document.getElementById('dq-options');
+  optionsDiv.innerHTML = '';
+  var resultDiv = document.getElementById('dq-result');
+  resultDiv.style.display = 'none';
+  dq.options.forEach(function(opt, i) {
+    var btn = document.createElement('button');
+    btn.textContent = String.fromCharCode(65 + i) + ') ' + opt;
+    btn.style.cssText = 'background:var(--bg3);color:var(--text);border:1px solid var(--bg3);border-radius:8px;padding:8px 14px;text-align:left;cursor:pointer;font-size:14px;font-weight:500;transition:all 0.2s';
+    btn.onmouseenter = function() { btn.style.borderColor = 'var(--gold)'; btn.style.background = 'rgba(212,175,55,0.1)'; };
+    btn.onmouseleave = function() { if (!btn.disabled) { btn.style.borderColor = 'var(--bg3)'; btn.style.background = 'var(--bg3)'; } };
+    btn.onclick = function() {
+      var buttons = optionsDiv.querySelectorAll('button');
+      buttons.forEach(function(b, j) {
+        b.disabled = true;
+        b.style.cursor = 'default';
+        if (j === dq.correct) {
+          b.style.background = 'rgba(46,204,113,0.2)';
+          b.style.borderColor = '#2ecc71';
+          b.style.color = '#2ecc71';
+          b.innerHTML = '✓ ' + b.textContent.substring(3);
+        } else if (j === i && i !== dq.correct) {
+          b.style.background = 'rgba(231,76,60,0.2)';
+          b.style.borderColor = '#e74c3c';
+          b.style.color = '#e74c3c';
+          b.innerHTML = '✗ ' + b.textContent.substring(3);
+        }
+      });
+      resultDiv.style.display = 'block';
+      if (i === dq.correct) {
+        resultDiv.innerHTML = '<span style="color:#2ecc71">✓ Doğru cevap! Tebrikler!</span>';
+      } else {
+        resultDiv.innerHTML = '<span style="color:#e74c3c">✗ Yanlış. Doğru cevap: ' + dq.options[dq.correct] + '</span>';
+      }
+    };
+    optionsDiv.appendChild(btn);
+  });
+}
+
 </script>
 <footer>
     <div class="footer-content">
