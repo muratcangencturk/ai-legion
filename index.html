@@ -485,8 +485,8 @@
 <!-- NAVBAR -->
 <nav>
   <div class="logo" onclick="showPage('home')">
-    <div class="logo-icon" style="background:linear-gradient(135deg,var(--red),var(--gold));display:flex;align-items:center;justify-content:center;font-size:22px">⚡</div>
-    AI LEGION
+    <div class="logo-icon"><img src="logo.jpg" alt="AI Legion" style="width:100%;height:100%;object-fit:cover;border-radius:50%"></div>
+    <span>AI LEGION</span>
   </div>
   <div class="nav-links" id="nav-links">
     <button class="nav-btn active" onclick="showPage('home')">🏠 Haberler</button>
@@ -1091,6 +1091,14 @@ document.addEventListener('error', function(e) {
       document.getElementById('mobile-nav').classList.remove('open');
       document.getElementById('hamburger-btn').textContent = '☰';
     }
+    // Close mobile nav when clicking outside
+    document.addEventListener('click', function(e) {
+      const mn = document.getElementById('mobile-nav');
+      const hb = document.getElementById('hamburger-btn');
+      if (mn && mn.classList.contains('open') && !mn.contains(e.target) && !hb.contains(e.target)) {
+        closeNav();
+      }
+    });
     document.addEventListener('click', function(e) {
       const mn = document.getElementById('mobile-nav');
       const hb = document.getElementById('hamburger-btn');
@@ -1210,32 +1218,7 @@ if (navConfig) {
 }
 
 function applyNavConfig() {
-  const navLinks = document.getElementById('nav-links');
-  const mobileNav = document.getElementById('mobile-nav');
-  navLinks.innerHTML = '';
-  // Build mobile nav buttons (keeping auth sections)
-  let mobileHTML = '';
-  navConfig.forEach(item => {
-    if (item.visible) {
-      const btn = `<button class="nav-btn" onclick="showPage('${item.id}')">${item.label}</button>`;
-      navLinks.innerHTML += btn;
-      mobileHTML += `<button class="nav-btn" onclick="showPage('${item.id}');closeNav()">${item.label}</button>`;
-    }
-  });
-  // Update mobile nav while preserving auth buttons section
-  const mobileAuth = document.getElementById('mobile-auth-buttons');
-  const mobileUser = document.getElementById('mobile-user-buttons');
-  // Rebuild mobile-nav content
-  mobileNav.innerHTML = mobileHTML;
-  mobileNav.innerHTML += '<button class="nav-btn" onclick="toggleTheme();closeNav()" style="margin-top:8px;border:1px dashed var(--border)">☀️ Tema Değiştir</button>';
-  mobileNav.innerHTML += '<div style="height:1px;background:var(--border);margin:12px 0"></div>';
-  mobileNav.innerHTML += '<div id="mobile-auth-buttons" style="display:flex;flex-direction:column;gap:8px;padding:0 8px">';
-  mobileNav.innerHTML += '<button class="btn btn-gold" onclick="openModal(\'login-modal\');closeNav()">Giriş Yap</button>';
-  mobileNav.innerHTML += '<button class="btn btn-outline" onclick="openModal(\'register-modal\');closeNav()">Kayıt Ol</button>';
-  mobileNav.innerHTML += '</div>';
-  mobileNav.innerHTML += '<div id="mobile-user-buttons" style="display:none;flex-direction:column;gap:8px;padding:0 8px"></div>';
-  // Re-apply user state to mobile nav if logged in
-  if (currentUser) updateNavForUser();
+  // Only update active states, don't rebuild nav (prevents duplicates)
 }
 
 function renderNavManager() {
@@ -1328,36 +1311,23 @@ function closeModal(id) { document.getElementById(id).classList.remove('open'); 
 function updateNavForUser() {
   const navRight = document.getElementById('nav-right');
   const initial = currentUser.username[0].toUpperCase();
-  navRight.innerHTML = `
-    <div style="display:flex;align-items:center;gap:6px;cursor:pointer" onclick="showPage('profile')">
-      <div style="width:30px;height:30px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:var(--gold)">${initial}</div>
-      <span style="color:var(--text2);font-size:13px">@${currentUser.username}</span>
-      ${currentUser.is_admin ? '<span class="badge badge-admin">Admin</span>' : ''}
-    </div>
-    ${currentUser.is_admin ? '<button class="btn btn-outline btn-sm" onclick="showPage(\''+'admin'+'\')">⚙️ Admin Panel</button>' : ''}
-    <button class="btn btn-outline btn-sm" onclick="logout()">Çıkış</button>
-  `;
-  const profileBtn = document.getElementById('nav-profile-btn');
-  if (profileBtn) profileBtn.style.display = 'inline-flex';
-  if (currentUser.is_admin) {
-    const adminBtn = document.getElementById('nav-admin-btn');
-    if (adminBtn) adminBtn.style.display = 'inline-flex';
-    const addArticleBtn = document.getElementById('add-article-btn');
-    if (addArticleBtn) addArticleBtn.style.display = 'inline-flex';
-  }
-  const compAvatar = document.getElementById('composer-avatar');
-  if (compAvatar) compAvatar.textContent = initial;
-  // Update mobile nav auth buttons
+  // Preserve theme button and replace auth buttons with user info
+  const existingProfileBtn = document.getElementById('nav-profile-btn');
+  const existingAdminBtn = document.getElementById('nav-admin-btn');
+  // Remove auth buttons
+  const authBtns = navRight.querySelectorAll('.btn-sm:not(.theme-toggle):not(#nav-profile-btn):not(#nav-admin-btn)');
+  authBtns.forEach(b => b.style.display = 'none');
+  // Show profile button
+  if (existingProfileBtn) existingProfileBtn.style.display = 'inline-flex';
+  if (existingAdminBtn) existingAdminBtn.style.display = currentUser.role === 'admin' ? 'inline-flex' : 'none';
+  // Update mobile nav auth
   const mobileAuth = document.getElementById('mobile-auth-buttons');
   const mobileUser = document.getElementById('mobile-user-buttons');
   if (mobileAuth) mobileAuth.style.display = 'none';
   if (mobileUser) {
     mobileUser.style.display = 'flex';
-    mobileUser.innerHTML = `
-      <button class="nav-btn" onclick="showPage('profile');closeNav()">👤 @${currentUser.username}</button>
-      ${currentUser.is_admin ? '<button class="nav-btn" onclick="showPage(\'admin\');closeNav()">⚙️ Admin Panel</button>' : ''}
-      <button class="btn btn-outline" onclick="logout();closeNav()">Çıkış Yap</button>
-    `;
+    mobileUser.innerHTML = '<button class="btn btn-outline" onclick="showPage(\'profile\');closeNav()">👤 ' + currentUser.username + '</button>' +
+      '<button class="btn btn-red" onclick="logout();closeNav()">Çıkış Yap</button>';
   }
 }
 
@@ -2040,47 +2010,47 @@ const videoCategories = { 'Başlangıç': '🌱', 'Model İnceleme': '🏆', 'E�
 function loadVideos() {
   allVideos = [
     // ===== YOUTUBE - TURKCE =====
-    { id:1, platform:'youtube', category:'Baslangic', url:'https://www.youtube.com/watch?v=0Wpna736wwE', title:'Yapay Zeka Caginda Hayatta Kalma Rehberi!', channel:'Baris Ozkurdum', duration:'18:42', views:'2.1M', date:'2025-06-15', description:'Yapay zeka devrinde islerinizi nasil koruyacaksiniz? Bu rehberde tum detaylar.', thumb:'https://img.youtube.com/vi/0Wpna736wwE/mqdefault.jpg' },
+    { id:1, platform:'youtube', category:'Başlangıç', url:'https://www.youtube.com/watch?v=0Wpna736wwE', title:'Yapay Zeka Caginda Hayatta Kalma Rehberi!', channel:'Baris Ozkurdum', duration:'18:42', views:'2.1M', date:'2025-06-15', description:'Yapay zeka devrinde islerinizi nasil koruyacaksiniz? Bu rehberde tum detaylar.', thumb:'https://img.youtube.com/vi/0Wpna736wwE/mqdefault.jpg' },
     { id:2, platform:'youtube', category:'Haber', url:'https://www.youtube.com/watch?v=8tx2viHpgA8', title:'GPT-5 is here... Can it win back programmers?', channel:'Fireship', duration:'12:34', views:'3.4M', date:'2026-03-20', description:'GPT-5 programci dostu mu? Detayli inceleme.', thumb:'https://img.youtube.com/vi/8tx2viHpgA8/mqdefault.jpg' },
-    { id:3, platform:'youtube', category:'Model Inceleme', url:'https://www.youtube.com/watch?v=7TR-FLWNVHY', title:'The ONLY Way to Run DeepSeek R1 Locally', channel:'AI Search', duration:'22:30', views:'1.8M', date:'2026-01-10', description:'DeepSeek R1 nasil lokalde calistirilir? Adim adim rehber.', thumb:'https://img.youtube.com/vi/7TR-FLWNVHY/mqdefault.jpg' },
-    { id:4, platform:'youtube', category:'Egitim', url:'https://www.youtube.com/watch?v=UxHpVBvSiZs', title:'Googlein Prompt Muhendisliigi Kursunu 10 dkda Oren', channel:'Sahin Deniz', duration:'10:15', views:'890K', date:'2025-09-05', description:'Googlein resmi prompt muhendisliigi kursunun ozeti.', thumb:'https://img.youtube.com/vi/UxHpVBvSiZs/mqdefault.jpg' },
+    { id:3, platform:'youtube', category:'Model İnceleme', url:'https://www.youtube.com/watch?v=7TR-FLWNVHY', title:'The ONLY Way to Run DeepSeek R1 Locally', channel:'AI Search', duration:'22:30', views:'1.8M', date:'2026-01-10', description:'DeepSeek R1 nasil lokalde calistirilir? Adim adim rehber.', thumb:'https://img.youtube.com/vi/7TR-FLWNVHY/mqdefault.jpg' },
+    { id:4, platform:'youtube', category:'Eğitim', url:'https://www.youtube.com/watch?v=UxHpVBvSiZs', title:'Googlein Prompt Muhendisliigi Kursunu 10 dkda Oren', channel:'Sahin Deniz', duration:'10:15', views:'890K', date:'2025-09-05', description:'Googlein resmi prompt muhendisliigi kursunun ozeti.', thumb:'https://img.youtube.com/vi/UxHpVBvSiZs/mqdefault.jpg' },
     { id:5, platform:'youtube', category:'Para Kazanma', url:'https://www.youtube.com/watch?v=5TxSqvPbnWw', title:'How to Build and Sell AI Automations: Ultimate Guide', channel:'Liam Ottley', duration:'45:20', views:'2.7M', date:'2026-02-28', description:'AI otomasyonlari insa edip satarak para kazanma rehberi.', thumb:'https://img.youtube.com/vi/5TxSqvPbnWw/mqdefault.jpg' },
     { id:6, platform:'youtube', category:'Haber', url:'https://www.youtube.com/watch?v=ly6YKz9UfQ4', title:'New MIT Study Says Most AI Projects Are Doomed', channel:'AI Explained', duration:'15:48', views:'4.2M', date:'2026-04-01', description:'MIT arastirmasina gore AI projelerinin cogu basarisiz oluyor. Neden?', thumb:'https://img.youtube.com/vi/ly6YKz9UfQ4/mqdefault.jpg' },
-    { id:7, platform:'youtube', category:'Baslangic', url:'https://www.youtube.com/watch?v=7foCbOktTZM', title:'ChatGPT Her Seyi Nasil Bilebiliyor?', channel:'Evrim Cagatay', duration:'14:22', views:'5.6M', date:'2025-04-10', description:'ChatGPTnin calisma prensibi ve nasil bu kadar bilgili oldugu.', thumb:'https://img.youtube.com/vi/7foCbOktTZM/mqdefault.jpg' },
-    { id:8, platform:'youtube', category:'Egitim', url:'https://www.youtube.com/watch?v=ocMOZpuAMw4', title:'Cursor Tutorial for Beginners (AI Code Editor)', channel:'Coder Foundry', duration:'32:10', views:'1.3M', date:'2026-01-18', description:'Cursor AI kod editoru ile gelistirme rehberi.', thumb:'https://img.youtube.com/vi/ocMOZpuAMw4/mqdefault.jpg' },
-    { id:9, platform:'youtube', category:'Model Inceleme', url:'https://www.youtube.com/watch?v=LYoJnCpRswo', title:'Yapay Zeka Balonu Patlamak Uzerinde mi?', channel:'Merve Noyan', duration:'28:45', views:'1.9M', date:'2026-03-15', description:'AI balonu tartismasi ve gercekte neler oluyor.', thumb:'https://img.youtube.com/vi/LYoJnCpRswo/mqdefault.jpg' },
+    { id:7, platform:'youtube', category:'Başlangıç', url:'https://www.youtube.com/watch?v=7foCbOktTZM', title:'ChatGPT Her Seyi Nasil Bilebiliyor?', channel:'Evrim Cagatay', duration:'14:22', views:'5.6M', date:'2025-04-10', description:'ChatGPTnin calisma prensibi ve nasil bu kadar bilgili oldugu.', thumb:'https://img.youtube.com/vi/7foCbOktTZM/mqdefault.jpg' },
+    { id:8, platform:'youtube', category:'Eğitim', url:'https://www.youtube.com/watch?v=ocMOZpuAMw4', title:'Cursor Tutorial for Beginners (AI Code Editor)', channel:'Coder Foundry', duration:'32:10', views:'1.3M', date:'2026-01-18', description:'Cursor AI kod editoru ile gelistirme rehberi.', thumb:'https://img.youtube.com/vi/ocMOZpuAMw4/mqdefault.jpg' },
+    { id:9, platform:'youtube', category:'Model İnceleme', url:'https://www.youtube.com/watch?v=LYoJnCpRswo', title:'Yapay Zeka Balonu Patlamak Uzerinde mi?', channel:'Merve Noyan', duration:'28:45', views:'1.9M', date:'2026-03-15', description:'AI balonu tartismasi ve gercekte neler oluyor.', thumb:'https://img.youtube.com/vi/LYoJnCpRswo/mqdefault.jpg' },
     { id:10, platform:'youtube', category:'Para Kazanma', url:'https://www.youtube.com/watch?v=Ao4cCA5QxEo', title:'Yapay Zeka ile Sifirdan Nasil Para Kazanilir?', channel:'Emre Yolcu', duration:'20:33', views:'3.1M', date:'2026-02-14', description:'AI ile para kazanmanin 10 farkli yolu.', thumb:'https://img.youtube.com/vi/Ao4cCA5QxEo/mqdefault.jpg' },
     // ===== YOUTUBE - ENGLISH =====
-    { id:11, platform:'youtube', category:'Baslangic', url:'https://www.youtube.com/watch?v=aircAruvnKk', title:'But What Is a Neural Network? | Deep Learning', channel:'3Blue1Brown', duration:'21:07', views:'18M', date:'2024-10-05', description:'Neural networklerin calisma prensibi, gorsel anlatim.', thumb:'https://img.youtube.com/vi/aircAruvnKk/mqdefault.jpg' },
-    { id:12, platform:'youtube', category:'Model Inceleme', url:'https://www.youtube.com/watch?v=Nl7aCUsWykg', title:'Big Tech in Panic Mode... Did DeepSeek Just Crush OpenAI?', channel:'AI Explained', duration:'18:55', views:'6.3M', date:'2026-01-28', description:'DeepSeek R1 piyasayi nasil salladi?', thumb:'https://img.youtube.com/vi/Nl7aCUsWykg/mqdefault.jpg' },
-    { id:13, platform:'youtube', category:'Egitim', url:'https://www.youtube.com/watch?v=LPZh9BOjkQs', title:'Large Language Models Explained Briefly', channel:'ByteByteGo', duration:'11:42', views:'4.5M', date:'2025-07-22', description:'LLM nedir, nasil calisir? Kisa ve oz anlatim.', thumb:'https://img.youtube.com/vi/LPZh9BOjkQs/mqdefault.jpg' },
-    { id:14, platform:'youtube', category:'Model Inceleme', url:'https://www.youtube.com/watch?v=ZQAz_HrUq68', title:'NVIDIA New AI Just Changed Everything', channel:'Matt Wolfe', duration:'25:10', views:'2.8M', date:'2026-03-08', description:'NVIDIAin yeni AI modeli ve etkileri.', thumb:'https://img.youtube.com/vi/ZQAz_HrUq68/mqdefault.jpg' },
+    { id:11, platform:'youtube', category:'Başlangıç', url:'https://www.youtube.com/watch?v=aircAruvnKk', title:'But What Is a Neural Network? | Deep Learning', channel:'3Blue1Brown', duration:'21:07', views:'18M', date:'2024-10-05', description:'Neural networklerin calisma prensibi, gorsel anlatim.', thumb:'https://img.youtube.com/vi/aircAruvnKk/mqdefault.jpg' },
+    { id:12, platform:'youtube', category:'Model İnceleme', url:'https://www.youtube.com/watch?v=Nl7aCUsWykg', title:'Big Tech in Panic Mode... Did DeepSeek Just Crush OpenAI?', channel:'AI Explained', duration:'18:55', views:'6.3M', date:'2026-01-28', description:'DeepSeek R1 piyasayi nasil salladi?', thumb:'https://img.youtube.com/vi/Nl7aCUsWykg/mqdefault.jpg' },
+    { id:13, platform:'youtube', category:'Eğitim', url:'https://www.youtube.com/watch?v=LPZh9BOjkQs', title:'Large Language Models Explained Briefly', channel:'ByteByteGo', duration:'11:42', views:'4.5M', date:'2025-07-22', description:'LLM nedir, nasil calisir? Kisa ve oz anlatim.', thumb:'https://img.youtube.com/vi/LPZh9BOjkQs/mqdefault.jpg' },
+    { id:14, platform:'youtube', category:'Model İnceleme', url:'https://www.youtube.com/watch?v=ZQAz_HrUq68', title:'NVIDIA New AI Just Changed Everything', channel:'Matt Wolfe', duration:'25:10', views:'2.8M', date:'2026-03-08', description:'NVIDIAin yeni AI modeli ve etkileri.', thumb:'https://img.youtube.com/vi/ZQAz_HrUq68/mqdefault.jpg' },
     { id:15, platform:'youtube', category:'Haber', url:'https://www.youtube.com/watch?v=Xn-gtHDsaPY', title:'7 New Open Source AI Tools You Need Right Now', channel:'Fireship', duration:'8:45', views:'5.1M', date:'2026-04-10', description:'En yeni 7 acik kaynak AI araci.', thumb:'https://img.youtube.com/vi/Xn-gtHDsaPY/mqdefault.jpg' },
-    { id:16, platform:'youtube', category:'Egitim', url:'https://www.youtube.com/watch?v=VMj-3S7sEn0', title:'The Spelled-Out Intro to Neural Networks and Backpropagation', channel:'3Blue1Brown', duration:'41:33', views:'12M', date:'2024-11-15', description:'Backpropagation algoritmasinin detayli anlatimi.', thumb:'https://img.youtube.com/vi/VMj-3S7sEn0/mqdefault.jpg' },
-    { id:17, platform:'youtube', category:'Baslangic', url:'https://www.youtube.com/watch?v=FwOTs4UxQS4', title:'AI Agents, Clearly Explained', channel:'IBM Technology', duration:'14:30', views:'3.2M', date:'2025-12-01', description:'AI ajanlari nedir, nasil calisir?', thumb:'https://img.youtube.com/vi/FwOTs4UxQS4/mqdefault.jpg' },
-    { id:18, platform:'youtube', category:'Model Inceleme', url:'https://www.youtube.com/watch?v=RudrWy9uPZE', title:'I Switched 50% of My AI Work to Claude', channel:'AI Foundations', duration:'16:20', views:'1.7M', date:'2026-02-05', description:'Claude vs ChatGPT karsilastirmasi ve gecis deneyimi.', thumb:'https://img.youtube.com/vi/RudrWy9uPZE/mqdefault.jpg' },
-    { id:19, platform:'youtube', category:'Egitim', url:'https://www.youtube.com/watch?v=sVcwVQRHIc8', title:'Learn RAG From Scratch - Python AI Tutorial', channel:'Tech With Tim', duration:'35:40', views:'2.4M', date:'2026-01-22', description:'RAG (Retrieval Augmented Generation) egitimi.', thumb:'https://img.youtube.com/vi/sVcwVQRHIc8/mqdefault.jpg' },
+    { id:16, platform:'youtube', category:'Eğitim', url:'https://www.youtube.com/watch?v=VMj-3S7sEn0', title:'The Spelled-Out Intro to Neural Networks and Backpropagation', channel:'3Blue1Brown', duration:'41:33', views:'12M', date:'2024-11-15', description:'Backpropagation algoritmasinin detayli anlatimi.', thumb:'https://img.youtube.com/vi/VMj-3S7sEn0/mqdefault.jpg' },
+    { id:17, platform:'youtube', category:'Başlangıç', url:'https://www.youtube.com/watch?v=FwOTs4UxQS4', title:'AI Agents, Clearly Explained', channel:'IBM Technology', duration:'14:30', views:'3.2M', date:'2025-12-01', description:'AI ajanlari nedir, nasil calisir?', thumb:'https://img.youtube.com/vi/FwOTs4UxQS4/mqdefault.jpg' },
+    { id:18, platform:'youtube', category:'Model İnceleme', url:'https://www.youtube.com/watch?v=RudrWy9uPZE', title:'I Switched 50% of My AI Work to Claude', channel:'AI Foundations', duration:'16:20', views:'1.7M', date:'2026-02-05', description:'Claude vs ChatGPT karsilastirmasi ve gecis deneyimi.', thumb:'https://img.youtube.com/vi/RudrWy9uPZE/mqdefault.jpg' },
+    { id:19, platform:'youtube', category:'Eğitim', url:'https://www.youtube.com/watch?v=sVcwVQRHIc8', title:'Learn RAG From Scratch - Python AI Tutorial', channel:'Tech With Tim', duration:'35:40', views:'2.4M', date:'2026-01-22', description:'RAG (Retrieval Augmented Generation) egitimi.', thumb:'https://img.youtube.com/vi/sVcwVQRHIc8/mqdefault.jpg' },
     { id:20, platform:'youtube', category:'Haber', url:'https://www.youtube.com/watch?v=Sk9tvyRSCgY', title:'DeepMinds New AI: A Gift To Humanity', channel:'AI Revolution', duration:'12:05', views:'7.8M', date:'2026-03-30', description:'DeepMindin son derecesi ve insanliga etkisi.', thumb:'https://img.youtube.com/vi/Sk9tvyRSCgY/mqdefault.jpg' },
     { id:21, platform:'youtube', category:'Para Kazanma', url:'https://www.youtube.com/watch?v=w0H1-b044KY', title:'How to Build and Sell AI Agents: Ultimate Guide 2026', channel:'Liam Ottley', duration:'52:15', views:'3.9M', date:'2026-04-05', description:'AI ajanlari gelistirip satarak gelir elde etme.', thumb:'https://img.youtube.com/vi/w0H1-b044KY/mqdefault.jpg' },
     { id:22, platform:'youtube', category:'Haber', url:'https://www.youtube.com/watch?v=hWMRd2mslCo', title:'Yapay Zeka Balonu Ne Zaman Patlayacak?', channel:'Barkin Uran', duration:'24:18', views:'1.4M', date:'2026-04-12', description:'AI balonu tartismasi: bilimsel perspektif.', thumb:'https://img.youtube.com/vi/hWMRd2mslCo/mqdefault.jpg' },
-    { id:23, platform:'youtube', category:'Egitim', url:'https://www.youtube.com/watch?v=EH5jx5qPabU', title:'From Zero to Your First AI Agent in 25 Minutes', channel:'Dave Ebbelaar', duration:'25:00', views:'2.1M', date:'2026-02-20', description:'25 dakikada ilk AI ajaninizi olusturun.', thumb:'https://img.youtube.com/vi/EH5jx5qPabU/mqdefault.jpg' },
-    { id:24, platform:'youtube', category:'Model Inceleme', url:'https://www.youtube.com/watch?v=jeA-KBv0b68', title:'Claude Just Got Another Superpower...', channel:'AI Search', duration:'14:55', views:'1.5M', date:'2026-04-18', description:'Claudeun yeni ozellikleri detayli inceleme.', thumb:'https://img.youtube.com/vi/jeA-KBv0b68/mqdefault.jpg' },
+    { id:23, platform:'youtube', category:'Eğitim', url:'https://www.youtube.com/watch?v=EH5jx5qPabU', title:'From Zero to Your First AI Agent in 25 Minutes', channel:'Dave Ebbelaar', duration:'25:00', views:'2.1M', date:'2026-02-20', description:'25 dakikada ilk AI ajaninizi olusturun.', thumb:'https://img.youtube.com/vi/EH5jx5qPabU/mqdefault.jpg' },
+    { id:24, platform:'youtube', category:'Model İnceleme', url:'https://www.youtube.com/watch?v=jeA-KBv0b68', title:'Claude Just Got Another Superpower...', channel:'AI Search', duration:'14:55', views:'1.5M', date:'2026-04-18', description:'Claudeun yeni ozellikleri detayli inceleme.', thumb:'https://img.youtube.com/vi/jeA-KBv0b68/mqdefault.jpg' },
     // ===== X/TWITTER VIDEOS =====
     { id:25, platform:'x', category:'Haber', url:'https://x.com/OpenAI/status/191234567890', title:'OpenAI: GPT-5.5 Can Now Reason Like a PhD', channel:'@OpenAI', duration:'1:30', views:'12M', date:'2026-04-15', description:'OpenAInin duyurusu ile GPT-5.5 artik PhD seviyesinde akil yurutuyor.' },
     { id:26, platform:'x', category:'Haber', url:'https://x.com/AnthropicAI/status/191345678901', title:'Anthropic: Claude Opus 4.7 Sets New SWE-bench Record', channel:'@AnthropicAI', duration:'2:15', views:'8M', date:'2026-04-10', description:'Claude Opus 4.7 ile yeni SWE-bench rekoru.' },
-    { id:27, platform:'x', category:'Model Inceleme', url:'https://x.com/GoogleDeepMind/status/191456789012', title:'DeepMind: Gemini 3.1 Pro Free for Everyone', channel:'@GoogleDeepMind', duration:'1:45', views:'15M', date:'2026-04-08', description:'Gemini 3.1 Pro artik ucretsiz!' },
+    { id:27, platform:'x', category:'Model İnceleme', url:'https://x.com/GoogleDeepMind/status/191456789012', title:'DeepMind: Gemini 3.1 Pro Free for Everyone', channel:'@GoogleDeepMind', duration:'1:45', views:'15M', date:'2026-04-08', description:'Gemini 3.1 Pro artik ucretsiz!' },
     // ===== INSTAGRAM REELS =====
-    { id:28, platform:'instagram', category:'Baslangic', url:'https://www.instagram.com/reel/C8abcdef/', title:'5 AI Araci Olmadan Ise Baslama!', channel:'@teknolojirehber', duration:'0:45', views:'2.3M', date:'2026-03-25', description:'Herkesin bilmesi gereken 5 temel AI araci.' },
+    { id:28, platform:'instagram', category:'Başlangıç', url:'https://www.instagram.com/reel/C8abcdef/', title:'5 AI Araci Olmadan Ise Baslama!', channel:'@teknolojirehber', duration:'0:45', views:'2.3M', date:'2026-03-25', description:'Herkesin bilmesi gereken 5 temel AI araci.' },
     { id:29, platform:'instagram', category:'Para Kazanma', url:'https://www.instagram.com/reel/C8bcdefgh/', title:'Gunde 100$ AI ile Kazanmak - 3 Basit Yol', channel:'@paraakademi', duration:'1:00', views:'4.1M', date:'2026-04-02', description:'AI ile gunde 100 dolar kazanmanin 3 kolay yolu.' },
-    { id:30, platform:'instagram', category:'Egitim', url:'https://www.instagram.com/reel/C8cdefghij/', title:'ChatGPT Prompt Hileleri Bilen Az Kisi Kullaniyor', channel:'@ailobi', duration:'0:55', views:'6.7M', date:'2026-03-30', description:'ChatGPT prompt hileleri ve ipuclari.' },
+    { id:30, platform:'instagram', category:'Eğitim', url:'https://www.instagram.com/reel/C8cdefghij/', title:'ChatGPT Prompt Hileleri Bilen Az Kisi Kullaniyor', channel:'@ailobi', duration:'0:55', views:'6.7M', date:'2026-03-30', description:'ChatGPT prompt hileleri ve ipuclari.' },
     // ===== NEW APRIL 2026 =====
     { id:31, platform:'youtube', category:'Haber', url:'https://www.youtube.com/watch?v=jvLB8pHVjC8', title:'Kimi K2.6 Tanitildi: 2M Token ile Uzun Context', channel:'AI Haber', duration:'11:20', views:'890K', date:'2026-04-20', description:'Kimi K2.6 ile 2M token context destegi.', thumb:'https://img.youtube.com/vi/jvLB8pHVjC8/mqdefault.jpg' },
-    { id:32, platform:'youtube', category:'Model Inceleme', url:'https://www.youtube.com/watch?v=2rK0OS7p2Tg', title:'Qwen 3.6 Max vs GPT-5.5 vs Claude Opus Karsilastirma', channel:'AI Arena', duration:'28:30', views:'1.2M', date:'2026-04-18', description:'Uc buyuk modelin detayli karsilastirmasi.', thumb:'https://img.youtube.com/vi/2rK0OS7p2Tg/mqdefault.jpg' },
+    { id:32, platform:'youtube', category:'Model İnceleme', url:'https://www.youtube.com/watch?v=2rK0OS7p2Tg', title:'Qwen 3.6 Max vs GPT-5.5 vs Claude Opus Karsilastirma', channel:'AI Arena', duration:'28:30', views:'1.2M', date:'2026-04-18', description:'Uc buyuk modelin detayli karsilastirmasi.', thumb:'https://img.youtube.com/vi/2rK0OS7p2Tg/mqdefault.jpg' },
     { id:33, platform:'youtube', category:'Haber', url:'https://www.youtube.com/watch?v=r1ScKF7ghRM', title:'MiniMax 2.7: Video Uretiminde Yeni Cag', channel:'Tech Review', duration:'15:45', views:'780K', date:'2026-04-15', description:'MiniMax 2.7 video uretiminde devrim yaratiyor.', thumb:'https://img.youtube.com/vi/r1ScKF7ghRM/mqdefault.jpg' },
-    { id:34, platform:'youtube', category:'Egitim', url:'https://www.youtube.com/watch?v=pGXM0F4e4JE', title:'Phi-4 14B ile Mobilde AI: Telefonunuzda Calisan Model', channel:'OpenAI Guide', duration:'19:10', views:'650K', date:'2026-04-12', description:'Phi-4 14B telefonunuzda nasil calisir?', thumb:'https://img.youtube.com/vi/pGXM0F4e4JE/mqdefault.jpg' },
-    { id:35, platform:'youtube', category:'Model Inceleme', url:'https://www.youtube.com/watch?v=kW8nOViFnwI', title:'DeepSeek R1 671B: Acik Kaynak Reasoning Devi', channel:'AI Benchmark', duration:'22:50', views:'1.8M', date:'2026-01-28', description:'DeepSeek R1 671B detayli inceleme ve benchmarklar.', thumb:'https://img.youtube.com/vi/kW8nOViFnwI/mqdefault.jpg' },
+    { id:34, platform:'youtube', category:'Eğitim', url:'https://www.youtube.com/watch?v=pGXM0F4e4JE', title:'Phi-4 14B ile Mobilde AI: Telefonunuzda Calisan Model', channel:'OpenAI Guide', duration:'19:10', views:'650K', date:'2026-04-12', description:'Phi-4 14B telefonunuzda nasil calisir?', thumb:'https://img.youtube.com/vi/pGXM0F4e4JE/mqdefault.jpg' },
+    { id:35, platform:'youtube', category:'Model İnceleme', url:'https://www.youtube.com/watch?v=kW8nOViFnwI', title:'DeepSeek R1 671B: Acik Kaynak Reasoning Devi', channel:'AI Benchmark', duration:'22:50', views:'1.8M', date:'2026-01-28', description:'DeepSeek R1 671B detayli inceleme ve benchmarklar.', thumb:'https://img.youtube.com/vi/kW8nOViFnwI/mqdefault.jpg' },
     { id:36, platform:'youtube', category:'Haber', url:'https://www.youtube.com/watch?v=JjPBuCW9pEk', title:'GLM 5.1 Multi-Agent Demo: Otonom AI ile Otomasyon', channel:'AI Demo', duration:'16:33', views:'550K', date:'2026-04-19', description:'GLM 5.1 ile otonom coklu ajen otomasyonu.', thumb:'https://img.youtube.com/vi/JjPBuCW9pEk/mqdefault.jpg' },
-    { id:37, platform:'youtube', category:'Egitim', url:'https://www.youtube.com/watch?v=aircAruvnKk', title:'Acik Kaynak Modeller Kiyaslamasi: Llama 4 vs Qwen 3.6 vs Mistral', channel:'AI Comparison', duration:'34:15', views:'2.3M', date:'2026-04-10', description:'En iyi acik kaynak modeller detayli kiyaslama.', thumb:'https://img.youtube.com/vi/aircAruvnKk/mqdefault.jpg' },
+    { id:37, platform:'youtube', category:'Eğitim', url:'https://www.youtube.com/watch?v=aircAruvnKk', title:'Acik Kaynak Modeller Kiyaslamasi: Llama 4 vs Qwen 3.6 vs Mistral', channel:'AI Comparison', duration:'34:15', views:'2.3M', date:'2026-04-10', description:'En iyi acik kaynak modeller detayli kiyaslama.', thumb:'https://img.youtube.com/vi/aircAruvnKk/mqdefault.jpg' },
   ];
   renderVideos(allVideos);
 }
