@@ -23,6 +23,8 @@
   <meta name="author" content="AI Legion">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://ai-legion.netlify.app/">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 
   <!-- Structured Data (Schema.org) -->
   <script type="application/ld+json">
@@ -43,7 +45,7 @@
       --gold:#c9a84c;--gold2:#e8c56a;--gold3:#f5d98a;
       --red:#7a1515;--red2:#9a2020;--red3:#b83030;
       --text:#e0d5b7;--text2:#a09070;--text3:#6a6050;
-      --border:#252525;--border2:#333333;
+      --border:#252525;--border2:#333333;--article-text-color:#e0d5b7;--article-h1-color:#e8c56a;
       --green:#2d6a2d;--green2:#3d8a3d;
       --blue:#1a3a6a;--blue2:#2a5a9a;
     }
@@ -250,7 +252,7 @@
     .elo-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--gold),var(--gold2))}
     .score-good{color:#4caf50;font-weight:600}
     .score-mid{color:var(--gold);font-weight:600}
-    .score-low{color:var(--text2)}
+    .score-low{color:var(--text2)}.score-na{color:var(--text3);font-style:italic}
     .arena-left{color:#e0245e;font-weight:700}.arena-right{color:#1da1f2;font-weight:700}
     
     /* PROMPT CARD */
@@ -372,14 +374,33 @@
     .video-source-x{background:rgba(29,161,242,0.15);color:#1da1f2;border:1px solid rgba(29,161,242,0.3)}
     .video-source-ig{background:rgba(225,48,108,0.15);color:#e1306c;border:1px solid rgba(225,48,108,0.3)}
     @media(max-width:768px){.videos-grid{grid-template-columns:1fr!important}}
-  </style>
+
+    /* LIGHT THEME */
+    [data-theme="light"] {
+      --bg:#f5f0e8;--bg2:#ece6d8;--bg3:#e0d8c8;--bg4:#d5cbb8;
+      --gold:#8a6a1a;--gold2:#a07a2a;--gold3:#c09030;
+      --red:#c42020;--red2:#d83030;--red3:#e84040;
+      --text:#1a1a1a;--text2:#4a4438;--text3:#7a7060;
+      --border:#d0c8b8;--border2:#c0b8a8;
+      --green:#2d8a2d;--green2:#3da03d;
+      --blue:#2a5a9a;--blue2:#3a70b0;
+    }
+    [data-theme="light"] nav { background: rgba(245,240,232,0.95) !important; }
+    [data-theme="light"] .mobile-nav { background: rgba(245,240,232,0.98) !important; }
+    [data-theme="light"] .modal { background: var(--bg2); }
+    [data-theme="light"] .modal-overlay { background: rgba(0,0,0,0.5); }
+    [data-theme="light"] .article-detail .content { color: var(--text) !important; }
+    [data-theme="light"] .article-detail h1 { color: var(--text) !important; }
+    [data-theme="light"] .post-content { color: var(--text2) !important; }
+  .icon-fallback { filter: none; }
+</style>
 </head>
 <body>
 
 <!-- NAVBAR -->
 <nav>
   <div class="logo" onclick="showPage('home')">
-    <div class="logo-icon"><img src="https://img.icons8.com/fluency/48/artificial-intelligence.png" alt="AI Legion" onerror="this.style.display='none'"></div>
+    <div class="logo-icon"><img src="https://img.icons8.com/fluency/48/artificial-intelligence.png" alt="AI Legion" onerror="handleImgError(this)"></div>
     AI LEGION
   </div>
   <div class="nav-links" id="nav-links">
@@ -393,7 +414,7 @@
     <button class="nav-btn" onclick="showPage('arena')">⚔️ Arena</button>
     <button class="nav-btn" onclick="showPage('videos')">🎬 Videolar</button>
   </div>
-  <button class="btn btn-outline btn-sm theme-toggle" id="theme-btn" onclick="toggleTheme()" style="font-size:18px;padding:4px 8px;margin-right:4px">☀️</button>
+  
   <button class="hamburger-menu" id="hamburger-btn" onclick="toggleNav()">☰</button>
   <div class="mobile-nav" id="mobile-nav">
     <button class="nav-btn active" onclick="showPage('home');closeNav()">🏠 Haberler</button>
@@ -466,7 +487,7 @@
           </div>
         </div>
       </div>
-      <div id="login-prompt-social" style="display:none" class="card" style="text-align:center;padding:20px">
+      <div id="login-prompt-social" class="card" style="display:none;text-align:center;padding:20px">
         <p style="color:var(--text2);margin-bottom:12px">Post atmak için giriş yapın</p>
         <button class="btn btn-gold" onclick="openModal('login-modal')">Giriş Yap</button>
       </div>
@@ -586,7 +607,7 @@
           <div>
             <label style="display:block;color:var(--gold);font-size:12px;margin-bottom:8px;text-transform:uppercase">Sol Model</label>
             <select id="arena-left-model" class="form-control" style="background:var(--bg3);border:1px solid var(--border2);border-radius:8px;color:var(--arena-left,#e0245e);padding:10px;font-size:14px;width:100%">
-              <option value="claude-opus-47">Claude Opus 4.7 (Anthropic)</option>
+                            <option value="claude-opus-47">Claude Opus 4.7 (Anthropic)</option>
               <option value="gpt-55">GPT-5.5 (OpenAI)</option>
               <option value="gemini-31-pro">Gemini 3.1 Pro (Google)</option>
               <option value="grok-4">Grok 4 (xAI)</option>
@@ -602,13 +623,31 @@
               <option value="glm-5">GLM-5 (Zhipu AI)</option>
               <option value="phi-4">Phi-4 (Microsoft)</option>
               <option value="gemma-3-27b">Gemma 3 27B (Google)</option>
+              <option value="yi-lightning">Yi Lightning (01.AI)</option>
+              <option value="jamba-2">Jamba 2 (AI21 Labs)</option>
+              <option value="mistral-small-3">Mistral Small 3 (Mistral)</option>
+              <option value="deepseek-v3">DeepSeek V3 (DeepSeek)</option>
+              <option value="grok-2">Grok-2 (xAI)</option>
+              <option value="llama-31-405b">Llama 3.1 405B (Meta)</option>
+              <option value="mixtral-8x22b">Mixtral 8x22B (Mistral)</option>
+              <option value="qwen2-max">Qwen2-Max (Alibaba)</option>
+              <option value="falcon-180b">Falcon 180B (TII)</option>
+              <option value="internlm2">InternLM2 (Shanghai AI Lab)</option>
+              <option value="dbrx">DBRX (Databricks)</option>
+              <option value="granite-34b">Granite 34B (IBM)</option>
+              <option value="starcoder2-15b">StarCoder2 15B (BigCode)</option>
+              <option value="phi-35-moe">Phi-3.5 MoE (Microsoft)</option>
+              <option value="yi-15-34b">Yi-1.5 34B (01.AI)</option>
+              <option value="cohere-command-rplus">Cohere Command R+ (Cohere)</option>
+              <option value="perplexity">Perplexity (Perplexity AI)</option>
+              <option value="gemma-2-27b">Gemma 2 27B (Google)</option>
             </select>
           </div>
           <div style="font-size:28px;color:var(--gold);padding-bottom:10px">⚔️</div>
           <div>
             <label style="display:block;color:var(--gold);font-size:12px;margin-bottom:8px;text-transform:uppercase">Sağ Model</label>
             <select id="arena-right-model" class="form-control" style="background:var(--bg3);border:1px solid var(--border2);border-radius:8px;color:var(--arena-right,#1da1f2);padding:10px;font-size:14px;width:100%">
-              <option value="claude-opus-47">Claude Opus 4.7 (Anthropic)</option>
+                            <option value="claude-opus-47">Claude Opus 4.7 (Anthropic)</option>
               <option value="gpt-55" selected>GPT-5.5 (OpenAI)</option>
               <option value="gemini-31-pro">Gemini 3.1 Pro (Google)</option>
               <option value="grok-4">Grok 4 (xAI)</option>
@@ -624,6 +663,24 @@
               <option value="glm-5">GLM-5 (Zhipu AI)</option>
               <option value="phi-4">Phi-4 (Microsoft)</option>
               <option value="gemma-3-27b">Gemma 3 27B (Google)</option>
+              <option value="yi-lightning">Yi Lightning (01.AI)</option>
+              <option value="jamba-2">Jamba 2 (AI21 Labs)</option>
+              <option value="mistral-small-3">Mistral Small 3 (Mistral)</option>
+              <option value="deepseek-v3">DeepSeek V3 (DeepSeek)</option>
+              <option value="grok-2">Grok-2 (xAI)</option>
+              <option value="llama-31-405b">Llama 3.1 405B (Meta)</option>
+              <option value="mixtral-8x22b">Mixtral 8x22B (Mistral)</option>
+              <option value="qwen2-max">Qwen2-Max (Alibaba)</option>
+              <option value="falcon-180b">Falcon 180B (TII)</option>
+              <option value="internlm2">InternLM2 (Shanghai AI Lab)</option>
+              <option value="dbrx">DBRX (Databricks)</option>
+              <option value="granite-34b">Granite 34B (IBM)</option>
+              <option value="starcoder2-15b">StarCoder2 15B (BigCode)</option>
+              <option value="phi-35-moe">Phi-3.5 MoE (Microsoft)</option>
+              <option value="yi-15-34b">Yi-1.5 34B (01.AI)</option>
+              <option value="cohere-command-rplus">Cohere Command R+ (Cohere)</option>
+              <option value="perplexity">Perplexity (Perplexity AI)</option>
+              <option value="gemma-2-27b">Gemma 2 27B (Google)</option>
             </select>
           </div>
         </div>
@@ -652,7 +709,7 @@
         <div class="tab" onclick="filterVideos('Para Kazanma',this)">💰 Kazanç</div>
       </div>
       <div id="videos-list" class="videos-grid"></div>
-      <div id="video-embed-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:300;align-items:center;justify-content:center;padding:20px" >
+      <div id="video-embed-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:300;align-items:center;justify-content:center;padding:20px" onclick="closeVideoEmbed(event)">
         <div style="width:100%;max-width:800px;position:relative" onclick="event.stopPropagation()">
           <button style="position:absolute;top:-36px;right:0;background:none;border:none;color:#fff;font-size:28px;cursor:pointer" onclick="closeVideoEmbed()">✕</button>
           <div id="video-embed-container" style="width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000"></div>
@@ -827,15 +884,51 @@
 <div class="toast" id="toast"></div>
 
   <script>
+
+// Universal image error handler - catches ALL broken images
+function handleImgError(img) {
+  const emojiMap = {
+    'chatgpt': '🤖', 'claude': '🤖', 'google': '🔍', 'gemini': '💎',
+    'meta': '📘', 'microsoft': '🪟', 'nvidia': '🎮', 'twitterx': '𝕏',
+    'cloud': '☁️', 'github': '🐙', 'robot': '🤖', 'brain': '🧠',
+    'artificial-intelligence': '🧠', 'chat': '💬', 'bot': '🤖',
+    'code': '💻', 'search': '🔍', 'workflow': '🔄', 'speaker': '🔊',
+    'microphone': '🎤', 'music': '🎵', 'image': '🖼️', 'video': '▶️',
+    'phone': '📱', 'python': '🐍', 'api': '⚡', 'database': '🗄️',
+    'server': '🖥️', 'processor': '⚙️', 'llama': '🦙',
+    'cyber-security': '🔒', 'freelance': '💼', 'automation': '⚙️',
+    'money': '💰', 'rocket': '🚀', 'online-store': '🏪', 'cpu': '🖥️',
+    'baby': '👶', 'instagram': '📸', 'youtube': '▶️',
+    'combo-chart': '📊', 'elephant': '🐘', 'neural': '🧠'
+  };
+  const src = img.src.toLowerCase();
+  let emoji = '🔗';
+  for (const [key, val] of Object.entries(emojiMap)) {
+    if (src.includes(key)) { emoji = val; break; }
+  }
+  const w = img.width || img.offsetWidth || 48;
+  const h = img.height || img.offsetHeight || 48;
+  const span = document.createElement('span');
+  span.textContent = emoji;
+  span.style.cssText = 'font-size:' + Math.min(w,h) + 'px;display:inline-flex;align-items:center;justify-content:center;width:'+w+'px;height:'+h+'px;';
+  img.replaceWith(span);
+}
+
+// Global error delegation - catch ALL img errors on the page
+document.addEventListener('error', function(e) {
+  if (e.target.tagName === 'IMG') {
+    handleImgError(e.target);
+  }
+}, true);
+
     // THEME SYSTEM
     function getTheme(){return localStorage.getItem('ai_legion_theme')||'dark'}
     function applyTheme(){
       const t=getTheme();
       document.documentElement.setAttribute('data-theme',t);
       const ic=t==='dark'?'☀️':'🌙';
-      const b1=document.getElementById('theme-btn');
-      const b2=document.getElementById('theme-btn-desktop');
-      const b3=document.getElementById('theme-btn-mobile');
+      const b1=document.getElementById('theme-btn-desktop');
+      const b2=document.getElementById('theme-btn-mobile');
       if(b1)b1.textContent=ic;
       if(b2)b2.textContent=ic;
       if(b3)b3.textContent=(t==='dark'?'☀️':'🌙')+' Tema';
@@ -1428,26 +1521,45 @@ function switchFeedTab(el, type) {
 async function loadModels() {
   try {
     const models = [
-      { rank: 1, name: 'Claude Opus 4.7', image: 'https://img.icons8.com/fluency/48/claude.png', company: 'Anthropic', lmsys_elo: 1506, mmlu: 88.7, swe_bench: 74.2, aime: 85.0, humaneval: 92.1, free: true, url: 'https://claude.ai', description: 'Anthropic en güçlü model. İnsanlığı geride bırakan yapay zeka.' },
-      { rank: 2, name: 'GPT-5.5', image: 'https://img.icons8.com/fluency/48/chatgpt.png', company: 'OpenAI', lmsys_elo: 1498, mmlu: 88.2, swe_bench: 74.9, aime: 83.0, humaneval: 91.8, free: false, url: 'https://chat.openai.com', description: 'OpenAI devrim niteliğinde güncelleme. 1M token context.' },
-      { rank: 3, name: 'Gemini 3.1 Pro', image: 'https://img.icons8.com/fluency/48/google-logo.png', company: 'Google', lmsys_elo: 1489, mmlu: 87.9, swe_bench: 80.6, aime: 79.0, humaneval: 90.2, free: true, url: 'https://gemini.google.com', description: 'Google en güçlü modeli. Artık herkes için ücretsiz.' },
-      { rank: 4, name: 'Grok 4', image: 'https://img.icons8.com/fluency/48/x.png', company: 'xAI', lmsys_elo: 1471, mmlu: 87.1, swe_bench: 75.0, aime: 78.0, humaneval: 89.4, free: true, url: 'https://grok.x.ai', description: 'xAI modeli. Gerçek zamanlı X erişimi.' },
-      { rank: 5, name: 'Claude Sonnet 4.7', image: 'https://img.icons8.com/fluency/48/claude.png', company: 'Anthropic', lmsys_elo: 1463, mmlu: 87.5, swe_bench: 82.1, aime: 80.0, humaneval: 91.2, free: true, url: 'https://claude.ai', description: 'Anthropic flagship. Kod yazma ve analiz lideri.' },
-      { rank: 6, name: 'DeepSeek V4', image: 'https://img.icons8.com/fluency/48/artificial-intelligence.png', company: 'DeepSeek', lmsys_elo: 1452, mmlu: 87.1, swe_bench: 49.2, aime: 39.2, humaneval: 82.6, free: true, url: 'https://chat.deepseek.com', description: 'Çin den gelen açık kaynak devrimi.' },
-      { rank: 7, name: 'Llama 4 Scout', image: 'https://img.icons8.com/fluency/48/meta.png', company: 'Meta', lmsys_elo: 1421, mmlu: 79.6, swe_bench: 32.0, aime: 50.0, humaneval: 75.2, free: true, url: 'https://llama.meta.com', description: 'Meta açık kaynak MoE model. 128 uzman.' },
-      { rank: 8, name: 'Mistral Large 3', image: 'https://img.icons8.com/fluency/48/artificial-intelligence.png', company: 'Mistral', lmsys_elo: 1398, mmlu: 81.2, swe_bench: 45.1, aime: 42.0, humaneval: 78.9, free: true, url: 'https://mistral.ai', description: 'Avrupa nın ilk trilyon parametreli modeli.' },
-      { rank: 9, name: 'Qwen 3.5 Max', image: 'https://img.icons8.com/fluency/48/cloud.png', company: 'Alibaba', lmsys_elo: 1387, mmlu: 85.3, swe_bench: 61.2, aime: 65.0, humaneval: 84.1, free: true, url: 'https://qwen.aliyun.com', description: 'Alibaba güçlü model. Matematik ve kodlamada başarılı.' },
-      { rank: 10, name: 'Command R+', image: 'https://img.icons8.com/fluency/48/chat.png', company: 'Cohere', lmsys_elo: 1352, mmlu: 75.7, swe_bench: 28.4, aime: 31.0, humaneval: 71.3, free: true, url: 'https://cohere.com', description: 'Cohere enterprise model. Çok dilli.' },
-      { rank: 11, name: 'GPT-4.1', image: 'https://img.icons8.com/fluency/48/chatgpt.png', company: 'OpenAI', lmsys_elo: 1345, mmlu: 85.2, swe_bench: 54.9, aime: 52.0, humaneval: 87.3, free: false, url: 'https://chat.openai.com', description: 'OpenAI orta seviye model. Hızlı ve verimli.' },
-      { rank: 12, name: 'Claude Haiku 4.7', image: 'https://img.icons8.com/fluency/48/claude.png', company: 'Anthropic', lmsys_elo: 1338, mmlu: 82.1, swe_bench: 42.3, aime: 45.0, humaneval: 85.6, free: true, url: 'https://claude.ai', description: 'Anthropic hızlı model. Ucuz ve hızlı.' },
-      { rank: 13, name: 'Gemini 3.1 Flash', image: 'https://img.icons8.com/fluency/48/google-logo.png', company: 'Google', lmsys_elo: 1325, mmlu: 80.5, swe_bench: 48.7, aime: 55.0, humaneval: 83.9, free: true, url: 'https://gemini.google.com', description: 'Google hızlı model. Uygulama geliştiriciler için ideal.' },
-      { rank: 14, name: 'GLM-5', image: 'https://img.icons8.com/fluency/48/artificial-intelligence.png', company: 'Zhipu AI', lmsys_elo: 1312, mmlu: 79.8, swe_bench: 38.1, aime: 42.0, humaneval: 79.4, free: true, url: 'https://chatglm.cn', description: 'Çin en güçlü modeli. Türkçe desteği güçlü.' },
-      { rank: 15, name: 'Yi Lightning', image: 'https://img.icons8.com/fluency/48/artificial-intelligence.png', company: '01.AI', lmsys_elo: 1298, mmlu: 77.2, swe_bench: 35.6, aime: 38.0, humaneval: 76.8, free: true, url: 'https://www.01.ai', description: '01.AI hızlı ve ekonomik model.' },
-      { rank: 16, name: 'Phi-4', image: 'https://img.icons8.com/fluency/48/microsoft.png', company: 'Microsoft', lmsys_elo: 1285, mmlu: 76.9, swe_bench: 32.1, aime: 35.0, humaneval: 74.2, free: true, url: 'https://azure.microsoft.com', description: 'Microsoft küçük ama etkili model.' },
-      { rank: 17, name: 'Gemma 3 27B', image: 'https://img.icons8.com/fluency/48/google-logo.png', company: 'Google', lmsys_elo: 1272, mmlu: 75.1, swe_bench: 29.8, aime: 33.0, humaneval: 72.1, free: true, url: 'https://ai.google.dev', description: 'Google açık kaynak model. Küçük ama güçlü.' },
-      { rank: 18, name: 'Jamba 2', image: 'https://img.icons8.com/fluency/48/artificial-intelligence.png', company: 'AI21 Labs', lmsys_elo: 1261, mmlu: 74.3, swe_bench: 28.5, aime: 30.0, humaneval: 70.8, free: true, url: 'https://ai21.com', description: 'AI21 SSM-Transformer hibrit model.' },
-      { rank: 19, name: 'Mistral Small 3', image: 'https://img.icons8.com/fluency/48/artificial-intelligence.png', company: 'Mistral', lmsys_elo: 1248, mmlu: 73.5, swe_bench: 26.2, aime: 28.0, humaneval: 69.1, free: true, url: 'https://mistral.ai', description: 'Mistral hafif model. API ile erişim.' },
-      { rank: 20, name: 'DeepSeek V3', image: 'https://img.icons8.com/fluency/48/artificial-intelligence.png', company: 'DeepSeek', lmsys_elo: 1235, mmlu: 72.8, swe_bench: 24.1, aime: 26.0, humaneval: 67.5, free: true, url: 'https://chat.deepseek.com', description: 'DeepSeek önceki nesil. Hâlâ güçlü.' },
+      { rank: 1, name: 'Claude Opus 4.7', icon: '🟣', company: 'Anthropic', lmsys_elo: 1506, mmlu: 88.7, swe_bench: 74.2, aime: 85.0, humaneval: 92.1, free: true, url: 'https://claude.ai', description: 'Anthropic en güçlü model. İnsanlığı geride bırakan yapay zeka.' },
+      { rank: 2, name: 'GPT-5.5', icon: '🟢', company: 'OpenAI', lmsys_elo: 1498, mmlu: 88.2, swe_bench: 74.9, aime: 83.0, humaneval: 91.8, free: false, url: 'https://chat.openai.com', description: 'OpenAI devrim niteliğinde güncelleme. 1M token context.' },
+      { rank: 3, name: 'Gemini 3.1 Pro', icon: '💎', company: 'Google', lmsys_elo: 1489, mmlu: 87.9, swe_bench: 80.6, aime: 79.0, humaneval: 90.2, free: true, url: 'https://gemini.google.com', description: 'Google en güçlü modeli. Artık herkes için ücretsiz.' },
+      { rank: 4, name: 'Grok 4', icon: '⚡', company: 'xAI', lmsys_elo: 1471, mmlu: 87.1, swe_bench: 75.0, aime: 78.0, humaneval: 89.4, free: true, url: 'https://grok.x.ai', description: 'xAI modeli. Gerçek zamanlı X erişimi.' },
+      { rank: 5, name: 'Claude Sonnet 4.7', icon: '🟠', company: 'Anthropic', lmsys_elo: 1463, mmlu: 87.5, swe_bench: 82.1, aime: 80.0, humaneval: 91.2, free: true, url: 'https://claude.ai', description: 'Anthropic flagship. Kod yazma ve analiz lideri.' },
+      { rank: 6, name: 'DeepSeek V4', icon: '🐋', company: 'DeepSeek', lmsys_elo: 1452, mmlu: 87.1, swe_bench: 49.2, aime: 39.2, humaneval: 82.6, free: true, url: 'https://chat.deepseek.com', description: 'Çin den gelen açık kaynak devrimi.' },
+      { rank: 7, name: 'Llama 4 Scout', icon: '🦙', company: 'Meta', lmsys_elo: 1421, mmlu: 79.6, swe_bench: 32.0, aime: 50.0, humaneval: 75.2, free: true, url: 'https://llama.meta.com', description: 'Meta açık kaynak MoE model. 128 uzman.' },
+      { rank: 8, name: 'Mistral Large 3', icon: '🌬️', company: 'Mistral', lmsys_elo: 1398, mmlu: 81.2, swe_bench: 45.1, aime: 42.0, humaneval: 78.9, free: true, url: 'https://mistral.ai', description: 'Avrupa nın ilk trilyon parametreli modeli.' },
+      { rank: 9, name: 'Qwen 3.5 Max', icon: '☁️', company: 'Alibaba', lmsys_elo: 1387, mmlu: 85.3, swe_bench: 61.2, aime: 65.0, humaneval: 84.1, free: true, url: 'https://qwen.aliyun.com', description: 'Alibaba güçlü model. Matematik ve kodlamada başarılı.' },
+      { rank: 10, name: 'Command R+', icon: '🔴', company: 'Cohere', lmsys_elo: 1352, mmlu: 75.7, swe_bench: 28.4, aime: 31.0, humaneval: 71.3, free: true, url: 'https://cohere.com', description: 'Cohere enterprise model. Çok dilli.' },
+      { rank: 11, name: 'GPT-4.1', icon: '🟢', company: 'OpenAI', lmsys_elo: 1345, mmlu: 85.2, swe_bench: 54.9, aime: 52.0, humaneval: 87.3, free: false, url: 'https://chat.openai.com', description: 'OpenAI orta seviye model. Hızlı ve verimli.' },
+      { rank: 12, name: 'Claude Haiku 4.7', icon: '🟡', company: 'Anthropic', lmsys_elo: 1338, mmlu: 82.1, swe_bench: 42.3, aime: 45.0, humaneval: 85.6, free: true, url: 'https://claude.ai', description: 'Anthropic hızlı model. Ucuz ve hızlı.' },
+      { rank: 13, name: 'Gemini 3.1 Flash', icon: '💎', company: 'Google', lmsys_elo: 1325, mmlu: 80.5, swe_bench: 48.7, aime: 55.0, humaneval: 83.9, free: true, url: 'https://gemini.google.com', description: 'Google hızlı model. Uygulama geliştiriciler için ideal.' },
+      { rank: 14, name: 'GLM-5', icon: '🧠', company: 'Zhipu AI', lmsys_elo: 1312, mmlu: 79.8, swe_bench: 38.1, aime: 42.0, humaneval: 79.4, free: true, url: 'https://chatglm.cn', description: 'Çin en güçlü modeli. Türkçe desteği güçlü.' },
+      { rank: 15, name: 'Yi Lightning', icon: '⚡', company: '01.AI', lmsys_elo: 1298, mmlu: 77.2, swe_bench: 35.6, aime: 38.0, humaneval: 76.8, free: true, url: 'https://www.01.ai', description: '01.AI hızlı ve ekonomik model.' },
+      { rank: 16, name: 'Phi-4', icon: '🪟', company: 'Microsoft', lmsys_elo: 1285, mmlu: 76.9, swe_bench: 32.1, aime: 35.0, humaneval: 74.2, free: true, url: 'https://azure.microsoft.com', description: 'Microsoft küçük ama etkili model.' },
+      { rank: 17, name: 'Gemma 3 27B', icon: '💎', company: 'Google', lmsys_elo: 1272, mmlu: 75.1, swe_bench: 29.8, aime: 33.0, humaneval: 72.1, free: true, url: 'https://ai.google.dev', description: 'Google açık kaynak model. Küçük ama güçlü.' },
+      { rank: 18, name: 'Jamba 2', icon: '🌀', company: 'AI21 Labs', lmsys_elo: 1261, mmlu: 74.3, swe_bench: 28.5, aime: 30.0, humaneval: 70.8, free: true, url: 'https://ai21.com', description: 'AI21 SSM-Transformer hibrit model.' },
+      { rank: 19, name: 'Mistral Small 3', icon: '🌬️', company: 'Mistral', lmsys_elo: 1248, mmlu: 73.5, swe_bench: 26.2, aime: 28.0, humaneval: 69.1, free: true, url: 'https://mistral.ai', description: 'Mistral hafif model. API ile erişim.' },
+      { rank: 20, name: 'DeepSeek V3', icon: '🐋', company: 'DeepSeek', lmsys_elo: 1235, mmlu: 72.8, swe_bench: 24.1, aime: 26.0, humaneval: 67.5, free: true, url: 'https://chat.deepseek.com', description: 'DeepSeek önceki nesil. Hâlâ güçlü.' },
+      { rank: 21, name: 'Grok-2', icon: '⚡', company: 'xAI', lmsys_elo: 1220, mmlu: 71.5, swe_bench: 22.0, aime: 30.0, humaneval: 66.8, free: true, url: 'https://grok.x.ai', description: 'xAI ikinci nesil model. Hızlı çıkarım.' },
+      { rank: 22, name: 'Llama 3.1 405B', icon: '🦙', company: 'Meta', lmsys_elo: 1208, mmlu: 70.2, swe_bench: 20.5, aime: 28.0, humaneval: 65.2, free: true, url: 'https://llama.meta.com', description: 'Meta en büyük açık kaynak modeli. 405B parametre.' },
+      { rank: 23, name: 'Mixtral 8x22B', icon: '🌬️', company: 'Mistral', lmsys_elo: 1195, mmlu: 69.8, swe_bench: 18.2, aime: 25.0, humaneval: 63.5, free: true, url: 'https://mistral.ai', description: 'Mistral MoE model. 22Bx8 uzman karışımı.' },
+      { rank: 24, name: 'Qwen2-Max', icon: '☁️', company: 'Alibaba', lmsys_elo: 1182, mmlu: 68.5, swe_bench: 19.8, aime: 32.0, humaneval: 64.1, free: true, url: 'https://qwen.aliyun.com', description: 'Alibaba Qwen2 serisi en büyük model.' },
+      { rank: 25, name: 'Falcon 180B', icon: '🦅', company: 'TII', lmsys_elo: 1168, mmlu: 67.2, swe_bench: 15.1, aime: 22.0, humaneval: 61.8, free: true, url: 'https://falconllm.tii.ae', description: 'BAJI açık kaynak model. 180B parametre.' },
+      { rank: 26, name: 'InternLM2', icon: '🏮', company: 'Shanghai AI Lab', lmsys_elo: 1155, mmlu: 66.8, swe_bench: 16.5, aime: 24.0, humaneval: 62.4, free: true, url: 'https://internlm.intern-ai.org.cn', description: 'Shanghai AI Lab açık kaynak modeli. Güçlü Çince.' },
+      { rank: 27, name: 'DBRX', icon: '🔷', company: 'Databricks', lmsys_elo: 1142, mmlu: 65.5, swe_bench: 14.8, aime: 20.0, humaneval: 60.2, free: true, url: 'https://www.databricks.com', description: 'Databricks açık kaynak MoE modeli.' },
+      { rank: 28, name: 'Granite 34B', icon: '🪨', company: 'IBM', lmsys_elo: 1130, mmlu: 64.2, swe_bench: 13.5, aime: 18.0, humaneval: 58.9, free: true, url: 'https://www.ibm.com/granite', description: 'IBM enterprise AI modeli. İş odaklı.' },
+      { rank: 29, name: 'StarCoder2 15B', icon: '⭐', company: 'BigCode', lmsys_elo: 1118, mmlu: 62.0, swe_bench: 25.2, aime: 15.0, humaneval: 72.5, free: true, url: 'https://huggingface.co/bigcode', description: 'BigCode açık kaynak kod modeli. Kod üretiminde güçlü.' },
+      { rank: 30, name: 'Phi-3.5 MoE', icon: '🪟', company: 'Microsoft', lmsys_elo: 1105, mmlu: 61.8, swe_bench: 12.1, aime: 16.0, humaneval: 57.2, free: true, url: 'https://azure.microsoft.com', description: 'Microsoft MoE küçük model. Verimli ve hızlı.' },
+      { rank: 31, name: 'Yi-1.5 34B', icon: '⚡', company: '01.AI', lmsys_elo: 1092, mmlu: 60.5, swe_bench: 11.5, aime: 19.0, humaneval: 56.8, free: true, url: 'https://www.01.ai', description: '01.AI önceki nesil model. Güçlü çok dilli.' },
+      { rank: 32, name: 'Cohere Command R+', icon: '🔴', company: 'Cohere', lmsys_elo: 1080, mmlu: 59.2, swe_bench: 10.8, aime: 17.0, humaneval: 55.5, free: true, url: 'https://cohere.com', description: 'Cohere RAG odaklı enterprise model.' },
+      { rank: 33, name: 'Perplexity', icon: '🔮', company: 'Perplexity AI', lmsys_elo: 1068, mmlu: 58.5, swe_bench: 8.2, aime: 14.0, humaneval: 52.1, free: true, url: 'https://www.perplexity.ai', description: 'Perplexity AI arama odaklı asistan. Gerçek zamanlı.' },
+      { rank: 34, name: 'Gemma 2 27B', icon: '💎', company: 'Google', lmsys_elo: 1055, mmlu: 57.8, swe_bench: 9.5, aime: 16.0, humaneval: 54.2, free: true, url: 'https://ai.google.dev', description: 'Google önceki nesil açık kaynak model.' },
+      { rank: 35, name: 'Midjourney v6', icon: '🎨', company: 'Midjourney', lmsys_elo: 0, mmlu: 0, swe_bench: 0, aime: 0, humaneval: 0, free: false, url: 'https://www.midjourney.com', description: 'Sanat düzeyinde görsel üretim AI. Yaratıcılık sınırsız.' },
+      { rank: 36, name: 'DALL-E 3', icon: '🖼️', company: 'OpenAI', lmsys_elo: 0, mmlu: 0, swe_bench: 0, aime: 0, humaneval: 0, free: false, url: 'https://openai.com/dall-e-3', description: 'OpenAI görsel üretim modeli. Metinden görsel.' },
+      { rank: 37, name: 'Stable Diffusion 3', icon: '🎪', company: 'Stability AI', lmsys_elo: 0, mmlu: 0, swe_bench: 0, aime: 0, humaneval: 0, free: true, url: 'https://stability.ai', description: 'Açık kaynak görsel üretim. SD3 ile kalite arttı.' },
+      { rank: 38, name: 'Suno v3', icon: '🎵', company: 'Suno AI', lmsys_elo: 0, mmlu: 0, swe_bench: 0, aime: 0, humaneval: 0, free: true, url: 'https://suno.com', description: 'AI müzik üretim. Şarkı sözlerinden tam şarkı.' },
+      { rank: 39, name: 'ElevenLabs', icon: '🎙️', company: 'ElevenLabs', lmsys_elo: 0, mmlu: 0, swe_bench: 0, aime: 0, humaneval: 0, free: true, url: 'https://elevenlabs.io', description: 'AI ses klonlama ve sentez. Doğal sesler.' },
     ];
     const container = document.getElementById('models-table');
     const maxElo = Math.max(...models.map(m => m.lmsys_elo));
@@ -1470,13 +1582,13 @@ async function loadModels() {
           ${models.map(m => {
             const rankClass = m.rank <= 3 ? `rank-${m.rank}` : 'rank-other';
             const eloWidth = Math.round((m.lmsys_elo / maxElo) * 100);
-            const scoreClass = (v) => v >= 80 ? 'score-good' : v >= 60 ? 'score-mid' : 'score-low';
+            const scoreClass = (v) => v === 0 ? 'score-na' : v >= 80 ? 'score-good' : v >= 60 ? 'score-mid' : 'score-low';
             return `
               <tr>
                 <td><div class="rank-badge ${rankClass}">${m.rank}</div></td>
                 <td>
                   <div style="display:flex;align-items:center;gap:10px">
-                    ${m.image ? `<img src="${m.image}" style="width:28px;height:28px;object-fit:contain;border-radius:4px" onerror="this.outerHTML='🤖'" loading="lazy">` : ''}
+                    ${m.icon ? `<span style="font-size:24px;display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px">${m.icon}</span>` : ''}
                     <div>
                       <a href="${m.url}" target="_blank" style="color:var(--gold);text-decoration:none;font-weight:600">${m.name}</a>
                       <div style="font-size:11px;color:var(--text3);margin-top:2px">${m.description.substring(0,60)}...</div>
@@ -1488,10 +1600,10 @@ async function loadModels() {
                   <div style="font-weight:700;color:var(--text)">${m.lmsys_elo}</div>
                   <div class="elo-bar"><div class="elo-fill" style="width:${eloWidth}%"></div></div>
                 </td>
-                <td class="${scoreClass(m.mmlu)}">${m.mmlu}%</td>
-                <td class="${scoreClass(m.swe_bench)}">${m.swe_bench}%</td>
-                <td class="${scoreClass(m.aime)}">${m.aime}%</td>
-                <td class="${scoreClass(m.humaneval)}">${m.humaneval}%</td>
+                <td class="${scoreClass(m.mmlu)}">${m.mmlu === 0 ? '<span style="color:var(--text3)">—</span>' : m.mmlu+'%'}</td>
+                <td class="${scoreClass(m.swe_bench)}">${m.swe_bench === 0 ? '<span style="color:var(--text3)">—</span>' : m.swe_bench+'%'}</td>
+                <td class="${scoreClass(m.aime)}">${m.aime === 0 ? '<span style="color:var(--text3)">—</span>' : m.aime+'%'}</td>
+                <td class="${scoreClass(m.humaneval)}">${m.humaneval === 0 ? '<span style="color:var(--text3)">—</span>' : m.humaneval+'%'}</td>
                 <td>${m.free ? '<span class="free-badge">✓ Ücretsiz</span>' : '<span class="paid-badge">$ Ücretli</span>'}</td>
               </tr>
             `;
@@ -1520,6 +1632,20 @@ const arenaModels = {
   'glm-5': { name: 'GLM-5', lmsys: 1312, mmlu: 79.8, swe_bench: 38.1, aime: 42.0, humaneval: 79.4, color: '#8b5cf6' },
   'phi-4': { name: 'Phi-4', lmsys: 1285, mmlu: 76.9, swe_bench: 32.1, aime: 35.0, humaneval: 74.2, color: '#00a4ef' },
   'gemma-3-27b': { name: 'Gemma 3 27B', lmsys: 1272, mmlu: 75.1, swe_bench: 29.8, aime: 33.0, humaneval: 72.1, color: '#1da1f2' },
+  'grok-2': { name: 'Grok-2', lmsys: 1220, mmlu: 71.5, swe_bench: 22.0, aime: 30.0, humaneval: 66.8, color: '#1da1f2' },
+  'llama-31-405b': { name: 'Llama 3.1 405B', lmsys: 1208, mmlu: 70.2, swe_bench: 20.5, aime: 28.0, humaneval: 65.2, color: '#1da1f2' },
+  'mixtral-8x22b': { name: 'Mixtral 8x22B', lmsys: 1195, mmlu: 69.8, swe_bench: 18.2, aime: 25.0, humaneval: 63.5, color: '#1da1f2' },
+  'qwen2-max': { name: 'Qwen2-Max', lmsys: 1182, mmlu: 68.5, swe_bench: 19.8, aime: 32.0, humaneval: 64.1, color: '#1da1f2' },
+  'falcon-180b': { name: 'Falcon 180B', lmsys: 1168, mmlu: 67.2, swe_bench: 15.1, aime: 22.0, humaneval: 61.8, color: '#1da1f2' },
+  'internlm2': { name: 'InternLM2', lmsys: 1155, mmlu: 66.8, swe_bench: 16.5, aime: 24.0, humaneval: 62.4, color: '#8b5cf6' },
+  'dbrx': { name: 'DBRX', lmsys: 1142, mmlu: 65.5, swe_bench: 14.8, aime: 20.0, humaneval: 60.2, color: '#ff6900' },
+  'granite-34b': { name: 'Granite 34B', lmsys: 1130, mmlu: 64.2, swe_bench: 13.5, aime: 18.0, humaneval: 58.9, color: '#054ada' },
+  'starcoder2-15b': { name: 'StarCoder2 15B', lmsys: 1118, mmlu: 62.0, swe_bench: 25.2, aime: 15.0, humaneval: 72.5, color: '#1da1f2' },
+  'phi-35-moe': { name: 'Phi-3.5 MoE', lmsys: 1105, mmlu: 61.8, swe_bench: 12.1, aime: 16.0, humaneval: 57.2, color: '#00a4ef' },
+  'yi-15-34b': { name: 'Yi-1.5 34B', lmsys: 1092, mmlu: 60.5, swe_bench: 11.5, aime: 19.0, humaneval: 56.8, color: '#1da1f2' },
+  'cohere-command-rplus': { name: 'Cohere Command R+', lmsys: 1080, mmlu: 59.2, swe_bench: 10.8, aime: 17.0, humaneval: 55.5, color: '#1da1f2' },
+  'perplexity': { name: 'Perplexity', lmsys: 1068, mmlu: 58.5, swe_bench: 8.2, aime: 14.0, humaneval: 52.1, color: '#20b8cd' },
+  'gemma-2-27b': { name: 'Gemma 2 27B', lmsys: 1055, mmlu: 57.8, swe_bench: 9.5, aime: 16.0, humaneval: 54.2, color: '#1da1f2' },
 };
 
 
@@ -1614,7 +1740,7 @@ function renderVideos(items) {
     const safeTitle = v.title.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
     return '<div class="video-card" data-vidx="' + idx + '">' +
       '<div class="video-thumb">' +
-        '<img src="' + v.thumb + '" alt="" onerror="this.src=\'https://img.icons8.com/fluency/96/video-play.png\'" loading="lazy">' +
+        '<img src="' + v.thumb + '" alt="" onerror="handleImgError(this)" loading="lazy">' +
         '<div class="video-play-btn">' + playIcon + '</div>' +
         '<div class="video-duration">' + v.duration + '</div>' +
       '</div>' +
@@ -1856,11 +1982,30 @@ function filterLearn(cat, el) {
   renderLearn(filtered);
 }
 
+function showLearnArticle(el) {
+  try {
+    const a = JSON.parse(decodeURIComponent(escape(atob(el.dataset.article))));
+    const learnView = document.getElementById('learn-list');
+    learnView.innerHTML = `
+      <button class="back-btn" onclick="loadLearnContent();document.getElementById('page-learn').scrollIntoView({behavior:'smooth'})">← Tüm Yazılar</button>
+      <div class="article-detail">
+        ${a.image ? '<img src="'+a.image+'" class="article-detail-img" onerror="this.style.display=\'none\'" loading="lazy">' : ''}
+        <h1>${a.title}</h1>
+        <div style="color:var(--text3);font-size:13px;margin-bottom:20px">✍️ ${a.author || 'AI Legion Ekibi'} · 📖 ${a.readTime}</div>
+        <div class="content">${(a.content || a.summary || '').split('\n').map(p => p ? '<p>'+p+'</p>' : '').join('')}</div>
+      </div>
+    `;
+    window.scrollTo({top:0,behavior:'smooth'});
+  } catch(e) { console.error('showLearnArticle error:', e); }
+}
+
 function renderLearn(items) {
   const container = document.getElementById('learn-list');
   if (!items.length) { container.innerHTML = '<div class="empty-state"><div class="icon">📚</div><p>Bu kategoride içerik yok</p></div>'; return; }
-  container.innerHTML = '<div class="articles-grid">' + items.map(a => `
-    <div class="article-card">
+  container.innerHTML = '<div class="articles-grid">' + items.map(a => {
+      const dataAttr = btoa(unescape(encodeURIComponent(JSON.stringify(a))));
+      return `
+    <div class="article-card" onclick="showLearnArticle(this)" data-article="${dataAttr}" style="cursor:pointer">
       <div class="article-img-placeholder">${a.image ? '<img src="'+a.image+'" class="article-img" onerror="this.parentElement.innerHTML=\'📚\'" loading="lazy">' : (a.emoji || '📚')}</div>
       <div class="article-body">
         <div class="article-title">${a.title}</div>
@@ -1868,7 +2013,7 @@ function renderLearn(items) {
         <div class="article-meta"><span>✍️ ${a.author || 'AI Legion Ekibi'}</span><span>📖 ${a.readTime} okuma</span></div>
       </div>
     </div>
-  `).join('') + '</div>';
+  `;}).join('') + '</div>';
 }
 
 // PROMPTS
@@ -2019,7 +2164,7 @@ async function loadAdminPosts() {
               <td>@${p.user?.username||'?'}</td>
               <td style="max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.content}</td>
               <td style="color:var(--text3)">${new Date(p.created_at).toLocaleDateString('tr-TR')}</td>
-             <td><button class="btn btn-gold btn-sm" onclick="adminEditPost('${p.id}', '${p.content}')">Düzenle</button> <button class="btn btn-red btn-sm" onclick="adminDeletePost('${p.id}')">Sil</button></td>
+             <td><button class="btn btn-gold btn-sm" onclick="adminEditPost('${p.id}')">Düzenle</button> <button class="btn btn-red btn-sm" onclick="adminDeletePost('${p.id}')">Sil</button></td>
             </tr>
           `).join('')}
         </tbody>
@@ -2086,10 +2231,17 @@ function switchAdminTab(tab, el) {
   if (tab === 'articles') loadAdminArticles();
   if (tab === 'nav') renderNavManager();
 }
-async function adminEditPost(id, content) {
-  document.getElementById('edit-post-id').value = id;
-  document.getElementById('edit-post-content').value = content;
-  openModal('edit-post-modal');
+async function adminEditPost(id) {
+  try {
+    const posts = await sb('/posts?id=eq.' + id + '&limit=1');
+    if (posts && posts.length > 0) {
+      document.getElementById('edit-post-id').value = id;
+      document.getElementById('edit-post-content').value = posts[0].content || '';
+      openModal('edit-post-modal');
+    } else {
+      showToast('Post bulunamadı');
+    }
+  } catch(e) { showToast('Post yüklenemedi'); }
 }
 
 async function saveEditedPost() {
