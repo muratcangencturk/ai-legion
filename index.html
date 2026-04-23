@@ -652,7 +652,7 @@
         <div class="tab" onclick="filterVideos('Para Kazanma',this)">💰 Kazanç</div>
       </div>
       <div id="videos-list" class="videos-grid"></div>
-      <div id="video-embed-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:300;align-items:center;justify-content:center;padding:20px" onclick="closeVideoEmbed(event)">
+      <div id="video-embed-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:300;align-items:center;justify-content:center;padding:20px" >
         <div style="width:100%;max-width:800px;position:relative" onclick="event.stopPropagation()">
           <button style="position:absolute;top:-36px;right:0;background:none;border:none;color:#fff;font-size:28px;cursor:pointer" onclick="closeVideoEmbed()">✕</button>
           <div id="video-embed-container" style="width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000"></div>
@@ -1607,24 +1607,33 @@ function filterVideos(cat, el) {
 function renderVideos(items) {
   const container = document.getElementById('videos-list');
   if (!items.length) { container.innerHTML = '<div class="empty-state"><div class="icon">🎬</div><p>Video bulunamadı</p></div>'; return; }
-  container.innerHTML = '<div class="videos-grid">' + items.map(v => {
+  container.innerHTML = items.map((v, idx) => {
     const platformClass = v.platform === 'youtube' ? 'video-source-yt' : v.platform === 'x' ? 'video-source-x' : 'video-source-ig';
     const platformLabel = v.platform === 'youtube' ? '▶️ YouTube' : v.platform === 'x' ? '𝕏 X/Twitter' : '📸 Instagram';
     const playIcon = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
-    return '<div class="video-card" onclick="playVideo('' + v.url + '','' + v.platform + '','' + v.title.replace(/'/g,"") + '')">' +
+    const safeTitle = v.title.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    return '<div class="video-card" data-vidx="' + idx + '">' +
       '<div class="video-thumb">' +
-        '<img src="' + v.thumb + '" alt="" onerror="this.src='https://img.icons8.com/fluency/96/video-play.png'" loading="lazy">' +
+        '<img src="' + v.thumb + '" alt="" onerror="this.src=\'https://img.icons8.com/fluency/96/video-play.png\'" loading="lazy">' +
         '<div class="video-play-btn">' + playIcon + '</div>' +
         '<div class="video-duration">' + v.duration + '</div>' +
       '</div>' +
       '<div class="video-body">' +
         '<span class="video-source-badge ' + platformClass + '">' + platformLabel + '</span>' +
-        '<div class="video-title">' + v.title + '</div>' +
+        '<div class="video-title">' + safeTitle + '</div>' +
         '<div class="video-channel">' + v.channel + '</div>' +
         '<div class="video-meta"><span>👁 ' + v.views + '</span><span>' + new Date(v.date).toLocaleDateString('tr-TR') + '</span></div>' +
       '</div>' +
     '</div>';
-  }).join('') + '</div>';
+  }).join('');
+  // Add event delegation
+  container.querySelectorAll('.video-card').forEach(card => {
+    card.addEventListener('click', function() {
+      const idx = parseInt(this.dataset.vidx);
+      const v = allVideos[idx];
+      if (v) playVideo(v.url, v.platform, v.title);
+    });
+  });
 }
 
 function playVideo(url, platform, title) {
