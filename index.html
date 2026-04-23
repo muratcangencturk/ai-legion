@@ -2062,35 +2062,48 @@ function filterVideos(cat, el) {
 }
 
 function renderVideos(items) {
-  const container = document.getElementById('videos-list');
-  if (!items.length) { container.innerHTML = '<div class="empty-state"><div class="icon">🎬</div><p>Video bulunamadı</p></div>'; return; }
-  container.innerHTML = items.map((v, idx) => {
-    const platformClass = v.platform === 'youtube' ? 'video-source-yt' : v.platform === 'x' ? 'video-source-x' : 'video-source-ig';
-    const platformLabel = v.platform === 'youtube' ? '▶️ YouTube' : v.platform === 'x' ? '𝕏 X/Twitter' : '📸 Instagram';
-    const playIcon = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
-    const safeTitle = v.title.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
-    return '<div class="video-card" data-vidx="' + idx + '">' +
-      '<div class="video-thumb">' +
-        (v.thumb || v.thumbnail || '') ? '<img src="' + (v.thumb || v.thumbnail) + '" alt="" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'"><div style="display:none;width:100%;height:100%;align-items:center;justify-content:center;background:var(--bg3);font-size:48px">🎬</div>' : '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:var(--bg3);font-size:48px">🎬</div>'
-        '<div class="video-play-btn">' + playIcon + '</div>' +
-        '<div class="video-duration">' + v.duration + '</div>' +
-      '</div>' +
-      '<div class="video-body">' +
-        '<span class="video-source-badge ' + platformClass + '">' + platformLabel + '</span>' +
-        '<div class="video-title">' + safeTitle + '</div>' +
-        '<div class="video-channel">' + v.channel + '</div>' +
-        '<div class="video-meta"><span>👁 ' + v.views + '</span><span>' + new Date(v.date).toLocaleDateString('tr-TR') + '</span></div>' +
-      '</div>' +
-    '</div>';
-  }).join('');
-  // Add event delegation
-  container.querySelectorAll('.video-card').forEach(card => {
-    card.addEventListener('click', function() {
-      const idx = parseInt(this.dataset.vidx);
-      const v = allVideos[idx];
-      if (v) playVideo(v.url, v.platform, v.title);
-    });
-  });
+  var container = document.getElementById('videos-list');
+  if (!items || !items.length) { container.innerHTML = '<div class="empty-state"><div class="icon">🎬</div><p>Video bulunamadı</p></div>'; return; }
+  var localVids = items;
+  var html = '';
+  for (var i = 0; i < localVids.length; i++) {
+    var v = localVids[i];
+    var pClass = v.platform === 'youtube' ? 'video-source-yt' : v.platform === 'x' ? 'video-source-x' : 'video-source-ig';
+    var pLabel = v.platform === 'youtube' ? '▶ YouTube' : v.platform === 'x' ? '𝕏 X' : '📷 IG';
+    var safeTitle = (v.title || '').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    var thumb = v.thumb || v.thumbnail || '';
+    var thumbHTML;
+    if (thumb) {
+      thumbHTML = '<img src="' + thumb + '" alt="" style="width:100%;height:100%;object-fit:cover;display:block" onerror="this.outerHTML=\'<div style=&quot;width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:var(--bg3);font-size:40px&quot;>🎬</div>\'">';
+    } else {
+      thumbHTML = '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:var(--bg3);font-size:40px">🎬</div>';
+    }
+    html += '<div class="video-card" data-vidx="' + i + '" style="cursor:pointer">';
+    html += '<div class="video-thumb">' + thumbHTML;
+    html += '<div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>';
+    html += '<div class="video-duration">' + (v.duration || '') + '</div>';
+    html += '</div>';
+    html += '<div class="video-body">';
+    html += '<span class="video-source-badge ' + pClass + '">' + pLabel + '</span>';
+    html += '<div class="video-title">' + safeTitle + '</div>';
+    html += '<div class="video-channel">' + (v.channel || '') + '</div>';
+    html += '<div class="video-meta"><span>👁 ' + (v.views || '') + '</span><span>' + (v.date ? new Date(v.date).toLocaleDateString('tr-TR') : '') + '</span></div>';
+    if (v.description) {
+      html += '<div class="video-desc" style="font-size:12px;color:var(--text3);margin-top:6px;line-height:1.4">' + v.description + '</div>';
+    }
+    html += '</div></div>';
+  }
+  container.innerHTML = html;
+  // Add click handlers
+  var cards = container.querySelectorAll('.video-card');
+  for (var j = 0; j < cards.length; j++) {
+    (function(card, idx) {
+      card.addEventListener('click', function() {
+        var v = localVids[idx];
+        if (v) playVideo(v.url, v.platform, v.title);
+      });
+    })(cards[j], j);
+  }
 }
 
 function playVideo(url, platform, title) {
