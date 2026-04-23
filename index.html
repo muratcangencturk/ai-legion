@@ -1019,6 +1019,41 @@ function handleImgError(img) {
   img.replaceWith(span);
 }
 
+// Fix broken background images (Unsplash 404 etc.)
+function fixBrokenBgImages() {
+  document.querySelectorAll('[style*="unsplash"], [style*="background-image"]').forEach(el => {
+    const bg = el.style.backgroundImage || el.style.background;
+    if (bg && bg.includes('url(')) {
+      const urlMatch = bg.match(/url\(["']?([^"')]+)["']?\)/);
+      if (urlMatch) {
+        const img = new Image();
+        img.onload = function() {};
+        img.onerror = function() {
+          const gradients = [
+            'linear-gradient(135deg,#7a1515,#1a0a0a)',
+            'linear-gradient(135deg,#1a3a6a,#0a0a1a)',
+            'linear-gradient(135deg,#2d6a2d,#0a0a0a)',
+            'linear-gradient(135deg,#6a4a1a,#0a0a0a)',
+            'linear-gradient(135deg,#4a1a6a,#0a0a0a)'
+          ];
+          el.style.backgroundImage = gradients[Math.floor(Math.random() * gradients.length)];
+          el.style.backgroundSize = 'cover';
+        };
+        img.src = urlMatch[1];
+      }
+    }
+  });
+}
+
+// Run after articles load
+const origLoadArticles = loadArticles;
+loadArticles = async function() {
+  await origLoadArticles();
+  setTimeout(fixBrokenBgImages, 500);
+  setTimeout(fixBrokenBgImages, 2000);
+  setTimeout(fixBrokenBgImages, 5000);
+};
+
 // Global error delegation - catch ALL img errors on the page
 document.addEventListener('error', function(e) {
   if (e.target.tagName === 'IMG') {
