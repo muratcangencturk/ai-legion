@@ -2292,18 +2292,27 @@ function showLearnArticle(el) {
 function renderLearn(items) {
   const container = document.getElementById('learn-list');
   if (!items.length) { container.innerHTML = '<div class="empty-state"><div class="icon">📚</div><p>Bu kategoride içerik yok</p></div>'; return; }
-  container.innerHTML = '<div class="articles-grid">' + items.map(a => {
-      const dataAttr = btoa(unescape(encodeURIComponent(JSON.stringify(a))));
-      return `
-    <div class="article-card" onclick="showLearnArticle(this)" data-article="${dataAttr}" style="cursor:pointer">
-      <div class="article-img-placeholder" style="position:relative;overflow:hidden;background:${gradients[idx % gradients.length]}">${a.image_url ? '<img src="'+a.image_url+'" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.6" onerror="this.remove()" loading="lazy">' : ''}<span style="position:relative;font-size:48px;display:flex;align-items:center;justify-content:center;height:100%;text-shadow:0 2px 8px rgba(0,0,0,0.5)">${a.emoji || '📚'}</span></div>
-      <div class="article-body">
-        <div class="article-title">${a.title}</div>
-        <div class="article-summary">${a.summary}</div>
-        <div class="article-meta"><span>✍️ ${a.author || 'AI Legion Ekibi'}</span><span>📖 ${a.readTime} okuma</span></div>
-      </div>
-    </div>
-  `;}).join('') + '</div>';
+  let html = '<div class="articles-grid">';
+  items.forEach(function(a, idx) {
+    var dataAttr = btoa(unescape(encodeURIComponent(JSON.stringify(a))));
+    var bg = gradients[idx % gradients.length];
+    var imgHtml;
+    if (a.image_url) {
+      imgHtml = '<img src="' + a.image_url + '" style="width:100%;height:180px;object-fit:cover;display:block" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">';
+      imgHtml += '<div class="article-img-placeholder" style="height:180px;background:' + bg + ';display:none;align-items:center;justify-content:center"><span style="font-size:48px">' + (a.emoji||'📚') + '</span></div>';
+    } else {
+      imgHtml = '<div class="article-img-placeholder" style="height:180px;background:' + bg + ';display:flex;align-items:center;justify-content:center"><span style="font-size:48px">' + (a.emoji||'📚') + '</span></div>';
+    }
+    html += '<div class="article-card" onclick="showLearnArticle(this)" data-article="' + dataAttr + '" style="cursor:pointer;overflow:hidden;border-radius:16px">';
+    html += imgHtml;
+    html += '<div class="article-body">';
+    html += '<div class="article-title">' + a.title + '</div>';
+    html += '<div class="article-summary">' + a.summary + '</div>';
+    html += '<div class="article-meta"><span>✍️ ' + (a.author || 'AI Legion Ekibi') + '</span><span>📖 ' + a.readTime + ' okuma</span></div>';
+    html += '</div></div>';
+  });
+  html += '</div>';
+  container.innerHTML = html;
 }
 
 // PROMPTS
