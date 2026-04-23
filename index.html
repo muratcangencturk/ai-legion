@@ -98,9 +98,9 @@
       .models-table-wrapper{overflow-x:auto;}
       .data-table-wrapper{overflow-x:auto;}
       .footer-content{padding:20px 15px}
-      .news-grid{grid-template-columns:1fr!important}
+      .news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
       .tools-grid{grid-template-columns:1fr!important}
-      .articles-grid{grid-template-columns:1fr!important}
+      .articles-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
       .prompts-grid{grid-template-columns:1fr!important}
       .admin-stats-grid{grid-template-columns:repeat(2,1fr)!important}
       .modal{margin:10px;padding:16px}
@@ -173,8 +173,8 @@
     .article-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;overflow:hidden;cursor:pointer;transition:all 0.3s;box-shadow:0 4px 16px rgba(0,0,0,0.2)}
     .article-card:hover{border-color:var(--gold);transform:translateY(-4px);box-shadow:0 12px 40px rgba(201,168,76,0.2)}.article-body .article-summary{color:#ccc;font-size:14px}.article-body .article-title{color:#f0f0f0;font-size:16px;font-weight:700}.article-body .article-meta{color:#999;font-size:12px}
     .article-img{width:100%;height:100%;object-fit:cover;display:block}
-    .article-img-placeholder{width:100%;height:160px;background:linear-gradient(135deg,var(--red) 0%,var(--bg3) 100%);display:flex;align-items:center;justify-content:center;font-size:40px;overflow:hidden}.article-img-placeholder img{width:100%;height:100%;object-fit:cover;display:block}
-    .article-body{padding:14px}
+    .article-img-placeholder{width:100%;height:180px;display:flex;align-items:center;justify-content:center;font-size:48px;position:relative;overflow:hidden}.article-img-placeholder img{width:100%;height:100%;object-fit:cover;display:block}
+    .article-body{padding:14px}.article-card-img{width:100%;height:180px;overflow:hidden;position:relative}.article-card-img img{width:100%;height:100%;object-fit:cover;transition:transform 0.3s}.article-card:hover .article-card-img img{transform:scale(1.05)}
     .article-detail{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:28px;margin-top:12px;box-shadow:0 4px 20px rgba(0,0,0,0.15)}
     .article-detail h1{font-size:24px;font-weight:800;color:var(--article-h1-color,var(--gold));line-height:1.3;margin-bottom:12px}
     .article-detail .content{font-size:17px;line-height:1.8;color:var(--article-text-color,var(--text))}
@@ -185,7 +185,7 @@
     .article-summary{color:var(--text2);font-size:13px;line-height:1.5}
     .article-meta{display:flex;justify-content:space-between;margin-top:10px;font-size:11px;color:var(--text3)}
     /* FEATURED NEWS */
-    .featured-news{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+    .featured-news{display:grid;grid-template-columns:2fr 1fr;gap:18px;margin-bottom:24px}
     .featured-main{grid-row:1/3;position:relative;border-radius:16px;overflow:hidden;min-height:320px;cursor:pointer;transition:all 0.3s}
     .featured-main:hover{transform:translateY(-2px);box-shadow:0 16px 48px rgba(201,168,76,0.25)}
     .featured-side{position:relative;border-radius:12px;overflow:hidden;min-height:152px;cursor:pointer;transition:all 0.3s}
@@ -194,7 +194,7 @@
     .featured-main .featured-overlay .article-title{font-size:20px;font-weight:800;line-height:1.3;margin-bottom:4px;color:#fff}
     .featured-side .featured-overlay .article-title{font-size:14px;font-weight:700;line-height:1.3;color:#fff}
     .featured-overlay .article-meta{color:rgba(255,255,255,0.7)}
-    .news-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-top:8px}
+    .news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:8px}
     @media(max-width:768px){
       .featured-news{grid-template-columns:1fr;gap:10px}
       .featured-main{min-height:240px;grid-row:auto}
@@ -377,7 +377,7 @@
     .video-card:hover .video-play-btn{background:rgba(0,0,0,0.5)}
     .video-play-btn svg{width:48px;height:48px;fill:var(--gold);filter:drop-shadow(0 2px 8px rgba(0,0,0,0.5))}
     .video-duration{position:absolute;bottom:8px;right:8px;background:rgba(0,0,0,0.8);color:#fff;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:600}
-    .video-body{padding:14px}
+    .video-body{padding:14px}.video-desc{font-size:12px!important;color:var(--text3)!important;margin-top:6px!important;line-height:1.4!important;display:-webkit-box!important;-webkit-line-clamp:2!important;-webkit-box-orient:vertical!important;overflow:hidden!important}
     .video-title{font-size:14px;font-weight:700;color:var(--text);line-height:1.4;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
     .video-channel{font-size:12px;color:var(--text2);margin-bottom:4px}
     .video-meta{display:flex;gap:12px;font-size:11px;color:var(--text3)}
@@ -478,6 +478,19 @@
     .social-embed-action:hover{background:var(--bg4);color:var(--text)}
     .social-embed-link{font-size:11px;color:var(--gold);text-decoration:none;display:flex;align-items:center;gap:4px}
     .social-embed-link:hover{text-decoration:underline}
+
+@media(max-width:900px){
+  .articles-grid,.news-grid{grid-template-columns:repeat(2,1fr)!important}
+  .featured-news{grid-template-columns:1fr!important}
+  .featured-side{min-height:180px!important}
+}
+@media(max-width:600px){
+  .articles-grid,.news-grid{grid-template-columns:1fr!important}
+  .featured-news{grid-template-columns:1fr!important;gap:12px}
+  .featured-main{min-height:220px!important}
+  .featured-side{min-height:150px!important}
+  .article-card .article-img{height:160px!important}
+}
 </style>
 </head>
 <body>
@@ -551,7 +564,7 @@
           <div class="section-title">⚔️ Son AI Haberleri</div>
           <button class="btn btn-gold btn-sm" id="add-article-btn" style="display:none" onclick="openModal('add-article-modal')">+ Haber Ekle</button>
         </div>
-        <div id="articles-list" class="articles-grid"><div class="loading"><div class="spinner"></div></div></div>
+        <div id="articles-list"><div class="loading"><div class="spinner"></div></div></div>
       </div>
     </div>
 
@@ -1319,7 +1332,7 @@ function updateNavForUser() {
   authBtns.forEach(b => b.style.display = 'none');
   // Show profile button
   if (existingProfileBtn) existingProfileBtn.style.display = 'inline-flex';
-  if (existingAdminBtn) existingAdminBtn.style.display = currentUser.role === 'admin' ? 'inline-flex' : 'none';
+  if (existingAdminBtn) existingAdminBtn.style.display = currentUser.is_admin ? 'inline-flex' : 'none';
   // Update mobile nav auth
   const mobileAuth = document.getElementById('mobile-auth-buttons');
   const mobileUser = document.getElementById('mobile-user-buttons');
@@ -1478,19 +1491,24 @@ async function loadArticles() {
       container.innerHTML = '<div class="empty-state"><div class="icon">📰</div><p>Henüz haber yok</p></div>';
       return;
     }
+    function getImg(a, idx) {
+      var keywords = ['artificial-intelligence','neural-network','technology','computer','code','robot','data-science','cybersecurity','circuit-board','server-room','deep-learning','innovation','digital','ai-brain','quantum'];
+      var kw = keywords[idx % keywords.length];
+      if (a.image_url && !a.image_url.includes('unsplash')) return a.image_url;
+      return 'https://picsum.photos/seed/' + kw + idx + '/600/300';
+    }
     let html = '';
-    // Featured: first article
     if (articles.length >= 1) {
       const a = articles[0];
-      const bgStyle = a.image_url ? 'background-image:url(' + a.image_url + ');background-size:cover;background-position:center' : 'background:' + gradients[0];
+      var img0 = getImg(a, 0);
       html += '<div class="featured-news">';
-      html += '<div class="featured-main" onclick="showArticle(' + JSON.stringify(a).replace(/"/g, '&quot;') + ')" style="' + bgStyle + '">';
+      html += '<div class="featured-main" onclick="showArticle(' + JSON.stringify(a).replace(/"/g, '&quot;') + ')" style="background-image:url(' + img0 + ');background-size:cover;background-position:center">';
       html += '<div class="featured-overlay"><div class="article-title">' + a.title + '</div>';
       html += '<div class="article-meta"><span>✍️ ' + (a.author || 'AI Legion') + '</span><span>' + new Date(a.created_at).toLocaleDateString('tr-TR') + '</span></div></div></div>';
       for (let i = 1; i < Math.min(3, articles.length); i++) {
         const s = articles[i];
-        const sStyle = s.image_url ? 'background-image:url(' + s.image_url + ');background-size:cover;background-position:center' : 'background:' + gradients[i % gradients.length];
-        html += '<div class="featured-side" onclick="showArticle(' + JSON.stringify(s).replace(/"/g, '&quot;') + ')" style="' + sStyle + '">';
+        var imgI = getImg(s, i);
+        html += '<div class="featured-side" onclick="showArticle(' + JSON.stringify(s).replace(/"/g, '&quot;') + ')" style="background-image:url(' + imgI + ');background-size:cover;background-position:center">';
         html += '<div class="featured-overlay"><div class="article-title">' + s.title + '</div>';
         html += '<div class="article-meta"><span>' + new Date(s.created_at).toLocaleDateString('tr-TR') + '</span></div></div></div>';
       }
@@ -1498,34 +1516,19 @@ async function loadArticles() {
     }
     const rest = articles.slice(3);
     if (rest.length) {
-      html += '<div class="news-grid">';
+      html += '<div class="articles-grid">';
       rest.forEach((a, idx) => {
+        var imgR = getImg(a, idx + 3);
         html += '<div class="article-card" onclick="showArticle(' + JSON.stringify(a).replace(/"/g, '&quot;') + ')">';
-        html += '<div class="article-img-placeholder" style="height:180px;' + gradients[idx % gradients.length] + '">🖼️</div>';
+        html += '<img class="article-img" src="' + imgR + '" alt="" onerror="this.style.display=\'none\'" />';
         html += '<div class="article-body"><div class="article-title">' + a.title + '</div>';
         html += '<div class="article-summary">' + (a.summary || (a.content || '').substring(0, 120) + '...') + '</div>';
-        html += '<div class="article-meta"><span>✍️ ' + (a.author || 'AI Legion') + '</span><span>' + new Date(a.created_at).toLocaleDateString('tr-TR') + '</span></div>';
+        html += '<div class="article-meta"><span>✍️ ' + (a.author || 'AI Legion') + '</span><span>' + (a.source ? a.source + ' · ' : '') + new Date(a.created_at).toLocaleDateString('tr-TR') + '</span></div>';
         html += '</div></div>';
       });
       html += '</div>';
     }
     container.innerHTML = html;
-    // Fix broken images on featured cards
-    document.querySelectorAll('.featured-main, .featured-side').forEach(function(el) {
-      var bgImg = el.style.backgroundImage;
-      if (bgImg && bgImg.includes('url(')) {
-        var urlMatch = bgImg.match(/url\(["']*([^"')]+)["']*\)/);
-        if (urlMatch) {
-          var testImg = new Image();
-          testImg.onload = function() {};
-          testImg.onerror = function() {
-            el.style.backgroundImage = 'none';
-            el.style.background = gradients[Math.floor(Math.random() * gradients.length)];
-          };
-          testImg.src = urlMatch[1];
-        }
-      }
-    });
   } catch(e) { 
     console.error('[AI Legion] loadArticles error:', e);
     document.getElementById('articles-list').innerHTML = '<div class="empty-state"><div class="icon">⚠️</div><p>Haberler yüklenemedi</p></div>'; 
@@ -1536,18 +1539,20 @@ function showArticle(article) {
   document.getElementById('articles-list-view').style.display = 'none';
   const detail = document.getElementById('article-detail-view');
   detail.style.display = 'block';
-  const imgSrc = article.image_url || article.image || '';
-  let imgHtml = '';
-  if (imgSrc) {
-    imgHtml = '<div style="margin-bottom:20px;position:relative"><img src="' + imgSrc + '" class="article-detail-img" onerror="this.parentElement.innerHTML=\'<div style=\'height:200px;background:' + gradients[0] + ';display:flex;align-items:center;justify-content:center;font-size:48px;border-radius:12px\'>📰</div>\'" style="width:100%;max-height:400px;object-fit:cover;border-radius:12px" loading="lazy"></div>';
-  } else {
-    imgHtml = '<div style="height:200px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:48px;' + gradients[0] + '">📰</div>';
+  function getImg(a, idx) {
+    var keywords = ['artificial-intelligence','neural-network','technology','computer','code','robot','data-science','cybersecurity','circuit-board','server-room','deep-learning','innovation','digital','ai-brain','quantum'];
+    var kw = keywords[idx % keywords.length];
+    if (a.image_url && !a.image_url.includes('unsplash')) return a.image_url;
+    if (a.image && !a.image.includes('unsplash')) return a.image;
+    return 'https://picsum.photos/seed/' + kw + '/800/400';
   }
+  var imgSrc = getImg(article, Math.floor(Math.random() * 14));
+  var imgHtml = '<div style="margin-bottom:20px"><img src="' + imgSrc + '" style="width:100%;max-height:400px;object-fit:cover;border-radius:12px" onerror="this.style.display=\'none\'" loading="lazy"></div>';
   detail.innerHTML = '<button class="back-btn" onclick="hideArticle()">\u2190 Haberlere Dön</button>' +
     '<div class="article-detail">' + imgHtml +
-    '<h1>' + article.title + '</h1>' +
-    '<div style="color:var(--text3);font-size:13px;margin-bottom:20px">\u270D\uFE0F ' + (article.author || 'AI Legion') + ' \u00B7 ' + new Date(article.created_at).toLocaleDateString('tr-TR') + '</div>' +
-    '<div class="content">' + (article.content || '').split('\n').map(p => p ? '<p>' + p + '</p>' : '').join('') + '</div></div>';
+    '<h1 style="font-size:28px;font-weight:800;color:var(--article-text-color,var(--text));margin-bottom:12px;line-height:1.3">' + article.title + '</h1>' +
+    '<div style="color:var(--text3);font-size:14px;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--border)">\u270D\uFE0F ' + (article.author || 'AI Legion') + ' \u00B7 ' + new Date(article.created_at).toLocaleDateString('tr-TR') + '</div>' +
+    '<div class="content" style="font-size:17px;color:var(--article-text-color,#f0f0f0);line-height:1.7">' + (article.content || '').split('\n').map(p => p ? '<p style="margin-bottom:16px">' + p + '</p>' : '').join('') + '</div></div>';
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
@@ -1855,13 +1860,13 @@ async function loadModels() {
       { rank: 25, name: 'Falcon 180B', icon: 'https://img.icons8.com/fluency/48/falcon.png', company: 'TII', lmsys_elo: 1168, mmlu: 67.2, swe_bench: 15.1, aime: 22.0, humaneval: 61.8, free: true, url: 'https://falconllm.tii.ae', description: 'BAJI açık kaynak model. 180B parametre.', vram: '8x80GB' },
       { rank: 26, name: 'InternLM2', icon: 'https://img.icons8.com/fluency/48/chat.png', company: 'Shanghai AI Lab', lmsys_elo: 1155, mmlu: 66.8, swe_bench: 16.5, aime: 24.0, humaneval: 62.4, free: true, url: 'https://internlm.intern-ai.org.cn', description: 'Shanghai AI Lab açık kaynak modeli. Güçlü Çince.', vram: 'API' },
       { rank: 27, name: 'DBRX', icon: 'https://img.icons8.com/fluency/48/database.png', company: 'Databricks', lmsys_elo: 1142, mmlu: 65.5, swe_bench: 14.8, aime: 20.0, humaneval: 60.2, free: true, url: 'https://www.databricks.com', description: 'Databricks açık kaynak MoE modeli.', vram: '80GB+' },
-      { rank: 28, name: 'Granite 34B', icon: '🪨', company: 'IBM', lmsys_elo: 1130, mmlu: 64.2, swe_bench: 13.5, aime: 18.0, humaneval: 58.9, free: true, url: 'https://www.ibm.com/granite', description: 'IBM enterprise AI modeli. İş odaklı.', vram: '48GB' },
-      { rank: 29, name: 'StarCoder2 15B', icon: '⭐', company: 'BigCode', lmsys_elo: 1118, mmlu: 62.0, swe_bench: 25.2, aime: 15.0, humaneval: 72.5, free: true, url: 'https://huggingface.co/bigcode', description: 'BigCode açık kaynak kod modeli. Kod üretiminde güçlü.', vram: '16GB' },
-      { rank: 30, name: 'Phi-3.5 MoE', icon: '🪟', company: 'Microsoft', lmsys_elo: 1105, mmlu: 61.8, swe_bench: 12.1, aime: 16.0, humaneval: 57.2, free: true, url: 'https://azure.microsoft.com', description: 'Microsoft MoE küçük model. Verimli ve hızlı.', vram: '8GB' },
-      { rank: 31, name: 'Yi-1.5 34B', icon: '⚡', company: '01.AI', lmsys_elo: 1092, mmlu: 60.5, swe_bench: 11.5, aime: 19.0, humaneval: 56.8, free: true, url: 'https://www.01.ai', description: '01.AI önceki nesil model. Güçlü çok dilli.', vram: '48GB' },
-      { rank: 32, name: 'Cohere Command R+', icon: '🔴', company: 'Cohere', lmsys_elo: 1080, mmlu: 59.2, swe_bench: 10.8, aime: 17.0, humaneval: 55.5, free: true, url: 'https://cohere.com', description: 'Cohere RAG odaklı enterprise model.', vram: 'API' },
-      { rank: 33, name: 'Perplexity', icon: '🔮', company: 'Perplexity AI', lmsys_elo: 1068, mmlu: 58.5, swe_bench: 8.2, aime: 14.0, humaneval: 52.1, free: true, url: 'https://www.perplexity.ai', description: 'Perplexity AI arama odaklı asistan. Gerçek zamanlı.', vram: 'API' },
-      { rank: 34, name: 'Gemma 3 27B', icon: '💎', company: 'Google', lmsys_elo: 1055, mmlu: 57.8, swe_bench: 9.5, aime: 16.0, humaneval: 54.2, free: true, url: 'https://ai.google.dev', description: 'Google önceki nesil açık kaynak model.', vram: '16GB' },
+      { rank: 28, name: 'Granite 34B', icon: 'https://img.icons8.com/fluency/48/rock.png', company: 'IBM', lmsys_elo: 1130, mmlu: 64.2, swe_bench: 13.5, aime: 18.0, humaneval: 58.9, free: true, url: 'https://www.ibm.com/granite', description: 'IBM enterprise AI modeli. İş odaklı.', vram: '48GB' },
+      { rank: 29, name: 'StarCoder2 15B', icon: 'https://img.icons8.com/fluency/48/star.png', company: 'BigCode', lmsys_elo: 1118, mmlu: 62.0, swe_bench: 25.2, aime: 15.0, humaneval: 72.5, free: true, url: 'https://huggingface.co/bigcode', description: 'BigCode açık kaynak kod modeli. Kod üretiminde güçlü.', vram: '16GB' },
+      { rank: 30, name: 'Phi-3.5 MoE', icon: 'https://img.icons8.com/fluency/48/windows-10.png', company: 'Microsoft', lmsys_elo: 1105, mmlu: 61.8, swe_bench: 12.1, aime: 16.0, humaneval: 57.2, free: true, url: 'https://azure.microsoft.com', description: 'Microsoft MoE küçük model. Verimli ve hızlı.', vram: '8GB' },
+      { rank: 31, name: 'Yi-1.5 34B', icon: 'https://img.icons8.com/fluency/48/lightning-bolt.png', company: '01.AI', lmsys_elo: 1092, mmlu: 60.5, swe_bench: 11.5, aime: 19.0, humaneval: 56.8, free: true, url: 'https://www.01.ai', description: '01.AI önceki nesil model. Güçlü çok dilli.', vram: '48GB' },
+      { rank: 32, name: 'Cohere Command R+', icon: 'https://img.icons8.com/fluency/48/circle.png', company: 'Cohere', lmsys_elo: 1080, mmlu: 59.2, swe_bench: 10.8, aime: 17.0, humaneval: 55.5, free: true, url: 'https://cohere.com', description: 'Cohere RAG odaklı enterprise model.', vram: 'API' },
+      { rank: 33, name: 'Perplexity', icon: 'https://img.icons8.com/fluency/48/crystal-ball.png', company: 'Perplexity AI', lmsys_elo: 1068, mmlu: 58.5, swe_bench: 8.2, aime: 14.0, humaneval: 52.1, free: true, url: 'https://www.perplexity.ai', description: 'Perplexity AI arama odaklı asistan. Gerçek zamanlı.', vram: 'API' },
+      { rank: 34, name: 'Gemma 3 27B', icon: 'https://img.icons8.com/fluency/48/diamond.png', company: 'Google', lmsys_elo: 1055, mmlu: 57.8, swe_bench: 9.5, aime: 16.0, humaneval: 54.2, free: true, url: 'https://ai.google.dev', description: 'Google önceki nesil açık kaynak model.', vram: '16GB' },
       { rank: 35, name: 'Midjourney v6', icon: 'https://img.icons8.com/fluency/48/palette.png', company: 'Midjourney', lmsys_elo: 0, mmlu: 0, swe_bench: 0, aime: 0, humaneval: 0, free: false, url: 'https://www.midjourney.com', description: 'Sanat düzeyinde görsel üretim AI. Yaratıcılık sınırsız.', vram: 'API' },
       { rank: 36, name: 'DALL-E 3', icon: 'https://img.icons8.com/fluency/48/chatgpt.png', company: 'OpenAI', lmsys_elo: 0, mmlu: 0, swe_bench: 0, aime: 0, humaneval: 0, free: false, url: 'https://openai.com/dall-e-3', description: 'OpenAI görsel üretim modeli. Metinden görsel.', vram: 'API' },
       { rank: 37, name: 'Stable Diffusion 3', icon: 'https://img.icons8.com/fluency/48/picture.png', company: 'Stability AI', lmsys_elo: 0, mmlu: 0, swe_bench: 0, aime: 0, humaneval: 0, free: true, url: 'https://stability.ai', description: 'Açık kaynak görsel üretim. SD3 ile kalite arttı.', vram: '8GB' },
@@ -2168,18 +2173,18 @@ const agentCategories = { 'Framework': '🔧', 'Asistan': '💬', 'Otomasyon': '
 
 function loadAgents() {
   allAgents = [
-    { id: 1, name: 'OpenClaw', category: 'Framework', emoji: '🕵️', description: 'Açık kaynak AI agent framework. Context pruning ile %65 token tasarrufu. Multi-agent orchestration, caveman mode, Claude/GPT/Gemini desteği.', url: 'https://github.com/openclaw/openclaw', repo: 'openclaw/openclaw', stars: '12.4k', free: true, rating: 4.8, tags: ['Açık Kaynak', 'Multi-LLM', 'Token Optimizasyonu'], features: ['Multi-agent orchestration', 'Context pruning (%65 tasarruf)', 'Caveman mode', 'Claude/GPT/Gemini desteği', 'Telegram & Discord entegrasyonu'] },
-    { id: 2, name: 'Hermes Agent', category: 'Asistan', emoji: '🤖', description: 'Çoklu model destekli AI asistan platformu. Telegram, Discord, CLI, browser araçları, kalıcı hafıza, cron job ve otomasyon.', url: 'https://github.com/imacverse/hermes', repo: 'imacverse/hermes', stars: '8.2k', free: true, rating: 4.7, tags: ['Açık Kaynak', 'Multi-Platform', 'Otomasyon'], features: ['Telegram, Discord, CLI entegrasyonu', 'Kalıcı hafıza (session-based)', 'Cron job zamanlayıcı', 'Browser araçları', 'Çoklu model desteği'] },
-    { id: 3, name: 'AutoGPT', category: 'Framework', emoji: '🔧', description: 'Otonom AI agent framework. Kendi kendine hedef belirleme, planlama ve görev tamamlama. GPT-4/5 tabanlı.', url: 'https://github.com/Significant-Gravitas/AutoGPT', repo: 'Significant-Gravitas/AutoGPT', stars: '172k', free: true, rating: 4.5, tags: ['Açık Kaynak', 'Otonom', 'GPT'], features: ['Otonom hedef belirleme', 'Uzun vadeli hafıza', 'Internet erişimi', 'Dosya okuma/yazma', 'Kod çalıştırma'] },
-    { id: 4, name: 'CrewAI', category: 'Framework', emoji: '👥', description: 'Multi-agent orchestration framework. AI agentları rol, hedef ve araçlarla tanımla, ekip olarak çalıştır.', url: 'https://github.com/crewAIInc/crewAI', repo: 'crewAIInc/crewAI', stars: '28k', free: true, rating: 4.6, tags: ['Açık Kaynak', 'Multi-Agent', 'Orchestration'], features: ['Rol tabanlı agent tanımlama', 'Sequential & parallel görevler', 'Araç entegrasyonu', 'Human input', 'Hafıza yönetimi'] },
-    { id: 5, name: 'LangChain', category: 'Framework', emoji: '🔗', description: 'LLM uygulama geliştirme framework. Zincirleme işlemler, RAG, agentlar ve araç entegrasyonu.', url: 'https://github.com/langchain-ai/langchain', repo: 'langchain-ai/langchain', stars: '98k', free: true, rating: 4.5, tags: ['Açık Kaynak', 'LLM', 'RAG'], features: ['Zincirleme işlemler (Chains)', 'RAG pipeline', 'Agent framework', '600+ entegrasyon', 'Hafıza yönetimi'] },
-    { id: 6, name: 'Manus', category: 'Asistan', emoji: '✋', description: 'Otonom AI ajan. Web gezme, kod yazma, dosya yönetimi ve çok adımlı görevleri bağımsız tamamlama.', url: 'https://manus.im', stars: '', free: false, rating: 4.8, tags: ['Otonom', 'Web', 'Kod'], features: ['Tam otonom görev tamamlama', 'Web gezme ve analiz', 'Kod yazma ve çalıştırma', 'Dosya yönetimi', 'Çok adımlı planlama'] },
-    { id: 7, name: 'Devin', category: 'Kod', emoji: '💻', description: 'Cognition AI tarafından geliştirilen otonom yazılım mühendisi. Tam geliştirme döngüsünü bağımsız yönetiyor.', url: 'https://devin.ai', stars: '', free: false, rating: 4.4, tags: ['SaaS', 'Otonom', 'Yazılım'], features: ['Bağımsız kod yazma', 'Bug tespit ve düzeltme', 'Deployment otomasyonu', 'Dokümantasyon', 'PR oluşturma'] },
-    { id: 8, name: 'Cursor Agent', category: 'Kod', emoji: '⚡', description: 'AI kod editörünün agent modu. Tüm kod tabanını analiz eder, çok dosyalı değişiklikler yapar.', url: 'https://cursor.sh', stars: '', free: true, rating: 4.8, tags: ['IDE', 'Kod', 'Multi-File'], features: ['Tüm kod tabanını analiz', 'Çok dosyalı düzenleme', 'Terminal komutu çalıştırma', 'Bağlam farkındalığı', 'Claude/GPT desteği'] },
-    { id: 9, name: 'n8n', category: 'Otomasyon', emoji: '🔄', description: 'Açık kaynak iş otomasyonu. 400+ entegrasyon, AI agent düğümleri, görsel workflow editörü.', url: 'https://n8n.io', repo: 'n8n-io/n8n', stars: '62k', free: true, rating: 4.7, tags: ['Açık Kaynak', 'Otomasyon', 'Workflow'], features: ['400+ entegrasyon', 'Görsel workflow editörü', 'AI agent düğümleri', 'Webhook desteği', 'Self-host seçeneği'] },
-    { id: 10, name: 'Perplexity Deep Research', category: 'Araştırma', emoji: '🔍', description: 'AI destekli derin araştırma asistanı. Birden fazla kaynak tarar, raporlar oluşturur.', url: 'https://perplexity.ai', stars: '', free: true, rating: 4.7, tags: ['Araştırma', 'Rapor', 'Web'], features: ['Derin araştırma modu', 'Kaynak doğrulama', 'Akademik arama', 'Rapor oluşturma', 'Güncel veri erişimi'] },
-    { id: 11, name: 'Replit Agent', category: 'Kod', emoji: '🌀', description: 'Tarayıcı içinde tam栈lı uygulama geliştirme. AI agent olarak projeleri sıfırdan oluşturur.', url: 'https://replit.com', stars: '', free: true, rating: 4.3, tags: ['IDE', 'Full-Stack', 'Deploy'], features: ['Sıfırdan proje oluşturma', 'Full-stack geliştirme', 'Otomatik deploy', 'İşbirliği', 'Çoklu dil desteği'] },
-    { id: 12, name: 'Make (Integromat)', category: 'Otomasyon', emoji: '⚙️', description: 'Görsel otomasyon platformu. AI entegrasyonları ile karmaşık workflowlar oluştur.', url: 'https://make.com', stars: '', free: false, rating: 4.5, tags: ['Otomasyon', 'No-Code', 'AI'], features: ['Görsel scenario editörü', '1800+ entegrasyon', 'AI modülleri', 'Zamanlanmış çalışma', 'Error handling'] },
+    { id: 1, name: 'OpenClaw', category: 'Framework', icon: 'https://img.icons8.com/fluency/48/detective.png', emoji: '🕵️', description: 'Açık kaynak AI agent framework. Context pruning ile %65 token tasarrufu. Multi-agent orchestration, caveman mode, Claude/GPT/Gemini desteği.', url: 'https://github.com/openclaw/openclaw', repo: 'openclaw/openclaw', stars: '12.4k', free: true, rating: 4.8, tags: ['Açık Kaynak', 'Multi-LLM', 'Token Optimizasyonu'], features: ['Multi-agent orchestration', 'Context pruning (%65 tasarruf)', 'Caveman mode', 'Claude/GPT/Gemini desteği', 'Telegram & Discord entegrasyonu'] },
+    { id: 2, name: 'Hermes Agent', category: 'Asistan', icon: 'https://img.icons8.com/fluency/48/robot.png', emoji: '🤖', description: 'Çoklu model destekli AI asistan platformu. Telegram, Discord, CLI, browser araçları, kalıcı hafıza, cron job ve otomasyon.', url: 'https://github.com/imacverse/hermes', repo: 'imacverse/hermes', stars: '8.2k', free: true, rating: 4.7, tags: ['Açık Kaynak', 'Multi-Platform', 'Otomasyon'], features: ['Telegram, Discord, CLI entegrasyonu', 'Kalıcı hafıza (session-based)', 'Cron job zamanlayıcı', 'Browser araçları', 'Çoklu model desteği'] },
+    { id: 3, name: 'AutoGPT', category: 'Framework', icon: 'https://img.icons8.com/fluency/48/wrench.png', emoji: '🔧', description: 'Otonom AI agent framework. Kendi kendine hedef belirleme, planlama ve görev tamamlama. GPT-4/5 tabanlı.', url: 'https://github.com/Significant-Gravitas/AutoGPT', repo: 'Significant-Gravitas/AutoGPT', stars: '172k', free: true, rating: 4.5, tags: ['Açık Kaynak', 'Otonom', 'GPT'], features: ['Otonom hedef belirleme', 'Uzun vadeli hafıza', 'Internet erişimi', 'Dosya okuma/yazma', 'Kod çalıştırma'] },
+    { id: 4, name: 'CrewAI', category: 'Framework', icon: 'https://img.icons8.com/fluency/48/people.png', emoji: '👥', description: 'Multi-agent orchestration framework. AI agentları rol, hedef ve araçlarla tanımla, ekip olarak çalıştır.', url: 'https://github.com/crewAIInc/crewAI', repo: 'crewAIInc/crewAI', stars: '28k', free: true, rating: 4.6, tags: ['Açık Kaynak', 'Multi-Agent', 'Orchestration'], features: ['Rol tabanlı agent tanımlama', 'Sequential & parallel görevler', 'Araç entegrasyonu', 'Human input', 'Hafıza yönetimi'] },
+    { id: 5, name: 'LangChain', category: 'Framework', icon: 'https://img.icons8.com/fluency/48/link.png', emoji: '🔗', description: 'LLM uygulama geliştirme framework. Zincirleme işlemler, RAG, agentlar ve araç entegrasyonu.', url: 'https://github.com/langchain-ai/langchain', repo: 'langchain-ai/langchain', stars: '98k', free: true, rating: 4.5, tags: ['Açık Kaynak', 'LLM', 'RAG'], features: ['Zincirleme işlemler (Chains)', 'RAG pipeline', 'Agent framework', '600+ entegrasyon', 'Hafıza yönetimi'] },
+    { id: 6, name: 'Manus', category: 'Asistan', icon: 'https://img.icons8.com/fluency/48/hand.png', emoji: '✋', description: 'Otonom AI ajan. Web gezme, kod yazma, dosya yönetimi ve çok adımlı görevleri bağımsız tamamlama.', url: 'https://manus.im', stars: '', free: false, rating: 4.8, tags: ['Otonom', 'Web', 'Kod'], features: ['Tam otonom görev tamamlama', 'Web gezme ve analiz', 'Kod yazma ve çalıştırma', 'Dosya yönetimi', 'Çok adımlı planlama'] },
+    { id: 7, name: 'Devin', category: 'Kod', icon: 'https://img.icons8.com/fluency/48/laptop.png', emoji: '💻', description: 'Cognition AI tarafından geliştirilen otonom yazılım mühendisi. Tam geliştirme döngüsünü bağımsız yönetiyor.', url: 'https://devin.ai', stars: '', free: false, rating: 4.4, tags: ['SaaS', 'Otonom', 'Yazılım'], features: ['Bağımsız kod yazma', 'Bug tespit ve düzeltme', 'Deployment otomasyonu', 'Dokümantasyon', 'PR oluşturma'] },
+    { id: 8, name: 'Cursor Agent', category: 'Kod', icon: 'https://img.icons8.com/fluency/48/lightning-bolt.png', emoji: '⚡', description: 'AI kod editörünün agent modu. Tüm kod tabanını analiz eder, çok dosyalı değişiklikler yapar.', url: 'https://cursor.sh', stars: '', free: true, rating: 4.8, tags: ['IDE', 'Kod', 'Multi-File'], features: ['Tüm kod tabanını analiz', 'Çok dosyalı düzenleme', 'Terminal komutu çalıştırma', 'Bağlam farkındalığı', 'Claude/GPT desteği'] },
+    { id: 9, name: 'n8n', category: 'Otomasyon', icon: 'https://img.icons8.com/fluency/48/refresh.png', emoji: '🔄', description: 'Açık kaynak iş otomasyonu. 400+ entegrasyon, AI agent düğümleri, görsel workflow editörü.', url: 'https://n8n.io', repo: 'n8n-io/n8n', stars: '62k', free: true, rating: 4.7, tags: ['Açık Kaynak', 'Otomasyon', 'Workflow'], features: ['400+ entegrasyon', 'Görsel workflow editörü', 'AI agent düğümleri', 'Webhook desteği', 'Self-host seçeneği'] },
+    { id: 10, name: 'Perplexity Deep Research', category: 'Araştırma', icon: 'https://img.icons8.com/fluency/48/search.png', emoji: '🔍', description: 'AI destekli derin araştırma asistanı. Birden fazla kaynak tarar, raporlar oluşturur.', url: 'https://perplexity.ai', stars: '', free: true, rating: 4.7, tags: ['Araştırma', 'Rapor', 'Web'], features: ['Derin araştırma modu', 'Kaynak doğrulama', 'Akademik arama', 'Rapor oluşturma', 'Güncel veri erişimi'] },
+    { id: 11, name: 'Replit Agent', category: 'Kod', icon: 'https://img.icons8.com/fluency/48/spinner.png', emoji: '🌀', description: 'Tarayıcı içinde tam栈lı uygulama geliştirme. AI agent olarak projeleri sıfırdan oluşturur.', url: 'https://replit.com', stars: '', free: true, rating: 4.3, tags: ['IDE', 'Full-Stack', 'Deploy'], features: ['Sıfırdan proje oluşturma', 'Full-stack geliştirme', 'Otomatik deploy', 'İşbirliği', 'Çoklu dil desteği'] },
+    { id: 12, name: 'Make (Integromat)', category: 'Otomasyon', icon: 'https://img.icons8.com/fluency/48/settings.png', emoji: '⚙️', description: 'Görsel otomasyon platformu. AI entegrasyonları ile karmaşık workflowlar oluştur.', url: 'https://make.com', stars: '', free: false, rating: 4.5, tags: ['Otomasyon', 'No-Code', 'AI'], features: ['Görsel scenario editörü', '1800+ entegrasyon', 'AI modülleri', 'Zamanlanmış çalışma', 'Error handling'] },
   ];
   document.getElementById('agents-count').textContent = allAgents.length + ' agent';
   renderAgents(allAgents);
@@ -2311,17 +2316,17 @@ function loadLearnContent() {
     { category: 'Araştırma', emoji: '🔬', image: '🧠', title: 'AI Agent lar 2026 da İş Gücünü Nasıl Değiştirecek?', summary: 'Otonom AI agentların iş dünyasına etkileri, hangi mesleklerin dönüşeceği ve yeni fırsatlar.', readTime: '12 dk', content: 'AI agentlar, 2026 da iş gücünü temelden dönüştürmeye başlıyor...' , image_url: 'https://picsum.photos/seed/ai-chip-19/600/300'},
     { category: 'Haberler', emoji: '📰', image: '🧠', title: 'Mistral Large 3: Avrupa nın İlk Trilyon Parametreli Modeli', summary: 'Fransız AI şirketi Mistral, trilyon parametreli yeni modeli Large 3 ü duyurdu.', readTime: '4 dk', content: 'Mistral, Avrupa nın en güçlü yapay zeka modeli olarak Mistral Large 3 ü tanıttı...' , image_url: 'https://picsum.photos/seed/tech-startup-5/600/300'},
     { category: 'Agent', emoji: '🕹️', image: '🔒', title: 'OpenClaw: Açık Kaynak AI Agent Framework ü Token Gider %65 Azaltıyor', summary: 'OpenClaw, context pruning ve caveman mode ile GPT-4 maliyetini %65 düşürüyor. Claude, GPT, Gemini desteği ile Türkiye de yaygın kullanım.', readTime: '5 dk', content: 'OpenClaw, açık kaynak AI agent framework olarak dikkat çekiyor...' , image_url: 'https://picsum.photos/seed/brain-ai-13/600/300'},
-    { category: 'Agent', emoji: '🤖', image: '🧠', title: 'Hermes Agent: Türkiye den Çoklu Model Destekli AI Asistan', summary: 'Hermes, Telegram, Discord, browser araçları ile entegre çalışıyor. Cron job, session yönetimi ve uzun hafıza özellikleriyle öne çıkıyor.', readTime: '4 dk', content: 'Hermes, çoklu model desteği ve güçlü araç entegrasyonlarıyla AI asistan deneyimini üst seviyeye taşıyor...' , image_url: 'https://picsum.photos/seed/automation-12/600/300'},
+    { category: 'Agent', icon: 'https://img.icons8.com/fluency/48/robot.png', emoji: '🤖', image: '🧠', title: 'Hermes Agent: Türkiye den Çoklu Model Destekli AI Asistan', summary: 'Hermes, Telegram, Discord, browser araçları ile entegre çalışıyor. Cron job, session yönetimi ve uzun hafıza özellikleriyle öne çıkıyor.', readTime: '4 dk', content: 'Hermes, çoklu model desteği ve güçlü araç entegrasyonlarıyla AI asistan deneyimini üst seviyeye taşıyor...' , image_url: 'https://picsum.photos/seed/automation-12/600/300'},
     { category: 'Başlangıç', emoji: '🌱', image: '👶', title: 'AI e Yeni Başlayanlar İçin Tam Rehber 2026', summary: 'Yapay zekaya sıfırdan başlamak isteyenler için adım adım rehber. Temel kavramlar, araçlar ve ilk projeler.', readTime: '15 dk', content: 'Yapay zeka dünyasına adım atmak hiç bu kadar kolay olmamıştı...' , image_url: 'https://picsum.photos/seed/gpu-render-22/600/300'},
     { category: 'Para Kazanma', emoji: '💰', image: '💰', title: 'Yapay Zeka ile Para Kazanma: 15 Kanıtlanmış Yol', summary: 'Freelance yazılım, içerik üretimi, AI ajan kiralama ve daha fazlası. Her seviyeye uygun stratejiler.', readTime: '20 dk', content: 'AI ile para kazanmak artık sadece büyük şirketlerin tekelinde değil...' , image_url: 'https://picsum.photos/seed/code-8/600/300'},
     { category: 'İleri Seviye', emoji: '🚀', image: '🚀', title: 'RAG (Retrieval Augmented Generation) Neden Önemli?', summary: 'Kurumsal verilerle AI kullanmanın en etkili yolu. RAG mimarisi, vektör veritabanları ve best practice ler.', readTime: '10 dk', content: 'RAG, kurumsal AI uygulamalarının temel taşı haline geldi...' , image_url: 'https://picsum.photos/seed/data-science-6/600/300'},
     { category: 'Kıyaslama', emoji: '📊', image: '📊', title: 'LLM Benchmark Rehberi: MMLU, SWE-bench ve Ötesi', summary: 'Model karşılaştırma metrikleri ne anlama geliyor? Hangi benchmark hangi yeteneği ölçüyor?', readTime: '8 dk', content: 'LLM benchmarkları, modellerin gerçek dünyadaki performansını anlamak için kritik...' , image_url: 'https://picsum.photos/seed/neural-network-0/600/300'},
-    { category: 'Otomasyon', emoji: '⚡', image: '⚙️', title: 'AI Otomasyon ile İş Akışlarını Hızlandırma', summary: 'n8n, Make ve özel AI agentları ile tekrarlayan işleri otomatikleştirme. Gerçek dünya örnekleri.', readTime: '12 dk', content: 'AI otomasyon, iş dünyasında devrim yaratıyor...' , image_url: 'https://picsum.photos/seed/chatbot-4/600/300'},
+    { category: 'Otomasyon', icon: 'https://img.icons8.com/fluency/48/lightning-bolt.png', emoji: '⚡', image: '⚙️', title: 'AI Otomasyon ile İş Akışlarını Hızlandırma', summary: 'n8n, Make ve özel AI agentları ile tekrarlayan işleri otomatikleştirme. Gerçek dünya örnekleri.', readTime: '12 dk', content: 'AI otomasyon, iş dünyasında devrim yaratıyor...' , image_url: 'https://picsum.photos/seed/chatbot-4/600/300'},
     { category: 'Başlangıç', emoji: '🌱', image: '💬', title: 'Prompt Mühendisliği 101: Etkili Prompt Yazma Sanatı', summary: 'AI dan en iyi sonucu almak için prompt yazma teknikleri. CoT, few-shot, role-playing ve daha fazlası.', readTime: '10 dk', content: 'Prompt mühendisliği, AI ile çalışmanın en temel becerisi...' , image_url: 'https://picsum.photos/seed/llm-ai-21/600/300'},
     { category: 'Para Kazanma', emoji: '💰', image: '🏪', title: 'AI ile SaaS Ürünü Oluşturma: Sıfırdan Lansmana', summary: 'AI tabanlı bir SaaS ürünü nasıl oluşturulur? Fikir, MVP, pazar doğrulama ve büyüme stratejileri.', readTime: '18 dk', content: 'AI tabanlı SaaS ürünleri, 2026 nın en kârlı girişim alanlarından...' , image_url: 'https://picsum.photos/seed/gpt-model-20/600/300'},
     { category: 'İleri Seviye', emoji: '🚀', image: '🧠', title: 'Fine-Tuning vs RAG: Hangi Yöntemi Ne Zaman Kullanmalı?', summary: 'Model ince ayarı mı, RAG mı? Her yaklaşımın avantajları, maliyetleri ve kullanım senaryoları.', readTime: '12 dk', content: 'Kurumsal AI projelerinde en sık sorulan sorulardan biri...' , image_url: 'https://picsum.photos/seed/innovation-9/600/300'},
     { category: 'Kıyaslama', emoji: '📊', image: '🖥️', title: 'Açık Kaynak vs Kapalı Kaynak AI Modelleri: 2026 Karşılaştırması', summary: 'Open source ve proprietary modellerin maliyet, performans ve güvenlik karşılaştırması.', readTime: '10 dk', content: 'Açık kaynak AI modelleri, kapalı kaynak rakiplerine karşı giderek daha rekabetçi hale geliyor...' , image_url: 'https://picsum.photos/seed/cloud-server-16/600/300'},
-    { category: 'Otomasyon', emoji: '⚡', image: '🔄', title: 'Multi-Agent Sistemleri: AI Agentları Birlikte Çalıştırma', summary: 'CrewAI, AutoGen ve AutoGPT ile birden fazla AI agentı koordine etme. Gerçek dünya mimarileri.', readTime: '14 dk', content: 'Multi-agent sistemler, karmaşık görevleri paralel ve koordineli şekilde çözmek için...' , image_url: 'https://picsum.photos/seed/robotics-24/600/300'},
+    { category: 'Otomasyon', icon: 'https://img.icons8.com/fluency/48/lightning-bolt.png', emoji: '⚡', image: '🔄', title: 'Multi-Agent Sistemleri: AI Agentları Birlikte Çalıştırma', summary: 'CrewAI, AutoGen ve AutoGPT ile birden fazla AI agentı koordine etme. Gerçek dünya mimarileri.', readTime: '14 dk', content: 'Multi-agent sistemler, karmaşık görevleri paralel ve koordineli şekilde çözmek için...' , image_url: 'https://picsum.photos/seed/robotics-24/600/300'},
     { category: 'Para Kazanma', emoji: '💰', image: '💼', title: 'Freelance AI Geliştirici Olmak: Başlangıç Rehberi', summary: 'Upwork ve Fiverr da AI projeleri almak, fiyatlandırma stratejileri ve portföy oluşturma.', readTime: '15 dk', content: 'Freelance AI geliştiriciler, 2026 da en çok aranan profesyoneller arasında...' , image_url: 'https://picsum.photos/seed/deep-learning-3/600/300'},
     { category: 'Haberler', emoji: '📰', image: '🌙', title: 'Kimi K2.6 Tanıtıldı: Moonshot AI Uzun Context Lideri', summary: 'Moonshot AI Kimi K2.6 ile 2M token context sunuyor. Çin AI ekosisteminin en güçlü modeli benchmarkları alt üst etti.', readTime: '5 dk', content: 'Moonshot AI, Kimi K2.6 modelini duyurdu. 2 milyon token context window ile gelen model, uzun belge analizi ve çok adımlı akıl yürütmede rakiplerini geride bırakıyor. Nisan 2026 itibarıyla LMSYS arena sıralamasında ilk 10 da.', image_url: 'https://picsum.photos/seed/robot-ai-2/600/300' },
     { category: 'Haberler', emoji: '📰', image: '🧠', title: 'GLM 5.1: Zhipu AI Multi-Model Devrimi', summary: 'Zhipu AI GLM 5.1 ile görsel, ses ve metin birleştiren tam multimodal deneyim sunuyor. Agent araçları ile otonom görev yapabiliyor.', readTime: '6 dk', content: 'Zhipu AI, GLM 5.1 modeli ile multimodal AI konusunda Çin in en iddialı hamlesini yaptı. Model, görsel anlama, ses işleme ve araç kullanımı konusunda eşsiz yetenekler sunuyor. Nisan 2026 da piyasaya sürüldü.', image_url: 'https://picsum.photos/seed/digital-transform-15/600/300' },
