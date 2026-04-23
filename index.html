@@ -1648,7 +1648,7 @@ function showArticle(article) {
       'apple': 'https://images.pexels.com/photos/160107/pexels-photo-160107.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
       'data': 'https://images.pexels.com/photos/2004161/pexels-photo-2004161.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
     };
-    if (a.image_url && a.image_url.indexOf('http') === 0) return a.image_url;
+    if (a.image_url && a.image_url.indexOf('http') === 0 && !a.image_url.includes('unsplash') && !a.image_url.includes('wikimedia')) return a.image_url;
     for (var key in imgMap) {
       if (t.includes(key)) return imgMap[key];
     }
