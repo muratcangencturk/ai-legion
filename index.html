@@ -393,6 +393,44 @@
     [data-theme="light"] .article-detail h1 { color: var(--text) !important; }
     [data-theme="light"] .post-content { color: var(--text2) !important; }
   .icon-fallback { filter: none; }
+
+    /* KESFET / DISCOVER PAGE */
+    .discover-feed{display:flex;flex-direction:column;gap:20px}
+    .discover-section{margin-bottom:8px}
+    .discover-section-title{display:flex;align-items:center;gap:8px;font-size:16px;font-weight:700;color:var(--gold);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+    .discover-section-title .section-emoji{font-size:20px}
+    .discover-section-more{margin-left:auto;font-size:12px;font-weight:500;color:var(--text3);cursor:pointer;text-decoration:none;transition:color 0.2s}
+    .discover-section-more:hover{color:var(--gold)}
+    .discover-item{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:12px;margin-bottom:8px;transition:all 0.2s;cursor:pointer}
+    .discover-item:hover{border-color:var(--gold);background:var(--bg3);transform:translateY(-1px)}
+    .discover-item-icon{font-size:28px;min-width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:var(--bg3);border-radius:10px}
+    .discover-item-body{flex:1;min-width:0}
+    .discover-item-title{font-size:14px;font-weight:600;color:var(--text);line-height:1.4;margin-bottom:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .discover-item-meta{font-size:11px;color:var(--text3);display:flex;gap:10px;align-items:center}
+    .discover-item-meta span{display:flex;align-items:center;gap:3px}
+    .discover-welcome{background:linear-gradient(135deg,var(--red),#1a0a0a);border:1px solid var(--red2);border-radius:16px;padding:24px;margin-bottom:24px;position:relative;overflow:hidden}
+    .discover-welcome::after{content:'';position:absolute;top:-20px;right:-20px;width:120px;height:120px;background:radial-gradient(circle,rgba(201,168,76,0.15),transparent 70%);border-radius:50%}
+    .discover-welcome h2{font-size:22px;color:var(--gold);margin-bottom:8px;position:relative}
+    .discover-welcome p{font-size:13px;color:var(--text2);line-height:1.6;position:relative}
+    /* SOCIAL MEDIA EMBED CARDS */
+    .social-embed-card{border:1px solid var(--border2);border-radius:14px;overflow:hidden;margin:10px 0;background:var(--bg2);transition:all 0.2s;max-width:100%}
+    .social-embed-card:hover{border-color:var(--gold);transform:translateY(-1px)}
+    .social-embed-header{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--border);cursor:pointer}
+    .social-embed-header:hover{background:var(--bg3)}
+    .social-embed-platform-icon{font-size:20px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:8px}
+    .social-embed-platform-icon.ig{background:linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);color:#fff}
+    .social-embed-platform-icon.tw{background:#000;color:#fff}
+    .social-embed-platform-icon.li{background:#0077b5;color:#fff}
+    .social-embed-info{flex:1;min-width:0}
+    .social-embed-platform-name{font-size:12px;font-weight:700;color:var(--text2)}
+    .social-embed-url{font-size:10px;color:var(--text3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .social-embed-body{padding:14px}
+    .social-embed-preview-desc{font-size:12px;color:var(--text2);line-height:1.5;margin-bottom:10px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+    .social-embed-footer{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-top:1px solid var(--border);background:var(--bg3)}
+    .social-embed-action{display:flex;align-items:center;gap:4px;font-size:12px;color:var(--text3);cursor:pointer;padding:4px 8px;border-radius:6px;transition:all 0.15s}
+    .social-embed-action:hover{background:var(--bg4);color:var(--text)}
+    .social-embed-link{font-size:11px;color:var(--gold);text-decoration:none;display:flex;align-items:center;gap:4px}
+    .social-embed-link:hover{text-decoration:underline}
 </style>
 </head>
 <body>
@@ -400,11 +438,12 @@
 <!-- NAVBAR -->
 <nav>
   <div class="logo" onclick="showPage('home')">
-    <div class="logo-icon"><img src="https://img.icons8.com/fluency/48/artificial-intelligence.png" alt="AI Legion" onerror="handleImgError(this)"></div>
+    <div class="logo-icon"><span style="font-size:28px;display:flex;align-items:center;justify-content:center;width:100%;height:100%">🧠</span></div>
     AI LEGION
   </div>
   <div class="nav-links" id="nav-links">
-    <button class="nav-btn active" onclick="showPage('home')">🏠 Haberler</button>
+    <button class="nav-btn active" onclick="showPage('discover')">🔍 Keşfet</button>
+    <button class="nav-btn" onclick="showPage('home')">🏠 Haberler</button>
     <button class="nav-btn" onclick="showPage('social')">💬 Sosyal</button>
     <button class="nav-btn" onclick="showPage('models')">🏆 Modeller</button>
     <button class="nav-btn" onclick="showPage('tools')">🛠️ Araçlar</button>
@@ -417,7 +456,8 @@
   
   <button class="hamburger-menu" id="hamburger-btn" onclick="toggleNav()">☰</button>
   <div class="mobile-nav" id="mobile-nav">
-    <button class="nav-btn active" onclick="showPage('home');closeNav()">🏠 Haberler</button>
+    <button class="nav-btn active" onclick="showPage('discover');closeNav()">🔍 Keşfet</button>
+    <button class="nav-btn" onclick="showPage('home');closeNav()">🏠 Haberler</button>
     <button class="nav-btn" onclick="showPage('social');closeNav()">💬 Sosyal</button>
     <button class="nav-btn" onclick="showPage('models');closeNav()">🏆 Modeller</button>
     <button class="nav-btn" onclick="showPage('tools');closeNav()">🛠️ Araçlar</button>
@@ -449,7 +489,15 @@
   <div class="main">
 
     <!-- HOME / HABERLER -->
-    <div class="page active" id="page-home">
+    <div class="page active" id="page-discover">
+      <div class="discover-welcome">
+        <h2>🔍 AI Legion Keşfet</h2>
+        <p>Yapay zeka dünyasının en güncel içerikleri tek bir akışta. Haberler, postlar, araçlar, videolar ve daha fazlası...</p>
+      </div>
+      <div id="discover-feed" class="discover-feed"><div class="loading"><div class="spinner"></div></div></div>
+    </div>
+
+    <div class="page" id="page-home">
       <div id="article-detail-view" style="display:none"></div>
       <div id="articles-list-view">
         <div class="section-header">
@@ -477,7 +525,7 @@
         <button class="composer-action"><i class="fas fa-poll"></i></button>
       </div>
       <div id="image-preview" style="display:none; margin-top: 10px;">
-        <img id="preview-image" src="" alt="Image Preview" style="max-width: 100px; max-height: 100px; border-radius: 8px; object-fit: cover;">
+        <img id="preview-image" src="" alt="Image Preview" style="max-width: 100px; max-height: 100px; border-radius: 8px; object-fit: cover;" onerror="handleImgError(this)">
         <button class="btn btn-red btn-sm" onclick="removeImage()" style="margin-left: 10px;">Kaldır</button>
       </div>
             <div style="display:flex;align-items:center;gap:10px">
@@ -868,7 +916,7 @@
       <input type="file" id="art-image-file" accept="image/*" style="display:none" onchange="previewArticleImage(event)">
       <div id="article-drop-zone" style="border:2px dashed var(--gold);border-radius:8px;padding:20px;text-align:center;color:var(--gold);font-size:13px;cursor:pointer;margin-bottom:8px" ondrop="handleArticleDrop(event)" ondragover="handleArticleDragOver(event)" ondragleave="handleArticleDragLeave(event)" onclick="document.getElementById('art-image-file').click()">📎/🖼️ Görsel eklemek için sürükle veya tıkla</div>
       <div id="article-image-preview" style="display:none;align-items:center;gap:10px;margin-top:10px">
-        <img id="article-preview-img" src="" style="max-width:120px;max-height:80px;border-radius:8px;object-fit:cover">
+        <img id="article-preview-img" src="" style="max-width:120px;max-height:80px;border-radius:8px;object-fit:cover" onerror="handleImgError(this)">
         <button class="btn btn-red btn-sm" onclick="removeArticleImage()">Kaldır</button>
       </div>
       <input type="url" id="art-image" placeholder="VEYA doğrudan URL gir: https://..." style="margin-top:8px">
@@ -1031,6 +1079,7 @@ let currentPromptText = '';
 
 // NAV CONFIG
 const defaultNavItems = [
+  { id: 'discover', label: '🔍 Keşfet', visible: true },
   { id: 'home', label: '🏠 Haberler', visible: true },
   { id: 'social', label: '💬 Sosyal', visible: true },
   { id: 'models', label: '🏆 Modeller', visible: true },
@@ -1121,6 +1170,9 @@ document.addEventListener('DOMContentLoaded', () => {
   loadModels();
   loadPrompts();
   loadLearnContent();
+  loadAgents();
+  loadVideos();
+  setTimeout(loadDiscoverFeed, 800);
 });
 
 function showToast(msg) {
@@ -1143,6 +1195,7 @@ function showPage(page) {
     document.getElementById('login-prompt-social').style.display = currentUser ? 'none' : 'block';
   }
   if (page === 'agents') loadAgents();
+  if (page === 'discover') loadDiscoverFeed();
   loadVideos();
   if (page === 'profile' && currentUser) loadProfile(currentUser.username);
  if (page === 'admin' && currentUser?.is_admin) { loadAdminStats(); loadAdminPosts(); renderNavManager(); }
@@ -1230,6 +1283,101 @@ function logout() {
 }
 
 // ARTICLES
+
+// DISCOVER FEED
+function loadDiscoverFeed() {
+  var feed = document.getElementById('discover-feed');
+  if (!feed) return;
+  var html = '';
+  function renderDiscoverSection(title, emoji, items, pageId) {
+    if (!items || !items.length) return '';
+    var section = '<div class="discover-section">';
+    section += '<div class="discover-section-title">';
+    section += '<span class="section-emoji">' + emoji + '</span> ' + title;
+    section += '<a class="discover-section-more" onclick="showPage(\'' + pageId + '\');return false;">Tümünü Gör →</a>';
+    section += '</div>';
+    items.forEach(function(item) {
+      section += '<div class="discover-item" onclick="' + (item.onclick || '') + '">';
+      section += '<div class="discover-item-icon">' + (item.icon || '🔗') + '</div>';
+      section += '<div class="discover-item-body">';
+      section += '<div class="discover-item-title">' + item.title + '</div>';
+      section += '<div class="discover-item-meta">';
+      if (item.meta1) section += '<span>' + item.meta1 + '</span>';
+      if (item.meta2) section += '<span>' + item.meta2 + '</span>';
+      section += '</div></div></div>';
+    });
+    section += '</div>';
+    return section;
+  }
+
+  // MODELS
+  if (typeof allModels !== 'undefined' && allModels.length) {
+    var items = allModels.slice(0, 3).map(function(m) {
+      return { icon: '🏆', title: m.name + (m.benchmark && m.benchmark.lmsys ? ' (Elo: ' + m.benchmark.lmsys + ')' : ''), meta1: '⭐ ' + (m.rating || '-'), meta2: m.free ? '✓ Ücretsiz' : '$ Ücretli', onclick: "showPage('models')" };
+    });
+    html += renderDiscoverSection('En İyi Modeller', '🏆', items, 'models');
+  }
+  // TOOLS
+  if (typeof allTools !== 'undefined' && allTools.length) {
+    var items = allTools.slice(0, 3).map(function(t) {
+      return { icon: '🛠️', title: t.name + ' - ' + (t.category || ''), meta1: '⭐ ' + (t.rating || '-'), meta2: t.free ? '✓ Ücretsiz' : '$ Ücretli', onclick: "window.open('" + (t.url || '#') + "','_blank')" };
+    });
+    html += renderDiscoverSection('Popüler Araçlar', '🛠️', items, 'tools');
+  }
+  // VIDEOS
+  if (typeof allVideos !== 'undefined' && allVideos.length) {
+    var items = allVideos.slice(0, 3).map(function(v) {
+      return { icon: v.platform === 'youtube' ? '▶️' : v.platform === 'x' ? '𝕏' : '📸', title: v.title || 'Video', meta1: '👁 ' + (v.views || '-'), meta2: '📅 ' + new Date(v.date).toLocaleDateString('tr-TR'), onclick: "showPage('videos')" };
+    });
+    html += renderDiscoverSection('Son Videolar', '🎬', items, 'videos');
+  }
+  // AGENTS
+  if (typeof allAgents !== 'undefined' && allAgents.length) {
+    var items = allAgents.slice(0, 3).map(function(a) {
+      return { icon: a.emoji || '🤖', title: a.name + ' - ' + (a.category || ''), meta1: '⭐ ' + (a.rating || '-'), meta2: a.stars ? '⭐ ' + a.stars : (a.free ? '✓ Ücretsiz' : '$ Ücretli'), onclick: "window.open('" + (a.url || '#') + "','_blank')" };
+    });
+    html += renderDiscoverSection('Öne Çıkan Agentlar', '🤖', items, 'agents');
+  }
+  // PROMPTS
+  if (typeof allPrompts !== 'undefined' && allPrompts.length) {
+    var items = allPrompts.slice(0, 3).map(function(p) {
+      return { icon: '✨', title: p.title || 'Prompt', meta1: '📂 ' + (p.category || ''), meta2: '#️⃣ ' + (p.tags || []).slice(0, 2).join(', '), onclick: "showPage('prompts')" };
+    });
+    html += renderDiscoverSection('Popüler Promptlar', '✨', items, 'prompts');
+  }
+  // LEARN
+  if (typeof learnArticles !== 'undefined' && learnArticles.length) {
+    var items = learnArticles.slice(0, 3).map(function(a) {
+      return { icon: a.emoji || '📚', title: a.title || 'Makale', meta1: '📂 ' + (a.category || ''), meta2: '⏱ ' + (a.readTime || '-'), onclick: "showPage('learn')" };
+    });
+    html += renderDiscoverSection('Öğren - Son Yazılar', '📚', items, 'learn');
+  }
+
+  feed.innerHTML = html || '<div class="discover-empty"><div style="font-size:48px;margin-bottom:12px">🔍</div><p>Keşfet içeriği yükleniyor...</p></div>';
+
+  // Async: load articles and posts after sync data
+  sb('/articles?order=created_at.desc&limit=3').then(function(articles) {
+    if (Array.isArray(articles) && articles.length) {
+      var items = articles.slice(0, 3).map(function(a) {
+        return { icon: '📰', title: a.title || 'Başlıksız', meta1: '✍️ ' + (a.author || 'AI Legion'), meta2: '📅 ' + new Date(a.created_at).toLocaleDateString('tr-TR'), onclick: "showPage('home')" };
+      });
+      var sec = renderDiscoverSection('Son Haberler', '📰', items, 'home');
+      feed.innerHTML = sec + feed.innerHTML;
+    }
+  }).catch(function(){});
+
+  sb('/posts?order=created_at.desc&limit=3').then(function(posts) {
+    if (Array.isArray(posts) && posts.length) {
+      var items = posts.slice(0, 3).map(function(p) {
+        var username = (p.user && p.user.username) || p.username || 'unknown';
+        return { icon: '💬', title: (p.content || '').substring(0, 100) + ((p.content || '').length > 100 ? '...' : ''), meta1: '👤 @' + username, meta2: '❤️ ' + (p.likes_count || 0), onclick: "showPage('social')" };
+      });
+      var sec = renderDiscoverSection('Son Paylaşımlar', '💬', items, 'social');
+      feed.innerHTML = sec + feed.innerHTML;
+    }
+  }).catch(function(){});
+}
+
 async function loadArticles() {
   try {
     const articles = await sb('/articles?order=created_at.desc&limit=20');
@@ -1403,6 +1551,74 @@ async function loadPosts() {
   } catch(e) { document.getElementById('posts-list').innerHTML = '<div class="empty-state"><div class="icon">⚠️</div><p>Postlar yüklenemedi</p></div>'; }
 }
 
+
+// SOCIAL MEDIA EMBED PREVIEW
+function detectSocialEmbed(text) {
+  if (!text) return null;
+  var patterns = [
+    { regex: /(?:https?:\/\/)?(?:www\.)?instagram\.com\/(?:p|reel|reels)\/([\w-]+)/i, platform: 'instagram', emoji: '📸', name: 'Instagram' },
+    { regex: /(?:https?:\/\/)?(?:www\.)?(?:x\.com|twitter\.com)\/([\w]+)\/status\/(\d+)/i, platform: 'x', emoji: '𝕏', name: 'X (Twitter)' },
+    { regex: /(?:https?:\/\/)?(?:www\.)?linkedin\.com\/posts\/([\w-]+)/i, platform: 'linkedin', emoji: '💼', name: 'LinkedIn' }
+  ];
+  for (var i = 0; i < patterns.length; i++) {
+    var p = patterns[i];
+    var match = text.match(p.regex);
+    if (match) {
+      var url = match[0];
+      if (url.indexOf('http') !== 0) url = 'https://' + url;
+      var username = '', postId = '';
+      if (p.platform === 'instagram') {
+        postId = match[1];
+        username = '@user';
+      } else if (p.platform === 'x') {
+        username = '@' + match[1];
+        postId = match[2];
+      } else if (p.platform === 'linkedin') {
+        username = '@user';
+        postId = match[1];
+      }
+      return { platform: p.platform, emoji: p.emoji, name: p.name, url: url, username: username, postId: postId };
+    }
+  }
+  return null;
+}
+
+function renderSocialEmbedCard(embed) {
+  var iconClass = embed.platform === 'instagram' ? 'ig' : embed.platform === 'x' ? 'tw' : 'li';
+  var descMap = {
+    'instagram': 'Instagram gönderisi. Fotoğraf/video içeriği için tıklayın.',
+    'x': 'X/Twitter gönderisi. Tam gönderiyi görüntülemek için tıklayın.',
+    'linkedin': 'LinkedIn paylaşımı. Profesyonel içerik için tıklayın.'
+  };
+  var actions = {
+    'instagram': { like: '♥️ Beğen', comment: '💬 Yorum', share: '📤 Paylaş' },
+    'x': { like: '♥️ Beğeni', comment: '💬 Yanıtla', share: '🔁 Retweet' },
+    'linkedin': { like: '👍 Beğen', comment: '💬 Yorum', share: '📤 Paylaş' }
+  };
+  var act = actions[embed.platform] || actions['x'];
+  return '<div class="social-embed-card" onclick="window.open(\'' + embed.url + '\',\'_blank\')">' +
+    '<div class="social-embed-header">' +
+      '<div class="social-embed-platform-icon ' + iconClass + '">' + embed.emoji + '</div>' +
+      '<div class="social-embed-info">' +
+        '<div class="social-embed-platform-name">' + embed.name + '</div>' +
+        '<div class="social-embed-url">' + embed.url.substring(0, 55) + (embed.url.length > 55 ? '...' : '') + '</div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="social-embed-body">' +
+      '<div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:6px">' + embed.username + (embed.postId ? '  &bull;  #' + embed.postId.substring(0, 15) : '') + '</div>' +
+      '<div class="social-embed-preview-desc">' + (descMap[embed.platform] || 'Sosyal medya içeriği') + '</div>' +
+    '</div>' +
+    '<div class="social-embed-footer">' +
+      '<div style="display:flex;gap:8px">' +
+        '<span class="social-embed-action">' + act.like + '</span>' +
+        '<span class="social-embed-action">' + act.comment + '</span>' +
+        '<span class="social-embed-action">' + act.share + '</span>' +
+      '</div>' +
+      '<a class="social-embed-link" href="' + embed.url + '" target="_blank" onclick="event.stopPropagation()">↗ Orijinali Gör</a>' +
+    '</div>' +
+  '</div>';
+}
+
 function renderPost(p) {
   const username = p.user?.username || 'unknown';
   const initial = (username[0] || '?').toUpperCase();
@@ -1417,7 +1633,8 @@ function renderPost(p) {
         </div>
       </div>
       <div class="post-content">${p.content}</div>
-      ${p.image_url ? `<img src="${p.image_url}" class="post-image" alt="Post Image">` : ''}
+      ${detectSocialEmbed(p.content) ? renderSocialEmbedCard(detectSocialEmbed(p.content)) : ''}
+      ${p.image_url ? `<img src="${p.image_url}" class="post-image" alt="Post Image" onerror="handleImgError(this)">` : ''}
       <div class="post-actions">
         <button class="action-btn" onclick="likePost('${p.id}',this)">❤️ ${p.likes_count||0}</button>
         <button class="action-btn" onclick="repostPost('${p.id}',this)">🔁 ${p.reposts_count||0}</button>
@@ -1691,34 +1908,40 @@ const videoCategories = { 'Başlangıç': '🌱', 'Model İnceleme': '🏆', 'E�
 
 function loadVideos() {
   allVideos = [
-    // ===== YOUTUBE - TÜRKÇE =====
-    { id: 1, platform: 'youtube', category: 'Başlangıç', url: 'https://www.youtube.com/watch?v=jv4o2MXfgGo', title: 'Yapay Zeka Nedir? AI Başlangıç Rehberi 2026', channel: 'Barış Özcan', duration: '18:42', views: '2.4M', thumb: 'https://img.youtube.com/vi/jv4o2MXfgGo/hqdefault.jpg', date: '2026-03-15' },
-    { id: 2, platform: 'youtube', category: 'Haber', url: 'https://www.youtube.com/watch?v=J8OF8G9A0PU', title: 'GPT-5.5 Tanıtıldı - Her Şey Değişti', channel: 'Açık Kaynak', duration: '14:21', views: '1.8M', thumb: 'https://img.youtube.com/vi/J8OF8G9A0PU/hqdefault.jpg', date: '2026-04-10' },
-    { id: 3, platform: 'youtube', category: 'Model İnceleme', url: 'https://www.youtube.com/watch?v=yCMTYsB7sFg', title: 'Claude Opus 4.7 vs GPT-5.5 Detaylı Karşılaştırma', channel: 'Tech Türkiye', duration: '22:15', views: '890K', thumb: 'https://img.youtube.com/vi/yCMTYsB7sFg/hqdefault.jpg', date: '2026-04-18' },
-    { id: 4, platform: 'youtube', category: 'Eğitim', url: 'https://www.youtube.com/watch?v=RKdhH1R1S9k', title: 'Prompt Mühendisliği: Sıfırdan İleri Seviyeye', channel: 'Yapay Zeka Akademi', duration: '45:30', views: '3.1M', thumb: 'https://img.youtube.com/vi/RKdhH1R1S9k/hqdefault.jpg', date: '2026-02-20' },
-    { id: 5, platform: 'youtube', category: 'Para Kazanma', url: 'https://www.youtube.com/watch?v=5e1HB4gU0Sk', title: 'Yapay Zeka ile Para Kazanma: 10 Kanıtlanmış Yöntem', channel: 'Girişimci TV', duration: '28:45', views: '1.5M', thumb: 'https://img.youtube.com/vi/5e1HB4gU0Sk/hqdefault.jpg', date: '2026-03-01' },
-    { id: 6, platform: 'youtube', category: 'Haber', url: 'https://www.youtube.com/watch?v=4MKM0JpKlKY', title: 'Gemini 3.1 Pro Artık Ücretsiz - Google Bombası', channel: 'Tekno Gündem', duration: '11:32', views: '720K', thumb: 'https://img.youtube.com/vi/4MKM0JpKlKY/hqdefault.jpg', date: '2026-04-05' },
-    { id: 7, platform: 'youtube', category: 'Başlangıç', url: 'https://www.youtube.com/watch?v=KkMD1gYV4jA', title: 'ChatGPT Nasıl Kullanılır? 2026 Tam Rehber', channel: 'Dijital Rehber', duration: '16:08', views: '4.2M', thumb: 'https://img.youtube.com/vi/KkMD1gYV4jA/hqdefault.jpg', date: '2026-01-15' },
-    { id: 8, platform: 'youtube', category: 'Eğitim', url: 'https://www.youtube.com/watch?v=8pV7f1Gh6YI', title: 'AI ile Web Geliştirme: Cursor ile 10 Dakikada Site', channel: 'Yazılımcı Mustafa', duration: '32:18', views: '560K', thumb: 'https://img.youtube.com/vi/8pV7f1Gh6YI/hqdefault.jpg', date: '2026-04-12' },
-    { id: 9, platform: 'youtube', category: 'Model İnceleme', url: 'https://www.youtube.com/watch?v=9n2d1OCB7Sw', title: 'DeepSeek V4: Açık Kaynak Devrimi Detaylı İnceleme', channel: 'AI Lab TR', duration: '19:55', views: '430K', thumb: 'https://img.youtube.com/vi/9n2d1OCB7Sw/hqdefault.jpg', date: '2026-04-08' },
-    { id: 10, platform: 'youtube', category: 'Para Kazanma', url: 'https://www.youtube.com/watch?v=7gM4L3q8nP2', title: 'AI Freelance: Upwork ve Fiverr da İş Alma Taktikleri', channel: 'Freelancer TR', duration: '24:10', views: '380K', thumb: 'https://img.youtube.com/vi/7gM4L3q8nP2/hqdefault.jpg', date: '2026-03-28' },
+    // ===== YOUTUBE - TURKCE =====
+    { id: 1, platform: 'youtube', category: 'Başlangıç', url: 'https://www.youtube.com/watch?v=0Wpna736wwE', title: 'Yapay Zeka Çağında Hayatta Kalma Rehberi!', channel: 'Barış Özcan', duration: '20:31', views: '637K', thumb: 'https://img.youtube.com/vi/0Wpna736wwE/hqdefault.jpg', date: '2025-01-10' },
+    { id: 2, platform: 'youtube', category: 'Haber', url: 'https://www.youtube.com/watch?v=8tx2viHpgA8', title: 'GPT-5 is here... Can it win back programmers?', channel: 'Fireship', duration: '4:19', views: '1.3M', thumb: 'https://img.youtube.com/vi/8tx2viHpgA8/hqdefault.jpg', date: '2025-08-10' },
+    { id: 3, platform: 'youtube', category: 'Model İnceleme', url: 'https://www.youtube.com/watch?v=7TR-FLWNVHY', title: 'The ONLY Way to Run DeepSeek...', channel: 'NetworkChuck', duration: '11:59', views: '1.2M', thumb: 'https://img.youtube.com/vi/7TR-FLWNVHY/hqdefault.jpg', date: '2025-02-15' },
+    { id: 4, platform: 'youtube', category: 'Eğitim', url: 'https://www.youtube.com/watch?v=UxHpVBvSiZs', title: 'Google’ın Prompt Mühendisliği Kursunu 10 dk’da Anlattım', channel: 'İsa Nurdoğdu', duration: '12:44', views: '88K', thumb: 'https://img.youtube.com/vi/UxHpVBvSiZs/hqdefault.jpg', date: '2025-03-20' },
+    { id: 5, platform: 'youtube', category: 'Para Kazanma', url: 'https://www.youtube.com/watch?v=5TxSqvPbnWw', title: 'How to Build \& Sell AI Automations: Ultimate Beginner’s Guide', channel: 'Liam Ottley', duration: '1:50:23', views: '685K', thumb: 'https://img.youtube.com/vi/5TxSqvPbnWw/hqdefault.jpg', date: '2025-06-01' },
+    { id: 6, platform: 'youtube', category: 'Haber', url: 'https://www.youtube.com/watch?v=ly6YKz9UfQ4', title: 'New MIT Study Says Most AI Projects Are Doomed...', channel: 'Fireship', duration: '3:25', views: '977K', thumb: 'https://img.youtube.com/vi/ly6YKz9UfQ4/hqdefault.jpg', date: '2025-04-12' },
+    { id: 7, platform: 'youtube', category: 'Başlangıç', url: 'https://www.youtube.com/watch?v=7foCbOktTZM', title: 'ChatGPT Her Şeeyi Nasıl Bilebiliyor?', channel: 'Evrim Ağacı', duration: '30:31', views: '1.3M', thumb: 'https://img.youtube.com/vi/7foCbOktTZM/hqdefault.jpg', date: '2025-02-05' },
+    { id: 8, platform: 'youtube', category: 'Eğitim', url: 'https://www.youtube.com/watch?v=ocMOZpuAMw4', title: 'Cursor Tutorial for Beginners (AI Code Editor)', channel: 'Tech With Tim', duration: '15:20', views: '951K', thumb: 'https://img.youtube.com/vi/ocMOZpuAMw4/hqdefault.jpg', date: '2025-01-15' },
+    { id: 9, platform: 'youtube', category: 'Model İnceleme', url: 'https://www.youtube.com/watch?v=LYoJnCpRswo', title: 'Yapay Zeka Balonu Patlamak Üzere mi? LLM Duvara mı Çarptı?', channel: 'Barış Özcan', duration: '17:01', views: '745K', thumb: 'https://img.youtube.com/vi/LYoJnCpRswo/hqdefault.jpg', date: '2025-05-01' },
+    { id: 10, platform: 'youtube', category: 'Para Kazanma', url: 'https://www.youtube.com/watch?v=Ao4cCA5QxEo', title: 'Yapay Zeka ile Sıfırdan Nasıl Para Kazanılır? (5 Yol)', channel: 'Kerim Demir', duration: '15:14', views: '52K', thumb: 'https://img.youtube.com/vi/Ao4cCA5QxEo/hqdefault.jpg', date: '2025-06-10' },
     // ===== YOUTUBE - ENGLISH =====
-    { id: 11, platform: 'youtube', category: 'Model İnceleme', url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', title: 'Claude 4.7 Opus: The Best Coding AI Ever Made', channel: 'AI Explained', duration: '15:43', views: '3.2M', thumb: 'https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg', date: '2026-04-15' },
-    { id: 12, platform: 'youtube', category: 'Model İnceleme', url: 'https://www.youtube.com/watch?v=kJQP7kiw5Fk', title: 'GPT-5.5 Changes Everything - Full Breakdown', channel: 'Matt Wolfe', duration: '21:37', views: '2.8M', thumb: 'https://img.youtube.com/vi/kJQP7kiw5Fk/hqdefault.jpg', date: '2026-04-12' },
-    { id: 13, platform: 'youtube', category: 'Haber', url: 'https://www.youtube.com/watch?v=OPf0YbXqDm0', title: 'The AI Race in 2026: Who is Winning?', channel: 'Fireship', duration: '8:14', views: '5.6M', thumb: 'https://img.youtube.com/vi/OPf0YbXqDm0/hqdefault.jpg', date: '2026-04-20' },
-    { id: 14, platform: 'youtube', category: 'Eğitim', url: 'https://www.youtube.com/watch?v=erLbbextvlY', title: 'Build AI Apps with Cursor - Full Course 2026', channel: 'Clever Programmer', duration: '1:42:15', views: '1.1M', thumb: 'https://img.youtube.com/vi/erLbbextvlY/hqdefault.jpg', date: '2026-03-10' },
-    { id: 15, platform: 'youtube', category: 'Başlangıç', url: 'https://www.youtube.com/watch?v=2LRwy8_nWf0', title: 'AI for Beginners: What You Need to Know in 2026', channel: 'Khan Academy', duration: '28:45', views: '7.8M', thumb: 'https://img.youtube.com/vi/2LRwy8_nWf0/hqdefault.jpg', date: '2026-01-20' },
-    { id: 16, platform: 'youtube', category: 'Para Kazanma', url: 'https://www.youtube.com/watch?v=pXRviuL6vM4', title: 'How I Make $10K/Month with AI Automation', channel: 'Liam Ottley', duration: '18:22', views: '1.9M', thumb: 'https://img.youtube.com/vi/pXRviuL6vM4/hqdefault.jpg', date: '2026-02-15' },
-    { id: 17, platform: 'youtube', category: 'Eğitim', url: 'https://www.youtube.com/watch?v=VMj-3S7sEn0', title: 'RAG Tutorial: Build Your Own AI with Your Data', channel: 'LangChain', duration: '35:42', views: '680K', thumb: 'https://img.youtube.com/vi/VMj-3S7sEn0/hqdefault.jpg', date: '2026-03-22' },
-    { id: 18, platform: 'youtube', category: 'Model İnceleme', url: 'https://www.youtube.com/watch?v=JiMG3xKOxYs', title: 'Gemini 3.1 Pro vs Claude vs GPT - Ultimate Test', channel: 'All About AI', duration: '25:18', views: '1.4M', thumb: 'https://img.youtube.com/vi/JiMG3xKOxYs/hqdefault.jpg', date: '2026-04-02' },
+    { id: 11, platform: 'youtube', category: 'Başlangıç', url: 'https://www.youtube.com/watch?v=aircAruvnKk', title: 'But What Is a Neural Network? | Deep Learning Chapter 1', channel: '3Blue1Brown', duration: '18:40', views: '22.9M', thumb: 'https://img.youtube.com/vi/aircAruvnKk/hqdefault.jpg', date: '2024-10-15' },
+    { id: 12, platform: 'youtube', category: 'Model İnceleme', url: 'https://www.youtube.com/watch?v=Nl7aCUsWykg', title: 'Big Tech in Panic Mode... Did DeepSeek R1 Just Pop the AI Bubble?', channel: 'Fireship', duration: '3:37', views: '3.8M', thumb: 'https://img.youtube.com/vi/Nl7aCUsWykg/hqdefault.jpg', date: '2025-01-28' },
+    { id: 13, platform: 'youtube', category: 'Eğitim', url: 'https://www.youtube.com/watch?v=LPZh9BOjkQs', title: 'Large Language Models Explained Briefly', channel: '3Blue1Brown', duration: '7:58', views: '5.9M', thumb: 'https://img.youtube.com/vi/LPZh9BOjkQs/hqdefault.jpg', date: '2024-11-20' },
+    { id: 14, platform: 'youtube', category: 'Model İnceleme', url: 'https://www.youtube.com/watch?v=ZQAz_HrUq68', title: 'NVIDIA’s New AI Just Changed Everything', channel: 'Two Minute Papers', duration: '8:11', views: '179K', thumb: 'https://img.youtube.com/vi/ZQAz_HrUq68/hqdefault.jpg', date: '2025-03-10' },
+    { id: 15, platform: 'youtube', category: 'Haber', url: 'https://www.youtube.com/watch?v=Xn-gtHDsaPY', title: '7 New Open Source AI Tools You Need Right Now', channel: 'Fireship', duration: '6:15', views: '805K', thumb: 'https://img.youtube.com/vi/Xn-gtHDsaPY/hqdefault.jpg', date: '2025-04-05' },
+    { id: 16, platform: 'youtube', category: 'Eğitim', url: 'https://www.youtube.com/watch?v=VMj-3S7sEn0', title: 'The Spelled-Out Intro to Neural Networks and Backpropagation', channel: 'Andrej Karpathy', duration: '2:25:52', views: '3.4M', thumb: 'https://img.youtube.com/vi/VMj-3S7sEn0/hqdefault.jpg', date: '2024-09-10' },
+    { id: 17, platform: 'youtube', category: 'Başlangıç', url: 'https://www.youtube.com/watch?v=FwOTs4UxQS4', title: 'AI Agents, Clearly Explained', channel: 'Jeff Su', duration: '10:09', views: '4.1M', thumb: 'https://img.youtube.com/vi/FwOTs4UxQS4/hqdefault.jpg', date: '2025-02-20' },
+    { id: 18, platform: 'youtube', category: 'Model İnceleme', url: 'https://www.youtube.com/watch?v=RudrWy9uPZE', title: 'I Switched 50% of My AI Work to Claude, Here’s Why', channel: 'Jeff Su', duration: '12:44', views: '519K', thumb: 'https://img.youtube.com/vi/RudrWy9uPZE/hqdefault.jpg', date: '2025-03-15' },
+    { id: 19, platform: 'youtube', category: 'Eğitim', url: 'https://www.youtube.com/watch?v=sVcwVQRHIc8', title: 'Learn RAG From Scratch – Python AI Tutorial', channel: 'freeCodeCamp.org', duration: '2:33:11', views: '1.3M', thumb: 'https://img.youtube.com/vi/sVcwVQRHIc8/hqdefault.jpg', date: '2025-01-18' },
+    { id: 20, platform: 'youtube', category: 'Haber', url: 'https://www.youtube.com/watch?v=Sk9tvyRSCgY', title: 'DeepMind’s New AI: A Gift To Humanity', channel: 'Two Minute Papers', duration: '11:56', views: '134K', thumb: 'https://img.youtube.com/vi/Sk9tvyRSCgY/hqdefault.jpg', date: '2025-04-01' },
+    { id: 21, platform: 'youtube', category: 'Para Kazanma', url: 'https://www.youtube.com/watch?v=w0H1-b044KY', title: 'How to Build \& Sell AI Agents: Ultimate Beginner’s Guide', channel: 'Liam Ottley', duration: '3:50:40', views: '2.4M', thumb: 'https://img.youtube.com/vi/w0H1-b044KY/hqdefault.jpg', date: '2025-05-15' },
+    { id: 22, platform: 'youtube', category: 'Haber', url: 'https://www.youtube.com/watch?v=hWMRd2mslCo', title: 'Yapay Zeka Balonu Ne Zaman Patlayacak?', channel: 'Evrim Ağacı', duration: '25:17', views: '864K', thumb: 'https://img.youtube.com/vi/hWMRd2mslCo/hqdefault.jpg', date: '2025-06-01' },
+    { id: 23, platform: 'youtube', category: 'Eğitim', url: 'https://www.youtube.com/watch?v=EH5jx5qPabU', title: 'From Zero to Your First AI Agent in 25 Minutes (No Coding)', channel: 'Futurepedia', duration: '25:58', views: '3.5M', thumb: 'https://img.youtube.com/vi/EH5jx5qPabU/hqdefault.jpg', date: '2025-03-05' },
+    { id: 24, platform: 'youtube', category: 'Model İnceleme', url: 'https://www.youtube.com/watch?v=jeA-KBv0b68', title: 'Claude Just Got Another Superpower...', channel: 'Fireship', duration: '5:12', views: '692K', thumb: 'https://img.youtube.com/vi/jeA-KBv0b68/hqdefault.jpg', date: '2025-03-22' },
     // ===== X/TWITTER VIDEOS =====
-    { id: 19, platform: 'x', category: 'Haber', url: 'https://x.com/OpenAI/status/191234567890', title: 'OpenAI: GPT-5.5 Can Now Reason Like a PhD', channel: '@OpenAI', duration: '1:30', views: '12M', thumb: 'https://img.icons8.com/fluency/96/x.png', date: '2026-04-10' },
-    { id: 20, platform: 'x', category: 'Haber', url: 'https://x.com/AnthropicAI/status/191345678901', title: 'Anthropic: Claude Opus 4.7 Sets New SWE-bench Record', channel: '@AnthropicAI', duration: '0:45', views: '8.5M', thumb: 'https://img.icons8.com/fluency/96/x.png', date: '2026-04-15' },
-    { id: 21, platform: 'x', category: 'Model İnceleme', url: 'https://x.com/GoogleDeepMind/status/191456789012', title: 'DeepMind: Gemini 3.1 Pro Free for Everyone', channel: '@GoogleDeepMind', duration: '2:15', views: '5.2M', thumb: 'https://img.icons8.com/fluency/96/x.png', date: '2026-04-03' },
+    { id: 25, platform: 'x', category: 'Haber', url: 'https://x.com/OpenAI/status/191234567890', title: 'OpenAI: GPT-5.5 Can Now Reason Like a PhD', channel: '@OpenAI', duration: '1:30', views: '12M', thumb: 'https://img.icons8.com/fluency/96/x.png', date: '2026-04-10' },
+    { id: 26, platform: 'x', category: 'Haber', url: 'https://x.com/AnthropicAI/status/191345678901', title: 'Anthropic: Claude Opus 4.7 Sets New SWE-bench Record', channel: '@AnthropicAI', duration: '0:45', views: '8.5M', thumb: 'https://img.icons8.com/fluency/96/x.png', date: '2026-04-15' },
+    { id: 27, platform: 'x', category: 'Model İnceleme', url: 'https://x.com/GoogleDeepMind/status/191456789012', title: 'DeepMind: Gemini 3.1 Pro Free for Everyone', channel: '@GoogleDeepMind', duration: '2:15', views: '5.2M', thumb: 'https://img.icons8.com/fluency/96/x.png', date: '2026-04-03' },
     // ===== INSTAGRAM REELS =====
-    { id: 22, platform: 'instagram', category: 'Başlangıç', url: 'https://www.instagram.com/reel/C8abcdef/', title: '5 AI Aracı Olmadan İşe Başlama!', channel: '@aiteknoloji', duration: '0:58', views: '420K', thumb: 'https://img.icons8.com/fluency/96/instagram-new.png', date: '2026-04-01' },
-    { id: 23, platform: 'instagram', category: 'Para Kazanma', url: 'https://www.instagram.com/reel/C8bcdefgh/', title: 'Günde 100$ AI ile Kazanmak - 3 Basit Yol', channel: '@paraviews', duration: '0:45', views: '890K', thumb: 'https://img.icons8.com/fluency/96/instagram-new.png', date: '2026-03-25' },
-    { id: 24, platform: 'instagram', category: 'Eğitim', url: 'https://www.instagram.com/reel/C8cdefghij/', title: 'ChatGPT Prompt Hileleri Bilen Az Kişi Kullanıyor', channel: '@promptmaster', duration: '1:02', views: '1.2M', thumb: 'https://img.icons8.com/fluency/96/instagram-new.png', date: '2026-04-18' },
+    { id: 28, platform: 'instagram', category: 'Başlangıç', url: 'https://www.instagram.com/reel/C8abcdef/', title: '5 AI Aracı Olmadan İşe Başlama!', channel: '@aiteknoloji', duration: '0:58', views: '420K', thumb: 'https://img.icons8.com/fluency/96/instagram-new.png', date: '2026-04-01' },
+    { id: 29, platform: 'instagram', category: 'Para Kazanma', url: 'https://www.instagram.com/reel/C8bcdefgh/', title: 'Günde 100$ AI ile Kazanmak - 3 Basit Yol', channel: '@paraviews', duration: '0:45', views: '890K', thumb: 'https://img.icons8.com/fluency/96/instagram-new.png', date: '2026-03-25' },
+    { id: 30, platform: 'instagram', category: 'Eğitim', url: 'https://www.instagram.com/reel/C8cdefghij/', title: 'ChatGPT Prompt Hileleri Bilen Az Kişi Kullanıyor', channel: '@promptmaster', duration: '1:02', views: '1.2M', thumb: 'https://img.icons8.com/fluency/96/instagram-new.png', date: '2026-04-18' }
   ];
   renderVideos(allVideos);
 }
@@ -1739,7 +1962,7 @@ function renderVideos(items) {
     const safeTitle = v.title.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
     return '<div class="video-card" data-vidx="' + idx + '">' +
       '<div class="video-thumb">' +
-        '<img src="' + v.thumb + '" alt="" onerror="handleImgError(this)" loading="lazy">' +
+        '<span style="font-size:48px;display:flex;align-items:center;justify-content:center;width:100%;height:100%;background:var(--bg3)">' + v.thumb + '</span>' +
         '<div class="video-play-btn">' + playIcon + '</div>' +
         '<div class="video-duration">' + v.duration + '</div>' +
       '</div>' +
@@ -1869,32 +2092,32 @@ function renderAgents(agents) {
 async function loadTools() {
   try {
     allTools = [
-      { id: 1, name: 'Claude Opus 4.7', image: 'https://img.icons8.com/fluency/48/claude.png', category: 'LLM', description: 'Anthropic en güçlü model. Kod yazma ve analiz lideri.', url: 'https://claude.ai', free: true, rating: 4.9, benchmark: { lmsys: 1506, mmlu: '88.7%', swe_bench: '74.2%', aime: '85%' } },
-      { id: 2, name: 'GPT-5.5', image: 'https://img.icons8.com/fluency/48/chatgpt.png', category: 'LLM', description: 'OpenAI devrim niteliğinde güncelleme. Multimodal.', url: 'https://chat.openai.com', free: false, rating: 4.9, benchmark: { lmsys: 1498, mmlu: '88.2%', swe_bench: '74.9%', aime: '83%' } },
-      { id: 3, name: 'Gemini 3.1 Pro', image: 'https://img.icons8.com/fluency/48/google-logo.png', category: 'LLM', description: 'Google en güçlü modeli. Artık herkes için ücretsiz.', url: 'https://gemini.google.com', free: true, rating: 4.8, benchmark: { lmsys: 1489, mmlu: '87.9%', swe_bench: '80.6%', aime: '79%' } },
-      { id: 4, name: 'DeepSeek V4', image: 'https://img.icons8.com/fluency/48/artificial-intelligence.png', category: 'LLM', description: 'Çin den gelen açık kaynak devrimi. GPT-4 seviyesi.', url: 'https://chat.deepseek.com', free: true, rating: 4.7, benchmark: { lmsys: 1452, mmlu: '87.1%', swe_bench: '49.2%', aime: '39.2%' } },
-      { id: 5, name: 'Grok 4', image: 'https://img.icons8.com/fluency/48/x.png', category: 'LLM', description: 'xAI modeli. Gerçek zamanlı X/Twitter erişimi.', url: 'https://grok.x.ai', free: true, rating: 4.7 },
-      { id: 6, name: 'Midjourney V7', image: 'https://img.icons8.com/fluency/48/image.png', category: 'Görüntü', description: 'Sanatsal görüntü üretiminde altın standart.', url: 'https://midjourney.com', free: false, rating: 4.9 },
-      { id: 7, name: 'DALL-E 3', image: 'https://img.icons8.com/fluency/48/chatgpt.png', category: 'Görüntü', description: 'OpenAI görüntü üretici. ChatGPT ile entegre.', url: 'https://chat.openai.com', free: true, rating: 4.7 },
-      { id: 8, name: 'Flux 1.1 Pro', image: 'https://img.icons8.com/fluency/48/image.png', category: 'Görüntü', description: 'Gerçekçi fotoğraf kalitesinde görüntüler.', url: 'https://fal.ai', free: false, rating: 4.8 },
-      { id: 9, name: 'Stable Diffusion 3.5', image: 'https://img.icons8.com/fluency/48/image.png', category: 'Görüntü', description: 'Açık kaynak görüntü üretici. Yerel çalıştırılabilir.', url: 'https://stability.ai', free: true, rating: 4.4 },
-      { id: 10, name: 'Ideogram 3.0', image: 'https://img.icons8.com/fluency/48/image.png', category: 'Görüntü', description: 'Metin içeren görsellerde en iyi. Logo ve poster için ideal.', url: 'https://ideogram.ai', free: true, rating: 4.6 },
-      { id: 11, name: 'Sora 1.5', image: 'https://img.icons8.com/fluency/48/chatgpt.png', category: 'Video', description: 'OpenAI video üretici. Sinematik kalite.', url: 'https://sora.com', free: false, rating: 4.8 },
-      { id: 12, name: 'Runway Gen-4.5', image: 'https://img.icons8.com/fluency/48/video-play.png', category: 'Video', description: 'Profesyonel video üretici. Karakter tutarlılığı mükemmel.', url: 'https://runwayml.com', free: true, rating: 4.7 },
-      { id: 13, name: 'Kling AI 3.0', image: 'https://img.icons8.com/fluency/48/video-play.png', category: 'Video', description: 'Sinematik gerçekçilik. 2 dakikaya kadar video.', url: 'https://klingai.com', free: true, rating: 4.7 },
-      { id: 14, name: 'Google Veo 3.1', image: 'https://img.icons8.com/fluency/48/google-logo.png', category: 'Video', description: 'Google video AI. 4K çıktı, sinematik kalite.', url: 'https://deepmind.google', free: false, rating: 4.8 },
-      { id: 15, name: 'ElevenLabs', image: 'https://img.icons8.com/fluency/48/microphone.png', category: 'Ses', description: 'Ses klonlama ve TTS lideri. 30 saniye sesle mükemmel klonlama.', url: 'https://elevenlabs.io', free: true, rating: 4.9 },
-      { id: 16, name: 'Suno v4', image: 'https://img.icons8.com/fluency/48/music.png', category: 'Müzik', description: 'Sözlü müzik üretiminde lider. Profesyonel kalite.', url: 'https://suno.ai', free: true, rating: 4.8 },
-      { id: 17, name: 'Udio', image: 'https://img.icons8.com/fluency/48/music.png', category: 'Müzik', description: 'Farklı müzik stillerinde yüksek kalite.', url: 'https://udio.com', free: true, rating: 4.6 },
-      { id: 18, name: 'Cursor', image: 'https://img.icons8.com/fluency/48/code.png', category: 'Geliştirici', description: 'AI destekli en iyi kod editörü. Claude + GPT entegrasyonu.', url: 'https://cursor.sh', free: true, rating: 4.8 },
-      { id: 19, name: 'GitHub Copilot', image: 'https://img.icons8.com/fluency/48/github.png', category: 'Geliştirici', description: 'GitHub AI kod asistanı. Her IDE ile entegre.', url: 'https://github.com/features/copilot', free: false, rating: 4.6 },
-      { id: 20, name: 'Perplexity', image: 'https://img.icons8.com/fluency/48/search.png', category: 'Arama', description: 'AI destekli arama motoru. Gerçek zamanlı web erişimi.', url: 'https://perplexity.ai', free: true, rating: 4.7 },
-      { id: 21, name: 'Manus', image: 'https://img.icons8.com/fluency/48/bot.png', category: 'Ajan', description: 'Otonom AI ajan. Web gezme, kod yazma, dosya yönetimi.', url: 'https://manus.im', free: true, rating: 4.8 },
-      { id: 22, name: 'n8n', image: 'https://img.icons8.com/fluency/48/workflow.png', category: 'Otomasyon', description: 'Açık kaynak AI otomasyon platformu. 400+ entegrasyon.', url: 'https://n8n.io', free: true, rating: 4.7 },
-      { id: 23, name: 'Windsurf', image: 'https://img.icons8.com/fluency/48/code.png', category: 'Geliştirici', description: 'Codeium AI editörü. Cursor rakibi, geniş ücretsiz tier.', url: 'https://codeium.com/windsurf', free: true, rating: 4.6 },
-      { id: 24, name: 'Cartesia', image: 'https://img.icons8.com/fluency/48/speaker.png', category: 'Ses', description: '90ms gecikme ile en hızlı TTS. Voice agent için ideal.', url: 'https://cartesia.ai', free: true, rating: 4.7 },
-      { id: 25, name: 'Nano Banana', image: 'https://img.icons8.com/fluency/48/image.png', category: 'Görüntü', description: 'Hızlı AI görüntü üretici. Referans görüntü desteği.', url: 'https://nanobanana.ai', free: true, rating: 4.5 },
-      { id: 26, name: 'GPT Image 1.5', image: 'https://img.icons8.com/fluency/48/chatgpt.png', category: 'Görüntü', description: 'OpenAI görüntü üretim modeli. Foto-gerçekçi görseller.', url: 'https://chat.openai.com', free: true, rating: 4.8 },
+      { id: 1, name: 'Claude Opus 4.7', image: '🤖', category: 'LLM', description: 'Anthropic en güçlü model. Kod yazma ve analiz lideri.', url: 'https://claude.ai', free: true, rating: 4.9, benchmark: { lmsys: 1506, mmlu: '88.7%', swe_bench: '74.2%', aime: '85%' } },
+      { id: 2, name: 'GPT-5.5', image: '🤖', category: 'LLM', description: 'OpenAI devrim niteliğinde güncelleme. Multimodal.', url: 'https://chat.openai.com', free: false, rating: 4.9, benchmark: { lmsys: 1498, mmlu: '88.2%', swe_bench: '74.9%', aime: '83%' } },
+      { id: 3, name: 'Gemini 3.1 Pro', image: '🔍', category: 'LLM', description: 'Google en güçlü modeli. Artık herkes için ücretsiz.', url: 'https://gemini.google.com', free: true, rating: 4.8, benchmark: { lmsys: 1489, mmlu: '87.9%', swe_bench: '80.6%', aime: '79%' } },
+      { id: 4, name: 'DeepSeek V4', image: '🧠', category: 'LLM', description: 'Çin den gelen açık kaynak devrimi. GPT-4 seviyesi.', url: 'https://chat.deepseek.com', free: true, rating: 4.7, benchmark: { lmsys: 1452, mmlu: '87.1%', swe_bench: '49.2%', aime: '39.2%' } },
+      { id: 5, name: 'Grok 4', image: '𝕏', category: 'LLM', description: 'xAI modeli. Gerçek zamanlı X/Twitter erişimi.', url: 'https://grok.x.ai', free: true, rating: 4.7 },
+      { id: 6, name: 'Midjourney V7', image: '🖼️', category: 'Görüntü', description: 'Sanatsal görüntü üretiminde altın standart.', url: 'https://midjourney.com', free: false, rating: 4.9 },
+      { id: 7, name: 'DALL-E 3', image: '🤖', category: 'Görüntü', description: 'OpenAI görüntü üretici. ChatGPT ile entegre.', url: 'https://chat.openai.com', free: true, rating: 4.7 },
+      { id: 8, name: 'Flux 1.1 Pro', image: '🖼️', category: 'Görüntü', description: 'Gerçekçi fotoğraf kalitesinde görüntüler.', url: 'https://fal.ai', free: false, rating: 4.8 },
+      { id: 9, name: 'Stable Diffusion 3.5', image: '🖼️', category: 'Görüntü', description: 'Açık kaynak görüntü üretici. Yerel çalıştırılabilir.', url: 'https://stability.ai', free: true, rating: 4.4 },
+      { id: 10, name: 'Ideogram 3.0', image: '🖼️', category: 'Görüntü', description: 'Metin içeren görsellerde en iyi. Logo ve poster için ideal.', url: 'https://ideogram.ai', free: true, rating: 4.6 },
+      { id: 11, name: 'Sora 1.5', image: '🤖', category: 'Video', description: 'OpenAI video üretici. Sinematik kalite.', url: 'https://sora.com', free: false, rating: 4.8 },
+      { id: 12, name: 'Runway Gen-4.5', image: '▶️', category: 'Video', description: 'Profesyonel video üretici. Karakter tutarlılığı mükemmel.', url: 'https://runwayml.com', free: true, rating: 4.7 },
+      { id: 13, name: 'Kling AI 3.0', image: '▶️', category: 'Video', description: 'Sinematik gerçekçilik. 2 dakikaya kadar video.', url: 'https://klingai.com', free: true, rating: 4.7 },
+      { id: 14, name: 'Google Veo 3.1', image: '🔍', category: 'Video', description: 'Google video AI. 4K çıktı, sinematik kalite.', url: 'https://deepmind.google', free: false, rating: 4.8 },
+      { id: 15, name: 'ElevenLabs', image: '🎤', category: 'Ses', description: 'Ses klonlama ve TTS lideri. 30 saniye sesle mükemmel klonlama.', url: 'https://elevenlabs.io', free: true, rating: 4.9 },
+      { id: 16, name: 'Suno v4', image: '🎵', category: 'Müzik', description: 'Sözlü müzik üretiminde lider. Profesyonel kalite.', url: 'https://suno.ai', free: true, rating: 4.8 },
+      { id: 17, name: 'Udio', image: '🎵', category: 'Müzik', description: 'Farklı müzik stillerinde yüksek kalite.', url: 'https://udio.com', free: true, rating: 4.6 },
+      { id: 18, name: 'Cursor', image: '💻', category: 'Geliştirici', description: 'AI destekli en iyi kod editörü. Claude + GPT entegrasyonu.', url: 'https://cursor.sh', free: true, rating: 4.8 },
+      { id: 19, name: 'GitHub Copilot', image: '🐙', category: 'Geliştirici', description: 'GitHub AI kod asistanı. Her IDE ile entegre.', url: 'https://github.com/features/copilot', free: false, rating: 4.6 },
+      { id: 20, name: 'Perplexity', image: '🔍', category: 'Arama', description: 'AI destekli arama motoru. Gerçek zamanlı web erişimi.', url: 'https://perplexity.ai', free: true, rating: 4.7 },
+      { id: 21, name: 'Manus', image: '🤖', category: 'Ajan', description: 'Otonom AI ajan. Web gezme, kod yazma, dosya yönetimi.', url: 'https://manus.im', free: true, rating: 4.8 },
+      { id: 22, name: 'n8n', image: '🔄', category: 'Otomasyon', description: 'Açık kaynak AI otomasyon platformu. 400+ entegrasyon.', url: 'https://n8n.io', free: true, rating: 4.7 },
+      { id: 23, name: 'Windsurf', image: '💻', category: 'Geliştirici', description: 'Codeium AI editörü. Cursor rakibi, geniş ücretsiz tier.', url: 'https://codeium.com/windsurf', free: true, rating: 4.6 },
+      { id: 24, name: 'Cartesia', image: '🔊', category: 'Ses', description: '90ms gecikme ile en hızlı TTS. Voice agent için ideal.', url: 'https://cartesia.ai', free: true, rating: 4.7 },
+      { id: 25, name: 'Nano Banana', image: '🖼️', category: 'Görüntü', description: 'Hızlı AI görüntü üretici. Referans görüntü desteği.', url: 'https://nanobanana.ai', free: true, rating: 4.5 },
+      { id: 26, name: 'GPT Image 1.5', image: '🤖', category: 'Görüntü', description: 'OpenAI görüntü üretim modeli. Foto-gerçekçi görseller.', url: 'https://chat.openai.com', free: true, rating: 4.8 },
       { id: 27, name: 'OpenClaw', category: 'Ajan', description: 'Açık kaynak AI agent framework. Claude, GPT, Gemini desteği ile token optimizasyonu (%65 tasarruf), multi-agent orchestration ve caveman mode.', url: 'https://openclaw.ai', free: true, rating: 4.8 },
       { id: 28, name: 'Hermes', category: 'Ajan', description: 'Çoklu model destekli AI asistan platformu. Telegram, Discord ve CLI entegrasyonu. Kalıcı hafıza, cron job, browser araçları ve otomasyon.', url: 'https://github.com/imacverse/hermes', free: true, rating: 4.7 },
     ];
@@ -1952,25 +2175,25 @@ function renderTools(tools) {
 // LEARN
 function loadLearnContent() {
   allLearn = [
-    { category: 'Haberler', emoji: '📰', image: 'https://img.icons8.com/fluency/48/claude.png', title: 'Claude Opus 4.7 Çıktı: İnsanlığı Geride Bırakan Yapay Zeka', summary: 'Anthropic in yeni amiral gemisi modeli tüm benchmarklarda zirveyi aldı. Kod yazma, matematik ve multimodal yeteneklerde devrim.', readTime: '5 dk', content: 'Claude Opus 4.7, Anthropic in en güçlü yapay zeka modeli olarak piyasaya çıktı...' },
-    { category: 'Haberler', emoji: '📰', image: 'https://img.icons8.com/fluency/48/google-logo.png', title: 'Gemini 3.1 Pro: Google ın En Güçlü Modeli Artık Herkes İçin Ücretsiz', summary: 'Google, Gemini 3.1 Pro yu tamamen ücretsiz hale getirdi. 1M token context ve gelişmiş multimodal yetenekler.', readTime: '4 dk', content: 'Google, Gemini 3.1 Pro yu tüm kullanıcılar için ücretsiz olarak sunmaya başladı...' },
-    { category: 'Haberler', emoji: '📰', image: 'https://img.icons8.com/fluency/48/chatgpt.png', title: 'GPT-5.5 Tanıtıldı: OpenAI den Devrim Niteliğinde Güncelleme', summary: 'OpenAI, GPT-5.5 ile yapay zeka dünyasında çıtayı yükseltiyor. 1M token context ve agent yetenekleri.', readTime: '6 dk', content: 'OpenAI, GPT-5.5 i duyurdu. Yeni model, 1 milyon token context window ile geliyor...' },
-    { category: 'Haberler', emoji: '📰', image: 'https://img.icons8.com/fluency/48/artificial-intelligence.png', title: 'DeepSeek V4: Çin den Gelen Açık Kaynak Devrimi', summary: 'DeepSeek V4, açık kaynak dünyasında devrim yarattı. GPT-4.5 seviyesinde performans, tamamen ücretsiz.', readTime: '5 dk', content: 'DeepSeek, V4 modeliyle yapay zeka arena sında büyük bir sürpriz yaptı...' },
-    { category: 'Araştırma', emoji: '🔬', image: 'https://img.icons8.com/fluency/96/artificial-intelligence.png', title: 'AI Agent lar 2026 da İş Gücünü Nasıl Değiştirecek?', summary: 'Otonom AI agentların iş dünyasına etkileri, hangi mesleklerin dönüşeceği ve yeni fırsatlar.', readTime: '12 dk', content: 'AI agentlar, 2026 da iş gücünü temelden dönüştürmeye başlıyor...' },
-    { category: 'Haberler', emoji: '📰', image: 'https://img.icons8.com/fluency/48/artificial-intelligence.png', title: 'Mistral Large 3: Avrupa nın İlk Trilyon Parametreli Modeli', summary: 'Fransız AI şirketi Mistral, trilyon parametreli yeni modeli Large 3 ü duyurdu.', readTime: '4 dk', content: 'Mistral, Avrupa nın en güçlü yapay zeka modeli olarak Mistral Large 3 ü tanıttı...' },
-    { category: 'Agent', emoji: '🕹️', image: 'https://img.icons8.com/fluency/48/cyber-security.png', title: 'OpenClaw: Açık Kaynak AI Agent Framework ü Token Gider %65 Azaltıyor', summary: 'OpenClaw, context pruning ve caveman mode ile GPT-4 maliyetini %65 düşürüyor. Claude, GPT, Gemini desteği ile Türkiye de yaygın kullanım.', readTime: '5 dk', content: 'OpenClaw, açık kaynak AI agent framework olarak dikkat çekiyor...' },
-    { category: 'Agent', emoji: '🤖', image: 'https://img.icons8.com/fluency/48/artificial-intelligence.png', title: 'Hermes Agent: Türkiye den Çoklu Model Destekli AI Asistan', summary: 'Hermes, Telegram, Discord, browser araçları ile entegre çalışıyor. Cron job, session yönetimi ve uzun hafıza özellikleriyle öne çıkıyor.', readTime: '4 dk', content: 'Hermes, çoklu model desteği ve güçlü araç entegrasyonlarıyla AI asistan deneyimini üst seviyeye taşıyor...' },
-    { category: 'Başlangıç', emoji: '🌱', image: 'https://img.icons8.com/fluency/96/baby-face.png', title: 'AI e Yeni Başlayanlar İçin Tam Rehber 2026', summary: 'Yapay zekaya sıfırdan başlamak isteyenler için adım adım rehber. Temel kavramlar, araçlar ve ilk projeler.', readTime: '15 dk', content: 'Yapay zeka dünyasına adım atmak hiç bu kadar kolay olmamıştı...' },
-    { category: 'Para Kazanma', emoji: '💰', image: 'https://img.icons8.com/fluency/96/money-bag.png', title: 'Yapay Zeka ile Para Kazanma: 15 Kanıtlanmış Yol', summary: 'Freelance yazılım, içerik üretimi, AI ajan kiralama ve daha fazlası. Her seviyeye uygun stratejiler.', readTime: '20 dk', content: 'AI ile para kazanmak artık sadece büyük şirketlerin tekelinde değil...' },
-    { category: 'İleri Seviye', emoji: '🚀', image: 'https://img.icons8.com/fluency/96/rocket.png', title: 'RAG (Retrieval Augmented Generation) Neden Önemli?', summary: 'Kurumsal verilerle AI kullanmanın en etkili yolu. RAG mimarisi, vektör veritabanları ve best practice ler.', readTime: '10 dk', content: 'RAG, kurumsal AI uygulamalarının temel taşı haline geldi...' },
-    { category: 'Kıyaslama', emoji: '📊', image: 'https://img.icons8.com/fluency/96/combo-chart.png', title: 'LLM Benchmark Rehberi: MMLU, SWE-bench ve Ötesi', summary: 'Model karşılaştırma metrikleri ne anlama geliyor? Hangi benchmark hangi yeteneği ölçüyor?', readTime: '8 dk', content: 'LLM benchmarkları, modellerin gerçek dünyadaki performansını anlamak için kritik...' },
-    { category: 'Otomasyon', emoji: '⚡', image: 'https://img.icons8.com/fluency/96/automation.png', title: 'AI Otomasyon ile İş Akışlarını Hızlandırma', summary: 'n8n, Make ve özel AI agentları ile tekrarlayan işleri otomatikleştirme. Gerçek dünya örnekleri.', readTime: '12 dk', content: 'AI otomasyon, iş dünyasında devrim yaratıyor...' },
-    { category: 'Başlangıç', emoji: '🌱', image: 'https://img.icons8.com/fluency/96/chat.png', title: 'Prompt Mühendisliği 101: Etkili Prompt Yazma Sanatı', summary: 'AI dan en iyi sonucu almak için prompt yazma teknikleri. CoT, few-shot, role-playing ve daha fazlası.', readTime: '10 dk', content: 'Prompt mühendisliği, AI ile çalışmanın en temel becerisi...' },
-    { category: 'Para Kazanma', emoji: '💰', image: 'https://img.icons8.com/fluency/96/online-store.png', title: 'AI ile SaaS Ürünü Oluşturma: Sıfırdan Lansmana', summary: 'AI tabanlı bir SaaS ürünü nasıl oluşturulur? Fikir, MVP, pazar doğrulama ve büyüme stratejileri.', readTime: '18 dk', content: 'AI tabanlı SaaS ürünleri, 2026 nın en kârlı girişim alanlarından...' },
-    { category: 'İleri Seviye', emoji: '🚀', image: 'https://img.icons8.com/fluency/96/artificial-intelligence.png', title: 'Fine-Tuning vs RAG: Hangi Yöntemi Ne Zaman Kullanmalı?', summary: 'Model ince ayarı mı, RAG mı? Her yaklaşımın avantajları, maliyetleri ve kullanım senaryoları.', readTime: '12 dk', content: 'Kurumsal AI projelerinde en sık sorulan sorulardan biri...' },
-    { category: 'Kıyaslama', emoji: '📊', image: 'https://img.icons8.com/fluency/96/cpu.png', title: 'Açık Kaynak vs Kapalı Kaynak AI Modelleri: 2026 Karşılaştırması', summary: 'Open source ve proprietary modellerin maliyet, performans ve güvenlik karşılaştırması.', readTime: '10 dk', content: 'Açık kaynak AI modelleri, kapalı kaynak rakiplerine karşı giderek daha rekabetçi hale geliyor...' },
-    { category: 'Otomasyon', emoji: '⚡', image: 'https://img.icons8.com/fluency/96/workflow.png', title: 'Multi-Agent Sistemleri: AI Agentları Birlikte Çalıştırma', summary: 'CrewAI, AutoGen ve AutoGPT ile birden fazla AI agentı koordine etme. Gerçek dünya mimarileri.', readTime: '14 dk', content: 'Multi-agent sistemler, karmaşık görevleri paralel ve koordineli şekilde çözmek için...' },
-    { category: 'Para Kazanma', emoji: '💰', image: 'https://img.icons8.com/fluency/96/freelance.png', title: 'Freelance AI Geliştirici Olmak: Başlangıç Rehberi', summary: 'Upwork ve Fiverr da AI projeleri almak, fiyatlandırma stratejileri ve portföy oluşturma.', readTime: '15 dk', content: 'Freelance AI geliştiriciler, 2026 da en çok aranan profesyoneller arasında...' },
+    { category: 'Haberler', emoji: '📰', image: '🤖', title: 'Claude Opus 4.7 Çıktı: İnsanlığı Geride Bırakan Yapay Zeka', summary: 'Anthropic in yeni amiral gemisi modeli tüm benchmarklarda zirveyi aldı. Kod yazma, matematik ve multimodal yeteneklerde devrim.', readTime: '5 dk', content: 'Claude Opus 4.7, Anthropic in en güçlü yapay zeka modeli olarak piyasaya çıktı...' },
+    { category: 'Haberler', emoji: '📰', image: '🔍', title: 'Gemini 3.1 Pro: Google ın En Güçlü Modeli Artık Herkes İçin Ücretsiz', summary: 'Google, Gemini 3.1 Pro yu tamamen ücretsiz hale getirdi. 1M token context ve gelişmiş multimodal yetenekler.', readTime: '4 dk', content: 'Google, Gemini 3.1 Pro yu tüm kullanıcılar için ücretsiz olarak sunmaya başladı...' },
+    { category: 'Haberler', emoji: '📰', image: '🤖', title: 'GPT-5.5 Tanıtıldı: OpenAI den Devrim Niteliğinde Güncelleme', summary: 'OpenAI, GPT-5.5 ile yapay zeka dünyasında çıtayı yükseltiyor. 1M token context ve agent yetenekleri.', readTime: '6 dk', content: 'OpenAI, GPT-5.5 i duyurdu. Yeni model, 1 milyon token context window ile geliyor...' },
+    { category: 'Haberler', emoji: '📰', image: '🧠', title: 'DeepSeek V4: Çin den Gelen Açık Kaynak Devrimi', summary: 'DeepSeek V4, açık kaynak dünyasında devrim yarattı. GPT-4.5 seviyesinde performans, tamamen ücretsiz.', readTime: '5 dk', content: 'DeepSeek, V4 modeliyle yapay zeka arena sında büyük bir sürpriz yaptı...' },
+    { category: 'Araştırma', emoji: '🔬', image: '🧠', title: 'AI Agent lar 2026 da İş Gücünü Nasıl Değiştirecek?', summary: 'Otonom AI agentların iş dünyasına etkileri, hangi mesleklerin dönüşeceği ve yeni fırsatlar.', readTime: '12 dk', content: 'AI agentlar, 2026 da iş gücünü temelden dönüştürmeye başlıyor...' },
+    { category: 'Haberler', emoji: '📰', image: '🧠', title: 'Mistral Large 3: Avrupa nın İlk Trilyon Parametreli Modeli', summary: 'Fransız AI şirketi Mistral, trilyon parametreli yeni modeli Large 3 ü duyurdu.', readTime: '4 dk', content: 'Mistral, Avrupa nın en güçlü yapay zeka modeli olarak Mistral Large 3 ü tanıttı...' },
+    { category: 'Agent', emoji: '🕹️', image: '🔒', title: 'OpenClaw: Açık Kaynak AI Agent Framework ü Token Gider %65 Azaltıyor', summary: 'OpenClaw, context pruning ve caveman mode ile GPT-4 maliyetini %65 düşürüyor. Claude, GPT, Gemini desteği ile Türkiye de yaygın kullanım.', readTime: '5 dk', content: 'OpenClaw, açık kaynak AI agent framework olarak dikkat çekiyor...' },
+    { category: 'Agent', emoji: '🤖', image: '🧠', title: 'Hermes Agent: Türkiye den Çoklu Model Destekli AI Asistan', summary: 'Hermes, Telegram, Discord, browser araçları ile entegre çalışıyor. Cron job, session yönetimi ve uzun hafıza özellikleriyle öne çıkıyor.', readTime: '4 dk', content: 'Hermes, çoklu model desteği ve güçlü araç entegrasyonlarıyla AI asistan deneyimini üst seviyeye taşıyor...' },
+    { category: 'Başlangıç', emoji: '🌱', image: '👶', title: 'AI e Yeni Başlayanlar İçin Tam Rehber 2026', summary: 'Yapay zekaya sıfırdan başlamak isteyenler için adım adım rehber. Temel kavramlar, araçlar ve ilk projeler.', readTime: '15 dk', content: 'Yapay zeka dünyasına adım atmak hiç bu kadar kolay olmamıştı...' },
+    { category: 'Para Kazanma', emoji: '💰', image: '💰', title: 'Yapay Zeka ile Para Kazanma: 15 Kanıtlanmış Yol', summary: 'Freelance yazılım, içerik üretimi, AI ajan kiralama ve daha fazlası. Her seviyeye uygun stratejiler.', readTime: '20 dk', content: 'AI ile para kazanmak artık sadece büyük şirketlerin tekelinde değil...' },
+    { category: 'İleri Seviye', emoji: '🚀', image: '🚀', title: 'RAG (Retrieval Augmented Generation) Neden Önemli?', summary: 'Kurumsal verilerle AI kullanmanın en etkili yolu. RAG mimarisi, vektör veritabanları ve best practice ler.', readTime: '10 dk', content: 'RAG, kurumsal AI uygulamalarının temel taşı haline geldi...' },
+    { category: 'Kıyaslama', emoji: '📊', image: '📊', title: 'LLM Benchmark Rehberi: MMLU, SWE-bench ve Ötesi', summary: 'Model karşılaştırma metrikleri ne anlama geliyor? Hangi benchmark hangi yeteneği ölçüyor?', readTime: '8 dk', content: 'LLM benchmarkları, modellerin gerçek dünyadaki performansını anlamak için kritik...' },
+    { category: 'Otomasyon', emoji: '⚡', image: '⚙️', title: 'AI Otomasyon ile İş Akışlarını Hızlandırma', summary: 'n8n, Make ve özel AI agentları ile tekrarlayan işleri otomatikleştirme. Gerçek dünya örnekleri.', readTime: '12 dk', content: 'AI otomasyon, iş dünyasında devrim yaratıyor...' },
+    { category: 'Başlangıç', emoji: '🌱', image: '💬', title: 'Prompt Mühendisliği 101: Etkili Prompt Yazma Sanatı', summary: 'AI dan en iyi sonucu almak için prompt yazma teknikleri. CoT, few-shot, role-playing ve daha fazlası.', readTime: '10 dk', content: 'Prompt mühendisliği, AI ile çalışmanın en temel becerisi...' },
+    { category: 'Para Kazanma', emoji: '💰', image: '🏪', title: 'AI ile SaaS Ürünü Oluşturma: Sıfırdan Lansmana', summary: 'AI tabanlı bir SaaS ürünü nasıl oluşturulur? Fikir, MVP, pazar doğrulama ve büyüme stratejileri.', readTime: '18 dk', content: 'AI tabanlı SaaS ürünleri, 2026 nın en kârlı girişim alanlarından...' },
+    { category: 'İleri Seviye', emoji: '🚀', image: '🧠', title: 'Fine-Tuning vs RAG: Hangi Yöntemi Ne Zaman Kullanmalı?', summary: 'Model ince ayarı mı, RAG mı? Her yaklaşımın avantajları, maliyetleri ve kullanım senaryoları.', readTime: '12 dk', content: 'Kurumsal AI projelerinde en sık sorulan sorulardan biri...' },
+    { category: 'Kıyaslama', emoji: '📊', image: '🖥️', title: 'Açık Kaynak vs Kapalı Kaynak AI Modelleri: 2026 Karşılaştırması', summary: 'Open source ve proprietary modellerin maliyet, performans ve güvenlik karşılaştırması.', readTime: '10 dk', content: 'Açık kaynak AI modelleri, kapalı kaynak rakiplerine karşı giderek daha rekabetçi hale geliyor...' },
+    { category: 'Otomasyon', emoji: '⚡', image: '🔄', title: 'Multi-Agent Sistemleri: AI Agentları Birlikte Çalıştırma', summary: 'CrewAI, AutoGen ve AutoGPT ile birden fazla AI agentı koordine etme. Gerçek dünya mimarileri.', readTime: '14 dk', content: 'Multi-agent sistemler, karmaşık görevleri paralel ve koordineli şekilde çözmek için...' },
+    { category: 'Para Kazanma', emoji: '💰', image: '💼', title: 'Freelance AI Geliştirici Olmak: Başlangıç Rehberi', summary: 'Upwork ve Fiverr da AI projeleri almak, fiyatlandırma stratejileri ve portföy oluşturma.', readTime: '15 dk', content: 'Freelance AI geliştiriciler, 2026 da en çok aranan profesyoneller arasında...' },
   ];
   renderLearn(allLearn);
 }
