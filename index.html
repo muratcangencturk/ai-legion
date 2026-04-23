@@ -59,14 +59,14 @@
     .logo{display:flex;align-items:center;gap:10px;font-size:17px;font-weight:800;color:var(--gold);letter-spacing:2px;text-decoration:none;cursor:pointer}
     .logo-icon{width:44px;height:44px;border-radius:50%;border:2px solid var(--gold);overflow:hidden;box-shadow:0 0 20px rgba(201,168,76,0.3);background:var(--bg2)}
     .logo-icon img{width:100%;height:100%;object-fit:cover}
-    .nav-links{display:flex;gap:2px;flex-wrap:wrap}
+    .nav-links{display:flex;gap:1px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none}
     .hamburger-menu{display:none;background:none;border:none;color:var(--text);font-size:24px;cursor:pointer}
     .mobile-nav{display:none;position:fixed;top:58px;left:0;right:0;bottom:0;background:rgba(10,10,10,0.98);backdrop-filter:blur(20px);z-index:99;padding:16px;overflow-y:auto;animation:slideDown 0.2s ease}
     @keyframes slideDown{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
     .mobile-nav.open{display:block}
     .mobile-nav .nav-btn{display:block;width:100%;text-align:left;padding:14px 16px;font-size:15px;border-radius:10px;margin-bottom:4px}
-    .nav-btn{background:none;border:none;color:var(--text2);padding:8px 12px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;transition:all 0.2s;white-space:nowrap}
-    .nav-btn:hover,.nav-btn.active{background:var(--bg3);color:var(--gold)}
+    .nav-btn{background:none;border:none;color:var(--text2);padding:6px 8px;border-radius:7px;cursor:pointer;font-size:12px;font-weight:500;transition:all 0.2s;white-space:nowrap}
+    .nav-btn:hover,.nav-btn.active{background:var(--bg3);color:var(--gold)}.nav-links::-webkit-scrollbar{display:none}
     .nav-right{display:flex;align-items:center;gap:8px}
     .btn{padding:7px 16px;border-radius:20px;border:none;cursor:pointer;font-size:13px;font-weight:600;transition:all 0.2s}
     .btn-gold{background:var(--gold);color:#000}
@@ -164,7 +164,7 @@
     
     /* ARTICLE CARD */
     .article-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;overflow:hidden;cursor:pointer;transition:all 0.3s;box-shadow:0 4px 16px rgba(0,0,0,0.2)}
-    .article-card:hover{border-color:var(--gold);transform:translateY(-4px);box-shadow:0 12px 40px rgba(201,168,76,0.2)}
+    .article-card:hover{border-color:var(--gold);transform:translateY(-4px);box-shadow:0 12px 40px rgba(201,168,76,0.2)}.article-body .article-summary{color:#ccc;font-size:14px}.article-body .article-title{color:#f0f0f0;font-size:16px;font-weight:700}.article-body .article-meta{color:#999;font-size:12px}
     .article-img{width:100%;height:100%;object-fit:cover;display:block}
     .article-img-placeholder{width:100%;height:160px;background:linear-gradient(135deg,var(--red) 0%,var(--bg3) 100%);display:flex;align-items:center;justify-content:center;font-size:40px;overflow:hidden}.article-img-placeholder img{width:100%;height:100%;object-fit:cover;display:block}
     .article-body{padding:14px}
@@ -438,12 +438,12 @@
 <!-- NAVBAR -->
 <nav>
   <div class="logo" onclick="showPage('home')">
-    <div class="logo-icon"><span style="font-size:28px;display:flex;align-items:center;justify-content:center;width:100%;height:100%">🧠</span></div>
+    <div class="logo-icon"><img src="https://img.icons8.com/fluency/48/artificial-intelligence.png" alt="AI Legion" onerror="this.outerHTML='🤖'"></div>
     AI LEGION
   </div>
   <div class="nav-links" id="nav-links">
-    <button class="nav-btn active" onclick="showPage('discover')">🔍 Keşfet</button>
-    <button class="nav-btn" onclick="showPage('home')">🏠 Haberler</button>
+    <button class="nav-btn active" onclick="showPage('home')">🏠 Haberler</button>
+    <button class="nav-btn" onclick="showPage('discover')">🔍 Keşfet</button>
     <button class="nav-btn" onclick="showPage('social')">💬 Sosyal</button>
     <button class="nav-btn" onclick="showPage('models')">🏆 Modeller</button>
     <button class="nav-btn" onclick="showPage('tools')">🛠️ Araçlar</button>
@@ -456,8 +456,8 @@
   
   <button class="hamburger-menu" id="hamburger-btn" onclick="toggleNav()">☰</button>
   <div class="mobile-nav" id="mobile-nav">
-    <button class="nav-btn active" onclick="showPage('discover');closeNav()">🔍 Keşfet</button>
-    <button class="nav-btn" onclick="showPage('home');closeNav()">🏠 Haberler</button>
+    <button class="nav-btn active" onclick="showPage('home');closeNav()">🏠 Haberler</button>
+    <button class="nav-btn" onclick="showPage('discover');closeNav()">🔍 Keşfet</button>
     <button class="nav-btn" onclick="showPage('social');closeNav()">💬 Sosyal</button>
     <button class="nav-btn" onclick="showPage('models');closeNav()">🏆 Modeller</button>
     <button class="nav-btn" onclick="showPage('tools');closeNav()">🛠️ Araçlar</button>
@@ -489,7 +489,7 @@
   <div class="main">
 
     <!-- HOME / HABERLER -->
-    <div class="page active" id="page-discover">
+    <div class="page" id="page-discover">
       <div class="discover-welcome">
         <h2>🔍 AI Legion Keşfet</h2>
         <p>Yapay zeka dünyasının en güncel içerikleri tek bir akışta. Haberler, postlar, araçlar, videolar ve daha fazlası...</p>
@@ -497,7 +497,7 @@
       <div id="discover-feed" class="discover-feed"><div class="loading"><div class="spinner"></div></div></div>
     </div>
 
-    <div class="page" id="page-home">
+    <div class="page active" id="page-home">
       <div id="article-detail-view" style="display:none"></div>
       <div id="articles-list-view">
         <div class="section-header">
@@ -1425,7 +1425,7 @@ async function loadArticles() {
       html += '<div class="news-grid">';
       rest.forEach(a => {
         html += `<div class="article-card" onclick="showArticle(${JSON.stringify(a).replace(/"/g,'&quot;')})">
-          <div class="article-img-placeholder" style="background:${gradients[(a.id || 0) % gradients.length]}">${a.image_url ? `<img src="${a.image_url}" class="article-img" onerror="this.parentElement.innerHTML='📰'" loading="lazy">` : '📰'}</div>
+          <div class="article-img-placeholder" style="background:${gradients[(a.id || 0) % gradients.length]}">${a.image_url ? `<img src="${a.image_url}" class="article-img" onerror="this.style.display='none';this.nextElementSibling?.style?.removeProperty&&this.nextElementSibling||(this.parentElement.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;font-size:32px;height:100%\'>📰</div>')" loading="lazy">` : '<div style=\'display:flex;align-items:center;justify-content:center;font-size:32px;height:100%\'>📰</div>'}</div>
           <div class="article-body">
             <div class="article-title">${a.title}</div>
             <div class="article-summary">${a.summary || (a.content || '').substring(0, 120) + '...'}</div>
@@ -1885,16 +1885,16 @@ function runArenaComparison() {
   html += '<div style="display:flex;flex-direction:column;gap:12px">';
   metrics.forEach(m => {
     const lVal = left[m.key], rVal = right[m.key];
-    const lPct = Math.round((lVal / maxVal[m.key]) * 100);
-    const rPct = Math.round((rVal / maxVal[m.key]) * 100);
-    const lWin = m.high ? lVal > rVal : lVal < rVal;
-    const rWin = m.high ? rVal > lVal : rVal < lVal;
-    html += '<div>';
-    html += '<div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><span class="arena-left">Sol: ' + lVal + '</span><span style="color:var(--text2)">' + m.label + '</span><span class="arena-right">Sağ: ' + rVal + '</span></div>';
-    html += '<div style="position:relative;height:24px;background:var(--bg3);border-radius:12px;overflow:hidden">';
-    html += '<div style="position:absolute;left:0;top:0;height:100%;width:' + lPct + '%;background:linear-gradient(90deg,var(--arena-left,#e0245e),#ff4466);border-radius:12px 0 0 12px"></div>';
-    html += '<div style="position:absolute;right:0;top:0;height:100%;width:' + rPct + '%;background:linear-gradient(90deg,#3399ff,var(--arena-right,#1da1f2));border-radius:0 12px 12px 0"></div>';
-    html += '<div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:10px;font-weight:700;color:#fff;background:var(--bg);padding:2px 8px;border-radius:10px">vs</div>';
+    const lPct = Math.max(5, Math.round((lVal / maxVal[m.key]) * 100));
+    const rPct = Math.max(5, Math.round((rVal / maxVal[m.key]) * 100));
+    const winner = m.high ? (lVal > rVal ? 'left' : lVal < rVal ? 'right' : 'tie') : (lVal < rVal ? 'left' : lVal > rVal ? 'right' : 'tie');
+    const lGlow = winner === 'left' ? '0 0 12px rgba(224,36,94,0.6)' : 'none';
+    const rGlow = winner === 'right' ? '0 0 12px rgba(29,161,242,0.6)' : 'none';
+    html += '<div style="margin-bottom:8px">';
+    html += '<div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px"><span style="color:#e0245e;font-weight:' + (winner==='left'?'800':'500') + ';font-size:13px">' + lVal + '</span><span style="color:var(--text2);font-size:11px">' + m.label + '</span><span style="color:#1da1f2;font-weight:' + (winner==='right'?'800':'500') + ';font-size:13px">' + rVal + '</span></div>';
+    html += '<div style="display:flex;gap:4px;height:20px">';
+    html += '<div style="flex:' + lPct + ';background:linear-gradient(90deg,#e0245e,#ff4466);border-radius:10px 4px 4px 10px;box-shadow:' + lGlow + ';min-width:8px;display:flex;align-items:center;justify-content:flex-end;padding-right:6px;font-size:9px;font-weight:700;color:#fff">' + (winner==='left'?'👑':'') + '</div>';
+    html += '<div style="flex:' + rPct + ';background:linear-gradient(90deg,#3399ff,#1da1f2);border-radius:4px 10px 10px 4px;box-shadow:' + rGlow + ';min-width:8px;display:flex;align-items:center;justify-content:flex-start;padding-left:6px;font-size:9px;font-weight:700;color:#fff">' + (winner==='right'?'👑':'') + '</div>';
     html += '</div></div>';
   });
   html += '</div></div>';
@@ -1962,7 +1962,7 @@ function renderVideos(items) {
     const safeTitle = v.title.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
     return '<div class="video-card" data-vidx="' + idx + '">' +
       '<div class="video-thumb">' +
-        '<span style="font-size:48px;display:flex;align-items:center;justify-content:center;width:100%;height:100%;background:var(--bg3)">' + v.thumb + '</span>' +
+        (v.thumb && v.thumb.startsWith('http') ? '<img src="' + v.thumb + '" alt="" style="width:100%;height:100%;object-fit:cover" onerror="handleImgError(this)" loading="lazy">' : '<span style="font-size:48px;display:flex;align-items:center;justify-content:center;width:100%;height:100%;background:var(--bg3)">' + (v.thumb || '🎬') + '</span>') +
         '<div class="video-play-btn">' + playIcon + '</div>' +
         '<div class="video-duration">' + v.duration + '</div>' +
       '</div>' +
@@ -2228,7 +2228,7 @@ function renderLearn(items) {
       const dataAttr = btoa(unescape(encodeURIComponent(JSON.stringify(a))));
       return `
     <div class="article-card" onclick="showLearnArticle(this)" data-article="${dataAttr}" style="cursor:pointer">
-      <div class="article-img-placeholder">${a.image ? '<img src="'+a.image+'" class="article-img" onerror="this.parentElement.innerHTML=\'📚\'" loading="lazy">' : (a.emoji || '📚')}</div>
+      <div class="article-img-placeholder" style="background:${gradients[(a.id || 0) % gradients.length]}">${a.emoji || '📚'}</div>
       <div class="article-body">
         <div class="article-title">${a.title}</div>
         <div class="article-summary">${a.summary}</div>
