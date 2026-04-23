@@ -1168,7 +1168,7 @@ function applyNavConfig() {
   const mobileNav = document.getElementById('mobile-nav');
   navLinks.innerHTML = '';
   // Build mobile nav buttons (keeping auth sections)
-  let mobileHTML = '';
+  let mobileHTML = '<button class="mobile-close" onclick="closeNav()" aria-label="Menüyü kapat">✕</button>';
   navConfig.forEach(item => {
     if (item.visible) {
       const btn = `<button class="nav-btn" onclick="showPage('${item.id}')">${item.label}</button>`;
