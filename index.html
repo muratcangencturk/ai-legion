@@ -61,10 +61,14 @@
     .logo-icon img{width:100%;height:100%;object-fit:cover}
     .nav-links{display:flex;gap:1px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none}
     .hamburger-menu{display:none;background:none;border:none;color:var(--text);font-size:24px;cursor:pointer}
-    .mobile-nav{display:none;position:fixed;top:58px;left:0;right:0;bottom:0;background:rgba(10,10,10,0.98);backdrop-filter:blur(20px);z-index:99;padding:16px;overflow-y:auto;animation:slideDown 0.2s ease}
-    @keyframes slideDown{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
-    .mobile-nav.open{display:block}
-    .mobile-nav .nav-btn{display:block;width:100%;text-align:left;padding:14px 16px;font-size:15px;border-radius:10px;margin-bottom:4px}
+    .mobile-nav{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(10,10,10,0.98);backdrop-filter:blur(20px);z-index:200;padding:60px 20px 20px;overflow-y:auto;animation:mobileSlideIn 0.25s ease}
+    @keyframes mobileSlideIn{from{opacity:0;transform:translateX(-20px)}to{opacity:1;transform:translateX(0)}}
+    .mobile-nav.open{display:flex;flex-direction:column;gap:4px}
+    .mobile-nav .nav-btn{display:block;width:100%;text-align:left;padding:16px 20px;font-size:17px;border-radius:12px;margin-bottom:2px;background:var(--bg2);color:var(--text);border:1px solid transparent;transition:all 0.15s}
+    .mobile-nav .nav-btn:hover,.mobile-nav .nav-btn.active{background:var(--bg3);color:var(--gold);border-color:var(--gold);transform:translateX(4px)}
+    .mobile-nav .mobile-close{position:absolute;top:16px;right:16px;background:none;border:none;color:var(--text);font-size:28px;cursor:pointer;width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:background 0.2s}
+    .mobile-nav .mobile-close:hover{background:var(--bg3)}
+    .mobile-nav .mobile-section-title{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:1.5px;margin-top:12px;margin-bottom:4px;padding-left:4px}
     .nav-btn{background:none;border:none;color:var(--text2);padding:6px 8px;border-radius:7px;cursor:pointer;font-size:12px;font-weight:500;transition:all 0.2s;white-space:nowrap}
     .nav-btn:hover,.nav-btn.active{background:var(--bg3);color:var(--gold)}.nav-links::-webkit-scrollbar{display:none}
     .nav-right{display:flex;align-items:center;gap:8px}
@@ -152,7 +156,11 @@
     .sidebar-divider{height:1px;background:var(--border);margin:4px 0}
     
     /* PAGES */
-    .page{display:none}.page.active{display:block}
+    /* PAGE TRANSITIONS */
+    .page {display:none;opacity:0;transform:translateY(8px);transition:opacity 0.25s ease,transform 0.25s ease}
+    .page.active{display:block;opacity:1;transform:translateY(0)}
+    .page.fade-in{animation:fadeInPage 0.25s ease forwards}
+    @keyframes fadeInPage{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
     
     /* SECTION HEADER */
     .section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
@@ -168,7 +176,12 @@
     .article-img{width:100%;height:100%;object-fit:cover;display:block}
     .article-img-placeholder{width:100%;height:160px;background:linear-gradient(135deg,var(--red) 0%,var(--bg3) 100%);display:flex;align-items:center;justify-content:center;font-size:40px;overflow:hidden}.article-img-placeholder img{width:100%;height:100%;object-fit:cover;display:block}
     .article-body{padding:14px}
-    .article-detail-img{width:100%;max-height:400px;object-fit:cover;border-radius:12px;margin-bottom:16px}
+    .article-detail{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:28px;margin-top:12px;box-shadow:0 4px 20px rgba(0,0,0,0.15)}
+    .article-detail h1{font-size:24px;font-weight:800;color:var(--article-h1-color,var(--gold));line-height:1.3;margin-bottom:12px}
+    .article-detail .content{font-size:17px;line-height:1.8;color:var(--article-text-color,var(--text))}
+    .article-detail .content p{margin-bottom:16px}
+    .article-detail-img{width:100%;max-height:400px;object-fit:cover;border-radius:12px;margin-bottom:20px}
+    @media(max-width:768px){.article-detail{padding:16px}.article-detail h1{font-size:20px}.article-detail .content{font-size:15px}}
     .article-title{font-size:15px;font-weight:700;margin-bottom:6px;color:var(--text);line-height:1.4}
     .article-summary{color:var(--text2);font-size:13px;line-height:1.5}
     .article-meta{display:flex;justify-content:space-between;margin-top:10px;font-size:11px;color:var(--text3)}
@@ -182,7 +195,7 @@
     .featured-main .featured-overlay .article-title{font-size:20px;font-weight:800;line-height:1.3;margin-bottom:4px;color:#fff}
     .featured-side .featured-overlay .article-title{font-size:14px;font-weight:700;line-height:1.3;color:#fff}
     .featured-overlay .article-meta{color:rgba(255,255,255,0.7)}
-    .news-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+    .news-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-top:8px}
     @media(max-width:768px){
       .featured-news{grid-template-columns:1fr;gap:10px}
       .featured-main{min-height:240px;grid-row:auto}
@@ -377,22 +390,52 @@
 
     /* LIGHT THEME */
     [data-theme="light"] {
-      --bg:#f5f0e8;--bg2:#ece6d8;--bg3:#e0d8c8;--bg4:#d5cbb8;
-      --gold:#8a6a1a;--gold2:#a07a2a;--gold3:#c09030;
-      --red:#c42020;--red2:#d83030;--red3:#e84040;
-      --text:#1a1a1a;--text2:#4a4438;--text3:#7a7060;
-      --border:#d0c8b8;--border2:#c0b8a8;
-      --green:#2d8a2d;--green2:#3da03d;
-      --blue:#2a5a9a;--blue2:#3a70b0;
+      --bg:#f8f9fa;--bg2:#ffffff;--bg3:#f1f3f5;--bg4:#e9ecef;
+      --gold:#b8860b;--gold2:#d4a017;--gold3:#e8b830;
+      --red:#c0392b;--red2:#d44030;--red3:#e74c3c;
+      --text:#2c3e50;--text2:#5a6c7d;--text3:#8899aa;
+      --border:#dee2e6;--border2:#ced4da;
+      --green:#27ae60;--green2:#2ecc71;
+      --blue:#2980b9;--blue2:#3498db;
+      --article-text-color:#2c3e50;--article-h1-color:#1a252f;
     }
-    [data-theme="light"] nav { background: rgba(245,240,232,0.95) !important; }
-    [data-theme="light"] .mobile-nav { background: rgba(245,240,232,0.98) !important; }
-    [data-theme="light"] .modal { background: var(--bg2); }
-    [data-theme="light"] .modal-overlay { background: rgba(0,0,0,0.5); }
-    [data-theme="light"] .article-detail .content { color: var(--text) !important; }
-    [data-theme="light"] .article-detail h1 { color: var(--text) !important; }
-    [data-theme="light"] .post-content { color: var(--text2) !important; }
-  .icon-fallback { filter: none; }
+    [data-theme="light"] nav { background: rgba(255,255,255,0.97) !important; border-bottom: 1px solid #e0e0e0 !important; }
+    [data-theme="light"] .mobile-nav { background: rgba(255,255,255,0.98) !important; }
+    [data-theme="light"] .card, [data-theme="light"] .article-card, [data-theme="light"] .tool-card, [data-theme="light"] .prompt-card, [data-theme="light"] .video-card, [data-theme="light"] .post { background: #ffffff !important; border-color: #e0e0e0 !important; box-shadow: 0 2px 12px rgba(0,0,0,0.06) !important; }
+    [data-theme="light"] .card:hover, [data-theme="light"] .article-card:hover, [data-theme="light"] .tool-card:hover { border-color: var(--gold) !important; box-shadow: 0 8px 24px rgba(184,134,11,0.12) !important; }
+    [data-theme="light"] .nav-btn { color: #5a6c7d !important; }
+    [data-theme="light"] .nav-btn:hover, [data-theme="light"] .nav-btn.active { background: #f1f3f5 !important; color: #b8860b !important; }
+    [data-theme="light"] .modal { background: #ffffff !important; }
+    [data-theme="light"] .modal-overlay { background: rgba(0,0,0,0.4) !important; }
+    [data-theme="light"] .article-detail .content { color: #2c3e50 !important; font-size: 16px !important; line-height: 1.7 !important; }
+    [data-theme="light"] .article-detail h1 { color: #1a252f !important; font-size: 24px !important; }
+    [data-theme="light"] .post-content { color: #34495e !important; }
+    [data-theme="light"] .tabs { background: #f1f3f5 !important; }
+    [data-theme="light"] .tab { color: #5a6c7d !important; }
+    [data-theme="light"] .tab.active, [data-theme="light"] .tab:hover { color: #b8860b !important; background: #ffffff !important; }
+    [data-theme="light"] .composer { background: #ffffff !important; border-color: #e0e0e0 !important; }
+    [data-theme="light"] .composer textarea { color: #2c3e50 !important; }
+    [data-theme="light"] .section-title { color: #b8860b !important; }
+    [data-theme="light"] .btn-gold { background: #b8860b !important; color: #fff !important; }
+    [data-theme="light"] .btn-outline { border-color: #b8860b !important; color: #b8860b !important; }
+    [data-theme="light"] .btn-outline:hover { background: #b8860b !important; color: #fff !important; }
+    [data-theme="light"] .article-body .article-summary { color: #5a6c7d !important; }
+    [data-theme="light"] .article-body .article-title { color: #2c3e50 !important; }
+    [data-theme="light"] .featured-overlay { background: linear-gradient(0deg,rgba(0,0,0,0.7) 0%,transparent 60%) !important; }
+    [data-theme="light"] footer { background: #ffffff !important; border-top-color: #e0e0e0 !important; }
+    [data-theme="light"] .discover-welcome { background: linear-gradient(135deg,#b8860b,#f5e6a0) !important; border-color: #d4a017 !important; }
+    [data-theme="light"] .discover-welcome h2 { color: #1a252f !important; }
+    [data-theme="light"] .discover-welcome p { color: #2c3e50 !important; }
+    [data-theme="light"] .discover-item { background: #ffffff !important; border-color: #e0e0e0 !important; }
+    [data-theme="light"] .discover-item:hover { border-color: #b8860b !important; background: #f8f9fa !important; }
+    [data-theme="light"] .models-table th { background: #f1f3f5 !important; color: #b8860b !important; border-bottom-color: #dee2e6 !important; }
+    [data-theme="light"] .models-table td { border-bottom-color: #e9ecef !important; color: #2c3e50 !important; }
+    [data-theme="light"] .models-table tr:hover td { background: #f8f9fa !important; }
+    [data-theme="light"] .hamburger-menu { color: #2c3e50 !important; }
+    [data-theme="light"] input, [data-theme="light"] select, [data-theme="light"] textarea { background: #ffffff !important; border-color: #ced4da !important; color: #2c3e50 !important; }
+    [data-theme="light"] .spinner { border-color: #dee2e6 !important; border-top-color: #b8860b !important; }
+    [data-theme="light"] .news-grid .article-card { background: #ffffff !important; border-color: #e0e0e0 !important; }
+    [data-theme="light"] .empty-state { color: #5a6c7d !important; }
 
     /* KESFET / DISCOVER PAGE */
     .discover-feed{display:flex;flex-direction:column;gap:20px}
@@ -438,7 +481,7 @@
 <!-- NAVBAR -->
 <nav>
   <div class="logo" onclick="showPage('home')">
-    <div class="logo-icon"><img src="https://img.icons8.com/fluency/48/artificial-intelligence.png" alt="AI Legion" onerror="this.outerHTML='🤖'"></div>
+    <div class="logo-icon" style="background:linear-gradient(135deg,var(--red),var(--gold));display:flex;align-items:center;justify-content:center;font-size:22px">⚡</div>
     AI LEGION
   </div>
   <div class="nav-links" id="nav-links">
@@ -455,7 +498,7 @@
   </div>
   
   <button class="hamburger-menu" id="hamburger-btn" onclick="toggleNav()">☰</button>
-  <div class="mobile-nav" id="mobile-nav">
+  <div class="mobile-nav" id="mobile-nav"><button class="mobile-close" onclick="closeNav()" aria-label="Menüyü kapat">✕</button>
     <button class="nav-btn active" onclick="showPage('home');closeNav()">🏠 Haberler</button>
     <button class="nav-btn" onclick="showPage('discover');closeNav()">🔍 Keşfet</button>
     <button class="nav-btn" onclick="showPage('social');closeNav()">💬 Sosyal</button>
@@ -1075,6 +1118,14 @@ let currentUser = null;
 let allTools = [];
 let allPrompts = [];
 let allLearn = [];
+const gradients = [
+  'linear-gradient(135deg,#7a1515,#1a0a0a)',
+  'linear-gradient(135deg,#1a3a6a,#0a0a1a)',
+  'linear-gradient(135deg,#2d6a2d,#0a0a0a)',
+  'linear-gradient(135deg,#6a4a1a,#0a0a0a)',
+  'linear-gradient(135deg,#4a1a6a,#0a0a0a)',
+];
+
 let currentPromptText = '';
 
 // NAV CONFIG
@@ -1183,11 +1234,24 @@ function showToast(msg) {
 }
 
 function showPage(page) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const prevPage = document.querySelector('.page.active');
   document.querySelectorAll('.nav-btn, .sidebar-item').forEach(b => b.classList.remove('active'));
   const pageEl = document.getElementById('page-' + page);
   if (!pageEl) return;
-  pageEl.classList.add('active');
+  // Animate transition
+  if (prevPage && prevPage !== pageEl) {
+    prevPage.style.opacity = '0';
+    prevPage.style.transform = 'translateY(8px)';
+    setTimeout(() => {
+      document.querySelectorAll('.page').forEach(p => { p.classList.remove('active'); p.style.opacity=''; p.style.transform=''; });
+      pageEl.classList.add('active');
+      pageEl.classList.add('fade-in');
+      setTimeout(() => pageEl.classList.remove('fade-in'), 300);
+    }, 150);
+  } else {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    pageEl.classList.add('active');
+  }
   document.querySelectorAll(`[onclick*="showPage('${page}')"]`).forEach(b => b.classList.add('active'));
   window.scrollTo({ top: 0, behavior: 'smooth' });
   if (page === 'social') {
@@ -1387,14 +1451,7 @@ async function loadArticles() {
       container.innerHTML = '<div class="empty-state"><div class="icon">📰</div><p>Henüz haber yok</p></div>';
       return;
     }
-    const gradients = [
-      'linear-gradient(135deg,#7a1515,#1a0a0a)',
-      'linear-gradient(135deg,#1a3a6a,#0a0a1a)',
-      'linear-gradient(135deg,#2d6a2d,#0a0a0a)',
-      'linear-gradient(135deg,#6a4a1a,#0a0a0a)',
-      'linear-gradient(135deg,#4a1a6a,#0a0a0a)',
-    ];
-    let html = '';
+let html = '';
     // Featured: first 3 articles
     if (articles.length >= 1) {
       const a = articles[0];
@@ -1926,7 +1983,7 @@ function loadVideos() {
     { id: 14, platform: 'youtube', category: 'Model İnceleme', url: 'https://www.youtube.com/watch?v=ZQAz_HrUq68', title: 'NVIDIA’s New AI Just Changed Everything', channel: 'Two Minute Papers', duration: '8:11', views: '179K', thumb: 'https://img.youtube.com/vi/ZQAz_HrUq68/hqdefault.jpg', date: '2025-03-10' },
     { id: 15, platform: 'youtube', category: 'Haber', url: 'https://www.youtube.com/watch?v=Xn-gtHDsaPY', title: '7 New Open Source AI Tools You Need Right Now', channel: 'Fireship', duration: '6:15', views: '805K', thumb: 'https://img.youtube.com/vi/Xn-gtHDsaPY/hqdefault.jpg', date: '2025-04-05' },
     { id: 16, platform: 'youtube', category: 'Eğitim', url: 'https://www.youtube.com/watch?v=VMj-3S7sEn0', title: 'The Spelled-Out Intro to Neural Networks and Backpropagation', channel: 'Andrej Karpathy', duration: '2:25:52', views: '3.4M', thumb: 'https://img.youtube.com/vi/VMj-3S7sEn0/hqdefault.jpg', date: '2024-09-10' },
-    { id: 17, platform: 'youtube', category: 'Başlangıç', url: 'https://www.youtube.com/watch?v=FwOTs4UxQS4', title: 'AI Agents, Clearly Explained', channel: 'Jeff Su', duration: '10:09', views: '4.1M', thumb: 'https://img.youtube.com/vi/FwOTs4UxQS4/hqdefault.jpg', date: '2025-02-20' },
+    { id: 17, platform: 'youtube', category: 'Başlangıç', url: 'https://www.youtube.com/watch?v=FwOTs4UxQS4', title: 'AI Agents, Clearly Explained', channel: 'Jeff Su', duration: '10:09', views: '4.1M', thumb: 'https://img.youtube.com/vi/FwOTs4UxQS4/hqdefault.jpg', date: '2025-02-20' , image_url: 'https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=400&h=200&fit=crop'},
     { id: 18, platform: 'youtube', category: 'Model İnceleme', url: 'https://www.youtube.com/watch?v=RudrWy9uPZE', title: 'I Switched 50% of My AI Work to Claude, Here’s Why', channel: 'Jeff Su', duration: '12:44', views: '519K', thumb: 'https://img.youtube.com/vi/RudrWy9uPZE/hqdefault.jpg', date: '2025-03-15' },
     { id: 19, platform: 'youtube', category: 'Eğitim', url: 'https://www.youtube.com/watch?v=sVcwVQRHIc8', title: 'Learn RAG From Scratch – Python AI Tutorial', channel: 'freeCodeCamp.org', duration: '2:33:11', views: '1.3M', thumb: 'https://img.youtube.com/vi/sVcwVQRHIc8/hqdefault.jpg', date: '2025-01-18' },
     { id: 20, platform: 'youtube', category: 'Haber', url: 'https://www.youtube.com/watch?v=Sk9tvyRSCgY', title: 'DeepMind’s New AI: A Gift To Humanity', channel: 'Two Minute Papers', duration: '11:56', views: '134K', thumb: 'https://img.youtube.com/vi/Sk9tvyRSCgY/hqdefault.jpg', date: '2025-04-01' },
@@ -2175,25 +2232,25 @@ function renderTools(tools) {
 // LEARN
 function loadLearnContent() {
   allLearn = [
-    { category: 'Haberler', emoji: '📰', image: '🤖', title: 'Claude Opus 4.7 Çıktı: İnsanlığı Geride Bırakan Yapay Zeka', summary: 'Anthropic in yeni amiral gemisi modeli tüm benchmarklarda zirveyi aldı. Kod yazma, matematik ve multimodal yeteneklerde devrim.', readTime: '5 dk', content: 'Claude Opus 4.7, Anthropic in en güçlü yapay zeka modeli olarak piyasaya çıktı...' },
-    { category: 'Haberler', emoji: '📰', image: '🔍', title: 'Gemini 3.1 Pro: Google ın En Güçlü Modeli Artık Herkes İçin Ücretsiz', summary: 'Google, Gemini 3.1 Pro yu tamamen ücretsiz hale getirdi. 1M token context ve gelişmiş multimodal yetenekler.', readTime: '4 dk', content: 'Google, Gemini 3.1 Pro yu tüm kullanıcılar için ücretsiz olarak sunmaya başladı...' },
-    { category: 'Haberler', emoji: '📰', image: '🤖', title: 'GPT-5.5 Tanıtıldı: OpenAI den Devrim Niteliğinde Güncelleme', summary: 'OpenAI, GPT-5.5 ile yapay zeka dünyasında çıtayı yükseltiyor. 1M token context ve agent yetenekleri.', readTime: '6 dk', content: 'OpenAI, GPT-5.5 i duyurdu. Yeni model, 1 milyon token context window ile geliyor...' },
-    { category: 'Haberler', emoji: '📰', image: '🧠', title: 'DeepSeek V4: Çin den Gelen Açık Kaynak Devrimi', summary: 'DeepSeek V4, açık kaynak dünyasında devrim yarattı. GPT-4.5 seviyesinde performans, tamamen ücretsiz.', readTime: '5 dk', content: 'DeepSeek, V4 modeliyle yapay zeka arena sında büyük bir sürpriz yaptı...' },
+    { category: 'Haberler', emoji: '📰', image: '🤖', title: 'Claude Opus 4.7 Çıktı: İnsanlığı Geride Bırakan Yapay Zeka', summary: 'Anthropic in yeni amiral gemisi modeli tüm benchmarklarda zirveyi aldı. Kod yazma, matematik ve multimodal yeteneklerde devrim.', readTime: '5 dk', content: 'Claude Opus 4.7, Anthropic in en güçlü yapay zeka modeli olarak piyasaya çıktı...' , image_url: 'https://images.unsplash.com/photo-1620712940746-8f0ea231a6c7?w=400&h=200&fit=crop'},
+    { category: 'Haberler', emoji: '📰', image: '🔍', title: 'Gemini 3.1 Pro: Google ın En Güçlü Modeli Artık Herkes İçin Ücretsiz', summary: 'Google, Gemini 3.1 Pro yu tamamen ücretsiz hale getirdi. 1M token context ve gelişmiş multimodal yetenekler.', readTime: '4 dk', content: 'Google, Gemini 3.1 Pro yu tüm kullanıcılar için ücretsiz olarak sunmaya başladı...' , image_url: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=200&fit=crop'},
+    { category: 'Haberler', emoji: '📰', image: '🤖', title: 'GPT-5.5 Tanıtıldı: OpenAI den Devrim Niteliğinde Güncelleme', summary: 'OpenAI, GPT-5.5 ile yapay zeka dünyasında çıtayı yükseltiyor. 1M token context ve agent yetenekleri.', readTime: '6 dk', content: 'OpenAI, GPT-5.5 i duyurdu. Yeni model, 1 milyon token context window ile geliyor...' , image_url: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&h=200&fit=crop'},
+    { category: 'Haberler', emoji: '📰', image: '🧠', title: 'DeepSeek V4: Çin den Gelen Açık Kaynak Devrimi', summary: 'DeepSeek V4, açık kaynak dünyasında devrim yarattı. GPT-4.5 seviyesinde performans, tamamen ücretsiz.', readTime: '5 dk', content: 'DeepSeek, V4 modeliyle yapay zeka arena sında büyük bir sürpriz yaptı...' , image_url: 'https://images.unsplash.com/photo-1518186285589-482b1443053f?w=400&h=200&fit=crop'},
     { category: 'Araştırma', emoji: '🔬', image: '🧠', title: 'AI Agent lar 2026 da İş Gücünü Nasıl Değiştirecek?', summary: 'Otonom AI agentların iş dünyasına etkileri, hangi mesleklerin dönüşeceği ve yeni fırsatlar.', readTime: '12 dk', content: 'AI agentlar, 2026 da iş gücünü temelden dönüştürmeye başlıyor...' },
-    { category: 'Haberler', emoji: '📰', image: '🧠', title: 'Mistral Large 3: Avrupa nın İlk Trilyon Parametreli Modeli', summary: 'Fransız AI şirketi Mistral, trilyon parametreli yeni modeli Large 3 ü duyurdu.', readTime: '4 dk', content: 'Mistral, Avrupa nın en güçlü yapay zeka modeli olarak Mistral Large 3 ü tanıttı...' },
-    { category: 'Agent', emoji: '🕹️', image: '🔒', title: 'OpenClaw: Açık Kaynak AI Agent Framework ü Token Gider %65 Azaltıyor', summary: 'OpenClaw, context pruning ve caveman mode ile GPT-4 maliyetini %65 düşürüyor. Claude, GPT, Gemini desteği ile Türkiye de yaygın kullanım.', readTime: '5 dk', content: 'OpenClaw, açık kaynak AI agent framework olarak dikkat çekiyor...' },
-    { category: 'Agent', emoji: '🤖', image: '🧠', title: 'Hermes Agent: Türkiye den Çoklu Model Destekli AI Asistan', summary: 'Hermes, Telegram, Discord, browser araçları ile entegre çalışıyor. Cron job, session yönetimi ve uzun hafıza özellikleriyle öne çıkıyor.', readTime: '4 dk', content: 'Hermes, çoklu model desteği ve güçlü araç entegrasyonlarıyla AI asistan deneyimini üst seviyeye taşıyor...' },
-    { category: 'Başlangıç', emoji: '🌱', image: '👶', title: 'AI e Yeni Başlayanlar İçin Tam Rehber 2026', summary: 'Yapay zekaya sıfırdan başlamak isteyenler için adım adım rehber. Temel kavramlar, araçlar ve ilk projeler.', readTime: '15 dk', content: 'Yapay zeka dünyasına adım atmak hiç bu kadar kolay olmamıştı...' },
-    { category: 'Para Kazanma', emoji: '💰', image: '💰', title: 'Yapay Zeka ile Para Kazanma: 15 Kanıtlanmış Yol', summary: 'Freelance yazılım, içerik üretimi, AI ajan kiralama ve daha fazlası. Her seviyeye uygun stratejiler.', readTime: '20 dk', content: 'AI ile para kazanmak artık sadece büyük şirketlerin tekelinde değil...' },
-    { category: 'İleri Seviye', emoji: '🚀', image: '🚀', title: 'RAG (Retrieval Augmented Generation) Neden Önemli?', summary: 'Kurumsal verilerle AI kullanmanın en etkili yolu. RAG mimarisi, vektör veritabanları ve best practice ler.', readTime: '10 dk', content: 'RAG, kurumsal AI uygulamalarının temel taşı haline geldi...' },
-    { category: 'Kıyaslama', emoji: '📊', image: '📊', title: 'LLM Benchmark Rehberi: MMLU, SWE-bench ve Ötesi', summary: 'Model karşılaştırma metrikleri ne anlama geliyor? Hangi benchmark hangi yeteneği ölçüyor?', readTime: '8 dk', content: 'LLM benchmarkları, modellerin gerçek dünyadaki performansını anlamak için kritik...' },
-    { category: 'Otomasyon', emoji: '⚡', image: '⚙️', title: 'AI Otomasyon ile İş Akışlarını Hızlandırma', summary: 'n8n, Make ve özel AI agentları ile tekrarlayan işleri otomatikleştirme. Gerçek dünya örnekleri.', readTime: '12 dk', content: 'AI otomasyon, iş dünyasında devrim yaratıyor...' },
-    { category: 'Başlangıç', emoji: '🌱', image: '💬', title: 'Prompt Mühendisliği 101: Etkili Prompt Yazma Sanatı', summary: 'AI dan en iyi sonucu almak için prompt yazma teknikleri. CoT, few-shot, role-playing ve daha fazlası.', readTime: '10 dk', content: 'Prompt mühendisliği, AI ile çalışmanın en temel becerisi...' },
-    { category: 'Para Kazanma', emoji: '💰', image: '🏪', title: 'AI ile SaaS Ürünü Oluşturma: Sıfırdan Lansmana', summary: 'AI tabanlı bir SaaS ürünü nasıl oluşturulur? Fikir, MVP, pazar doğrulama ve büyüme stratejileri.', readTime: '18 dk', content: 'AI tabanlı SaaS ürünleri, 2026 nın en kârlı girişim alanlarından...' },
-    { category: 'İleri Seviye', emoji: '🚀', image: '🧠', title: 'Fine-Tuning vs RAG: Hangi Yöntemi Ne Zaman Kullanmalı?', summary: 'Model ince ayarı mı, RAG mı? Her yaklaşımın avantajları, maliyetleri ve kullanım senaryoları.', readTime: '12 dk', content: 'Kurumsal AI projelerinde en sık sorulan sorulardan biri...' },
-    { category: 'Kıyaslama', emoji: '📊', image: '🖥️', title: 'Açık Kaynak vs Kapalı Kaynak AI Modelleri: 2026 Karşılaştırması', summary: 'Open source ve proprietary modellerin maliyet, performans ve güvenlik karşılaştırması.', readTime: '10 dk', content: 'Açık kaynak AI modelleri, kapalı kaynak rakiplerine karşı giderek daha rekabetçi hale geliyor...' },
-    { category: 'Otomasyon', emoji: '⚡', image: '🔄', title: 'Multi-Agent Sistemleri: AI Agentları Birlikte Çalıştırma', summary: 'CrewAI, AutoGen ve AutoGPT ile birden fazla AI agentı koordine etme. Gerçek dünya mimarileri.', readTime: '14 dk', content: 'Multi-agent sistemler, karmaşık görevleri paralel ve koordineli şekilde çözmek için...' },
-    { category: 'Para Kazanma', emoji: '💰', image: '💼', title: 'Freelance AI Geliştirici Olmak: Başlangıç Rehberi', summary: 'Upwork ve Fiverr da AI projeleri almak, fiyatlandırma stratejileri ve portföy oluşturma.', readTime: '15 dk', content: 'Freelance AI geliştiriciler, 2026 da en çok aranan profesyoneller arasında...' },
+    { category: 'Haberler', emoji: '📰', image: '🧠', title: 'Mistral Large 3: Avrupa nın İlk Trilyon Parametreli Modeli', summary: 'Fransız AI şirketi Mistral, trilyon parametreli yeni modeli Large 3 ü duyurdu.', readTime: '4 dk', content: 'Mistral, Avrupa nın en güçlü yapay zeka modeli olarak Mistral Large 3 ü tanıttı...' , image_url: 'https://images.unsplash.com/photo-1526374965328-7f61d1099435?w=400&h=200&fit=crop'},
+    { category: 'Agent', emoji: '🕹️', image: '🔒', title: 'OpenClaw: Açık Kaynak AI Agent Framework ü Token Gider %65 Azaltıyor', summary: 'OpenClaw, context pruning ve caveman mode ile GPT-4 maliyetini %65 düşürüyor. Claude, GPT, Gemini desteği ile Türkiye de yaygın kullanım.', readTime: '5 dk', content: 'OpenClaw, açık kaynak AI agent framework olarak dikkat çekiyor...' , image_url: 'https://images.unsplash.com/photo-1607799279861-4174eb8c569f?w=400&h=200&fit=crop'},
+    { category: 'Agent', emoji: '🤖', image: '🧠', title: 'Hermes Agent: Türkiye den Çoklu Model Destekli AI Asistan', summary: 'Hermes, Telegram, Discord, browser araçları ile entegre çalışıyor. Cron job, session yönetimi ve uzun hafıza özellikleriyle öne çıkıyor.', readTime: '4 dk', content: 'Hermes, çoklu model desteği ve güçlü araç entegrasyonlarıyla AI asistan deneyimini üst seviyeye taşıyor...' , image_url: 'https://images.unsplash.com/photo-1531746790095-e5995bed4297?w=400&h=200&fit=crop'},
+    { category: 'Başlangıç', emoji: '🌱', image: '👶', title: 'AI e Yeni Başlayanlar İçin Tam Rehber 2026', summary: 'Yapay zekaya sıfırdan başlamak isteyenler için adım adım rehber. Temel kavramlar, araçlar ve ilk projeler.', readTime: '15 dk', content: 'Yapay zeka dünyasına adım atmak hiç bu kadar kolay olmamıştı...' , image_url: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400&h=200&fit=crop'},
+    { category: 'Para Kazanma', emoji: '💰', image: '💰', title: 'Yapay Zeka ile Para Kazanma: 15 Kanıtlanmış Yol', summary: 'Freelance yazılım, içerik üretimi, AI ajan kiralama ve daha fazlası. Her seviyeye uygun stratejiler.', readTime: '20 dk', content: 'AI ile para kazanmak artık sadece büyük şirketlerin tekelinde değil...' , image_url: 'https://images.unsplash.com/photo-1554224155-6726b3ff8cbf?w=400&h=200&fit=crop'},
+    { category: 'İleri Seviye', emoji: '🚀', image: '🚀', title: 'RAG (Retrieval Augmented Generation) Neden Önemli?', summary: 'Kurumsal verilerle AI kullanmanın en etkili yolu. RAG mimarisi, vektör veritabanları ve best practice ler.', readTime: '10 dk', content: 'RAG, kurumsal AI uygulamalarının temel taşı haline geldi...' , image_url: 'https://images.unsplash.com/photo-1551033406-611cf9f289bb?w=400&h=200&fit=crop'},
+    { category: 'Kıyaslama', emoji: '📊', image: '📊', title: 'LLM Benchmark Rehberi: MMLU, SWE-bench ve Ötesi', summary: 'Model karşılaştırma metrikleri ne anlama geliyor? Hangi benchmark hangi yeteneği ölçüyor?', readTime: '8 dk', content: 'LLM benchmarkları, modellerin gerçek dünyadaki performansını anlamak için kritik...' , image_url: 'https://images.unsplash.com/photo-1504868584810-f8c789e5272f?w=400&h=200&fit=crop'},
+    { category: 'Otomasyon', emoji: '⚡', image: '⚙️', title: 'AI Otomasyon ile İş Akışlarını Hızlandırma', summary: 'n8n, Make ve özel AI agentları ile tekrarlayan işleri otomatikleştirme. Gerçek dünya örnekleri.', readTime: '12 dk', content: 'AI otomasyon, iş dünyasında devrim yaratıyor...' , image_url: 'https://images.unsplash.com/photo-1516245820059-3e6c0a7c597a?w=400&h=200&fit=crop'},
+    { category: 'Başlangıç', emoji: '🌱', image: '💬', title: 'Prompt Mühendisliği 101: Etkili Prompt Yazma Sanatı', summary: 'AI dan en iyi sonucu almak için prompt yazma teknikleri. CoT, few-shot, role-playing ve daha fazlası.', readTime: '10 dk', content: 'Prompt mühendisliği, AI ile çalışmanın en temel becerisi...' , image_url: 'https://images.unsplash.com/photo-1677756115177-715079b29e6d?w=400&h=200&fit=crop'},
+    { category: 'Para Kazanma', emoji: '💰', image: '🏪', title: 'AI ile SaaS Ürünü Oluşturma: Sıfırdan Lansmana', summary: 'AI tabanlı bir SaaS ürünü nasıl oluşturulur? Fikir, MVP, pazar doğrulama ve büyüme stratejileri.', readTime: '18 dk', content: 'AI tabanlı SaaS ürünleri, 2026 nın en kârlı girişim alanlarından...' , image_url: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=200&fit=crop'},
+    { category: 'İleri Seviye', emoji: '🚀', image: '🧠', title: 'Fine-Tuning vs RAG: Hangi Yöntemi Ne Zaman Kullanmalı?', summary: 'Model ince ayarı mı, RAG mı? Her yaklaşımın avantajları, maliyetleri ve kullanım senaryoları.', readTime: '12 dk', content: 'Kurumsal AI projelerinde en sık sorulan sorulardan biri...' , image_url: 'https://images.unsplash.com/photo-1526374823061-3317a31d1eb6?w=400&h=200&fit=crop'},
+    { category: 'Kıyaslama', emoji: '📊', image: '🖥️', title: 'Açık Kaynak vs Kapalı Kaynak AI Modelleri: 2026 Karşılaştırması', summary: 'Open source ve proprietary modellerin maliyet, performans ve güvenlik karşılaştırması.', readTime: '10 dk', content: 'Açık kaynak AI modelleri, kapalı kaynak rakiplerine karşı giderek daha rekabetçi hale geliyor...' , image_url: 'https://images.unsplash.com/photo-1618401471353-b98afee0b2e5?w=400&h=200&fit=crop'},
+    { category: 'Otomasyon', emoji: '⚡', image: '🔄', title: 'Multi-Agent Sistemleri: AI Agentları Birlikte Çalıştırma', summary: 'CrewAI, AutoGen ve AutoGPT ile birden fazla AI agentı koordine etme. Gerçek dünya mimarileri.', readTime: '14 dk', content: 'Multi-agent sistemler, karmaşık görevleri paralel ve koordineli şekilde çözmek için...' , image_url: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=400&h=200&fit=crop'},
+    { category: 'Para Kazanma', emoji: '💰', image: '💼', title: 'Freelance AI Geliştirici Olmak: Başlangıç Rehberi', summary: 'Upwork ve Fiverr da AI projeleri almak, fiyatlandırma stratejileri ve portföy oluşturma.', readTime: '15 dk', content: 'Freelance AI geliştiriciler, 2026 da en çok aranan profesyoneller arasında...' , image_url: 'https://images.unsplash.com/photo-1499750310107-5fef28a87d2f?w=400&h=200&fit=crop'},
   ];
   renderLearn(allLearn);
 }
@@ -2228,7 +2285,7 @@ function renderLearn(items) {
       const dataAttr = btoa(unescape(encodeURIComponent(JSON.stringify(a))));
       return `
     <div class="article-card" onclick="showLearnArticle(this)" data-article="${dataAttr}" style="cursor:pointer">
-      <div class="article-img-placeholder" style="background:${gradients[(a.id || 0) % gradients.length]}">${a.emoji || '📚'}</div>
+      <div class="article-img-placeholder" style="position:relative;overflow:hidden;background:${gradients[(a.id || 0) % gradients.length]}">${a.image_url ? '<img src="'+a.image_url+'" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.6" onerror="this.remove()" loading="lazy">' : ''}<span style="position:relative;font-size:48px;display:flex;align-items:center;justify-content:center;height:100%;text-shadow:0 2px 8px rgba(0,0,0,0.5)">${a.emoji || '📚'}</span></div>
       <div class="article-body">
         <div class="article-title">${a.title}</div>
         <div class="article-summary">${a.summary}</div>
