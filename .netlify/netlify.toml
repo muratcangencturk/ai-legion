@@ -7,7 +7,7 @@ redirects = []
 [functions."*"]
 
 [build]
-publish = "/Users/murotos/ai-legion-site"
+publish = "/private/tmp/ai-legion"
 publishOrigin = "config"
 
 [build.environment]
