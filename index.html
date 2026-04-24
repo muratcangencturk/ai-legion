@@ -141,7 +141,7 @@
       .admin-tab{padding:8px 10px;font-size:11px}
     }
     @media(min-width:769px) and (max-width:1024px){
-      .tools-grid{grid-template-columns:repeat(2,1fr)!important}
+      
       .articles-grid{grid-template-columns:repeat(2,1fr)!important}
       .prompts-grid{grid-template-columns:repeat(2,1fr)!important}
       .news-grid{grid-template-columns:repeat(2,1fr)!important}
@@ -1323,6 +1323,7 @@ function showPage(page) {
     document.getElementById('composer-section').style.display = currentUser ? 'block' : 'none';
     document.getElementById('login-prompt-social').style.display = currentUser ? 'none' : 'block';
   }
+  if (page === 'social') loadPosts();
   if (page === 'agents') loadAgents();
   if (page === 'discover') loadDiscoverFeed();
   if (page === 'learn') loadLearnContent();
