@@ -2039,10 +2039,10 @@ async function openComments(postId) {
       var users = await sb('/users?id=eq.' + c.user_id + '&limit=1');
       var u = users[0] || { username: 'unknown', avatar_url: '' };
       var initial = (u.username[0] || '?').toUpperCase();
-      var avatarContent = u.avatar_url ? '<img src="' + u.avatar_url + '" style="width:32px;height:32px;object-fit:cover;border-radius:50%" onerror="this.outerHTML=\\'' + initial + '\\'">' : initial;
+      var avatarHtml = u.avatar_url ? '<img src="' + u.avatar_url + '" style="width:32px;height:32px;object-fit:cover;border-radius:50%" onerror="this.outerHTML=\'' + initial + '\'">' : initial;
       var time = new Date(c.created_at).toLocaleDateString('tr-TR');
       html += '<div style="display:flex;gap:10px;padding:12px 0;border-bottom:1px solid var(--border);align-items:flex-start">';
-      html += '<div class="avatar" style="width:32px;height:32px;font-size:13px;min-width:32px" onclick="viewProfile(\'' + u.username + '\')">' + avatarContent + '</div>';
+      html += '<div class="avatar" style="width:32px;height:32px;font-size:13px;min-width:32px" onclick="viewProfile(\'' + u.username + '\')">' + avatarHtml + '</div>';
       html += '<div style="flex:1"><div style="display:flex;align-items:center;gap:6px"><span class="post-username" style="cursor:pointer" onclick="viewProfile(\'' + u.username + '\')">@' + u.username + '</span><span style="color:var(--text3);font-size:12px">' + time + '</span></div>';
       html += '<div style="color:var(--text);font-size:14px;margin-top:4px;line-height:1.5">' + (c.content || '') + '</div></div></div>';
     }
