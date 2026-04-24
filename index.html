@@ -237,7 +237,7 @@
     .tool-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:18px;transition:all 0.3s;cursor:pointer;position:relative;box-shadow:0 4px 16px rgba(0,0,0,0.2);display:flex;flex-direction:column;gap:0}
     .tool-card:hover{border-color:var(--gold);transform:translateY(-4px);box-shadow:0 12px 40px rgba(201,168,76,0.2)}
     .tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
-    .articles-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+    .articles-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
     .tool-card:hover{border-color:var(--gold);transform:translateY(-2px);box-shadow:0 8px 24px rgba(201,168,76,0.1)}
     .tool-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
     .tool-icon{width:40px;height:40px;border-radius:10px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;position:relative;overflow:hidden}
@@ -295,10 +295,10 @@
     .error-msg{color:#e0245e;font-size:12px;margin-top:6px}
     
     /* PROFILE */
-    .profile-banner{height:100px;background:linear-gradient(135deg,var(--red) 0%,#2a1a0a 50%,var(--bg3) 100%);border-radius:12px 12px 0 0;position:relative}
+    .profile-banner{height:80px;background:linear-gradient(135deg,var(--gold) 0%,#2a1a0a 50%,var(--bg3) 100%);border-radius:12px 12px 0 0;position:relative}
     .profile-header-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:16px}
-    .profile-avatar-wrap{padding:0 20px;margin-top:-30px;margin-bottom:10px}
-    .profile-big-avatar{width:64px;height:64px;border-radius:50%;background:var(--red);border:3px solid var(--bg2);display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;color:var(--gold)}
+    .profile-avatar-wrap{padding:0 20px;margin-top:-36px;margin-bottom:10px;position:relative}
+    .profile-big-avatar{width:72px;height:72px;border-radius:50%;background:var(--bg3);border:3px solid var(--bg2);display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;color:var(--gold);overflow:hidden;cursor:pointer;position:relative;transition:transform 0.2s}.profile-big-avatar:hover{transform:scale(1.05)}.profile-big-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
     .profile-info{padding:0 20px 16px}
     .profile-name{font-size:18px;font-weight:700;color:var(--text)}
     .profile-bio{color:var(--text2);font-size:13px;margin:4px 0 12px}
@@ -538,7 +538,7 @@
     <button class="btn btn-outline btn-sm theme-toggle" id="theme-btn-desktop" onclick="toggleTheme()" style="font-size:16px;padding:4px 8px">☀️</button>
     <button class="btn btn-outline btn-sm" onclick="openModal('login-modal')">Giriş</button>
     <button class="btn btn-gold btn-sm" onclick="openModal('register-modal')">Kayıt Ol</button>
-    <button class="btn btn-outline btn-sm" id="nav-profile-btn" style="display:none" onclick="showPage('profile')">👤 Profilim</button>
+    <button class="btn btn-outline btn-sm" id="nav-profile-btn" style="display:none" onclick="showPage('profile')"><span id="nav-avatar-display">👤</span> Profilim</button>
     <button class="btn btn-outline btn-sm" id="nav-admin-btn" style="display:none" onclick="showPage('admin')">⚙️ Admin Panel</button>
   </div>
 </nav>
@@ -1276,7 +1276,7 @@ function resetNavConfig() {
 
 // INIT
 document.addEventListener('DOMContentLoaded', () => {
-  const saved = localStorage.getItem('ai_legion_user');if (saved) { currentUser = JSON.parse(saved); updateNavForUser(); }
+  const saved = localStorage.getItem('ai_legion_user');if (saved) { currentUser = JSON.parse(saved); updateNavForUser(); updateComposerAvatar(); }
   applyNavConfig();
   initDailyQuestion();
   loadArticles();
@@ -1335,24 +1335,50 @@ function closeModal(id) { document.getElementById(id).classList.remove('open'); 
 
 function updateNavForUser() {
   const navRight = document.getElementById('nav-right');
-  const initial = currentUser.username[0].toUpperCase();
-  // Preserve theme button and replace auth buttons with user info
+  const avatarDisplay = document.getElementById('nav-avatar-display');
+  if (avatarDisplay) {
+    if (currentUser.avatar_url) {
+      var img = document.createElement('img');
+      img.src = currentUser.avatar_url;
+      img.style.cssText = 'width:18px;height:18px;border-radius:50%;object-fit:cover;vertical-align:middle;margin-right:2px';
+      img.onerror = function() { this.outerHTML = '👤'; };
+      avatarDisplay.innerHTML = '';
+      avatarDisplay.appendChild(img);
+    } else {
+      avatarDisplay.textContent = '👤';
+    }
+  }
   const existingProfileBtn = document.getElementById('nav-profile-btn');
   const existingAdminBtn = document.getElementById('nav-admin-btn');
-  // Remove auth buttons
   const authBtns = navRight.querySelectorAll('.btn-sm:not(.theme-toggle):not(#nav-profile-btn):not(#nav-admin-btn)');
   authBtns.forEach(b => b.style.display = 'none');
-  // Show profile button
   if (existingProfileBtn) existingProfileBtn.style.display = 'inline-flex';
   if (existingAdminBtn) existingAdminBtn.style.display = currentUser.is_admin ? 'inline-flex' : 'none';
-  // Update mobile nav auth
   const mobileAuth = document.getElementById('mobile-auth-buttons');
   const mobileUser = document.getElementById('mobile-user-buttons');
   if (mobileAuth) mobileAuth.style.display = 'none';
   if (mobileUser) {
     mobileUser.style.display = 'flex';
-    mobileUser.innerHTML = '<button class="btn btn-outline" onclick="showPage(\'profile\');closeNav()">👤 ' + currentUser.username + '</button>' +
-      '<button class="btn btn-red" onclick="logout();closeNav()">Çıkış Yap</button>';
+    var profBtn = document.createElement('button');
+    profBtn.className = 'btn btn-outline';
+    if (currentUser.avatar_url) {
+      var avImg = document.createElement('img');
+      avImg.src = currentUser.avatar_url;
+      avImg.style.cssText = 'width:18px;height:18px;border-radius:50%;object-fit:cover;vertical-align:middle';
+      avImg.onerror = function() { this.outerHTML = '👤'; };
+      profBtn.appendChild(avImg);
+      profBtn.appendChild(document.createTextNode(' ' + currentUser.username));
+    } else {
+      profBtn.textContent = '👤 ' + currentUser.username;
+    }
+    profBtn.onclick = function() { showPage('profile'); closeNav(); };
+    var logoutBtn = document.createElement('button');
+    logoutBtn.className = 'btn btn-red';
+    logoutBtn.textContent = 'Çıkış Yap';
+    logoutBtn.onclick = function() { logout(); closeNav(); };
+    mobileUser.innerHTML = '';
+    mobileUser.appendChild(profBtn);
+    mobileUser.appendChild(logoutBtn);
   }
 }
 
@@ -1367,7 +1393,7 @@ async function login() {
     if (user.password_hash !== password) { document.getElementById('login-error').textContent = 'Şifre hatalı'; return; }
     currentUser = { ...user, password_hash: undefined };
     localStorage.setItem('ai_legion_user', JSON.stringify(currentUser));
-updateNavForUser();
+updateNavForUser(); updateComposerAvatar();
 
     closeModal('login-modal');
     showToast('Hoş geldin, ' + currentUser.username + '! ⚔️');
@@ -1386,7 +1412,7 @@ async function register() {
     const user = result[0];
     currentUser = { ...user, password_hash: undefined };
     localStorage.setItem('ai_legion_user', JSON.stringify(currentUser));
-    updateNavForUser();
+    updateNavForUser(); updateComposerAvatar();
     closeModal('register-modal');
     showToast('Legiona katıldın, ' + currentUser.username + '! ⚔️');
   } catch(e) { document.getElementById('reg-error').textContent = 'Bağlantı hatası'; }
@@ -1561,7 +1587,7 @@ async function loadArticles() {
         if (t.includes(key)) return imgMap[key];
       }
       var defaults = [
-        'https://images.pexels.com/photos/1677442136019/pexels-photo-1677442136019.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
         'https://images.pexels.com/photos/356056/pexels-photo-356056.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
         'https://images.pexels.com/photos/8574830/pexels-photo-8574830.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
         'https://images.pexels.com/photos/2004161/pexels-photo-2004161.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
@@ -1601,7 +1627,7 @@ async function loadArticles() {
         html += '<div class="article-card" onclick="showArticle(' + JSON.stringify(a).replace(/"/g, '&quot;') + ')">';
         html += '<img class="article-img" src="' + imgR + '" alt="" onerror="this.style.display=\'none\'" />';
         html += '<div class="article-body"><div class="article-title">' + a.title + '</div>';
-        html += '<div class="article-summary">' + (a.summary || (a.content || '').substring(0, 120) + '...') + '</div>';
+        html += '<div class="article-summary">' + (cleanArticleText(a.summary) || (cleanArticleText(a.content) || '').substring(0, 120) + '...') + '</div>';
         html += '<div class="article-meta"><span>✍️ ' + (a.author || 'AI Legion') + '</span><span>' + (a.source ? a.source + ' · ' : '') + new Date(a.created_at).toLocaleDateString('tr-TR') + '</span></div>';
         html += '</div></div>';
       });
@@ -1835,12 +1861,14 @@ function renderSocialEmbedCard(embed) {
 
 function renderPost(p) {
   const username = p.user?.username || 'unknown';
+  const avatarUrl = p.user?.avatar_url;
   const initial = (username[0] || '?').toUpperCase();
   const time = new Date(p.created_at).toLocaleDateString('tr-TR');
+  const avatarContent = avatarUrl ? '<img src="' + avatarUrl + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%" onerror="this.outerHTML=\'' + initial + '\'">' : initial;
   return `
     <div class="post" id="post-${p.id}">
       <div class="post-header">
-        <div class="avatar" onclick="viewProfile('${username}')">${initial}</div>
+        <div class="avatar" onclick="viewProfile('${username}')">${avatarContent}</div>
         <div class="post-user-info">
           <div class="post-username" onclick="viewProfile('${username}')">@${username}</div>
           <div class="post-time">${time}</div>
@@ -1850,8 +1878,8 @@ function renderPost(p) {
       ${detectSocialEmbed(p.content) ? renderSocialEmbedCard(detectSocialEmbed(p.content)) : ''}
       ${p.image_url ? `<img src="${p.image_url}" class="post-image" alt="Post Image" onerror="handleImgError(this)">` : ''}
       <div class="post-actions">
-        <button class="action-btn" onclick="likePost('${p.id}',this)">❤️ ${p.likes_count||0}</button>
-        <button class="action-btn" onclick="repostPost('${p.id}',this)">🔁 ${p.reposts_count||0}</button>
+        <button class="action-btn" data-count="${p.likes_count||0}" onclick="likePost('${p.id}',this)">❤️ ${p.likes_count||0}</button>
+        <button class="action-btn" data-count="${p.reposts_count||0}" onclick="repostPost('${p.id}',this)">🔁 ${p.reposts_count||0}</button>
         <button class="action-btn">💬 ${p.comments_count||0}</button>
         <button class="action-btn" onclick="bookmarkPost('${p.id}',this)">🔖</button>
         ${(currentUser?.id === p.user_id || currentUser?.is_admin) ? `<button class="action-btn" onclick="deletePost('${p.id}')">🗑️</button>` : ''}</div>
@@ -1898,15 +1926,22 @@ async function likePost(id, btn) {
     if (existing.length > 0) {
       await sb('/likes?user_id=eq.' + currentUser.id + '&post_id=eq.' + id, { method: 'DELETE' });
       btn.classList.remove('liked');
-      const count = parseInt(btn.textContent.replace(/\D/g,'')) - 1;
-      btn.textContent = '❤️ ' + Math.max(0, count);
+      btn.style.color = '';
+      const count = parseInt(btn.dataset.count || '0') - 1;
+      btn.dataset.count = Math.max(0, count);
+      btn.innerHTML = '❤️ ' + Math.max(0, count);
+      showToast('Beğeni kaldırıldı');
     } else {
       await sb('/likes', { method: 'POST', body: JSON.stringify({ user_id: currentUser.id, post_id: id }) });
       btn.classList.add('liked');
-      const count = parseInt(btn.textContent.replace(/\D/g,'')) + 1;
-      btn.textContent = '❤️ ' + count;
+      btn.style.color = '#e74c3c';
+      const count = parseInt(btn.dataset.count || '0') + 1;
+      btn.dataset.count = count;
+      btn.innerHTML = '❤️ ' + count;
+      showToast('Beğenildi ❤️');
     }
-  } catch(e) {}
+    loadPosts();
+  } catch(e) { console.error('likePost error:', e); }
 }
 
 async function repostPost(id, btn) {
@@ -1916,13 +1951,22 @@ async function repostPost(id, btn) {
     if (existing.length > 0) {
       await sb('/reposts?user_id=eq.' + currentUser.id + '&post_id=eq.' + id, { method: 'DELETE' });
       btn.classList.remove('reposted');
+      btn.style.color = '';
+      const count = parseInt(btn.dataset.count || '0') - 1;
+      btn.dataset.count = Math.max(0, count);
+      btn.innerHTML = '🔁 ' + Math.max(0, count);
       showToast('Repost kaldırıldı');
     } else {
       await sb('/reposts', { method: 'POST', body: JSON.stringify({ user_id: currentUser.id, post_id: id }) });
       btn.classList.add('reposted');
+      btn.style.color = '#27ae60';
+      const count = parseInt(btn.dataset.count || '0') + 1;
+      btn.dataset.count = count;
+      btn.innerHTML = '🔁 ' + count;
       showToast('Repost yapıldı 🔁');
     }
-  } catch(e) {}
+    loadPosts();
+  } catch(e) { console.error('repostPost error:', e); }
 }
 
 async function bookmarkPost(id, btn) {
@@ -1932,13 +1976,17 @@ async function bookmarkPost(id, btn) {
     if (existing.length > 0) {
       await sb('/bookmarks?user_id=eq.' + currentUser.id + '&post_id=eq.' + id, { method: 'DELETE' });
       btn.classList.remove('bookmarked');
+      btn.style.color = '';
+      btn.innerHTML = '🔖';
       showToast('Kaydedilenlerden kaldırıldı');
     } else {
       await sb('/bookmarks', { method: 'POST', body: JSON.stringify({ user_id: currentUser.id, post_id: id }) });
       btn.classList.add('bookmarked');
+      btn.style.color = '#f39c12';
+      btn.innerHTML = '🔖';
       showToast('Kaydedildi 🔖');
     }
-  } catch(e) {}
+  } catch(e) { console.error('bookmarkPost error:', e); }
 }
 
 function switchFeedTab(el, type) {
@@ -2245,21 +2293,8 @@ function playVideo(url, platform, title) {
   document.body.style.overflow = 'hidden';
   if (platform === 'youtube') {
     var vid = extractYTId(url);
-    var embedUrl = 'https://www.youtube.com/embed/' + vid + '?rel=0&modestbranding=1&playsinline=1&autoplay=1';
-    container.style.position = 'relative';
-    container.style.paddingBottom = '56.25%';
-    container.style.height = '0';
-    container.style.overflow = 'hidden';
-    container.style.borderRadius = '12px';
-    container.style.background = '#000';
-    var iframe = document.createElement('iframe');
-    iframe.src = embedUrl;
-    iframe.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;border:0;border-radius:12px;';
-    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
-    iframe.allowFullscreen = true;
-    iframe.setAttribute('allowfullscreen', '');
-    iframe.setAttribute('frameborder', '0');
-    container.appendChild(iframe);
+    container.style.cssText = 'width:100%;position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:12px;background:#000';
+    container.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + vid + '?rel=0&modestbranding=1&playsinline=1&autoplay=1&mute=0" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;border-radius:12px;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="no-referrer-when-downgrade" loading="lazy"></iframe>';
   } else if (platform === 'x') {
     window.open(url, '_blank');
     closeVideoEmbed();
@@ -2267,20 +2302,8 @@ function playVideo(url, platform, title) {
   } else if (platform === 'instagram') {
     var reelMatch = url.match(/reel\/([^/]+)/);
     if (reelMatch) {
-      var embedUrl = 'https://www.instagram.com/reel/' + reelMatch[1] + '/embed/';
-      container.style.position = 'relative';
-      container.style.paddingBottom = '56.25%';
-      container.style.height = '0';
-      container.style.overflow = 'hidden';
-      container.style.borderRadius = '12px';
-      container.style.background = '#000';
-      var iframe = document.createElement('iframe');
-      iframe.src = embedUrl;
-      iframe.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;border:0;border-radius:12px;';
-      iframe.allowFullscreen = true;
-      iframe.setAttribute('allowfullscreen', '');
-      iframe.setAttribute('frameborder', '0');
-      container.appendChild(iframe);
+      container.style.cssText = 'width:100%;position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:12px;background:#000';
+      container.innerHTML = '<iframe src="https://www.instagram.com/reel/' + reelMatch[1] + '/embed/" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;border-radius:12px;" allowfullscreen scrolling="no" referrerpolicy="no-referrer-when-downgrade"></iframe>';
     } else {
       window.open(url, '_blank');
       closeVideoEmbed();
@@ -2514,7 +2537,7 @@ function renderLearn(items) {
     html += '<div class="article-card" onclick="showLearnArticle(this)" data-article="' + dataAttr + '" style="cursor:pointer;overflow:hidden;border-radius:16px">';
     html += imgHtml;
     html += '<div class="article-body">';
-    html += '<div class="article-title">' + a.title + '</div>';
+    html += '<div class="article-title">' + cleanArticleText(a.title) + '</div>';
     html += '<div class="article-summary">' + a.summary + '</div>';
     html += '<div class="article-meta"><span>✍️ ' + (a.author || 'AI Legion Ekibi') + '</span><span>📖 ' + a.readTime + ' okuma</span></div>';
     html += '</div></div>';
@@ -2603,14 +2626,16 @@ async function loadProfile(username) {
   try {
     const users = await sb(`/users?username=eq.${username}&limit=1`);
     const user = users[0];
-
     const initial = (user.username||"?")[0].toUpperCase();
+    const isOwn = currentUser && currentUser.id === user.id;
+    const avatarHtml = user.avatar_url ? '<img src="' + user.avatar_url + '" alt="PP" onerror="this.outerHTML=\'' + initial + '\'">' : initial;
     const posts = await sb(`/posts?user_id=eq.${user.id}&order=created_at.desc`);
     container.innerHTML = `
       <div class="profile-header-card">
         <div class="profile-banner"></div>
         <div class="profile-avatar-wrap">
-          <div class="profile-big-avatar">${initial}</div>
+          <div class="profile-big-avatar" ${isOwn ? 'onclick="document.getElementById(\'avatar-upload\').click()"' : ''}>${avatarHtml}${isOwn ? '<div style="position:absolute;bottom:2px;right:2px;background:var(--gold);color:#000;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:11px;cursor:pointer">📷</div>' : ''}</div>
+          ${isOwn ? '<input type="file" id="avatar-upload" accept="image/*" style="display:none" onchange="uploadAvatar(this)">' : ''}
         </div>
         <div class="profile-info">
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
@@ -2626,12 +2651,56 @@ async function loadProfile(username) {
           </div>
         </div>
        <div class="section-title" style="margin-bottom:12px">Postlar</div>
-      <div>${posts.map(p => renderPost({...p, user:{username:user.username}, likes_count:0, comments_count:0, reposts_count:0})).join("") || 
+      <div>${posts.map(p => renderPost({...p, user:{username:user.username, avatar_url:user.avatar_url}, likes_count:0, comments_count:0, reposts_count:0})).join("") || 
         "<div class=\"empty-state\"><div class=\"icon\">💬</div><p>Henüz post yok</p></div>"}</div>
     `;
   } catch(e) { container.innerHTML = 
         "<div class=\"empty-state\"><div class=\"icon\">⚠️</div><p>Profil yüklenemedi</p></div>"; }
-}// ADMIN
+}
+async function uploadAvatar(input) {
+  if (!input.files || !input.files[0]) return;
+  const file = input.files[0];
+  if (file.size > 500000) { showToast('Görsel en fazla 500KB olmalı'); return; }
+  const reader = new FileReader();
+  reader.onload = async function(e) {
+    try {
+      const base64 = e.target.result;
+      await sb('/users?id=eq.' + currentUser.id, { method: 'PATCH', body: JSON.stringify({ avatar_url: base64 }) });
+      currentUser.avatar_url = base64;
+      localStorage.setItem('ai_legion_user', JSON.stringify(currentUser));
+      updateNavForUser(); updateComposerAvatar();
+      updateComposerAvatar();
+      loadProfile(currentUser.username);
+      showToast('Profil fotoğrafı güncellendi ✅');
+    } catch(e) { showToast('Hata oluştu'); }
+  };
+  reader.readAsDataURL(file);
+}
+
+function updateComposerAvatar() {
+  var ca = document.getElementById('composer-avatar');
+  if (ca && currentUser) {
+    if (currentUser.avatar_url) {
+      ca.innerHTML = '<img src="' + currentUser.avatar_url + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%" onerror="this.outerHTML=\'' + currentUser.username[0].toUpperCase() + '\'">';
+    } else {
+      ca.textContent = currentUser.username[0].toUpperCase();
+    }
+  }
+}
+
+function cleanArticleText(text) {
+  if (!text) return text;
+  var cleaned = text
+    .replace(/BU REHBER\s+\S+\s+YAP[Iİ]YOR/gi, '')
+    .replace(/BU HABER\s+\S+\s+YAP[Iİ]YOR/gi, '')
+    .replace(/BU MAKALE\s+\S+\s+YAP[Iİ]YOR/gi, '')
+    .replace(/BU REHBER\s+\S+\s+YAPAR/gi, '')
+    .replace(/^\s*[,;.]/, '')
+    .trim();
+  return cleaned || text;
+}
+
+// ADMIN
 async function loadAdminStats() {
   try {
     const usersCount = await sb('/users?select=id', { method: 'HEAD' });
