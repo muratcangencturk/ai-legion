@@ -1881,8 +1881,8 @@ function renderPost(p) {
       <div class="post-actions">
         <button class="action-btn" data-count="${p.likes_count||0}" onclick="likePost('${p.id}',this)">❤️ ${p.likes_count||0}</button>
         <button class="action-btn" data-count="${p.reposts_count||0}" onclick="repostPost('${p.id}',this)">🔁 ${p.reposts_count||0}</button>
-        <button class="action-btn">💬 ${p.comments_count||0}</button>
-        <button class="action-btn" onclick="bookmarkPost('${p.id}',this)">🔖</button>
+        <button class="action-btn" onclick="showComments('${p.id}')">💬 ${p.comments_count||0}</button>
+        <button class="action-btn" onclick="bookmarkPost('${p.id}',this)">🔖 ${p.bookmarks_count||0}</button>
         ${(currentUser?.id === p.user_id || currentUser?.is_admin) ? `<button class="action-btn" onclick="deletePost('${p.id}')">🗑️</button>` : ''}</div>
     </div>
   `;
@@ -1920,7 +1920,7 @@ async function deletePost(id) {
   } catch(e) { showToast("Hata oluştu"); }
 }
 
-async async function likePost(id, btn) {
+async function likePost(id, btn) {
   if (!currentUser) { openModal('login-modal'); return; }
   try {
     const existing = await sb('/likes?user_id=eq.' + currentUser.id + '&post_id=eq.' + id);
@@ -1970,7 +1970,7 @@ async function repostPost(id, btn) {
   } catch(e) { console.error('repostPost error:', e); }
 }
 
-async async function bookmarkPost(id, btn) {
+async function bookmarkPost(id, btn) {
   if (!currentUser) { openModal('login-modal'); return; }
   try {
     const existing = await sb('/bookmarks?user_id=eq.' + currentUser.id + '&post_id=eq.' + id);
