@@ -1580,7 +1580,7 @@ async function loadArticles() {
       return;
     }
     function getImg(a, idx) {
-      if (a.image_url && !a.image_url.includes('unsplash') && a.image_url.indexOf('http') === 0) return a.image_url;
+      // Supabase image_url ignored - using title-based AI images instead
       var t = (a.title || '').toLowerCase();
       var imgMap = {
         'gpt': 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
@@ -1625,6 +1625,8 @@ async function loadArticles() {
         'yapay zeka': 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
         'robot': 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
         'ai': 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'robot': 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'yapay': 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
       };
       for (var key in imgMap) {
         if (t.includes(key)) return imgMap[key];
