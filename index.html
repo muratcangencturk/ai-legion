@@ -2533,7 +2533,7 @@ function showLearnArticle(el) {
     learnView.innerHTML = `
       <button class="back-btn" onclick="loadLearnContent();document.getElementById('page-learn').scrollIntoView({behavior:'smooth'})">← Tüm Yazılar</button>
       <div class="article-detail">
-          ${getImg(a,0) ? '<img src="'+getImg(a,0)+'" class="article-detail-img" onerror="this.style.display=\'none\'" >' : ''}
+          ${getImg(a,0) ? '<img src="'+getImg(a,0)+'" class="article-detail-img" onerror="this.style.display='none'" >' : ''}
         <h1>${a.title}</h1>
         <div style="color:var(--text3);font-size:13px;margin-bottom:20px">✍️ ${a.author || 'AI Legion Ekibi'} · 📖 ${a.readTime}</div>
         <div class="content">${(a.content || a.summary || '').split('\n').map(p => p ? '<p>'+p+'</p>' : '').join('')}</div>
@@ -2563,7 +2563,7 @@ function renderLearn(items) {
      })(a.title||'');
      var imgUrl = a.image_url || titleImg;
      if (imgUrl) {
-       imgHtml = '<img src="' + imgUrl + '" style="width:100%;height:180px;object-fit:cover;display:block"  onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">';
+       imgHtml = '<img src="' + imgUrl + '" style="width:100%;height:180px;object-fit:cover;display:block"  onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">';
        imgHtml += '<div class="article-img-placeholder" style="height:180px;background:' + bg + ';display:none;align-items:center;justify-content:center"><span style="font-size:48px">' + (a.emoji||'📚') + '</span></div>';
       } else {
         imgHtml = '<div class="article-img-placeholder" style="height:180px;background:' + bg + ';display:flex;align-items:center;justify-content:center"><span style="font-size:48px">' + (a.emoji||'📚') + '</span></div>';
