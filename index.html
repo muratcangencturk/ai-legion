@@ -1627,7 +1627,7 @@ async function loadArticles() {
       // SUPABASE image_url'ü TAMAMEN GÖRMEZDEN GEL - Sadece title-based AI images
       // Türkçe karakterleri normalize et
       var t = (a.title || '').toLowerCase('en-US').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-      var imgMap = {
+            var imgMap = {
         // AI Modeller
         'gpt': 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
         'openai': 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
@@ -1651,167 +1651,38 @@ async function loadArticles() {
         'kimi': 'https://images.pexels.com/photos/8566500/pexels-photo-8566500.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
         'moonshot': 'https://images.pexels.com/photos/18069157/pexels-photo-18069157.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
         'minimax': 'https://images.pexels.com/photos/18069596/pexels-photo-18069596.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        // Ek AI Konseptler
+        // AI Konseptler
         'kurumsal': 'https://images.pexels.com/photos/8566589/pexels-photo-8566589.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
         'gelecek': 'https://images.pexels.com/photos/18069166/pexels-photo-18069166.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
         'devrim': 'https://images.pexels.com/photos/17484899/pexels-photo-17484899.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'en iyi': 'https://images.pexels.com/photos/18069166/pexels-photo-18069166.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'güçlü': 'https://images.pexels.com/photos/18069166/pexels-photo-18069166.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'ücretsiz': 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'entegre': 'https://images.pexels.com/photos/8438980/pexels-photo-8438980.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'platform': 'https://images.pexels.com/photos/8438980/pexels-photo-8438980.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'multi-model': 'https://images.pexels.com/photos/17485853/pexels-photo-17485853.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'modal': 'https://images.pexels.com/photos/17485853/pexels-photo-17485853.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'uzun context': 'https://images.pexels.com/photos/8386450/pexels-photo-8386450.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'belge analizi': 'https://images.pexels.com/photos/8386450/pexels-photo-8386450.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'kıyaslama': 'https://images.pexels.com/photos/17484899/pexels-photo-17484899.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'sınav': 'https://images.pexels.com/photos/17484899/pexels-photo-17484899.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'zirve': 'https://images.pexels.com/photos/17484899/pexels-photo-17484899.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'fransa': 'https://images.pexels.com/photos/8566500/pexels-photo-8566500.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'startup': 
-        'trilyon': 'https://images.pexels.com/photos/18069166/pexels-photo-18069166.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'parametre': 'https://images.pexels.com/photos/18069166/pexels-photo-18069166.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'benchmark': 'https://images.pexels.com/photos/17484899/pexels-photo-17484899.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'açık kaynak': 'https://images.pexels.com/photos/18069157/pexels-photo-18069157.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'self-host': 'https://images.pexels.com/photos/18069157/pexels-photo-18069157.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
         // AI Araçlar
         'cursor': 'https://images.pexels.com/photos/8438980/pexels-photo-8438980.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
         'windsurf': 'https://images.pexels.com/photos/8438980/pexels-photo-8438980.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
         'kod': 'https://images.pexels.com/photos/8438980/pexels-photo-8438980.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
         'editör': 'https://images.pexels.com/photos/8438980/pexels-photo-8438980.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        // AI Konseptler
+        // AI Agentlar
         'agent': 'https://images.pexels.com/photos/18069166/pexels-photo-18069166.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
         'ajan': 'https://images.pexels.com/photos/18069166/pexels-photo-18069166.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
         'rag': 'https://images.pexels.com/photos/8566589/pexels-photo-8566589.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
         'sora': 'https://images.pexels.com/photos/8566545/pexels-photo-8566545.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
         'video': 'https://images.pexels.com/photos/8566545/pexels-photo-8566545.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'rakip': 'https://images.pexels.com/photos/8566545/pexels-photo-8566545.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'framework': 
-        'crewai': 
-        'autogen': 
-        // Konular
-        'freelance': 
-        'geliştirici': 
-        'iş gücü': 
+        'framework': 'https://images.pexels.com/photos/8438980/pexels-photo-8438980.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'crewai': 'https://images.pexels.com/photos/8438980/pexels-photo-8438980.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'autogen': 'https://images.pexels.com/photos/8438980/pexels-photo-8438980.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        // Freelance/SaaS
+        'freelance': 'https://images.pexels.com/photos/8438980/pexels-photo-8438980.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'geliştirici': 'https://images.pexels.com/photos/8438980/pexels-photo-8438980.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
         'saas': 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
         'ürün': 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        // Regülasyon
         'düzenleme': 'https://images.pexels.com/photos/17485677/pexels-photo-17485677.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
         'regülasyon': 'https://images.pexels.com/photos/17485677/pexels-photo-17485677.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
         'ab': 'https://images.pexels.com/photos/17485677/pexels-photo-17485677.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
         'act': 'https://images.pexels.com/photos/17485677/pexels-photo-17485677.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
         'avrupa': 'https://images.pexels.com/photos/8566500/pexels-photo-8566500.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'benchmark': 'https://images.pexels.com/photos/17484899/pexels-photo-17484899.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'açık kaynak': 'https://images.pexels.com/photos/18069157/pexels-photo-18069157.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'self-host': 'https://images.pexels.com/photos/18069157/pexels-photo-18069157.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        // ALAKASIZ GÖRSELLERİ ENGELLE - Bunları AI temalı ile değiştir
-;
-      for (var key in imgMap) {
-        if (t.includes(key)) return imgMap[key];
-      }
-      var defaults = [
-        'https://images.pexels.com/photos/18069166/pexels-photo-18069166.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'https://images.pexels.com/photos/17485702/pexels-photo-17485702.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'https://images.pexels.com/photos/18069596/pexels-photo-18069596.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'https://images.pexels.com/photos/8566545/pexels-photo-8566545.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        
-        'https://images.pexels.com/photos/18302507/pexels-photo-18302507.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'https://images.pexels.com/photos/17485853/pexels-photo-17485853.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'https://images.pexels.com/photos/18069157/pexels-photo-18069157.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'https://images.pexels.com/photos/857251/pexels-photo-857251.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-      ];
-      return defaults[idx % defaults.length];
-    }
-    let html = '';
-    if (articles.length >= 1) {
-      const a = articles[0];
-      var img0 = getImg(a, 0);
-      html += '<div class="featured-news">';
-      html += '<div class="featured-main" onclick="showArticle(' + JSON.stringify(a).replace(/"/g, '&quot;') + ')" style="background-image:url(' + img0 + ');background-size:cover;background-position:center">';
-      html += '<div class="featured-overlay"><div class="article-title">' + a.title + '</div>';
-      html += '<div class="article-meta"><span>✍️ ' + (a.author || 'AI Legion') + '</span><span>' + new Date(a.created_at).toLocaleDateString('tr-TR') + '</span></div></div></div>';
-      for (let i = 1; i < Math.min(3, articles.length); i++) {
-        const s = articles[i];
-        var imgI = getImg(s, i);
-        html += '<div class="featured-side" onclick="showArticle(' + JSON.stringify(s).replace(/"/g, '&quot;') + ')" style="background-image:url(' + imgI + ');background-size:cover;background-position:center">';
-        html += '<div class="featured-overlay"><div class="article-title">' + s.title + '</div>';
-        html += '<div class="article-meta"><span>' + new Date(s.created_at).toLocaleDateString('tr-TR') + '</span></div></div></div>';
-      }
-      html += '</div>';
-    }
-    const rest = articles.slice(3);
-    if (rest.length) {
-      html += '<div class="articles-grid">';
-      rest.forEach((a, idx) => {
-        var imgR = getImg(a, idx + 3);
-        html += '<div class="article-card" onclick="showArticle(' + JSON.stringify(a).replace(/"/g, '&quot;') + ')">';
-        html += '<img class="article-img" src="' + imgR + '" alt="" loading="lazy" decoding="async" onerror="this.style.display=\'none\'" />';
-        html += '<div class="article-body"><div class="article-title">' + a.title + '</div>';
-        html += '<div class="article-summary">' + (cleanArticleText(a.summary) || (cleanArticleText(a.content) || '').substring(0, 120) + '...') + '</div>';
-        html += '<div class="article-meta"><span>✍️ ' + (a.author || 'AI Legion') + '</span><span>' + (a.source ? a.source + ' · ' : '') + new Date(a.created_at).toLocaleDateString('tr-TR') + '</span></div>';
-        html += '</div></div>';
-      });
-      html += '</div>';
-    }
-    container.innerHTML = html;
-  } catch(e) { 
-    console.error('[AI Legion] loadArticles error:', e);
-    document.getElementById('articles-list').innerHTML = '<div class="empty-state"><div class="icon">⚠️</div><p>Haberler yüklenemedi</p></div>'; 
-  }
-}
-
-function showArticle(article) {
-  document.getElementById('articles-list-view').style.display = 'none';
-  const detail = document.getElementById('article-detail-view');
-  detail.style.display = 'block';
-  function getImg(a, idx) {
-    var t = (a.title || '').toLowerCase();
-    var imgMap = {
-        'gpt': 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-        'openai': 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-        'chatgpt': 'https://images.pexels.com/photos/17485702/pexels-photo-17485702.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-        'claude': 'https://images.pexels.com/photos/18069166/pexels-photo-18069166.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-        'anthropic': 'https://images.pexels.com/photos/18069166/pexels-photo-18069166.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-        'gemini': 'https://images.pexels.com/photos/17485677/pexels-photo-17485677.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-        'google': 'https://images.pexels.com/photos/17485677/pexels-photo-17485677.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-        'grok': 'https://images.pexels.com/photos/18069596/pexels-photo-18069596.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-        'xai': 'https://images.pexels.com/photos/18069596/pexels-photo-18069596.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-        'deepseek': 'https://images.pexels.com/photos/857251/pexels-photo-857251.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-        'çin': 'https://images.pexels.com/photos/857251/pexels-photo-857251.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-        'llama': 'https://images.pexels.com/photos/18069157/pexels-photo-18069157.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-        'meta': 'https://images.pexels.com/photos/18069157/pexels-photo-18069157.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-        'mistral': 'https://images.pexels.com/photos/8566500/pexels-photo-8566500.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-        'qwen': 'https://images.pexels.com/photos/8566525/pexels-photo-8566525.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-        'alibaba': 'https://images.pexels.com/photos/8566525/pexels-photo-8566525.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-        'glm': 'https://images.pexels.com/photos/17485853/pexels-photo-17485853.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-        'zhipu': 'https://images.pexels.com/photos/17485853/pexels-photo-17485853.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-        'kimi': 'https://images.pexels.com/photos/8386450/pexels-photo-8386450.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-        'moonshot': 'https://images.pexels.com/photos/8386450/pexels-photo-8386450.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-        'minimax': 'https://images.pexels.com/photos/18069596/pexels-photo-18069596.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-        'cursor': 'https://images.pexels.com/photos/8438980/pexels-photo-8438980.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-        'windsurf': 'https://images.pexels.com/photos/8438980/pexels-photo-8438980.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-        'kod': 'https://images.pexels.com/photos/8438980/pexels-photo-8438980.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-        'editör': 'https://images.pexels.com/photos/8438980/pexels-photo-8438980.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-        'agent': 'https://images.pexels.com/photos/8574870/pexels-photo-8574870.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-        'ajan': 'https://images.pexels.com/photos/8574870/pexels-photo-8574870.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-        'framework': 'https://images.pexels.com/photos/8438980/pexels-photo-8438980.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-        'crewai': 'https://images.pexels.com/photos/8438980/pexels-photo-8438980.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-        'autogen': 'https://images.pexels.com/photos/8438980/pexels-photo-8438980.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-        'openclaw': 'https://images.pexels.com/photos/8438980/pexels-photo-8438980.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-        'rag': 'https://images.pexels.com/photos/8566589/pexels-photo-8566589.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-        'sora': 'https://images.pexels.com/photos/8566545/pexels-photo-8566545.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-        'video': 'https://images.pexels.com/photos/8566545/pexels-photo-8566545.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-        'düzenleme': 'https://images.pexels.com/photos/8574890/pexels-photo-8574890.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-        'regülasyon': 'https://images.pexels.com/photos/8574890/pexels-photo-8574890.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-        'saaş': 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-        'freelance': 'https://images.pexels.com/photos/8566474/pexels-photo-8566474.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-        'üretken': 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-        'yapay zeka': 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-        'robot': 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-        'ai': 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-        'minimax': 'https://images.pexels.com/photos/18069596/pexels-photo-18069596.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-        'kimi': 'https://images.pexels.com/photos/8386450/pexels-photo-8386450.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-        'moonshot': 'https://images.pexels.com/photos/8386450/pexels-photo-8386450.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-        'ab': 'https://images.pexels.com/photos/17485677/pexels-photo-17485677.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-        'act': 'https://images.pexels.com/photos/17485677/pexels-photo-17485677.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-        'rakip': 'https://images.pexels.com/photos/8566545/pexels-photo-8566545.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
       };
     // Supabase image_url ignored - using title-based AI images
     for (var key in imgMap) {
