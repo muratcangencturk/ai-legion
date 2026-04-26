@@ -6,24 +6,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI Legion - Yapay Zeka Topluluğu</title>
   <link rel="icon" href="logo.jpg" type="image/jpeg">
-  <meta name="description" content="Türkiye nin ilk AI topluluğu. Güncel haberler, model karşılaştırmaları, araçlar ve profesyonel promptlar.">
+  <meta name="description" content="Türkiye’nin ilk AI topluluğu. Güncel yapay zeka haberleri, model karşılaştırmaları, AI araçları ve profesyonel promptlar | Yapay Zeka Portalı">
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://ai-legion.netlify.app/">
   <meta property="og:title" content="AI Legion - Yapay Zeka Topluluğu">
-  <meta property="og:description" content="Türkiye nin ilk AI topluluğu. Güncel haberler, model karşılaştırmaları, araçlar ve profesyonel promptlar.">
+  <meta property="og:description" content="Türkiye’nin ilk AI topluluğu. Güncel yapay zeka haberleri, model karşılaştırmaları, AI araçları ve profesyonel promptlar | Yapay Zeka Portalı">
   <meta property="og:image" content="https://ai-legion.netlify.app/logo.jpg">
 
   <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image">
   <meta property="twitter:url" content="https://ai-legion.netlify.app/">
   <meta property="twitter:title" content="AI Legion - Yapay Zeka Topluluğu">
-  <meta property="twitter:description" content="Türkiye nin ilk AI topluluğu. Güncel haberler, model karşılaştırmaları, araçlar ve profesyonel promptlar.">
+  <meta property="twitter:description" content="Türkiye’nin ilk AI topluluğu. Güncel yapay zeka haberleri, model karşılaştırmaları, AI araçları ve profesyonel promptlar | Yapay Zeka Portalı">
   <meta property="twitter:image" content="https://ai-legion.netlify.app/logo.jpg">
-  <meta name="keywords" content="yapay zeka, AI, AI Legion, yapay zeka haberleri, GPT, Claude, Gemini, AI araçları, AI modelleri, AI agentları, prompt mühendisliği, makine öğrenmesi, derin öğrenme, LLM, büyük dil modelleri">
+  <meta name="keywords" content="AI Legion, yapay zeka, yapay zeka haberleri, AI haberler, AI modelleri, GPT, Claude, Gemini, DeepSeek, LLM, büyük dil modelleri, ChatGPT Türkiye, AI araçları, AI agentları, prompt mühendisliği, makine öğrenmesi, derin öğrenme, AI topluluğu Türkiye, yapay zeka portalı, model benchmark, GPT-5.5, Claude Opus, Gemini Pro">
   <meta name="author" content="AI Legion">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://ai-legion.netlify.app/">
+  <link rel="preconnect" href="https://images.pexels.com">
+  <link rel="preconnect" href="https://img.icons8.com">
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 
@@ -34,7 +37,7 @@
     "@type": "WebSite",
     "name": "AI Legion",
     "url": "https://ai-legion.netlify.app/",
-    "description": "Türkiye nin ilk AI topluluğu. Güncel haberler, model karşılaştırmaları, araçlar ve profesyonel promptlar."
+    "description": "Türkiye’nin ilk AI topluluğu. Güncel yapay zeka haberleri, model karşılaştırmaları, AI araçları ve profesyonel promptlar."
   }
   </script>
   <style>
@@ -50,7 +53,7 @@
       --green:#2d6a2d;--green2:#3d8a3d;
       --blue:#1a3a6a;--blue2:#2a5a9a;
     }
-    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+    body{-webkit-tap-highlight-color:transparent;touch-action:manipulation;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
     
     /* SCROLLBAR */
     ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg2)}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
@@ -761,6 +764,21 @@
               <option value="cohere-command-rplus">Cohere Command R+ (Cohere)</option>
               <option value="perplexity">Perplexity (Perplexity AI)</option>
               <option value="gemma-2-27b">Gemma 2 27B (Google)</option>
+              <option value="kimi-k26">Kimi K2.6 (Moonshot)</option>
+              <option value="glm-51">GLM 5.1 (Zhipu)</option>
+              <option value="minimax-27">MiniMax 2.7 (MiniMax)</option>
+              <option value="qwen-36-max">Qwen 3.6 Max (Alibaba)</option>
+              <option value="qwen-36-120b">Qwen 3.6 120B (Alibaba)</option>
+              <option value="qwen-36-35b">Qwen 3.6 35B (Alibaba)</option>
+              <option value="qwen-36-7b">Qwen 3.6 7B (Alibaba)</option>
+              <option value="llama-4-maverick">Llama 4 Maverick (Meta)</option>
+              <option value="deepseek-r1-671b">DeepSeek R1 671B (DeepSeek)</option>
+              <option value="mistral-small-31">Mistral Small 3.1 (Mistral)</option>
+              <option value="phi-4-14b">Phi-4 14B (Microsoft)</option>
+              <option value="yi-lightning-3b">Yi Lightning 3B (01.AI)</option>
+              <option value="jamba-2">Jamba 2 (AI21)</option>
+              <option value="falcon-3-180b">Falcon 3 180B (TII)</option>
+            
             </select>
           </div>
           <div style="font-size:28px;color:var(--gold);padding-bottom:10px">⚔️</div>
@@ -801,6 +819,21 @@
               <option value="cohere-command-rplus">Cohere Command R+ (Cohere)</option>
               <option value="perplexity">Perplexity (Perplexity AI)</option>
               <option value="gemma-2-27b">Gemma 2 27B (Google)</option>
+              <option value="kimi-k26">Kimi K2.6 (Moonshot)</option>
+              <option value="glm-51">GLM 5.1 (Zhipu)</option>
+              <option value="minimax-27">MiniMax 2.7 (MiniMax)</option>
+              <option value="qwen-36-max">Qwen 3.6 Max (Alibaba)</option>
+              <option value="qwen-36-120b">Qwen 3.6 120B (Alibaba)</option>
+              <option value="qwen-36-35b">Qwen 3.6 35B (Alibaba)</option>
+              <option value="qwen-36-7b">Qwen 3.6 7B (Alibaba)</option>
+              <option value="llama-4-maverick">Llama 4 Maverick (Meta)</option>
+              <option value="deepseek-r1-671b">DeepSeek R1 671B (DeepSeek)</option>
+              <option value="mistral-small-31">Mistral Small 3.1 (Mistral)</option>
+              <option value="phi-4-14b">Phi-4 14B (Microsoft)</option>
+              <option value="yi-lightning-3b">Yi Lightning 3B (01.AI)</option>
+              <option value="jamba-2">Jamba 2 (AI21)</option>
+              <option value="falcon-3-180b">Falcon 3 180B (TII)</option>
+            
             </select>
           </div>
         </div>
@@ -1528,7 +1561,8 @@ function loadDiscoverFeed() {
     if (Array.isArray(posts) && posts.length) {
       var items = posts.slice(0, 3).map(function(p) {
         var username = (p.user && p.user.username) || p.username || 'kullanıcı';
-        return { icon: '💬', title: (p.content || '').substring(0, 80) + ((p.content || '').length > 80 ? '...' : ''), meta1: '👤 @' + username, meta2: '❤️ ' + (p.likes_count || 0), onclick: "showPage('social')" };
+        var displayName = (p.user && p.user.display_name) || (p.user && p.user.full_name) || username;
+        return { icon: '💬', title: (p.content || '').substring(0, 80) + ((p.content || '').length > 80 ? '...' : ''), meta1: '👤 ' + displayName.charAt(0).toUpperCase() + displayName.slice(1), meta2: '❤️ ' + (p.likes_count || 0), onclick: "showPage('social')" };
       });
       var sec = renderDiscoverSection('Son Paylaşımlar', '💬', items, 'social');
       feed.innerHTML = sec + feed.innerHTML;
@@ -1557,42 +1591,40 @@ async function loadArticles() {
         'gemini': 'https://images.pexels.com/photos/8566579/pexels-photo-8566579.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
         'google': 'https://images.pexels.com/photos/8566579/pexels-photo-8566579.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
         'grok': 'https://images.pexels.com/photos/8566644/pexels-photo-8566644.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'xai': 'https://images.pexels.com/photos/8566644/pexels-photo-8566644.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
         'deepseek': 'https://images.pexels.com/photos/8566720/pexels-photo-8566720.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'llama': 'https://images.pexels.com/photos/8386450/pexels-photo-8386450.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'meta': 'https://images.pexels.com/photos/8386450/pexels-photo-8386450.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'mistral': 'https://images.pexels.com/photos/8566705/pexels-photo-8566705.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'qwen': 'https://images.pexels.com/photos/8574850/pexels-photo-8574850.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'alibaba': 'https://images.pexels.com/photos/8574850/pexels-photo-8574850.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'copilot': 'https://images.pexels.com/photos/8566520/pexels-photo-8566520.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'microsoft': 'https://images.pexels.com/photos/8386450/pexels-photo-8386450.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'phi': 'https://images.pexels.com/photos/8566474/pexels-photo-8566474.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'çin': 'https://images.pexels.com/photos/8566720/pexels-photo-8566720.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'llama': 'https://images.pexels.com/photos/8566534/pexels-photo-8566534.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'meta': 'https://images.pexels.com/photos/8566534/pexels-photo-8566534.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'mistral': 'https://images.pexels.com/photos/8566500/pexels-photo-8566500.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'qwen': 'https://images.pexels.com/photos/8566525/pexels-photo-8566525.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'alibaba': 'https://images.pexels.com/photos/8566525/pexels-photo-8566525.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'glm': 'https://images.pexels.com/photos/8566561/pexels-photo-8566561.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'zhipu': 'https://images.pexels.com/photos/8566561/pexels-photo-8566561.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'kimi': 'https://images.pexels.com/photos/8386450/pexels-photo-8386450.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'moonshot': 'https://images.pexels.com/photos/8386450/pexels-photo-8386450.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'minimax': 'https://images.pexels.com/photos/8566615/pexels-photo-8566615.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'cursor': 'https://images.pexels.com/photos/8438980/pexels-photo-8438980.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'windsurf': 'https://images.pexels.com/photos/8438980/pexels-photo-8438980.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'kod': 'https://images.pexels.com/photos/8438980/pexels-photo-8438980.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'editör': 'https://images.pexels.com/photos/8438980/pexels-photo-8438980.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
         'agent': 'https://images.pexels.com/photos/8574870/pexels-photo-8574870.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'robot': 'https://images.pexels.com/photos/8566579/pexels-photo-8566579.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'startup': 'https://images.pexels.com/photos/8566545/pexels-photo-8566545.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'yatirim': 'https://images.pexels.com/photos/8566545/pexels-photo-8566545.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'fund': 'https://images.pexels.com/photos/8566545/pexels-photo-8566545.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'security': 'https://images.pexels.com/photos/8574890/pexels-photo-8574890.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'cybersecurity': 'https://images.pexels.com/photos/8574890/pexels-photo-8574890.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'code': 'https://images.pexels.com/photos/8566545/pexels-photo-8566545.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'program': 'https://images.pexels.com/photos/8566689/pexels-photo-8566689.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'chip': 'https://images.pexels.com/photos/8566520/pexels-photo-8566520.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'nvidia': 'https://images.pexels.com/photos/8566520/pexels-photo-8566520.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'gpu': 'https://images.pexels.com/photos/8566520/pexels-photo-8566520.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'apple': 'https://images.pexels.com/photos/8438980/pexels-photo-8438980.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'siri': 'https://images.pexels.com/photos/8438980/pexels-photo-8438980.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'tesla': 'https://images.pexels.com/photos/8574870/pexels-photo-8574870.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'data': 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'kimi': 'https://images.pexels.com/photos/8304075/pexels-photo-8304075.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'glm': 'https://images.pexels.com/photos/8574830/pexels-photo-8574830.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'minimax': 'https://images.pexels.com/photos/8566534/pexels-photo-8566534.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'video': 'https://images.pexels.com/photos/8566534/pexels-photo-8566534.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'openclaw': 'https://images.pexels.com/photos/8566658/pexels-photo-8566658.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'hermes': 'https://images.pexels.com/photos/8566658/pexels-photo-8566658.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'prompt': 'https://images.pexels.com/photos/8566630/pexels-photo-8566630.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'rag': 'https://images.pexels.com/photos/8566525/pexels-photo-8566525.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'finetun': 'https://images.pexels.com/photos/8566673/pexels-photo-8566673.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'benchmark': 'https://images.pexels.com/photos/8566474/pexels-photo-8566474.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
-        'model': 'https://images.pexels.com/photos/8574850/pexels-photo-8574850.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'ajan': 'https://images.pexels.com/photos/8574870/pexels-photo-8574870.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'framework': 'https://images.pexels.com/photos/8438980/pexels-photo-8438980.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'crewai': 'https://images.pexels.com/photos/8438980/pexels-photo-8438980.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'autogen': 'https://images.pexels.com/photos/8438980/pexels-photo-8438980.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'openclaw': 'https://images.pexels.com/photos/8438980/pexels-photo-8438980.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'rag': 'https://images.pexels.com/photos/8566589/pexels-photo-8566589.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'sora': 'https://images.pexels.com/photos/8566545/pexels-photo-8566545.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'video': 'https://images.pexels.com/photos/8566545/pexels-photo-8566545.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'düzenleme': 'https://images.pexels.com/photos/8574890/pexels-photo-8574890.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'regülasyon': 'https://images.pexels.com/photos/8574890/pexels-photo-8574890.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'saaş': 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'freelance': 'https://images.pexels.com/photos/8566474/pexels-photo-8566474.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'üretken': 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'yapay zeka': 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'robot': 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
+        'ai': 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop',
       };
       for (var key in imgMap) {
         if (t.includes(key)) return imgMap[key];
@@ -1658,33 +1690,49 @@ function showArticle(article) {
   function getImg(a, idx) {
     var t = (a.title || '').toLowerCase();
     var imgMap = {
-      'gpt': 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-      'openai': 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-      'chatgpt': 'https://images.pexels.com/photos/8438966/pexels-photo-8438966.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-      'claude': 'https://images.pexels.com/photos/8304075/pexels-photo-8304075.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-      'anthropic': 'https://images.pexels.com/photos/8304075/pexels-photo-8304075.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-      'gemini': 'https://images.pexels.com/photos/8566579/pexels-photo-8566579.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-      'google': 'https://images.pexels.com/photos/8566579/pexels-photo-8566579.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-      'grok': 'https://images.pexels.com/photos/8566644/pexels-photo-8566644.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-      'deepseek': 'https://images.pexels.com/photos/8566720/pexels-photo-8566720.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-      'llama': 'https://images.pexels.com/photos/8386450/pexels-photo-8386450.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-      'meta': 'https://images.pexels.com/photos/8386450/pexels-photo-8386450.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-      'mistral': 'https://images.pexels.com/photos/8566705/pexels-photo-8566705.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-      'qwen': 'https://images.pexels.com/photos/8574850/pexels-photo-8574850.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-      'alibaba': 'https://images.pexels.com/photos/8574850/pexels-photo-8574850.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-      'copilot': 'https://images.pexels.com/photos/8566520/pexels-photo-8566520.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-      'microsoft': 'https://images.pexels.com/photos/8386450/pexels-photo-8386450.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-      'phi': 'https://images.pexels.com/photos/8566474/pexels-photo-8566474.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-      'agent': 'https://images.pexels.com/photos/8574870/pexels-photo-8574870.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-      'robot': 'https://images.pexels.com/photos/8566579/pexels-photo-8566579.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-      'startup': 'https://images.pexels.com/photos/8566545/pexels-photo-8566545.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-      'security': 'https://images.pexels.com/photos/8574890/pexels-photo-8574890.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-      'code': 'https://images.pexels.com/photos/8566545/pexels-photo-8566545.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-      'chip': 'https://images.pexels.com/photos/8566520/pexels-photo-8566520.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-      'nvidia': 'https://images.pexels.com/photos/8566520/pexels-photo-8566520.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-      'apple': 'https://images.pexels.com/photos/8438980/pexels-photo-8438980.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-      'data': 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
-    };
+        'gpt': 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+        'openai': 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+        'chatgpt': 'https://images.pexels.com/photos/8438966/pexels-photo-8438966.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+        'claude': 'https://images.pexels.com/photos/8304075/pexels-photo-8304075.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+        'anthropic': 'https://images.pexels.com/photos/8304075/pexels-photo-8304075.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+        'gemini': 'https://images.pexels.com/photos/8566579/pexels-photo-8566579.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+        'google': 'https://images.pexels.com/photos/8566579/pexels-photo-8566579.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+        'grok': 'https://images.pexels.com/photos/8566644/pexels-photo-8566644.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+        'xai': 'https://images.pexels.com/photos/8566644/pexels-photo-8566644.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+        'deepseek': 'https://images.pexels.com/photos/8566720/pexels-photo-8566720.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+        'çin': 'https://images.pexels.com/photos/8566720/pexels-photo-8566720.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+        'llama': 'https://images.pexels.com/photos/8566534/pexels-photo-8566534.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+        'meta': 'https://images.pexels.com/photos/8566534/pexels-photo-8566534.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+        'mistral': 'https://images.pexels.com/photos/8566500/pexels-photo-8566500.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+        'qwen': 'https://images.pexels.com/photos/8566525/pexels-photo-8566525.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+        'alibaba': 'https://images.pexels.com/photos/8566525/pexels-photo-8566525.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+        'glm': 'https://images.pexels.com/photos/8566561/pexels-photo-8566561.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+        'zhipu': 'https://images.pexels.com/photos/8566561/pexels-photo-8566561.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+        'kimi': 'https://images.pexels.com/photos/8386450/pexels-photo-8386450.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+        'moonshot': 'https://images.pexels.com/photos/8386450/pexels-photo-8386450.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+        'minimax': 'https://images.pexels.com/photos/8566615/pexels-photo-8566615.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+        'cursor': 'https://images.pexels.com/photos/8438980/pexels-photo-8438980.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+        'windsurf': 'https://images.pexels.com/photos/8438980/pexels-photo-8438980.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+        'kod': 'https://images.pexels.com/photos/8438980/pexels-photo-8438980.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+        'editör': 'https://images.pexels.com/photos/8438980/pexels-photo-8438980.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+        'agent': 'https://images.pexels.com/photos/8574870/pexels-photo-8574870.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+        'ajan': 'https://images.pexels.com/photos/8574870/pexels-photo-8574870.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+        'framework': 'https://images.pexels.com/photos/8438980/pexels-photo-8438980.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+        'crewai': 'https://images.pexels.com/photos/8438980/pexels-photo-8438980.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+        'autogen': 'https://images.pexels.com/photos/8438980/pexels-photo-8438980.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+        'openclaw': 'https://images.pexels.com/photos/8438980/pexels-photo-8438980.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+        'rag': 'https://images.pexels.com/photos/8566589/pexels-photo-8566589.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+        'sora': 'https://images.pexels.com/photos/8566545/pexels-photo-8566545.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+        'video': 'https://images.pexels.com/photos/8566545/pexels-photo-8566545.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+        'düzenleme': 'https://images.pexels.com/photos/8574890/pexels-photo-8574890.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+        'regülasyon': 'https://images.pexels.com/photos/8574890/pexels-photo-8574890.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+        'saaş': 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+        'freelance': 'https://images.pexels.com/photos/8566474/pexels-photo-8566474.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+        'üretken': 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+        'yapay zeka': 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+        'robot': 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+        'ai': 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop',
+      };
     if (a.image_url && a.image_url.indexOf('http') === 0 && !a.image_url.includes('unsplash') && !a.image_url.includes('wikimedia')) return a.image_url;
     for (var key in imgMap) {
       if (t.includes(key)) return imgMap[key];
@@ -2217,6 +2265,20 @@ const arenaModels = {
   'cohere-command-rplus': { name: 'Cohere Command R+', lmsys: 1080, mmlu: 59.2, swe_bench: 10.8, aime: 17.0, humaneval: 55.5, color: '#1da1f2' },
   'perplexity': { name: 'Perplexity', lmsys: 1068, mmlu: 58.5, swe_bench: 8.2, aime: 14.0, humaneval: 52.1, color: '#20b8cd' },
   'gemma-2-27b': { name: 'Gemma 3 27B', lmsys: 1055, mmlu: 57.8, swe_bench: 9.5, aime: 16.0, humaneval: 54.2, color: '#1da1f2' },
+  'kimi-k26': { name: 'Kimi K2.6', lmsys: 1318, mmlu: 81.5, swe_bench: 44.3, aime: 48.0, humaneval: 80.1, color: '#8b5cf6' },
+  'glm-51': { name: 'GLM 5.1', lmsys: 1320, mmlu: 80.2, swe_bench: 41.5, aime: 45.0, humaneval: 78.9, color: '#4ade80' },
+  'minimax-27': { name: 'MiniMax 2.7', lmsys: 1245, mmlu: 72.1, swe_bench: 28.7, aime: 36.0, humaneval: 72.3, color: '#f472b6' },
+  'qwen-36-max': { name: 'Qwen 3.6 Max', lmsys: 1408, mmlu: 86.4, swe_bench: 58.3, aime: 62.0, humaneval: 85.5, color: '#fbbf24' },
+  'qwen-36-120b': { name: 'Qwen 3.6 120B', lmsys: 1372, mmlu: 83.1, swe_bench: 47.6, aime: 54.0, humaneval: 82.3, color: '#fbbf24' },
+  'qwen-36-35b': { name: 'Qwen 3.6 35B', lmsys: 1335, mmlu: 79.5, swe_bench: 35.2, aime: 44.0, humaneval: 78.8, color: '#fbbf24' },
+  'qwen-36-7b': { name: 'Qwen 3.6 7B', lmsys: 1255, mmlu: 72.8, swe_bench: 25.1, aime: 32.0, humaneval: 71.5, color: '#fbbf24' },
+  'llama-4-maverick': { name: 'Llama 4 Maverick 17Bx128', lmsys: 1445, mmlu: 85.1, swe_bench: 55.0, aime: 60.0, humaneval: 84.2, color: '#1da1f2' },
+  'deepseek-r1-671b': { name: 'DeepSeek R1 671B', lmsys: 1480, mmlu: 86.2, swe_bench: 52.1, aime: 65.0, humaneval: 86.3, color: '#f97316' },
+  'mistral-small-31': { name: 'Mistral Small 3.1 24B', lmsys: 1260, mmlu: 73.5, swe_bench: 29.8, aime: 38.0, humaneval: 75.1, color: '#e0245e' },
+  'phi-4-14b': { name: 'Phi-4 14B', lmsys: 1298, mmlu: 77.2, swe_bench: 34.5, aime: 40.0, humaneval: 76.8, color: '#00a4ef' },
+  'yi-lightning-3b': { name: 'Yi Lightning 3B', lmsys: 1220, mmlu: 69.5, swe_bench: 22.8, aime: 29.0, humaneval: 67.5, color: '#8b5cf6' },
+  'jamba-2': { name: 'Jamba 2', lmsys: 1180, mmlu: 68.1, swe_bench: 20.2, aime: 27.0, humaneval: 63.8, color: '#8b5cf6' },
+  'falcon-3-180b': { name: 'Falcon 3 180B', lmsys: 1325, mmlu: 78.5, swe_bench: 38.0, aime: 45.0, humaneval: 79.2, color: '#1da1f2' },
 };
 
 
@@ -3067,13 +3129,31 @@ var dailyQuestions = [
 ];
 
 function initDailyQuestion() {
-  var dayIndex = Math.floor(Date.now() / 86400000) % dailyQuestions.length;
+  var seed = Math.floor(Date.now() / 86400000);
+  var rng = function(s) { return function() { s = (s * 16807 + 0) % 2147483647; return s / 2147483647; }; };
+  var rand = rng(seed * 1337);
+  var usedQuestions = JSON.parse(localStorage.getItem('dq_used') || '[]');
+  if (usedQuestions.length >= dailyQuestions.length) { usedQuestions = []; }
+  var available = dailyQuestions.map(function(_, idx) { return idx; }).filter(function(i) { return usedQuestions.indexOf(i) === -1; });
+  var dayIndex = available[Math.floor(rand() * available.length)];
+  
+  window._currentDq = { idx: dayIndex, dq: dailyQuestions[dayIndex] };
   var dq = dailyQuestions[dayIndex];
   document.getElementById('dq-question').textContent = dq.q;
   var optionsDiv = document.getElementById('dq-options');
   optionsDiv.innerHTML = '';
   var resultDiv = document.getElementById('dq-result');
   resultDiv.style.display = 'none';
+  
+  // Sıradaki soru butonu (başlangıçta gizli)
+  var oldNext = document.getElementById('dq-next');
+  if (oldNext) oldNext.remove();
+  var nextDiv = document.createElement('div');
+  nextDiv.id = 'dq-next';
+  nextDiv.style.display = 'none';
+  nextDiv.style.marginTop = '12px';
+  nextDiv.innerHTML = '<button onclick="nextDailyQuestion()" style="background:var(--gold);color:#000;border:none;border-radius:8px;padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer">📌 Sıradaki Soru</button>';
+  
   dq.options.forEach(function(opt, i) {
     var btn = document.createElement('button');
     btn.textContent = String.fromCharCode(65 + i) + ') ' + opt;
@@ -3099,13 +3179,25 @@ function initDailyQuestion() {
       });
       resultDiv.style.display = 'block';
       if (i === dq.correct) {
-        resultDiv.innerHTML = '<span style="color:#2ecc71">✓ Doğru cevap! Tebrikler!</span>';
+        resultDiv.innerHTML = '<span style="color:#2ecc71">✓ Doğru!</span> ' + dq.explanation;
       } else {
-        resultDiv.innerHTML = '<span style="color:#e74c3c">✗ Yanlış. Doğru cevap: ' + dq.options[dq.correct] + '</span>';
+        resultDiv.innerHTML = '<span style="color:#e74c3c">✗ Yanlış!</span> ' + dq.explanation + ' <span style="color:var(--text2)">Doğru cevap: ' + dq.options[dq.correct] + '</span>';
       }
+      nextDiv.style.display = 'block';
     };
     optionsDiv.appendChild(btn);
   });
+  var dqContainer = document.getElementById('daily-question');
+  if (dqContainer) { dqContainer.appendChild(nextDiv); }
+}
+
+function nextDailyQuestion() {
+  if (window._currentDq) {
+    var used = JSON.parse(localStorage.getItem('dq_used') || '[]');
+    used.push(window._currentDq.idx);
+    localStorage.setItem('dq_used', JSON.stringify(used));
+  }
+  initDailyQuestion();
 }
 
 </script>
