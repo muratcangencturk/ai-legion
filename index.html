@@ -1777,6 +1777,34 @@ function hideArticle() {
   document.getElementById('articles-list-view').style.display = 'block';
 }
 
+function detectSocialEmbed(content) {
+  if (!content) return null;
+  var patterns = [
+    { regex: /instagram\.com\/p\/([\w-]+)/i, platform: 'instagram', emoji: '📸', name: 'Instagram', domain: 'instagram.com' },
+    { regex: /instagram\.com\/reel\/([\w-]+)/i, platform: 'instagram', emoji: '📸', name: 'Instagram', domain: 'instagram.com' },
+    { regex: /x\.com\/([\w]+)\/status\/([\d]+)/i, platform: 'x', emoji: '𝕏', name: 'X (Twitter)', domain: 'x.com' },
+    { regex: /twitter\.com\/([\w]+)\/status\/([\d]+)/i, platform: 'x', emoji: '𝕏', name: 'X (Twitter)', domain: 'x.com' },
+    { regex: /linkedin\.com\/posts\/([\w-]+)/i, platform: 'linkedin', emoji: '💼', name: 'LinkedIn', domain: 'linkedin.com' },
+    { regex: /linkedin\.com\/feed\/update\/([\w-]+)/i, platform: 'linkedin', emoji: '💼', name: 'LinkedIn', domain: 'linkedin.com' }
+  ];
+  for (var i = 0; i < patterns.length; i++) {
+    var match = content.match(patterns[i].regex);
+    if (match) {
+      var urlMatch = content.match(/https?:\/\/[^\s]+/);
+      var url = urlMatch ? urlMatch[0] : '';
+      return {
+        platform: patterns[i].platform,
+        url: url,
+        emoji: patterns[i].emoji,
+        name: patterns[i].name,
+        username: match[1] || '',
+        postId: match[2] || match[1] || ''
+      };
+    }
+  }
+  return null;
+}
+
 function renderSocialEmbedCard(embed) {
   var iconClass = embed.platform === 'instagram' ? 'ig' : embed.platform === 'x' ? 'tw' : 'li';
   var descMap = {
