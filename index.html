@@ -1812,7 +1812,65 @@ function renderSocialEmbedCard(embed) {
     '</div>' +
   '</div>';
 }
-
+async function loadPosts() {
+  const container = document.getElementById('posts-list');
+  if (!container) return;
+  container.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+  try {
+    const activeTab = document.querySelector('#page-social .tab.active');
+    const feedType = activeTab ? (activeTab.textContent.includes('Trend') ? 'trending' : 'all') : 'all';
+    let posts = await sb('/posts?select=*,user:users(username,avatar_url,id)&order=created_at.desc');
+    if (currentUser) {
+      const [likes, reposts, bookmarks] = await Promise.all([
+        sb('/likes?user_id=eq.' + currentUser.id),
+        sb('/reposts?user_id=eq.' + currentUser.id),
+        sb('/bookmarks?user_id=eq.' + currentUser.id)
+      ]);
+      const likedIds = new Set(likes.map(l => l.post_id));
+      const repostedIds = new Set(reposts.map(r => r.post_id));
+      const bookmarkedIds = new Set(bookmarks.map(b => b.post_id));
+      posts = posts.map(p => ({
+        ...p,
+        userLiked: likedIds.has(p.id),
+        userReposted: repostedIds.has(p.id),
+        userBookmarked: bookmarkedIds.has(p.id)
+      }));
+    }
+    const [allLikes, allReposts, allComments, allBookmarks] = await Promise.all([
+      sb('/likes?select=post_id'),
+      sb('/reposts?select=post_id'),
+      sb('/comments?select=post_id'),
+      sb('/bookmarks?select=post_id')
+    ]);
+    const countMap = {};
+    function inc(map, key, field) {
+      if (!map[key]) map[key] = {};
+      map[key][field] = (map[key][field] || 0) + 1;
+    }
+    allLikes.forEach(l => inc(countMap, l.post_id, 'likes'));
+    allReposts.forEach(r => inc(countMap, r.post_id, 'reposts'));
+    allComments.forEach(c => inc(countMap, c.post_id, 'comments'));
+    allBookmarks.forEach(b => inc(countMap, b.post_id, 'bookmarks'));
+    posts = posts.map(p => ({
+      ...p,
+      likes_count: countMap[p.id]?.likes || 0,
+      reposts_count: countMap[p.id]?.reposts || 0,
+      comments_count: countMap[p.id]?.comments || 0,
+      bookmarks_count: countMap[p.id]?.bookmarks || 0
+    }));
+    if (feedType === 'trending') {
+      posts.sort((a, b) => (b.likes_count + b.reposts_count + b.comments_count) - (a.likes_count + a.reposts_count + a.comments_count));
+    }
+    if (!posts.length) {
+      container.innerHTML = '<div class="empty-state"><div class="icon">💬</div><p>Hen\FCz post yok. İlk postu sen at!</p></div>';
+      return;
+    }
+    container.innerHTML = posts.map(p => renderPost(p)).join('');
+  } catch(e) {
+    console.error('[AI Legion] loadPosts error:', e);
+    container.innerHTML = '<div class="empty-state"><div class="icon">⚠️</div><p>Postlar yüklenemedi</p></div>';
+  }
+}
 function renderPost(p) {
   const username = p.user?.username || 'unknown';
   const avatarUrl = p.user?.avatar_url;
