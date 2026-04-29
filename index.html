@@ -2654,7 +2654,8 @@ function renderLearn(items) {
      var bg = gradients[idx % gradients.length];
      var imgHtml;
      // Önce article.image_url kullan, yoksa article.image (icons8 logo) kullan
-     var imgUrl = a.image_url || a.image || null;
+     var rawImg = a.image_url || '';
+     var imgUrl = (rawImg && !rawImg.includes('pexels') && !rawImg.includes('assets/')) ? rawImg : (getImg(a, idx) || a.image || null);
      if (imgUrl) {
        imgHtml = '<img src="' + imgUrl + '" style="width:100%;height:180px;object-fit:cover;display:block"  onerror="handleImgError(this)">';
        imgHtml += '<div class="article-img-placeholder" style="height:180px;background:' + bg + ';display:none;align-items:center;justify-content:center"><span style="font-size:48px">' + (a.emoji||'📚') + '</span></div>';
