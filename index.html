@@ -6,14 +6,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI Legion - Yapay Zeka Topluluğu | AI Haberleri, Modeller, Araçlar & Promptlar</title>
   <link rel="icon" href="logo.png" type="image/png">
-  <meta name="description" content="Türkiye'nin ilk AI topluluğu. Güncel yapay zeka haberleri, GPT-5.5, Claude Opus 4.7.7, Gemini 3.1 Pro karşılaştırmaları, AI araçları ve profesyonel promptlar. Ücretsiz AI rehberleri ve benchmark sonuçları.">
+  <meta name="description" content="Türkiye'nin ilk AI topluluğu. Güncel yapay zeka haberleri, GPT-5.5, Claude Opus 4.7, Gemini 3.1 Pro karşılaştırmaları, AI araçları ve profesyonel promptlar. Ücretsiz AI rehberleri ve benchmark sonuçları.">
   <meta name="theme-color" content="#c9a84c">
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://ai-legion.netlify.app/">
   <meta property="og:site_name" content="AI Legion">
   <meta property="og:title" content="AI Legion - Yapay Zeka Topluluğu | AI Haberleri & Modeller">
-  <meta property="og:description" content="Türkiye'nin ilk AI topluluğu. Güncel yapay zeka haberleri, model karşılaştırmaları, AI araçları ve profesyonel promptlar. GPT-5.5, Claude Opus 4.7.7, Gemini 3.1 Pro benchmark sonuçları.">
+  <meta property="og:description" content="Türkiye'nin ilk AI topluluğu. Güncel yapay zeka haberleri, model karşılaştırmaları, AI araçları ve profesyonel promptlar. GPT-5.5, Claude Opus 4.7, Gemini 3.1 Pro benchmark sonuçları.">
   <meta property="og:image" content="https://ai-legion.netlify.app/logo.png">
   <meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@MuratcanGencturk"><meta name="twitter:creator" content="@MuratcanGencturk">
   <meta property="og:image:width" content="1280">
@@ -28,7 +28,7 @@
   <meta property="twitter:title" content="AI Legion - Yapay Zeka Topluluğu">
   <meta property="twitter:description" content="Türkiye'nin ilk AI topluluğu. Güncel yapay zeka haberleri, model karşılaştırmaları, AI araçları ve profesyonel promptlar.">
   <meta property="twitter:image" content="https://ai-legion.netlify.app/logo.png">
-  <meta name="keywords" content="AI Legion, yapay zeka, yapay zeka haberleri, AI haberler, AI modelleri, GPT-5.5, Claude Opus 4.7.7, Gemini 3.1 Pro, Grok 4, DeepSeek V4, Llama 4, LLM, büyük dil modelleri, ChatGPT Türkiye, AI araçları, AI agentları, prompt mühendisliği, makine öğrenmesi, derin öğrenme, AI topluluğu Türkiye, yapay zeka portalı, model benchmark, LMSYS Elo, AI kıyaslama, AI eğitim, AI kurs, AI rehber, SaaS AI, AI otomasyon, RAG sistemleri, AI video araçları, AI kod editörü, Cursor, Windsurf, AI framework, CrewAI, AutoGen">
+  <meta name="keywords" content="AI Legion, yapay zeka, yapay zeka haberleri, AI haberler, AI modelleri, GPT-5.5, Claude Opus 4.7, Gemini 3.1 Pro, Grok 4, DeepSeek V4, Llama 4, LLM, büyük dil modelleri, ChatGPT Türkiye, AI araçları, AI agentları, prompt mühendisliği, makine öğrenmesi, derin öğrenme, AI topluluğu Türkiye, yapay zeka portalı, model benchmark, LMSYS Elo, AI kıyaslama, AI eğitim, AI kurs, AI rehber, SaaS AI, AI otomasyon, RAG sistemleri, AI video araçları, AI kod editörü, Cursor, Windsurf, AI framework, CrewAI, AutoGen">
   <meta name="author" content="AI Legion">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
   <meta name="googlebot" content="index, follow">
@@ -771,7 +771,7 @@
           <div>
             <label style="display:block;color:var(--gold);font-size:12px;margin-bottom:8px;text-transform:uppercase">Sol Model</label>
             <select id="arena-left-model" class="form-control" style="background:var(--bg3);border:1px solid var(--border2);border-radius:8px;color:var(--arena-left,#e0245e);padding:10px;font-size:14px;width:100%">
-            <option value="claude-opus-47">Claude Opus 4.7.7 (Anthropic)</option>
+            <option value="claude-opus-47">Claude Opus 4.7 (Anthropic)</option>
             <option value="gpt-55">GPT-5.5 (OpenAI)</option>
             <option value="gemini-31-pro">Gemini 3.1 Pro (Google)</option>
             <option value="grok-4">Grok 4 (xAI)</option>
@@ -824,7 +824,7 @@
           <div>
             <label style="display:block;color:var(--gold);font-size:12px;margin-bottom:8px;text-transform:uppercase">Sağ Model</label>
             <select id="arena-right-model" class="form-control" style="background:var(--bg3);border:1px solid var(--border2);border-radius:8px;color:var(--arena-right,#1da1f2);padding:10px;font-size:14px;width:100%">
-            <option value="claude-opus-47">Claude Opus 4.7.7 (Anthropic)</option>
+            <option value="claude-opus-47">Claude Opus 4.7 (Anthropic)</option>
             <option value="gpt-55">GPT-5.5 (OpenAI)</option>
             <option value="gemini-31-pro">Gemini 3.1 Pro (Google)</option>
             <option value="grok-4">Grok 4 (xAI)</option>
@@ -2023,7 +2023,7 @@ function switchFeedTab(el, type) {
 async function loadModels() {
   try {
     const models = [
-      { rank: 1, name: 'Claude Opus 4.7.7', icon: 'https://img.icons8.com/fluency/48/claude.png', company: 'Anthropic', lmsys_elo: 1495, mmlu: 88.7, swe_bench: 74.2, aime: 85.0, humaneval: 92.1, free: true, url: 'https://claude.ai', description: 'Anthropic\u2019in amiral gemisi modeli. Kod yazma, matematik ve çoklu modal yeteneklerde insan seviyesini aşan performans sunuyor.', vram: 'API' },
+      { rank: 1, name: 'Claude Opus 4.7', icon: 'https://img.icons8.com/fluency/48/claude.png', company: 'Anthropic', lmsys_elo: 1495, mmlu: 88.7, swe_bench: 74.2, aime: 85.0, humaneval: 92.1, free: true, url: 'https://claude.ai', description: 'Anthropic\u2019in amiral gemisi modeli. Kod yazma, matematik ve çoklu modal yeteneklerde insan seviyesini aşan performans sunuyor.', vram: 'API' },
       { rank: 2, name: 'GPT-5.5', icon: 'https://img.icons8.com/fluency/48/chatgpt.png', company: 'OpenAI', lmsys_elo: 1493, mmlu: 88.2, swe_bench: 74.9, aime: 83.0, humaneval: 91.8, free: false, url: 'https://chat.openai.com', description: 'OpenAI\u2019nin en gelişmiş modeli. 1 milyon token context window ve agent yetenekleriyle yapay zeka dünyasında yeni bir çağ başlatıyor.', vram: 'API' },
       { rank: 3, name: 'Gemini 3.1 Pro', icon: 'https://img.icons8.com/fluency/48/google-logo.png', company: 'Google', lmsys_elo: 1493, mmlu: 87.9, swe_bench: 80.6, aime: 79.0, humaneval: 90.2, free: true, url: 'https://gemini.google.com', description: 'Google\u2019ın en güçlü dil modeli. 1 milyon token context desteğiyle tamamen ücretsiz sunuluyor. Çoklu modal yetenekleriyle öne çıkıyor.', vram: 'API' },
       { rank: 4, name: 'Grok 4', icon: 'https://img.icons8.com/fluency/48/x.png', company: 'xAI', lmsys_elo: 1480, mmlu: 87.1, swe_bench: 75.0, aime: 78.0, humaneval: 89.4, free: true, url: 'https://grok.x.ai', description: 'Elon Musk\u2019ın xAI şirketinin amiral gemisi model. Gerçek zamanlı X (Twitter) verilerine erişerek güncel bilgi sağlıyor. Muhakeme ve kod yazmada güçlü.', vram: 'API' },
@@ -2034,7 +2034,7 @@ async function loadModels() {
       { rank: 9, name: 'Qwen 3.5 Max', icon: 'https://img.icons8.com/fluency/48/cloud.png', company: 'Alibaba', lmsys_elo: 1387, mmlu: 85.3, swe_bench: 61.2, aime: 65.0, humaneval: 84.1, free: true, url: 'https://qwen.aliyun.com', description: 'Alibaba\u2019nın en güçlü Qwen modeli. Matematik, kod yazma ve çok dilli görevlerde üstün performans sergiliyor. Açık kaynak varyantları da mevcut.', vram: 'API' },
       { rank: 10, name: 'Command R+', icon: 'https://img.icons8.com/fluency/48/text-box.png', company: 'Cohere', lmsys_elo: 1352, mmlu: 75.7, swe_bench: 28.4, aime: 31.0, humaneval: 71.3, free: true, url: 'https://cohere.com', description: 'Cohere\u2019nin enterprise odaklı büyük modeli. RAG (Retrieval Augmented Generation) desteği, çok dilli kapasite ve kurumsal güvenlik özellikleriyle öne çıkıyor.', vram: 'API' },
       { rank: 11, name: 'GPT-4.1', icon: 'https://img.icons8.com/fluency/48/chatgpt.png', company: 'OpenAI', lmsys_elo: 1410, mmlu: 85.2, swe_bench: 54.9, aime: 52.0, humaneval: 87.3, free: false, url: 'https://chat.openai.com', description: 'OpenAI\u2019nin orta segment modeli. Hızlı yanıt süreleri ve düşük maliyetiyle günlük görevler için ideal. GPT-4 seviyesinde kaliteyi uygun fiyata sunuyor.', vram: 'API' },
-      { rank: 12, name: 'Claude Haiku 4.7', icon: 'https://img.icons8.com/fluency/48/claude.png', company: 'Anthropic', lmsys_elo: 1380, mmlu: 82.1, swe_bench: 42.3, aime: 45.0, humaneval: 85.6, free: true, url: 'https://claude.ai', description: 'Anthropic\u2019in hızlı ve ekonomik modeli. Claude Opus 4.7.7\u2019nin hafif versiyonu olarak düşük gecikme ve maliyetle yüksek kaliteli yanıtlar sunuyor.', vram: 'API' },
+      { rank: 12, name: 'Claude Haiku 4.7', icon: 'https://img.icons8.com/fluency/48/claude.png', company: 'Anthropic', lmsys_elo: 1380, mmlu: 82.1, swe_bench: 42.3, aime: 45.0, humaneval: 85.6, free: true, url: 'https://claude.ai', description: 'Anthropic\u2019in hızlı ve ekonomik modeli. Claude Opus 4.7\u2019nin hafif versiyonu olarak düşük gecikme ve maliyetle yüksek kaliteli yanıtlar sunuyor.', vram: 'API' },
       { rank: 13, name: 'Gemini 3.1 Flash', icon: 'https://img.icons8.com/fluency/48/google-logo.png', company: 'Google', lmsys_elo: 1420, mmlu: 80.5, swe_bench: 48.7, aime: 55.0, humaneval: 83.9, free: true, url: 'https://gemini.google.com', description: 'Google\u2019ın hız ve verimlilik odaklı modeli. Uygulama geliştiriciler için optimize edilmiş. Düşük gecikme süresi ve maliyet etkin yapısıyla dikkat çekiyor.', vram: 'API' },
       { rank: 14, name: 'GLM-5', icon: 'https://img.icons8.com/fluency/48/language.png', company: 'Zhipu AI', lmsys_elo: 1312, mmlu: 79.8, swe_bench: 38.1, aime: 42.0, humaneval: 79.4, free: true, url: 'https://chatglm.cn', description: 'Çin\u2019in en güçlü yapay zeka modellerinden biri. Türkçe başta olmak üzere 50+ dil desteği ve geniş context window yetenekleriyle öne çıkıyor.', vram: 'API' },
       { rank: 15, name: 'Yi Lightning', icon: 'https://img.icons8.com/fluency/48/lightning-bolt.png', company: '01.AI', lmsys_elo: 1298, mmlu: 77.2, swe_bench: 35.6, aime: 38.0, humaneval: 76.8, free: true, url: 'https://www.01.ai', description: '01.AI\u2019nın hızlı ve ekonomik modeli. Düşük maliyetle yüksek performans sunarak API erişimini kolaylaştırıyor. Özellikle Türkçe ve Çince dillerinde güçlü.', vram: 'API' },
@@ -2134,7 +2134,7 @@ async function loadModels() {
 
 // ARENA
 const arenaModels = {
-  'claude-opus-47': { name: 'Claude Opus 4.7.7', lmsys: 1506, mmlu: 88.7, swe_bench: 74.2, aime: 85.0, humaneval: 92.1, color: '#e0245e' },
+  'claude-opus-47': { name: 'Claude Opus 4.7', lmsys: 1506, mmlu: 88.7, swe_bench: 74.2, aime: 85.0, humaneval: 92.1, color: '#e0245e' },
   'gpt-55': { name: 'GPT-5.5', lmsys: 1498, mmlu: 88.2, swe_bench: 74.9, aime: 83.0, humaneval: 91.8, color: '#1da1f2' },
   'gemini-31-pro': { name: 'Gemini 3.1 Pro', lmsys: 1489, mmlu: 87.9, swe_bench: 80.6, aime: 79.0, humaneval: 90.2, color: '#1da1f2' },
   'grok-4': { name: 'Grok 4', lmsys: 1471, mmlu: 87.1, swe_bench: 75.0, aime: 78.0, humaneval: 89.4, color: '#1da1f2' },
@@ -2252,7 +2252,7 @@ function loadVideos() {
     { id:24, platform:'youtube', category:'Model İnceleme', url:'https://www.youtube.com/watch?v=jeA-KBv0b68', title:'Claude Just Got Another Superpower...', channel:'AI Search', duration:'14:55', views:'1.5M', date:'2026-04-18', description:'Claudeun yeni ozellikleri detayli inceleme.', thumb:'https://img.youtube.com/vi/jeA-KBv0b68/mqdefault.jpg' },
     // ===== X/TWITTER VIDEOS =====
     { id:25, platform:'x', category:'Haber', url:'https://x.com/OpenAI/status/191234567890', title:'OpenAI: GPT-5.5 Can Now Reason Like a PhD', channel:'@OpenAI', duration:'1:30', views:'12M', date:'2026-04-15', description:'OpenAInin duyurusu ile GPT-5.5 artik PhD seviyesinde akil yurutuyor.' },
-    { id:26, platform:'x', category:'Haber', url:'https://x.com/AnthropicAI/status/191345678901', title:'Anthropic: Claude Opus 4.7.7 Sets New SWE-bench Record', channel:'@AnthropicAI', duration:'2:15', views:'8M', date:'2026-04-10', description:'Claude Opus 4.7.7 ile yeni SWE-bench rekoru.' },
+    { id:26, platform:'x', category:'Haber', url:'https://x.com/AnthropicAI/status/191345678901', title:'Anthropic: Claude Opus 4.7 Sets New SWE-bench Record', channel:'@AnthropicAI', duration:'2:15', views:'8M', date:'2026-04-10', description:'Claude Opus 4.7 ile yeni SWE-bench rekoru.' },
     { id:27, platform:'x', category:'Model İnceleme', url:'https://x.com/GoogleDeepMind/status/191456789012', title:'DeepMind: Gemini 3.1 Pro Free for Everyone', channel:'@GoogleDeepMind', duration:'1:45', views:'15M', date:'2026-04-08', description:'Gemini 3.1 Pro artik ucretsiz!' },
     // ===== INSTAGRAM REELS =====
     { id:28, platform:'instagram', category:'Başlangıç', url:'https://www.instagram.com/reel/C8abcdef/', title:'5 AI Araci Olmadan Ise Baslama!', channel:'@teknolojirehber', duration:'0:45', views:'2.3M', date:'2026-03-25', description:'Herkesin bilmesi gereken 5 temel AI araci.' },
@@ -2422,7 +2422,7 @@ function renderAgents(agents) {
 async function loadTools() {
   try {
     allTools = [
-      { id: 1, name: 'Claude Opus 4.7.7', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Claude_Ai.svg/1200px-Claude_Ai.svg.png', category: 'LLM', description: 'Anthropic en güçlü model. Kod yazma ve analiz lideri.', url: 'https://claude.ai', free: true, rating: 4.9, benchmark: { lmsys: 1506, mmlu: '88.7%', swe_bench: '74.2%', aime: '85%' } },
+      { id: 1, name: 'Claude Opus 4.7', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Claude_Ai.svg/1200px-Claude_Ai.svg.png', category: 'LLM', description: 'Anthropic en güçlü model. Kod yazma ve analiz lideri.', url: 'https://claude.ai', free: true, rating: 4.9, benchmark: { lmsys: 1506, mmlu: '88.7%', swe_bench: '74.2%', aime: '85%' } },
       { id: 2, name: 'GPT-5.5', image: 'https://img.icons8.com/fluency/48/chatgpt.png', category: 'LLM', description: 'OpenAI önemli bir gelişme güncelleme. Multimodal.', url: 'https://chat.openai.com', free: false, rating: 4.9, benchmark: { lmsys: 1498, mmlu: '88.2%', swe_bench: '74.9%', aime: '83%' } },
       { id: 3, name: 'Gemini 3.1 Pro', image: 'https://img.icons8.com/fluency/48/google-logo.png', category: 'LLM', description: 'Google en güçlü modeli. Artık herkes için ücretsiz.', url: 'https://gemini.google.com', free: true, rating: 4.8, benchmark: { lmsys: 1489, mmlu: '87.9%', swe_bench: '80.6%', aime: '79%' } },
       { id: 4, name: 'DeepSeek V4', image: 'https://img.icons8.com/fluency/48/neural-network.png', category: 'LLM', description: 'Çin\u2019den gelen açık kaynak devrimi. DeepSeek V4, GPT-4 seviyesinde performans sunarken tamamen açık kaynak ve ücretsiz erişime açık. MoE mimarisiyla verimli çıkarım. GPT-4 seviyesi.', url: 'https://chat.deepseek.com', free: true, rating: 4.7, benchmark: { lmsys: 1452, mmlu: '87.1%', swe_bench: '49.2%', aime: '39.2%' } },
@@ -2947,14 +2947,14 @@ async function adminDeleteArticle(id) {
 
 // Daily Question Feature
 var dailyQuestions = [
-  { q: 'Claude Opus 4.7.7 hangi şirketin modelidir?', options: ['Anthropic', 'OpenAI', 'Google'], correct: 2 },
+  { q: 'Claude Opus 4.7 hangi şirketin modelidir?', options: ['Anthropic', 'OpenAI', 'Google'], correct: 2 },
   { q: "GPT-5.5\u2019in context window kapasitesi ne kadardır?", options: ['128K token', '1M token', '32K token'], correct: 0 },
   { q: 'DeepSeek V4 hangi ülkenin AI şirketidir?', options: ['Çin', 'ABD', 'İngiltere'], correct: 0 },
   { q: 'Llama 4 Scout kaç parametrelidir?', options: ['405B', '17Bx16 (MoE)', '70B'], correct: 2 },
   { q: 'SWE-bench ölçümü neyi değerlendirir?', options: ['Kod yazma', 'Matematik', 'Genel bilgi'], correct: 1 },
   { q: 'RAG kısaltmasının açılımı nedir?', options: ['Retrieval Augmented Generation', 'Random Access Generation', 'Recursive Agent Grammar'], correct: 0 },
   { q: 'Mistral AI hangi ülkenin şirketidir?', options: ['Fransa', 'ABD', 'Almanya'], correct: 0 },
-  { q: "2026\u2019da en yüksek LMSYS Elo puanına sahip model hangisidir?", options: ['Claude Opus 4.7.7', 'GPT-5.5', 'Gemini 3.1 Pro'], correct: 0 },
+  { q: "2026\u2019da en yüksek LMSYS Elo puanına sahip model hangisidir?", options: ['Claude Opus 4.7', 'GPT-5.5', 'Gemini 3.1 Pro'], correct: 0 },
   { q: 'Phi-4 modelini hangi şirket geliştirmiştir?', options: ['Microsoft', 'Google', 'Meta'], correct: 2 },
   { q: "Prompt engineering\u2019de CoT ne demektir?", options: ['Chain of Thought', 'Code of Training', 'Context of Text'], correct: 0 },
   { q: 'Qwen 3.6 Max hangi şirketin modelidir?', options: ['Alibaba', 'Tencent', 'Baidu'], correct: 2 },
