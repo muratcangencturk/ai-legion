@@ -2680,32 +2680,62 @@ function loadMoreRelatedLearn() {
 }
 
 function renderLearn(items) {
-  const container = document.getElementById('learn-list');
+  var container = document.getElementById('learn-list');
   if (!items.length) { container.innerHTML = '<div class="empty-state"><div class="icon">📚</div><p>Bu kategoride içerik yok</p></div>'; return; }
-  let html = '<div class="articles-grid">';
-  items.forEach(function(a, idx) {
-    var dataAttr = btoa(unescape(encodeURIComponent(JSON.stringify(a))));
-     var bg = gradients[idx % gradients.length];
-     var imgHtml;
-     // Önce article.image_url kullan, yoksa article.image (icons8 logo) kullan
-     var imgUrl = a.image_url || a.image || null;
-     if (imgUrl) {
-       imgHtml = '<img src="' + imgUrl + '" style="width:100%;height:180px;object-fit:cover;display:block"  onerror="handleImgError(this)">';
-       imgHtml += '<div class="article-img-placeholder" style="height:180px;background:' + bg + ';display:none;align-items:center;justify-content:center"><span style="font-size:48px">' + (a.emoji||'📚') + '</span></div>';
-      } else {
-        imgHtml = '<div class="article-img-placeholder" style="height:180px;background:' + bg + ';display:flex;align-items:center;justify-content:center"><span style="font-size:48px">' + (a.emoji||'📚') + '</span></div>';
-      }
-    html += '\u003cdiv class="article-card" onclick="showLearnArticle(this)" data-article="' + dataAttr + '" style="cursor:pointer;overflow:hidden;border-radius:16px"\u003e';
-    html += imgHtml;
-    html += '\u003cdiv class="article-title"\u003e' + cleanArticleText(a.title) + '\u003c/div\u003e';
-    html += '<div class="article-summary">' + a.summary + '</div>';
-    html += '<div class="article-meta"><span>✍️ ' + (a.author || 'AI Legion Ekibi') + '</span><span>📖 ' + a.readTime + ' okuma</span></div>';
-    html += '</div></div>';
-  });
-  html += '</div>';
+  window.__learnImgSet__ = new Set();
+  var html = '';
+  
+  // Featured: first 3
+  if (items.length >= 3) {
+    html += '<div class="featured-news">';
+    var main = items[0];
+    var mainData = btoa(unescape(encodeURIComponent(JSON.stringify(main))));
+    var mainImg = main.image_url || getImg(main, 0, window.__learnImgSet__);
+    var mainSum = (main.summary || main.content || '').substring(0, 140) + '...';
+    html += '<div class="featured-main" onclick="showLearnArticle(this)" data-article="' + mainData + '">' +
+      '<img src="' + mainImg + '" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0" loading="lazy" onerror="handleImgError(this)">' +
+      '<div class="featured-overlay">' +
+        '<div class="article-title" style="font-size:20px;font-weight:800;color:#fff;margin-bottom:4px">' + main.title + '</div>' +
+        '<div class="article-summary" style="color:rgba(255,255,255,0.7);font-size:12px;line-height:1.3;margin-bottom:4px">' + mainSum + '</div>' +
+        '<div class="article-meta" style="color:rgba(255,255,255,0.6)">📖 ' + (main.readTime || '5 dk') + '</div>' +
+      '</div></div>';
+    
+    for (var i = 1; i < 3 && i < items.length; i++) {
+      var side = items[i];
+      var sideData = btoa(unescape(encodeURIComponent(JSON.stringify(side))));
+      var sideImg = side.image_url || getImg(side, i, window.__learnImgSet__);
+      var sideSum = (side.summary || side.content || '').substring(0, 70) + '...';
+      html += '<div class="featured-side" onclick="showLearnArticle(this)" data-article="' + sideData + '">' +
+        '<img src="' + sideImg + '" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0" loading="lazy" onerror="handleImgError(this)">' +
+        '<div class="featured-overlay">' +
+          '<div class="article-title" style="font-size:14px;font-weight:700;color:#fff">' + side.title + '</div>' +
+          '<div class="article-summary" style="color:rgba(255,255,255,0.7);font-size:11px;line-height:1.3;margin-bottom:4px">' + sideSum + '</div>' +
+          '<div class="article-meta" style="color:rgba(255,255,255,0.6)">📖 ' + (side.readTime || '5 dk') + '</div>' +
+        '</div></div>';
+    }
+    html += '</div>';
+  }
+  
+  // Rest: 2-col overlay grid
+  if (items.length > 3) {
+    html += '<div class="news-grid-2">';
+    for (var j = 3; j < items.length; j++) {
+      var a = items[j];
+      var aData = btoa(unescape(encodeURIComponent(JSON.stringify(a))));
+      var aImg = a.image_url || getImg(a, j, window.__learnImgSet__);
+      var aSum = (a.summary || a.content || '').substring(0, 80) + '...';
+      html += '<div class="featured-side" onclick="showLearnArticle(this)" data-article="' + aData + '" style="cursor:pointer;min-height:200px">' +
+        '<img src="' + aImg + '" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0" loading="lazy" onerror="handleImgError(this)">' +
+        '<div class="featured-overlay">' +
+          '<div class="article-title" style="font-size:15px;font-weight:700;color:#fff">' + a.title + '</div>' +
+          '<div class="article-summary" style="color:rgba(255,255,255,0.7);font-size:12px;line-height:1.3;margin-bottom:4px">' + aSum + '</div>' +
+          '<div class="article-meta" style="color:rgba(255,255,255,0.6)">📖 ' + (a.readTime || '5 dk') + '</div>' +
+        '</div></div>';
+    }
+    html += '</div>';
+  }
   container.innerHTML = html;
 }
-
 // PROMPTS
 async function loadPrompts() {
   try {
