@@ -1659,7 +1659,7 @@ async function loadArticles() {
         '<div class="article-title" style="font-size:20px;font-weight:800;color:#fff;margin-bottom:4px">' + cleanArticleText(main.title) + '</div>' +
         '<div class="article-summary" style="color:rgba(255,255,255,0.7);font-size:12px;line-height:1.3;margin-bottom:4px">' + mainSum + '</div>' +
         '<div class="article-meta" style="color:rgba(255,255,255,0.6)">' + mainMeta + '</div>' +
-      '<button class="share-btn" onclick="event.stopPropagation();doShare(\x27copy\x27,event)" title="Linki Kopyala">📋</button>' +
+      '<button class="share-btn" onclick="event.stopPropagation();doShare(\x27copy\x27,event)" title="Linki Kopyala">🔗</button>' +
       '</div></div>';
     
     for (var i = 1; i < 3; i++) {
@@ -1672,7 +1672,7 @@ async function loadArticles() {
           '<div class="article-title" style="font-size:14px;font-weight:700;color:#fff">' + cleanArticleText(side.title) + '</div>' +
           '<div class="article-summary" style="color:rgba(255,255,255,0.7);font-size:11px;line-height:1.3;margin-bottom:4px">' + sideSum + '</div>' +
           '<div class="article-meta" style="color:rgba(255,255,255,0.6)">' + new Date(side.created_at).toLocaleDateString('tr-TR') + '</div>' +
-        '<button class="share-btn" onclick="event.stopPropagation();doShare(\x27copy\x27,event)" title="Linki Kopyala">📋</button>' +
+        '<button class="share-btn" onclick="event.stopPropagation();doShare(\x27copy\x27,event)" title="Linki Kopyala">🔗</button>' +
         '</div></div>';
     }
     html += '</div>';
@@ -1691,7 +1691,7 @@ async function loadArticles() {
           '<div class="article-title" style="font-size:15px;font-weight:700;color:#fff">' + cleanArticleText(a.title) + '</div>' +
           '<div class="article-summary" style="color:rgba(255,255,255,0.7);font-size:12px;line-height:1.3;margin-bottom:4px">' + restSum + '</div>' +
           '<div class="article-meta" style="color:rgba(255,255,255,0.6)">' + new Date(a.created_at).toLocaleDateString('tr-TR') + '</div>' +
-        '<button class="share-btn" onclick="event.stopPropagation();doShare(\x27copy\x27,event)" title="Linki Kopyala">📋</button>' +
+        '<button class="share-btn" onclick="event.stopPropagation();doShare(\x27copy\x27,event)" title="Linki Kopyala">🔗</button>' +
         '</div></div>';
     }
     html += '</div>';
