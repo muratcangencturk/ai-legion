@@ -220,7 +220,7 @@
     .article-card:hover{border-color:var(--gold);transform:translateY(-4px);box-shadow:0 12px 40px rgba(201,168,76,0.2)}.article-body .article-summary{color:#ccc;font-size:14px}.article-body .article-title{color:#f0f0f0;font-size:16px;font-weight:700}.article-body .article-meta{color:#999;font-size:12px}
     .article-img{width:100%;height:100%;object-fit:cover;display:block}
     .article-img-placeholder{width:100%;height:180px;display:flex;align-items:center;justify-content:center;font-size:48px;position:relative;overflow:hidden}.article-img-placeholder img{width:100%;height:100%;object-fit:cover;display:block}
-    .article-body{padding:14px}.article-card-img{width:100%;height:180px;overflow:hidden;position:relative}.article-card-img img{width:100%;height:100%;object-fit:cover;transition:transform 0.3s}.article-card:hover .article-card-img img{transform:scale(1.05)}
+    .article-body{padding:14px}.article-card-img{width:100%;height:160px;overflow:hidden;position:relative}.article-card-img img{width:100%;height:100%;object-fit:cover;transition:transform 0.3s}.article-card:hover .article-card-img img{transform:scale(1.05)}
     .article-detail{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:28px;margin-top:12px;box-shadow:0 4px 20px rgba(0,0,0,0.15)}
     .article-detail h1{font-size:24px;font-weight:800;color:var(--article-h1-color,var(--gold));line-height:1.3;margin-bottom:12px}
     .article-detail .content{font-size:17px;line-height:1.8;color:var(--article-text-color,var(--text))}
@@ -236,16 +236,18 @@
     .featured-main:hover{transform:translateY(-2px);box-shadow:0 16px 48px rgba(201,168,76,0.25)}
     .featured-side{position:relative;border-radius:12px;overflow:hidden;min-height:152px;cursor:pointer;transition:all 0.3s}
     .featured-side:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(201,168,76,0.2)}
-    .featured-overlay{position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,0.85) 0%,rgba(0,0,0,0.1) 60%);padding:16px;display:flex;flex-direction:column;justify-content:flex-end}
+    .featured-overlay{position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,0.9) 0%,rgba(0,0,0,0.4) 35%,transparent 55%);padding:16px;display:flex;flex-direction:column;justify-content:flex-end}
     .featured-main .featured-overlay .article-title{font-size:20px;font-weight:800;line-height:1.3;margin-bottom:4px;color:#fff}
     .featured-side .featured-overlay .article-title{font-size:14px;font-weight:700;line-height:1.3;color:#fff}
     .featured-overlay .article-meta{color:rgba(255,255,255,0.7)}
     .news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:8px}
+    .news-grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:18px}
     @media(max-width:768px){
       .featured-news{grid-template-columns:1fr;gap:10px}
       .featured-main{min-height:240px;grid-row:auto}
       .featured-side{min-height:140px}
       .news-grid{grid-template-columns:1fr}
+      .news-grid-2{grid-template-columns:1fr}
     }
     
     /* POST COMPOSER */
@@ -535,7 +537,7 @@
   .featured-news{grid-template-columns:1fr!important;gap:12px}
   .featured-main{min-height:220px!important}
   .featured-side{min-height:150px!important}
-  .article-card .article-img{height:160px!important}
+  .article-card .article-img{height:140px!important}
 }
 </style>
 </head>
@@ -549,8 +551,7 @@
   </div>
   <div class="nav-links" id="nav-links">
     <button class="nav-btn active" onclick="showPage('home')">🏠 Haberler</button>
-    <button class="nav-btn" onclick="showPage('discover')">🔍 Keşfet</button>
-    <button class="nav-btn" onclick="showPage('social')">💬 Sosyal</button>
+        <button class="nav-btn" onclick="showPage('social')">💬 Sosyal</button>
     <button class="nav-btn" onclick="showPage('models')">🏆 Modeller</button>
     <button class="nav-btn" onclick="showPage('tools')">🛠️ Araçlar</button>
     <button class="nav-btn" onclick="showPage('agents')">🤖 Agentlar</button>
@@ -563,8 +564,7 @@
   <button class="hamburger-menu" id="hamburger-btn" onclick="toggleNav()">☰</button>
   <div class="mobile-nav" id="mobile-nav">
     <button class="nav-btn active" onclick="showPage('home');closeNav()">🏠 Haberler</button>
-    <button class="nav-btn" onclick="showPage('discover');closeNav()">🔍 Keşfet</button>
-    <button class="nav-btn" onclick="showPage('social');closeNav()">💬 Sosyal</button>
+        <button class="nav-btn" onclick="showPage('social');closeNav()">💬 Sosyal</button>
     <button class="nav-btn" onclick="showPage('models');closeNav()">🏆 Modeller</button>
     <button class="nav-btn" onclick="showPage('tools');closeNav()">🛠️ Araçlar</button>
     <button class="nav-btn" onclick="showPage('agents');closeNav()">🤖 Agentlar</button>
@@ -594,12 +594,7 @@
   <div class="main">
 
     <!-- HOME / HABERLER -->
-    <div class="page" id="page-discover">
-      <div class="discover-welcome">
-        <h2>🔍 AI Legion Keşfet</h2>
-        <p>Yapay zeka dünyasının en güncel içerikleri tek bir akışta. Haberler, postlar, araçlar, videolar ve daha fazlası...</p>
-      </div>
-      <div id="discover-feed" class="discover-feed"><div class="loading"><div class="spinner"></div></div></div>
+    
     </div>
 
     <div class="page active" id="page-home">
@@ -1299,8 +1294,7 @@ let currentPromptText = '';
 
 // NAV CONFIG
 const defaultNavItems = [
-  { id: 'discover', label: '🔍 Keşfet', visible: true },
-  { id: 'home', label: '🏠 Haberler', visible: true },
+    { id: 'home', label: '🏠 Haberler', visible: true },
   { id: 'social', label: '💬 Sosyal', visible: true },
   { id: 'models', label: '🏆 Modeller', visible: true },
   { id: 'tools', label: '🛠️ Araçlar', visible: true },
@@ -1369,8 +1363,7 @@ document.addEventListener('DOMContentLoaded', () => {
   loadLearnContent();
   loadAgents();
   loadVideos();
-  setTimeout(loadDiscoverFeed, 800);
-});
+  });
 
 function showToast(msg) {
   const t = document.getElementById('toast');
@@ -1406,8 +1399,7 @@ function showPage(page) {
   }
   if (page === 'social') loadPosts();
   if (page === 'agents') loadAgents();
-  if (page === 'discover') loadDiscoverFeed();
-  if (page === 'learn') loadLearnContent();
+    if (page === 'learn') loadLearnContent();
   loadVideos();
   if (page === 'profile' && currentUser) loadProfile(currentUser.username);
  if (page === 'admin' && currentUser?.is_admin) { loadAdminStats(); loadAdminPosts(); renderNavManager(); }
@@ -1617,6 +1609,7 @@ function loadDiscoverFeed() {
 
 async function loadArticles() {
   try {
+    window.__newsImgSet__ = new Set();
     const articles = await sb('/articles?order=created_at.desc&limit=20');
     console.log('[AI Legion] loadArticles:', articles);
     const container = document.getElementById('articles-list');
@@ -1625,19 +1618,59 @@ async function loadArticles() {
       return;
     }
     
-  // Render articles
+  function escJson(obj) { return JSON.stringify(obj).replace(/"/g, '&quot;'); }
 
   let html = '';
-  articles.forEach((a, idx) => {
-    // Önce article.image_url kullan (Supabase'den), yoksa getImg() ile title'a göre bul
-    var imgSrc = a.image_url || getImg(a, idx);
-    html += '<div class="article-card" onclick="showArticle(' + JSON.stringify(a).replace(/"/g, '&quot;') + ')">' +
-      '<img class="article-img" src="' + imgSrc + '" alt="" loading="lazy" decoding="async" onerror="handleImgError(this)" />' +
-      '<div class="article-body"><div class="article-title">' + a.title + '</div>' +
-      '<div class="article-summary">' + (cleanArticleText(a.summary) || (cleanArticleText(a.content) || '').substring(0, 120) + '...') + '</div>' +
-      '<div class="article-meta"><span>✍️ ' + (a.author || 'AI Legion') + '</span><span>' + (a.source ? a.source + ' · ' : '') + new Date(a.created_at).toLocaleDateString('tr-TR') + '</span></div>' +
+  
+  // Featured: first 3 articles (1 main + 2 side)
+  if (articles.length >= 3) {
+    html += '<div class="featured-news">';
+    
+    var main = articles[0];
+    var mainImg = main.image_url || getImg(main, 0, window.__newsImgSet__);
+    var mainSum = cleanArticleText(main.summary) || (cleanArticleText(main.content) || '').substring(0, 150) + '...';
+    var mainMeta = '<span>' + new Date(main.created_at).toLocaleDateString('tr-TR') + '</span>';
+    html += '<div class="featured-main" onclick="showArticle(' + escJson(main) + ')">' +
+      '<img src="' + mainImg + '" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0" loading="lazy" onerror="handleImgError(this)">' +
+      '<div class="featured-overlay">' +
+        '<div class="article-title" style="font-size:20px;font-weight:800;color:#fff;margin-bottom:4px">' + cleanArticleText(main.title) + '</div>' +
+        '<div class="article-summary" style="color:rgba(255,255,255,0.7);font-size:12px;line-height:1.3;margin-bottom:4px">' + mainSum + '</div>' +
+        '<div class="article-meta" style="color:rgba(255,255,255,0.6)">' + mainMeta + '</div>' +
       '</div></div>';
-  });
+    
+    for (var i = 1; i < 3; i++) {
+      var side = articles[i];
+      var sideImg = side.image_url || getImg(side, i, window.__newsImgSet__);
+      var sideSum = cleanArticleText(side.summary) || (cleanArticleText(side.content) || '').substring(0, 70) + '...';
+      html += '<div class="featured-side" onclick="showArticle(' + escJson(side) + ')">' +
+        '<img src="' + sideImg + '" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0" loading="lazy" onerror="handleImgError(this)">' +
+        '<div class="featured-overlay">' +
+          '<div class="article-title" style="font-size:14px;font-weight:700;color:#fff">' + cleanArticleText(side.title) + '</div>' +
+          '<div class="article-summary" style="color:rgba(255,255,255,0.7);font-size:11px;line-height:1.3;margin-bottom:4px">' + sideSum + '</div>' +
+          '<div class="article-meta" style="color:rgba(255,255,255,0.6)">' + new Date(side.created_at).toLocaleDateString('tr-TR') + '</div>' +
+        '</div></div>';
+    }
+    html += '</div>';
+  }
+  
+  // Rest: 2-column grid with overlay style
+  if (articles.length > 3) {
+    html += '<div class="news-grid-2">';
+    for (var j = 3; j < articles.length; j++) {
+      var a = articles[j];
+      var restImg = a.image_url || getImg(a, j, window.__newsImgSet__);
+      var restSum = cleanArticleText(a.summary) || (cleanArticleText(a.content) || '').substring(0, 80) + '...';
+      html += '<div class="featured-side" onclick="showArticle(' + escJson(a) + ')" style="cursor:pointer;min-height:200px">' +
+        '<img src="' + restImg + '" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0" loading="lazy" onerror="handleImgError(this)">' +
+        '<div class="featured-overlay">' +
+          '<div class="article-title" style="font-size:15px;font-weight:700;color:#fff">' + cleanArticleText(a.title) + '</div>' +
+          '<div class="article-summary" style="color:rgba(255,255,255,0.7);font-size:12px;line-height:1.3;margin-bottom:4px">' + restSum + '</div>' +
+          '<div class="article-meta" style="color:rgba(255,255,255,0.6)">' + new Date(a.created_at).toLocaleDateString('tr-TR') + '</div>' +
+        '</div></div>';
+    }
+    html += '</div>';
+  }
+  
   container.innerHTML = html;
   } catch(e) {
     console.error('[AI Legion] loadArticles error:', e);
@@ -1688,7 +1721,7 @@ function getImg(a, idx, usedSet) {
 }
   
   var imgSrc = article.image_url || getImg(article, 0);
-  var imgHtml = '<div style="margin-bottom:20px"><img src="' + imgSrc + '" style="width:100%;max-height:400px;object-fit:cover;border-radius:12px" loading="lazy" decoding="async" onerror="handleImgError(this)" /></div>';
+  var imgHtml = '<div style="margin-bottom:20px"><img src="' + imgSrc + '" style="width:100%;max-height:300px;object-fit:cover;border-radius:12px" loading="lazy" decoding="async" onerror="handleImgError(this)" /></div>';
   
   detail.innerHTML = '<button class="back-btn" onclick="hideArticle()">← Haberlere Dön</button>' +
     '<div class="article-detail">' + imgHtml +
@@ -1698,9 +1731,64 @@ function getImg(a, idx, usedSet) {
   list.style.display = 'none';
   detail.style.display = 'block';
   window.scrollTo({top:0,behavior:'smooth'});
+  
+  // Load related articles
+  loadRelatedArticles(article.id);
+}
+
+function loadRelatedArticles(currentArticleId) {
+  var detail = document.getElementById('article-detail-view');
+  var relatedDiv = document.createElement('div');
+  relatedDiv.id = 'related-articles';
+  relatedDiv.innerHTML = '<div style="margin-top:32px;padding-top:24px;border-top:1px solid var(--border)"><h3 style="font-size:18px;font-weight:700;color:var(--gold);margin-bottom:16px">📰 Bunları da Okuyabilirsiniz</h3><div id="related-list" style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px"></div><button id="related-load-more" onclick="loadMoreRelated()" style="margin-top:16px;background:var(--bg2);border:1px solid var(--border);color:var(--text);padding:10px 24px;border-radius:10px;cursor:pointer;font-size:14px;width:100%;display:block">➕ Daha Fazla Göster</button></div>';
+  detail.appendChild(relatedDiv);
+  
+  // Get all articles except current
+  sb('/articles?select=*&order=created_at.desc&limit=50').then(function(allArticles) {
+    if (!Array.isArray(allArticles)) return;
+    var others = allArticles.filter(function(a) { return a.id !== currentArticleId; });
+    // Shuffle and take first 4
+    window._relatedPool = others.sort(function() { return Math.random() - 0.5; });
+    window._relatedOffset = 0;
+    renderRelatedBatch(window._relatedPool.slice(0, 4));
+  }).catch(function(e) {
+    console.error('Related articles error:', e);
+    document.getElementById('related-list').innerHTML = '<p style="color:var(--text3)">Öneriler yüklenemedi</p>';
+  });
+}
+
+function renderRelatedBatch(batch) {
+  var list = document.getElementById('related-list');
+  if (!list || !batch.length) return;
+  
+  var html = '';
+  batch.forEach(function(a) {
+    var imgSrc = a.image_url || 'assets/images/news_01.jpg';
+    var summ = (a.summary || a.content || '').substring(0, 80) + '...';
+    html += '<div class="related-card" onclick="showArticle(' + JSON.stringify(a).replace(/"/g, '&quot;') + ')" style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden;cursor:pointer;transition:all 0.25s"><img src="' + imgSrc + '" style="width:100%;height:120px;object-fit:cover" loading="lazy" onerror="this.style.display=\'none\'" /><div style="padding:12px"><div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:4px;line-height:1.3">' + a.title + '</div><div style="font-size:11px;color:var(--text3)">' + summ + '</div></div></div>';
+  });
+  list.innerHTML += html;
+}
+
+function loadMoreRelated() {
+  if (!window._relatedPool) return;
+  window._relatedOffset += 4;
+  var batch = window._relatedPool.slice(window._relatedOffset, window._relatedOffset + 4);
+  if (!batch.length) {
+    document.getElementById('related-load-more').textContent = 'Tüm öneriler gösterildi ✓';
+    document.getElementById('related-load-more').disabled = true;
+    return;
+  }
+  renderRelatedBatch(batch);
+}
+
+function removeRelatedSection() {
+  var el = document.getElementById('related-articles');
+  if (el) el.remove();
 }
 
 function hideArticle() {
+  removeRelatedSection();
   document.getElementById('article-detail-view').style.display = 'none';
   document.getElementById('articles-list-view').style.display = 'block';
 }
@@ -2545,7 +2633,48 @@ function showLearnArticle(el) {
       </div>
     `;
     window.scrollTo({top:0,behavior:'smooth'});
-  } catch(e) { console.error('showLearnArticle error:', e); }
+  
+  // Load related learn articles
+  loadRelatedLearn(articleData.id);
+  } catch(e) { console.error('[AI Legion] learn article error:', e); }
+}
+
+function loadRelatedLearn(currentId) {
+  var detail2 = document.getElementById('article-detail-view');
+  if (!detail2) return;
+  var relatedDiv2 = document.createElement('div');
+  relatedDiv2.id = 'related-learn';
+  relatedDiv2.innerHTML = '<div style="margin-top:32px;padding-top:24px;border-top:1px solid var(--border)"><h3 style="font-size:18px;font-weight:700;color:var(--gold);margin-bottom:16px">📚 Bunları da Okuyabilirsiniz</h3><div id="related-learn-list" style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px"></div><button id="related-learn-load-more" onclick="loadMoreRelatedLearn()" style="margin-top:16px;background:var(--bg2);border:1px solid var(--border);color:var(--text);padding:10px 24px;border-radius:10px;cursor:pointer;font-size:14px;width:100%;display:block">➕ Daha Fazla Göster</button></div>';
+  detail2.appendChild(relatedDiv2);
+  
+  var others = allLearn.filter(function(a) { return a.id !== currentId; });
+  window._relatedLearnPool = others.sort(function() { return Math.random() - 0.5; });
+  window._relatedLearnOffset = 0;
+  renderRelatedLearnBatch(window._relatedLearnPool.slice(0, 4));
+}
+
+function renderRelatedLearnBatch(batch) {
+  var list2 = document.getElementById('related-learn-list');
+  if (!list2 || !batch.length) return;
+  var htm2 = '';
+  batch.forEach(function(a) {
+    var imgs2 = a.image_url || a.image || 'assets/images/news_01.jpg';
+    var summ2 = (a.summary || a.content || '').substring(0, 80) + '...';
+    htm2 += '<div class="related-card" onclick="showLearnArticle(' + a.id + ')" style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden;cursor:pointer"><img src="' + imgs2 + '" style="width:100%;height:120px;object-fit:cover" loading="lazy" onerror="this.style.display=\'none\'" /><div style="padding:12px"><div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:4px;line-height:1.3">' + a.title + '</div><div style="font-size:11px;color:var(--text3)">' + summ2 + '</div></div></div>';
+  });
+  list2.innerHTML += htm2;
+}
+
+function loadMoreRelatedLearn() {
+  if (!window._relatedLearnPool) return;
+  window._relatedLearnOffset += 4;
+  var bat = window._relatedLearnPool.slice(window._relatedLearnOffset, window._relatedLearnOffset + 4);
+  if (!bat.length) {
+    document.getElementById('related-learn-load-more').textContent = 'Tüm öneriler gösterildi ✓';
+    document.getElementById('related-learn-load-more').disabled = true;
+    return;
+  }
+  renderRelatedLearnBatch(bat);
 }
 
 function renderLearn(items) {
