@@ -556,10 +556,41 @@
     .share-btn{position:absolute;bottom:8px;right:10px;background:rgba(0,0,0,0.45);border:1px solid rgba(255,255,255,0.2);color:#ccc;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:5;font-size:13px;transition:all 0.2s}
     .share-btn:hover{background:var(--gold);color:#000;border-color:var(--gold)}
 </style>
-  <meta name="monetag" content="36764e53f66a2258fcf695d3a541cdb5">
-  <script>(function(d,z,s){s.src='https://'+d+'/400/'+z;try{(document.body||document.documentElement).appendChild(s)}catch(e){}})('n6wxm.com',10954513,document.createElement('script'))</script>
+  <meta name="monetag" content="36764e53f66a2258fcf695d3a541cdb5"><script>
+(function(){
+  // Zone 10954513: 1dk sonra ilk, 3dk'da bir
+  var _a1=0;
+  function _l1(){
+    var n=Date.now();
+    if(n-_a1<180000)return;
+    _a1=n;
+    var s=document.createElement('script');
+    s.id='_m1_'+n;
+    s.src='https://n6wxm.com/400/10954513';
+    (document.body||document.documentElement).appendChild(s);
+    setTimeout(function(){var e=document.getElementById(s.id);if(e)e.remove()},12000);
+  }
+  setTimeout(function(){_l1();setInterval(_l1,180000)},60000);
+
+  // Zone 10954752: 1dk30sn sonra ilk, 4dk'da bir
+  var _a2=0;
+  function _l2(){
+    var n=Date.now();
+    if(n-_a2<240000)return;
+    _a2=n;
+    var s=document.createElement('script');
+    s.id='_m2_'+n;
+    s.dataset.zone='10954752';
+    s.src='https://nap5k.com/tag.min.js';
+    (document.body||document.documentElement).appendChild(s);
+    setTimeout(function(){var e=document.getElementById(s.id);if(e)e.remove()},12000);
+  }
+  setTimeout(function(){_l2();setInterval(_l2,240000)},90000);
+})();
+</script>
+  
   <script>
-  (function(){var _al=0;function _la(){var n=Date.now();if(n-_al<240000)return;_al=n;var o=document.querySelector('script[data-zone="10954752"]');if(o)o.remove();var s=document.createElement('script');s.dataset.zone='10954752';s.src='https://nap5k.com/tag.min.js';(document.documentElement||document.body).appendChild(s)}setTimeout(function(){_la();setInterval(_la,240000)},45000)})();
+  
   </script>
 </head>
 <body>
