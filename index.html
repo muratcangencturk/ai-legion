@@ -653,7 +653,8 @@
 
     <div class="page active" id="page-home">
       
-      <div id="daily-question" style="background:linear-gradient(135deg,var(--bg2),var(--bg3));border:1px solid var(--bg3);border-radius:12px;padding:16px 20px;margin-bottom:20px;max-width:700px">
+      <div style="display:flex;gap:16px;margin-bottom:20px;align-items:stretch;flex-wrap:wrap">
+      <div id="daily-question" style="background:linear-gradient(135deg,var(--bg2),var(--bg3));border:1px solid var(--bg3);border-radius:12px;padding:16px 20px;flex:1;min-width:280px">
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
           <span style="font-size:20px">🧠</span>
           <span style="font-size:14px;font-weight:700;color:var(--gold)">Günün Sorusu</span>
@@ -662,6 +663,13 @@
         <div id="dq-options" style="display:flex;flex-direction:column;gap:8px"></div>
         <div id="dq-result" style="margin-top:10px;font-size:13px;font-weight:600;display:none"></div>
       </div>
+      <div style="display:flex;flex-direction:column;gap:8px;justify-content:center;min-width:200px">
+        <a href="https://chat.whatsapp.com/LAu2OosQEmd73CBl56sIRi?mode=gi_t" target="_blank" style="display:block;background:var(--gold);color:#000;padding:12px 16px;border-radius:8px;text-decoration:none;font-weight:700;font-size:13px;text-align:center">📱 WhatsApp Grubumuz</a>
+        <a href="https://duellm.xyz" target="_blank" style="display:block;background:var(--bg3);color:var(--gold2);padding:12px 16px;border-radius:8px;text-decoration:none;font-weight:700;font-size:13px;text-align:center;border:1px solid var(--border2)">⚔️ YZ'ların Tartıştığı Duellm uygulamamız</a>
+        <a href="https://ailegion.gumroad.com/l/bigtby" target="_blank" style="display:block;background:linear-gradient(135deg,#ff90e8,#ff6b6b);color:#fff;padding:12px 16px;border-radius:8px;text-decoration:none;font-weight:700;font-size:13px;text-align:center">❤️ Bizi Destekleyin</a>
+        <div style="text-align:center;margin-top:4px"><span style="color:var(--text3);font-size:11px">İşbirliği için ⬇️</span><br><a href="mailto:ailegionx@outlook.com" style="color:var(--gold2);font-size:12px;text-decoration:none">ailegionx@outlook.com</a></div>
+      </div>
+    </div>
 
       <div id="article-detail-view" style="display:none"></div>
       <div id="articles-list-view">
@@ -3319,11 +3327,16 @@ function nextDailyQuestion() {
 
 </script>
 <footer>
-    <div class="footer-content">
-      &copy; 2026 AI Legion. Tüm hakları saklıdır.<br>
-      <a href="https://chat.whatsapp.com/LAu2OosQEmd73CBl56sIRi?mode=gi_t" target="_blank">WhatsApp Grubumuza Katılın! 💬</a>
+  <div class="footer-content">
+    <div style="margin-bottom:12px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
+      <a href="#" onclick="showPage('about');return false" style="color:var(--text3);text-decoration:none;font-size:13px">Hakkımızda</a>
+      <a href="#" onclick="showPage('contact');return false" style="color:var(--text3);text-decoration:none;font-size:13px">İletişim</a>
+      <a href="#" onclick="showPage('privacy');return false" style="color:var(--text3);text-decoration:none;font-size:13px">Gizlilik</a>
+      <a href="#" onclick="showPage('terms');return false" style="color:var(--text3);text-decoration:none;font-size:13px">Kullanım Şartları</a>
     </div>
-  </footer>
+    &copy; 2026 AI Legion. Tüm hakları saklıdır.
+  </div>
+</footer>
 
     <div id="video-embed-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:300;align-items:center;justify-content:center;padding:20px" onclick="closeVideoEmbed(event)">
         <div style="width:100%;max-width:800px;position:relative" onclick="event.stopPropagation()">
