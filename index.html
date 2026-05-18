@@ -556,7 +556,7 @@
     .share-btn{position:absolute;bottom:8px;right:10px;background:rgba(0,0,0,0.45);border:1px solid rgba(255,255,255,0.2);color:#ccc;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:5;font-size:13px;transition:all 0.2s}
     .share-btn:hover{background:var(--gold);color:#000;border-color:var(--gold)}
 </style>
-  <meta name="monetag" content="36764e53f66a2258fcf695d3a541cdb5"><script>
+<script>
 (function(){
   // Zone 10954513: 1dk sonra ilk, 3dk'da bir
   var _a1=0;
@@ -1694,7 +1694,7 @@ async function loadArticles() {
     var mainImg = main.image_url || getImg(main, 0, window.__newsImgSet__);
     var mainSum = cleanArticleText(main.summary) || (cleanArticleText(main.content) || '').substring(0, 150) + '...';
     var mainMeta = '<span>' + new Date(main.created_at).toLocaleDateString('tr-TR') + '</span>';
-    html += '<div class="featured-main" onclick="showArticle(' + escJson(main) + ')">' +
+    html += '<div class="featured-main" data-id="' + main.id + '" onclick="showArticle(' + escJson(main) + ')">' +
       '<img src="' + mainImg + '" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0" loading="lazy" onerror="handleImgError(this)">' +
       '<div class="featured-overlay">' +
         '<div class="article-title" style="font-size:20px;font-weight:800;color:#fff;margin-bottom:4px">' + cleanArticleText(main.title) + '</div>' +
@@ -1707,7 +1707,7 @@ async function loadArticles() {
       var side = articles[i];
       var sideImg = side.image_url || getImg(side, i, window.__newsImgSet__);
       var sideSum = cleanArticleText(side.summary) || (cleanArticleText(side.content) || '').substring(0, 70) + '...';
-      html += '<div class="featured-side" onclick="showArticle(' + escJson(side) + ')">' +
+      html += '<div class="featured-side" data-id="' + side.id + '" onclick="showArticle(' + escJson(side) + ')">' +
         '<img src="' + sideImg + '" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0" loading="lazy" onerror="handleImgError(this)">' +
         '<div class="featured-overlay">' +
           '<div class="article-title" style="font-size:14px;font-weight:700;color:#fff">' + cleanArticleText(side.title) + '</div>' +
@@ -1726,7 +1726,7 @@ async function loadArticles() {
       var a = articles[j];
       var restImg = a.image_url || getImg(a, j, window.__newsImgSet__);
       var restSum = cleanArticleText(a.summary) || (cleanArticleText(a.content) || '').substring(0, 80) + '...';
-      html += '<div class="featured-side" onclick="showArticle(' + escJson(a) + ')" style="cursor:pointer;min-height:200px">' +
+      html += '<div class="featured-side" data-id="' + a.id + '" onclick="showArticle(' + escJson(a) + ')" style="cursor:pointer;min-height:200px">' +
         '<img src="' + restImg + '" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0" loading="lazy" onerror="handleImgError(this)">' +
         '<div class="featured-overlay">' +
           '<div class="article-title" style="font-size:15px;font-weight:700;color:#fff">' + cleanArticleText(a.title) + '</div>' +
@@ -1858,14 +1858,7 @@ function removeRelatedSection() {
 }
 
 function toggleSM(b){b.stopPropagation();var m=b.nextElementSibling;if(m)m.style.display=m.style.display==='block'?'none':'block'}
-function doShare(p,e){e.stopPropagation();e.preventDefault();var u=location.href;document.querySelectorAll('.share-menu').forEach(function(m){m.style.display='none'});if(p==='x')window.open('https://x.com/intent/tweet?text='+encodeURIComponent(t)+'&url='+encodeURIComponent(u),'_blank');else if(p==='whatsapp')window.open('https://wa.me/?text='+encodeURIComponent((document.querySelector('.article-detail h1')?.textContent||document.title)+'\n'+u),'_blank');else if(p==='instagram'){navigator.clipboard.writeText(t+'\n'+u).then(function(){window.open('https://www.instagram.com/','_blank');showToast('Link kopyalandi, Instagram\'a yapistirabilirsin!')})}else if(p==='linkedin')window.open('https://www.linkedin.com/sharing/share-offsite/?url='+encodeURIComponent(u),'_blank');else if(p==='copy')navigator.clipboard.writeText(u).then(function(){showToast('Link kopyalandi!')})}
-document.addEventListener('click',function(){document.querySelectorAll('.share-menu').forEach(function(m){m.style.display='none'})});
-function hideArticle() {
-  removeRelatedSection();
-  document.getElementById('article-detail-view').style.display = 'none';
-  document.getElementById('articles-list-view').style.display = 'block';
-}
-
+function doShare(p,e){e.stopPropagation();e.preventDefault();var aid='';var el=e.target;while(el&&!aid){aid=el.getAttribute('data-id');el=el.parentElement}var u=aid?location.origin+'/share/'+aid+'.html':location.href;var t=(document.querySelector('.article-detail h1')?.textContent||document.title);document.querySelectorAll('.share-menu').forEach(function(m){m.style.display='none'});if(p=='x')window.open('https://x.com/intent/tweet?text='+encodeURIComponent(t)+'&url='+encodeURIComponent(u),'_blank');else if(p=='whatsapp')window.open('https://wa.me/?text='+encodeURIComponent(t+'\n'+u),'_blank');else if(p=='instagram'){var cu=t+'\n'+u;navigator.clipboard.writeText(cu).then(function(){window.open('https://www.instagram.com/','_blank');showToast('Link kopyalandi')}).catch(function(){showToast('Link kopyalandi')});}else if(p=='linkedin')window.open('https://www.linkedin.com/sharing/share-offsite/?url='+encodeURIComponent(u),'_blank');else{navigator.clipboard.writeText(u).then(function(){showToast('Haber linki kopyalandi')}).catch(function(){showToast('Link kopyalandi')});}}
 function detectSocialEmbed(content) {
   if (!content) return null;
   var patterns = [
@@ -3323,6 +3316,16 @@ function nextDailyQuestion() {
     used.push(window._currentDq.idx);
     localStorage.setItem('dq_used', JSON.stringify(used));
   }
+document.addEventListener('click',function(e){
+  var btn=e.target.closest('.share-btn');
+  if(!btn)return;
+  e.preventDefault();e.stopPropagation();
+  var card=btn.closest('[data-id]');
+  var aid=card?card.getAttribute('data-id'):'';
+  var url=aid?location.origin+'/share/'+aid+'.html':location.href;
+  navigator.clipboard.writeText(url).then(function(){showToast('Haber linki kopyalandi')}).catch(function(){showToast('Link kopyalandi')});
+});
+
   initDailyQuestion();
 }
 
