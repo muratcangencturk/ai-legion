@@ -1459,30 +1459,36 @@ function resetNavConfig() {
 document.addEventListener('DOMContentLoaded', () => {
   const saved = localStorage.getItem('ai_legion_user');if (saved) { currentUser = JSON.parse(saved); updateNavForUser(); updateComposerAvatar(); }
   applyNavConfig();
+  
+  // HASH KONTROLÜ — önce bunu yap, anasayfayı gereksiz render etme!
+  var hash = window.location.hash;
+  if (hash && hash.indexOf('#article=') === 0) {
+    var articleId = hash.replace('#article=', '');
+    if (articleId) {
+      // Tüm anasayfa içeriğini anında gizle — daily question + sidebar + haber listesi
+      var homeInfo = document.getElementById('home-info');
+      if (homeInfo) homeInfo.style.display = 'none';
+      var listView = document.getElementById('articles-list-view');
+      if (listView) listView.style.display = 'none';
+      // Direkt article'ı yükle — 800ms bekleme YOK!
+      sb('/articles?select=*&id=eq.' + articleId).then(function(articles) {
+        if (articles && articles.length > 0) {
+          showArticle(articles[0]);
+        }
+      }).catch(function(){});
+      return; // ← anasayfayı yükleme, direkt bitir
+    }
+  }
+  
+  // Normal sayfa yükleme (hash yoksa)
   initDailyQuestion();
   loadArticles();
-      // loadPosts() removed - DOM updated directly
   loadTools();
   loadModels();
   loadPrompts();
   loadLearnContent();
   loadAgents();
   loadVideos();
-  
-  // Hash'ten article yukle (ornek: ailegion.bond/#article=ID)
-  var hash = window.location.hash;
-  if (hash && hash.indexOf('#article=') === 0) {
-    var articleId = hash.replace('#article=', '');
-    if (articleId) {
-      setTimeout(function() {
-        sb('/articles?select=*&id=eq.' + articleId).then(function(articles) {
-          if (articles && articles.length > 0) {
-            showArticle(articles[0]);
-          }
-        }).catch(function(){});
-      }, 800);
-    }
-  }
   });
 
 function showToast(msg) {
@@ -1875,9 +1881,19 @@ function hideArticle() {
   var detail = document.getElementById('article-detail-view');
   var list = document.getElementById('articles-list-view');
   if (detail) { detail.style.display = 'none'; detail.innerHTML = ''; }
-  if (list) list.style.display = 'block';
+  if (list) {
+    list.style.display = 'block';
+    var al = document.getElementById('articles-list');
+    if (al && al.children.length === 0) {
+      typeof loadArticles === 'function' && loadArticles();
+    }
+  }
   var dqSection = document.getElementById('daily-question');
-  if (dqSection) dqSection.style.display = '';
+  if (dqSection) {
+    dqSection.style.display = '';
+    var qt = dqSection.querySelector('.question-text');
+    if (!qt && typeof initDailyQuestion === 'function') initDailyQuestion();
+  }
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
@@ -1933,7 +1949,7 @@ function removeRelatedSection() {
 }
 
 function toggleSM(b){b.stopPropagation();var m=b.nextElementSibling;if(m)m.style.display=m.style.display==='block'?'none':'block'}
-function doShare(p,e){e.stopPropagation();e.preventDefault();var aid='';var el=e.target;while(el&&!aid){aid=el.getAttribute('data-id');el=el.parentElement}var u=aid?location.origin+'/#article='+aid:location.href;var t=(document.querySelector('.article-detail h1')?.textContent||document.title);document.querySelectorAll('.share-menu').forEach(function(m){m.style.display='none'});if(p=='x')window.open('https://x.com/intent/tweet?text='+encodeURIComponent(t)+'&url='+encodeURIComponent(u),'_blank');else if(p=='whatsapp')window.open('https://wa.me/?text='+encodeURIComponent(t+'\\n'+u),'_blank');else if(p=='instagram'){var cu=t+'\\n'+u;navigator.clipboard.writeText(cu).then(function(){window.open('https://www.instagram.com/','_blank');showToast('Kopyalandı')}).catch(function(){showToast('Kopyalandı')});}else if(p=='linkedin')window.open('https://www.linkedin.com/sharing/share-offsite/?url='+encodeURIComponent(u),'_blank');else{navigator.clipboard.writeText(u).then(function(){showToast('Kopyalandı')}).catch(function(){showToast('Kopyalandı')});}}
+function doShare(p,e){e.stopPropagation();e.preventDefault();var aid='';var el=e.target;while(el&&!aid){aid=el.getAttribute('data-id');el=el.parentElement}var u=aid?location.origin+'/#article='+aid:location.href;var t=(document.querySelector('.article-detail h1')?.textContent||document.title);document.querySelectorAll('.share-menu').forEach(function(m){m.style.display='none'});function _open(u){var w=window.open(u,'_blank');if(!w||w.closed||typeof w.closed==='undefined'){window.location.href=u}}if(p=='x')_open('https://x.com/intent/tweet?text='+encodeURIComponent(t)+'&url='+encodeURIComponent(u));else if(p=='whatsapp')_open('https://wa.me/?text='+encodeURIComponent(t+'\n'+u));else if(p=='instagram'){var cu=t+'\n'+u;navigator.clipboard.writeText(cu).then(function(){_open('https://www.instagram.com/');showToast('Kopyalandı')}).catch(function(){showToast('Kopyalandı')});}else if(p=='linkedin')_open('https://www.linkedin.com/sharing/share-offsite/?url='+encodeURIComponent(u));else{navigator.clipboard.writeText(u).then(function(){showToast('Kopyalandı')}).catch(function(){showToast('Kopyalandı')});}}
 function detectSocialEmbed(content) {
   if (!content) return null;
   var patterns = [
