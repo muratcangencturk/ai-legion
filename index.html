@@ -1876,16 +1876,25 @@ function getImg(a, idx, usedSet) {
   loadRelatedArticles(article.id);
 }
 
-// Hide article detail and show list
+// Hide article detail and show home page content
 function hideArticle() {
   var detail = document.getElementById('article-detail-view');
   var list = document.getElementById('articles-list-view');
   if (detail) { detail.style.display = 'none'; detail.innerHTML = ''; }
+  // Restore home-info (may have been hidden by hash navigation)
+  var homeInfo = document.getElementById('home-info');
+  if (homeInfo) homeInfo.style.display = 'flex';
+  // Restore articles list view
   if (list) {
     list.style.display = 'block';
     var al = document.getElementById('articles-list');
-    if (al && al.children.length === 0) {
-      typeof loadArticles === 'function' && loadArticles();
+    // Force reload if list is still showing the loading placeholder (e.g. hash navigation)
+    if (al) {
+      var isLoading = al.querySelector('.loading');
+      if (al.children.length === 0 || isLoading) {
+        al.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+        typeof loadArticles === 'function' && loadArticles();
+      }
     }
   }
   var dqSection = document.getElementById('daily-question');
