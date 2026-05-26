@@ -1848,6 +1848,9 @@ function getImg(a, idx, usedSet) {
   var imgSrc = article.image_url || getImg(article, 0);
   var imgHtml = '<div style="margin-bottom:20px"><img src="' + imgSrc + '" style="width:100%;max-height:300px;object-fit:cover;border-radius:12px" loading="lazy" decoding="async" onerror="handleImgError(this)" /></div>';
   
+  // Set data-id so share buttons can find the article ID
+  detail.setAttribute('data-id', article.id);
+  
   detail.innerHTML = '<button class="back-btn" onclick="hideArticle()">← Haberlere Dön</button>' +
     '<div class="article-detail">' + imgHtml +
     '<h1 style="font-size:28px;font-weight:800;color:var(--article-text-color,var(--text));margin-bottom:12px;line-height:1.3">' + article.title + '</h1>' +
@@ -1930,7 +1933,7 @@ function removeRelatedSection() {
 }
 
 function toggleSM(b){b.stopPropagation();var m=b.nextElementSibling;if(m)m.style.display=m.style.display==='block'?'none':'block'}
-function doShare(p,e){e.stopPropagation();e.preventDefault();var aid='';var el=e.target;while(el&&!aid){aid=el.getAttribute('data-id');el=el.parentElement}var u=aid?location.origin+'/#article='+aid:location.href;var t=(document.querySelector('.article-detail h1')?.textContent||document.title);document.querySelectorAll('.share-menu').forEach(function(m){m.style.display='none'});if(p=='x')window.open('https://x.com/intent/tweet?text='+encodeURIComponent(t)+'&url='+encodeURIComponent(u),'_blank');else if(p=='whatsapp')window.open('https://wa.me/?text='+encodeURIComponent(t+'\\n'+u),'_blank');else if(p=='instagram'){var cu=t+'\\n'+u;navigator.clipboard.writeText(cu).then(function(){window.open('https://www.instagram.com/','_blank');showToast('Link kopyalandi, habere gitmek icin tarayiciya yapistirin')}).catch(function(){showToast('Link kopyalandi')});}else if(p=='linkedin')window.open('https://www.linkedin.com/sharing/share-offsite/?url='+encodeURIComponent(u),'_blank');else{navigator.clipboard.writeText(u).then(function(){showToast('Haber linki kopyalandi, bu linki acan haberi gorur')}).catch(function(){showToast('Link kopyalandi')});}}
+function doShare(p,e){e.stopPropagation();e.preventDefault();var aid='';var el=e.target;while(el&&!aid){aid=el.getAttribute('data-id');el=el.parentElement}var u=aid?location.origin+'/#article='+aid:location.href;var t=(document.querySelector('.article-detail h1')?.textContent||document.title);document.querySelectorAll('.share-menu').forEach(function(m){m.style.display='none'});if(p=='x')window.open('https://x.com/intent/tweet?text='+encodeURIComponent(t)+'&url='+encodeURIComponent(u),'_blank');else if(p=='whatsapp')window.open('https://wa.me/?text='+encodeURIComponent(t+'\\n'+u),'_blank');else if(p=='instagram'){var cu=t+'\\n'+u;navigator.clipboard.writeText(cu).then(function(){window.open('https://www.instagram.com/','_blank');showToast('Kopyalandı')}).catch(function(){showToast('Kopyalandı')});}else if(p=='linkedin')window.open('https://www.linkedin.com/sharing/share-offsite/?url='+encodeURIComponent(u),'_blank');else{navigator.clipboard.writeText(u).then(function(){showToast('Kopyalandı')}).catch(function(){showToast('Kopyalandı')});}}
 function detectSocialEmbed(content) {
   if (!content) return null;
   var patterns = [
@@ -3411,7 +3414,7 @@ document.addEventListener('click',function(e){
   var card=btn.closest('[data-id]');
   var aid=card?card.getAttribute('data-id'):'';
   var url=aid?location.origin+'/#article='+aid:location.href;
-  navigator.clipboard.writeText(url).then(function(){showToast('Haber linki kopyalandi, bu linki acan haberi gorur')}).catch(function(){showToast('Link kopyalandi')});
+  navigator.clipboard.writeText(url).then(function(){showToast('Kopyalandı')}).catch(function(){showToast('Kopyalandı')});
 });
 
   initDailyQuestion();
