@@ -1864,9 +1864,9 @@ function getImg(a, idx, usedSet) {
     '<div class="content" style="font-size:17px;color:var(--article-text-color,#f0f0f0);line-height:1.7">' + (article.content || '').split('\n').map(p => p ? '<p style="margin-bottom:16px">' + p + '</p>' : '').join('') + '</div></div>';
   list.style.display = 'none';
   detail.style.display = 'block';
-  // Hide daily question when article is open
-  var dqSection = document.getElementById('daily-question');
-  if (dqSection) dqSection.style.display = 'none';
+  // Hide home-info (daily question + sidebar links) when article is open
+  var homeInfo = document.getElementById('home-info');
+  if (homeInfo) homeInfo.style.display = 'none';
   window.scrollTo({top:0,behavior:'smooth'});
   var sd=document.createElement('div');sd.style.cssText='margin:24px 0 0;padding:20px 0 0;border-top:1px solid var(--border);display:flex;align-items:center;gap:10px;flex-wrap:wrap';
   sd.innerHTML='<span style="color:var(--text3);font-size:13px">Paylaş:</span><button onclick="doShare(\'twitter\',event)" style="background:var(--bg2);border:1px solid var(--border);color:var(--text);padding:6px 12px;border-radius:8px;cursor:pointer;font-size:13px">𝕏 X</button><button onclick="doShare(\'whatsapp\',event)" style="background:var(--bg2);border:1px solid var(--border);color:var(--text);padding:6px 12px;border-radius:8px;cursor:pointer;font-size:13px">💬 WhatsApp</button><button onclick="doShare(\'linkedin\',event)" style="background:var(--bg2);border:1px solid var(--border);color:var(--text);padding:6px 12px;border-radius:8px;cursor:pointer;font-size:13px">💼 LinkedIn</button><button onclick="doShare(\'copy\',event)" style="background:var(--bg2);border:1px solid var(--border);color:var(--text);padding:6px 12px;border-radius:8px;cursor:pointer;font-size:13px">📋 Kopyala</button>';
