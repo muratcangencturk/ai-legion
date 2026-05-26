@@ -375,7 +375,7 @@
     /* TABS */
     .tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:18px;overflow-x:auto;scrollbar-width:none;gap:4px}
     .tabs::-webkit-scrollbar{display:none}
-    .tab{padding:10px 18px;cursor:pointer;color:var(--text2);font-size:13px;font-weight:600;border-bottom:3px solid transparent;transition:all 0.2s;white-space:nowrap;flex-shrink:0;border-radius:10px 10px 0 0}
+    .tab{padding:10px 18px;cursor:pointer;color:var(--text2);font-size:13px;font-weight:600;border-bottom:3px solid transparent;transition:all 0.2s;white-space:nowrap;flex-shrink:0;border-radius:10px 10px 0 0;background:none;border-top:none;border-left:none;border-right:none}
     .tab:hover{color:var(--gold);background:rgba(201,168,76,0.05)}
     .tab.active{color:var(--gold);border-bottom-color:var(--gold);background:rgba(201,168,76,0.08)}
     
@@ -445,11 +445,11 @@
     .article-card .article-img { width: 100%; height: 180px; object-fit: cover; }
 
     /* LIGHT THEME */
-    [data-theme="light"] {
-      --bg:#f8f9fa;--bg2:#ffffff;--bg3:#f1f3f5;--bg4:#e9ecef;
-      --gold:#b8860b;--gold2:#d4a017;--gold3:#e8b830;
-      --red:#c0392b;--red2:#d44030;--red3:#e74c3c;
-      --text:#2c3e50;--text2:#5a6c7d;--text3:#8899aa;
+[data-theme="light"] {
+    --bg: #f8f9fa;--bg2:#ffffff;--bg3:#f1f3f5;--bg4:#e9ecef;
+    --gold:#b8860b;--gold2:#d4a017;--gold3:#e8b830;
+    --red:#c0392b;--red2:#d44030;--red3:#e74c3c;
+    --text:#1a2332;--text2:#3d5068;--text3:#6b7d94;
       --border:#dee2e6;--border2:#ced4da;
       --green:#27ae60;--green2:#2ecc71;
       --blue:#2980b9;--blue2:#3498db;
@@ -459,39 +459,42 @@
     [data-theme="light"] .mobile-nav { background: rgba(255,255,255,0.98) !important; box-shadow: 0 16px 48px rgba(0,0,0,0.1) !important; }
     [data-theme="light"] .card, [data-theme="light"] .article-card, [data-theme="light"] .tool-card, [data-theme="light"] .prompt-card, [data-theme="light"] .video-card, [data-theme="light"] .post { background: #ffffff !important; border-color: #e0e0e0 !important; box-shadow: 0 2px 12px rgba(0,0,0,0.06) !important; }
     [data-theme="light"] .card:hover, [data-theme="light"] .article-card:hover, [data-theme="light"] .tool-card:hover { border-color: var(--gold) !important; box-shadow: 0 8px 24px rgba(184,134,11,0.12) !important; }
-    [data-theme="light"] .nav-btn { color: #5a6c7d !important; }
+    [data-theme="light"] .nav-btn { color: #3d5068 !important; }
     [data-theme="light"] .nav-btn:hover, [data-theme="light"] .nav-btn.active { background: #f1f3f5 !important; color: #b8860b !important; }
+    [data-theme="light"] .nav-btn.active { background: #f1f3f5 !important; color: #b8860b !important; }
     [data-theme="light"] .modal { background: #ffffff !important; }
     [data-theme="light"] .modal-overlay { background: rgba(0,0,0,0.4) !important; }
-    [data-theme="light"] .article-detail .content { color: #2c3e50 !important; font-size: 16px !important; line-height: 1.7 !important; }
+    [data-theme="light"] .article-detail .content { color: #1a2332 !important; font-size: 16px !important; line-height: 1.7 !important; }
     [data-theme="light"] .article-detail h1 { color: #1a252f !important; font-size: 24px !important; }
-    [data-theme="light"] .post-content { color: #34495e !important; }
+    [data-theme="light"] .post-content { color: #1a2332 !important; }
     [data-theme="light"] .tabs { background: #f1f3f5 !important; }
-    [data-theme="light"] .tab { color: #5a6c7d !important; }
+    [data-theme="light"] .tab { color: #3d5068 !important; }
     [data-theme="light"] .tab.active, [data-theme="light"] .tab:hover { color: #b8860b !important; background: #ffffff !important; }
     [data-theme="light"] .composer { background: #ffffff !important; border-color: #e0e0e0 !important; }
-    [data-theme="light"] .composer textarea { color: #2c3e50 !important; }
+    [data-theme="light"] .composer textarea { color: #1a2332 !important; }
     [data-theme="light"] .section-title { color: #b8860b !important; }
     [data-theme="light"] .btn-gold { background: #b8860b !important; color: #fff !important; }
     [data-theme="light"] .btn-outline { border-color: #b8860b !important; color: #b8860b !important; }
     [data-theme="light"] .btn-outline:hover { background: #b8860b !important; color: #fff !important; }
-    [data-theme="light"] .article-body .article-summary { color: #5a6c7d !important; }
-    [data-theme="light"] .article-body .article-title { color: #2c3e50 !important; }
+    [data-theme="light"] .article-body .article-summary { color: #3d5068 !important; }
+    [data-theme="light"] .article-body .article-title { color: #1a2332 !important; }
     [data-theme="light"] .featured-overlay { background: linear-gradient(0deg,rgba(0,0,0,0.7) 0%,transparent 60%) !important; }
     [data-theme="light"] footer { background: #ffffff !important; border-top-color: #e0e0e0 !important; }
     [data-theme="light"] .discover-welcome { background: linear-gradient(135deg,#b8860b,#f5e6a0) !important; border-color: #d4a017 !important; }
     [data-theme="light"] .discover-welcome h2 { color: #1a252f !important; }
-    [data-theme="light"] .discover-welcome p { color: #2c3e50 !important; }
+    [data-theme="light"] .discover-welcome p { color: #1a2332 !important; }
     [data-theme="light"] .discover-item { background: #ffffff !important; border-color: #e0e0e0 !important; }
     [data-theme="light"] .discover-item:hover { border-color: #b8860b !important; background: #f8f9fa !important; }
     [data-theme="light"] .models-table th { background: #f1f3f5 !important; color: #b8860b !important; border-bottom-color: #dee2e6 !important; }
-    [data-theme="light"] .models-table td { border-bottom-color: #e9ecef !important; color: #2c3e50 !important; }
+    [data-theme="light"] .models-table td { border-bottom-color: #e9ecef !important; color: #1a2332 !important; }
     [data-theme="light"] .models-table tr:hover td { background: #f8f9fa !important; }
-    [data-theme="light"] .hamburger-menu { color: #2c3e50 !important; }
-    [data-theme="light"] input, [data-theme="light"] select, [data-theme="light"] textarea { background: #ffffff !important; border-color: #ced4da !important; color: #2c3e50 !important; }
+    [data-theme="light"] .hamburger-menu { color: #1a2332 !important; }
+    [data-theme="light"] input, [data-theme="light"] select, [data-theme="light"] textarea { background: #ffffff !important; border-color: #ced4da !important; color: #1a2332 !important; }
     [data-theme="light"] .spinner { border-color: #dee2e6 !important; border-top-color: #b8860b !important; }
     [data-theme="light"] .news-grid .article-card { background: #ffffff !important; border-color: #e0e0e0 !important; }
-    [data-theme="light"] .empty-state { color: #5a6c7d !important; }
+    [data-theme="light"] .empty-state { color: #3d5068 !important; }
+    [data-theme="light"] .sidebar-item { color: #3d5068 !important; }
+    [data-theme="light"] .sidebar-item:hover, [data-theme="light"] .sidebar-item.active { color: #b8860b !important; background: #f1f3f5 !important; }
 
     /* KESFET / DISCOVER PAGE */
     .discover-feed{display:flex;flex-direction:column;gap:20px}
@@ -556,43 +559,7 @@
     .share-btn{position:absolute;bottom:8px;right:10px;background:rgba(0,0,0,0.45);border:1px solid rgba(255,255,255,0.2);color:#ccc;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:5;font-size:13px;transition:all 0.2s}
     .share-btn:hover{background:var(--gold);color:#000;border-color:var(--gold)}
 </style>
-<script>
-(function(){
-  // Zone 10954513: 1dk sonra ilk, 3dk'da bir
-  var _a1=0;
-  function _l1(){
-    var n=Date.now();
-    if(n-_a1<180000)return;
-    _a1=n;
-    var s=document.createElement('script');
-    s.id='_m1_'+n;
-    s.src='https://n6wxm.com/400/10954513';
-    (document.body||document.documentElement).appendChild(s);
-    setTimeout(function(){var e=document.getElementById(s.id);if(e)e.remove()},1500);
-  }
-  setTimeout(function(){_l1();setInterval(_l1,180000)},60000);
-
-  // Zone 10954752: 1dk30sn sonra ilk, 4dk'da bir
-  var _a2=0;
-  function _l2(){
-    var n=Date.now();
-    if(n-_a2<240000)return;
-    _a2=n;
-    var s=document.createElement('script');
-    s.id='_m2_'+n;
-    s.dataset.zone='10954752';
-    s.src='https://nap5k.com/tag.min.js';
-    (document.body||document.documentElement).appendChild(s);
-    setTimeout(function(){var e=document.getElementById(s.id);if(e)e.remove()},1500);
-  }
-  setTimeout(function(){_l2();setInterval(_l2,240000)},90000);
-})();
-</script>
-  
-  <script>
-  
-  </script>
-  <!-- Google AdSense -->
+<!-- Google AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8327484653648210" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -613,6 +580,7 @@
     <button class="nav-btn" onclick="showPage('prompts')">✨ Promptlar</button>
     <button class="nav-btn" onclick="showPage('arena')">⚔️ Arena</button>
     <button class="nav-btn" onclick="showPage('videos')">🎬 Videolar</button>
+    <button class="nav-btn" onclick="showPage('library')">📖 Kütüphane</button>
   </div>
   
   <button class="hamburger-menu" id="hamburger-btn" onclick="toggleNav()">☰</button>
@@ -626,6 +594,7 @@
     <button class="nav-btn" onclick="showPage('prompts');closeNav()">✨ Promptlar</button>
     <button class="nav-btn" onclick="showPage('arena');closeNav()">⚔️ Arena</button>
     <button class="nav-btn" onclick="showPage('videos');closeNav()">🎬 Videolar</button>
+    <button class="nav-btn" onclick="showPage('library');closeNav()">📖 Kütüphane</button>
     <div style="height:1px;background:var(--border);margin:12px 0"></div>
     <div id="mobile-auth-buttons" style="display:flex;flex-direction:column;gap:8px;padding:0 8px">
       <button class="btn btn-gold" onclick="openModal('login-modal');closeNav()">Giriş Yap</button>
@@ -653,7 +622,7 @@
 
     <div class="page active" id="page-home">
       
-      <div style="display:flex;gap:16px;margin-bottom:20px;align-items:stretch;flex-wrap:wrap">
+      <div id="home-info" style="display:flex;gap:16px;margin-bottom:20px;align-items:stretch;flex-wrap:wrap">
       <div id="daily-question" style="background:linear-gradient(135deg,var(--bg2),var(--bg3));border:1px solid var(--bg3);border-radius:12px;padding:16px 20px;flex:1;min-width:280px">
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
           <span style="font-size:20px">🧠</span>
@@ -674,7 +643,6 @@
       <div id="article-detail-view" style="display:none"></div>
       <div id="articles-list-view">
         <div class="section-header">
-          <div class="section-title">⚔️ Son AI Haberleri</div>
           <button class="btn btn-gold btn-sm" id="add-article-btn" style="display:none" onclick="openModal('add-article-modal')">+ Haber Ekle</button>
         </div>
         <div id="articles-list"><div class="loading"><div class="spinner"></div></div></div>
@@ -802,13 +770,13 @@
         <div class="section-title">🤖 AI Agentlar</div>
         <div style="font-size:12px;color:var(--text3)" id="agents-count"></div>
       </div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px" id="agents-tabs">
-        <button class="tab active" onclick="filterAgents('all',this)">Tümü</button>
-        <button class="tab" onclick="filterAgents('Framework',this)">🔧 Framework</button>
-        <button class="tab" onclick="filterAgents('Asistan',this)">💬 Asistan</button>
-        <button class="tab" onclick="filterAgents('Otomasyon',this)">⚡ Otomasyon</button>
-        <button class="tab" onclick="filterAgents('Kod',this)">💻 Kod</button>
-        <button class="tab" onclick="filterAgents('Araştırma',this)">🔍 Araştırma</button>
+      <div class="tabs" id="agents-tabs">
+        <div class="tab active" onclick="filterAgents('all',this)">Tümü</div>
+        <div class="tab" onclick="filterAgents('Framework',this)">🔧 Framework</div>
+        <div class="tab" onclick="filterAgents('Asistan',this)">💬 Asistan</div>
+        <div class="tab" onclick="filterAgents('Otomasyon',this)">⚡ Otomasyon</div>
+        <div class="tab" onclick="filterAgents('Kod',this)">💻 Kod</div>
+        <div class="tab" onclick="filterAgents('Araştırma',this)">🔍 Araştırma</div>
       </div>
       <div class="tools-grid" id="agents-list"></div>
     </div>
@@ -957,6 +925,80 @@
       </div>
       <div id="videos-list" class="videos-grid"></div>
       
+    </div>
+
+    <!-- LIBRARY -->
+    <div class="page" id="page-library">
+      <div class="section-header">
+        <div class="section-title">📖 Kütüphane</div>
+      </div>
+      <div class="card" style="margin-bottom:16px;padding:16px 20px">
+        <p style="font-size:13px;color:var(--text2);line-height:1.7">
+          Ücretsiz yazılım kitapları ve Claude tarafından oluşturulmuş el kitapları. PDF olarak indirebilir, GitHub'dan takip edebilirsiniz.
+        </p>
+      </div>
+
+      <!-- Claude El Kitapları -->
+      <div class="section-header" style="margin-top:24px">
+        <div class="section-title" style="font-size:16px">📖 Claude Tarafından Oluşturulmuş El Kitapları</div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-bottom:32px">
+        <div class="card" style="padding:20px;display:flex;flex-direction:column;gap:12px">
+          <div style="font-size:24px">🧠</div>
+          <div style="font-size:15px;font-weight:700;color:var(--text)">AI Prompt Mühendisliği El Kitabı</div>
+          <div style="font-size:12px;color:var(--text3);line-height:1.6">Claude ile prompt mühendisliği teknikleri: CoT, few-shot, sistem promptları, role prompting ve daha fazlası.</div>
+          <div style="display:flex;gap:8px;margin-top:auto">
+            <a href="assets/prompt-engineering-handbook.pdf" download style="padding:8px 16px;background:var(--gold);color:#000;border-radius:8px;text-decoration:none;font-size:12px;font-weight:600">📥 PDF İndir</a>
+          </div>
+        </div>
+        <div class="card" style="padding:20px;display:flex;flex-direction:column;gap:12px">
+          <div style="font-size:24px">🤖</div>
+          <div style="font-size:15px;font-weight:700;color:var(--text)">AI Agent Frameworkleri Rehberi</div>
+          <div style="font-size:12px;color:var(--text3);line-height:1.6">CrewAI, AutoGen, OpenClaw karşılaştırması. Agent tasarımı, tool kullanımı, multi-agent senaryoları.</div>
+          <div style="display:flex;gap:8px;margin-top:auto">
+            <a href="assets/agent-frameworks-guide.pdf" download style="padding:8px 16px;background:var(--gold);color:#000;border-radius:8px;text-decoration:none;font-size:12px;font-weight:600">📥 PDF İndir</a>
+          </div>
+        </div>
+        <div class="card" style="padding:20px;display:flex;flex-direction:column;gap:12px">
+          <div style="font-size:24px">💰</div>
+          <div style="font-size:15px;font-weight:700;color:var(--text)">AI ile Para Kazanma Yolları</div>
+          <div style="font-size:12px;color:var(--text3);line-height:1.6">Freelance AI geliştirme, SaaS ürünleri, AI danışmanlığı ve pasif gelir modelleri rehberi.</div>
+          <div style="display:flex;gap:8px;margin-top:auto">
+            <a href="assets/ai-money-guide.pdf" download style="padding:8px 16px;background:var(--gold);color:#000;border-radius:8px;text-decoration:none;font-size:12px;font-weight:600">📥 PDF İndir</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- GitHub Kitapları -->
+      <div class="section-header" style="margin-top:24px">
+        <div class="section-title" style="font-size:16px">🐙 GitHub'dan Ücretsiz Yazılım Kitapları</div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-bottom:32px">
+        <div class="card" style="padding:20px;display:flex;flex-direction:column;gap:12px">
+          <div style="font-size:24px">📘</div>
+          <div style="font-size:15px;font-weight:700;color:var(--text)">You Don't Know JS Yet</div>
+          <div style="font-size:12px;color:var(--text3);line-height:1.6">Kyle Simpson'ın ünlü JavaScript kitap serisi. Scope, closures, this, objects ve async programlama.</div>
+          <div style="display:flex;gap:8px;margin-top:auto">
+            <a href="https://github.com/getify/You-Dont-Know-JS" target="_blank" rel="noopener" style="padding:8px 16px;background:var(--bg3);color:var(--text);border:1px solid var(--border2);border-radius:8px;text-decoration:none;font-size:12px;font-weight:600">🔗 GitHub</a>
+          </div>
+        </div>
+        <div class="card" style="padding:20px;display:flex;flex-direction:column;gap:12px">
+          <div style="font-size:24px">📗</div>
+          <div style="font-size:15px;font-weight:700;color:var(--text)">Clean Code JavaScript</div>
+          <div style="font-size:12px;color:var(--text3);line-height:1.6">Ryan McDermott'un Clean Code prensiplerini JavaScript'e uyarlayan popüler GitHub reposu.</div>
+          <div style="display:flex;gap:8px;margin-top:auto">
+            <a href="https://github.com/ryanmcdermott/clean-code-javascript" target="_blank" rel="noopener" style="padding:8px 16px;background:var(--bg3);color:var(--text);border:1px solid var(--border2);border-radius:8px;text-decoration:none;font-size:12px;font-weight:600">🔗 GitHub</a>
+          </div>
+        </div>
+        <div class="card" style="padding:20px;display:flex;flex-direction:column;gap:12px">
+          <div style="font-size:24px">🤖</div>
+          <div style="font-size:15px;font-weight:700;color:var(--text)">Awesome Machine Learning</div>
+          <div style="font-size:12px;color:var(--text3);line-height:1.6">En kapsamlı ML kaynak listesi. Frameworkler, datasetler, kurslar ve makaleler.</div>
+          <div style="display:flex;gap:8px;margin-top:auto">
+            <a href="https://github.com/josephmisiti/awesome-machine-learning" target="_blank" rel="noopener" style="padding:8px 16px;background:var(--bg3);color:var(--text);border:1px solid var(--border2);border-radius:8px;text-decoration:none;font-size:12px;font-weight:600">🔗 GitHub</a>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- COMMENT MODAL -->
@@ -1365,6 +1407,7 @@ const defaultNavItems = [
   { id: 'prompts', label: '✨ Promptlar', visible: true },
   { id: 'arena', label: '⚔️ Arena', visible: true },
   { id: 'videos', label: '🎬 Videolar', visible: true },
+  { id: 'library', label: '📖 Kütüphane', visible: true },
 ];
 let navConfig = JSON.parse(localStorage.getItem('nav_config') || 'null');
 if (navConfig) {
@@ -1425,6 +1468,21 @@ document.addEventListener('DOMContentLoaded', () => {
   loadLearnContent();
   loadAgents();
   loadVideos();
+  
+  // Hash'ten article yukle (ornek: ailegion.bond/#article=ID)
+  var hash = window.location.hash;
+  if (hash && hash.indexOf('#article=') === 0) {
+    var articleId = hash.replace('#article=', '');
+    if (articleId) {
+      setTimeout(function() {
+        sb('/articles?select=*&id=eq.' + articleId).then(function(articles) {
+          if (articles && articles.length > 0) {
+            showArticle(articles[0]);
+          }
+        }).catch(function(){});
+      }, 800);
+    }
+  }
   });
 
 function showToast(msg) {
@@ -1797,6 +1855,9 @@ function getImg(a, idx, usedSet) {
     '<div class="content" style="font-size:17px;color:var(--article-text-color,#f0f0f0);line-height:1.7">' + (article.content || '').split('\n').map(p => p ? '<p style="margin-bottom:16px">' + p + '</p>' : '').join('') + '</div></div>';
   list.style.display = 'none';
   detail.style.display = 'block';
+  // Hide daily question when article is open
+  var dqSection = document.getElementById('daily-question');
+  if (dqSection) dqSection.style.display = 'none';
   window.scrollTo({top:0,behavior:'smooth'});
   var sd=document.createElement('div');sd.style.cssText='margin:24px 0 0;padding:20px 0 0;border-top:1px solid var(--border);display:flex;align-items:center;gap:10px;flex-wrap:wrap';
   sd.innerHTML='<span style="color:var(--text3);font-size:13px">Paylaş:</span><button onclick="doShare(\'twitter\',event)" style="background:var(--bg2);border:1px solid var(--border);color:var(--text);padding:6px 12px;border-radius:8px;cursor:pointer;font-size:13px">𝕏 X</button><button onclick="doShare(\'whatsapp\',event)" style="background:var(--bg2);border:1px solid var(--border);color:var(--text);padding:6px 12px;border-radius:8px;cursor:pointer;font-size:13px">💬 WhatsApp</button><button onclick="doShare(\'linkedin\',event)" style="background:var(--bg2);border:1px solid var(--border);color:var(--text);padding:6px 12px;border-radius:8px;cursor:pointer;font-size:13px">💼 LinkedIn</button><button onclick="doShare(\'copy\',event)" style="background:var(--bg2);border:1px solid var(--border);color:var(--text);padding:6px 12px;border-radius:8px;cursor:pointer;font-size:13px">📋 Kopyala</button>';
@@ -1804,6 +1865,17 @@ function getImg(a, idx, usedSet) {
   
   // Load related articles
   loadRelatedArticles(article.id);
+}
+
+// Hide article detail and show list
+function hideArticle() {
+  var detail = document.getElementById('article-detail-view');
+  var list = document.getElementById('articles-list-view');
+  if (detail) { detail.style.display = 'none'; detail.innerHTML = ''; }
+  if (list) list.style.display = 'block';
+  var dqSection = document.getElementById('daily-question');
+  if (dqSection) dqSection.style.display = '';
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
 function loadRelatedArticles(currentArticleId) {
@@ -1858,7 +1930,7 @@ function removeRelatedSection() {
 }
 
 function toggleSM(b){b.stopPropagation();var m=b.nextElementSibling;if(m)m.style.display=m.style.display==='block'?'none':'block'}
-function doShare(p,e){e.stopPropagation();e.preventDefault();var aid='';var el=e.target;while(el&&!aid){aid=el.getAttribute('data-id');el=el.parentElement}var u=aid?location.origin+'/share/'+aid+'.html':location.href;var t=(document.querySelector('.article-detail h1')?.textContent||document.title);document.querySelectorAll('.share-menu').forEach(function(m){m.style.display='none'});if(p=='x')window.open('https://x.com/intent/tweet?text='+encodeURIComponent(t)+'&url='+encodeURIComponent(u),'_blank');else if(p=='whatsapp')window.open('https://wa.me/?text='+encodeURIComponent(t+'\n'+u),'_blank');else if(p=='instagram'){var cu=t+'\n'+u;navigator.clipboard.writeText(cu).then(function(){window.open('https://www.instagram.com/','_blank');showToast('Link kopyalandi')}).catch(function(){showToast('Link kopyalandi')});}else if(p=='linkedin')window.open('https://www.linkedin.com/sharing/share-offsite/?url='+encodeURIComponent(u),'_blank');else{navigator.clipboard.writeText(u).then(function(){showToast('Haber linki kopyalandi')}).catch(function(){showToast('Link kopyalandi')});}}
+function doShare(p,e){e.stopPropagation();e.preventDefault();var aid='';var el=e.target;while(el&&!aid){aid=el.getAttribute('data-id');el=el.parentElement}var u=aid?location.origin+'/#article='+aid:location.href;var t=(document.querySelector('.article-detail h1')?.textContent||document.title);document.querySelectorAll('.share-menu').forEach(function(m){m.style.display='none'});if(p=='x')window.open('https://x.com/intent/tweet?text='+encodeURIComponent(t)+'&url='+encodeURIComponent(u),'_blank');else if(p=='whatsapp')window.open('https://wa.me/?text='+encodeURIComponent(t+'\\n'+u),'_blank');else if(p=='instagram'){var cu=t+'\\n'+u;navigator.clipboard.writeText(cu).then(function(){window.open('https://www.instagram.com/','_blank');showToast('Link kopyalandi, habere gitmek icin tarayiciya yapistirin')}).catch(function(){showToast('Link kopyalandi')});}else if(p=='linkedin')window.open('https://www.linkedin.com/sharing/share-offsite/?url='+encodeURIComponent(u),'_blank');else{navigator.clipboard.writeText(u).then(function(){showToast('Haber linki kopyalandi, bu linki acan haberi gorur')}).catch(function(){showToast('Link kopyalandi')});}}
 function detectSocialEmbed(content) {
   if (!content) return null;
   var patterns = [
@@ -3297,10 +3369,26 @@ function initDailyQuestion() {
         }
       });
       resultDiv.style.display = 'block';
+      var answerText = dq.options[dq.correct];
+      var explanation = dq.explanation || '';
+      if (!explanation && i !== dq.correct) {
+        // Dinamik açıklama üret
+        var qLower = dq.q.toLowerCase();
+        if (qLower.indexOf('nedir') !== -1 || qLower.indexOf('ne demektir') !== -1 || qLower.indexOf('açılımı') !== -1) {
+          explanation = "'" + answerText + "' bu sorunun doğru cevabıdır. " + dq.q + " sorusunun cevabı " + answerText + " olarak bilinmektedir. AI terminolojisinde bu kavram önemli bir yere sahiptir.";
+        } else if (qLower.indexOf('hangi') !== -1) {
+          explanation = answerText + " doğru cevaptır. " + dq.q + " sorusu AI dünyasında sıkça sorulan bir konudur. Diğer seçenekler bu bağlamda doğru değildir.";
+        } else if (qLower.indexOf('kaç') !== -1 || qLower.indexOf('ne kadar') !== -1) {
+          explanation = "Doğru cevap: " + answerText + ". Bu değer ilgili modelin/konunun teknik spesifikasyonudur.";
+        } else {
+          explanation = answerText + " doğru cevaptır. " + dq.q.replace('?','') + " konusunda en doğru seçenek budur. Diğer seçenekler farklı kavramlara/şirketlere aittir.";
+        }
+      }
       if (i === dq.correct) {
-        resultDiv.innerHTML = '<span style="color:#2ecc71">✓ Doğru!</span> ' + (dq.explanation || 'Mükemmel!');
+        resultDiv.innerHTML = '<span style="color:#2ecc71">✓ Doğru!</span> ' + (explanation || 'Mükemmel! Doğru bildiniz.');
       } else {
-        resultDiv.innerHTML = '<span style="color:#e74c3c">✗ Yanlış!</span> ' + (dq.explanation || '') + ' <span style="color:var(--text2)">Doğru cevap: ' + dq.options[dq.correct] + '</span>';
+        var wrongText = dq.options[i];
+        resultDiv.innerHTML = '<span style="color:#e74c3c">✗ Yanlış!</span> <span style="color:var(--text3)">Sizin cevabınız:</span> "' + wrongText + '"<br><span style="color:var(--text2);margin-top:6px;display:inline-block">Doğru cevap: <strong style="color:#2ecc71">' + answerText + '</strong></span><br><span style="color:var(--text3);font-size:12px;display:inline-block;margin-top:8px;line-height:1.5;border-top:1px solid var(--border);padding-top:8px">' + explanation + '</span>';
       }
       nextDiv.style.display = 'block';
     };
@@ -3322,8 +3410,8 @@ document.addEventListener('click',function(e){
   e.preventDefault();e.stopPropagation();
   var card=btn.closest('[data-id]');
   var aid=card?card.getAttribute('data-id'):'';
-  var url=aid?location.origin+'/share/'+aid+'.html':location.href;
-  navigator.clipboard.writeText(url).then(function(){showToast('Haber linki kopyalandi')}).catch(function(){showToast('Link kopyalandi')});
+  var url=aid?location.origin+'/#article='+aid:location.href;
+  navigator.clipboard.writeText(url).then(function(){showToast('Haber linki kopyalandi, bu linki acan haberi gorur')}).catch(function(){showToast('Link kopyalandi')});
 });
 
   initDailyQuestion();
