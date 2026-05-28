@@ -14,3 +14,7 @@
   [headers.values]
     Content-Type = "text/html; charset=UTF-8"
     Cache-Control = "public, max-age=0, must-revalidate"
+
+[build]
+  publish = "/"
+  command = "echo 'No build needed - static site'"
