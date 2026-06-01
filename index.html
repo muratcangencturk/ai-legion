@@ -1739,24 +1739,37 @@ function loadDiscoverFeed() {
 async function loadArticles() {
   try {
     window.__newsImgSet__ = new Set();
-    const articles = await sb('/articles?order=created_at.desc&limit=20');
+    window._articleOffset = 0;
+    window._articlesPerPage = 19;
+    // Fetch all articles at once for client-side pagination
+    const articles = await sb('/articles?order=created_at.desc&limit=500');
     console.log('[AI Legion] loadArticles:', articles);
+    window._allArticles = articles || [];
     const container = document.getElementById('articles-list');
     if (!Array.isArray(articles) || !articles.length) {
       container.innerHTML = '<div class="empty-state"><div class="icon">📰</div><p>Henüz haber yok</p></div>';
       return;
     }
-    
+    renderArticleBatch(container, articles, 0, window._articlesPerPage);
+  } catch(e) {
+    console.error('[AI Legion] loadArticles error:', e);
+    document.getElementById('articles-list').innerHTML = '<div class="empty-state"><div class="icon">⚠️</div><p>Haberler yüklenemedi</p></div>';
+  }
+}
+
+function renderArticleBatch(container, articles, offset, count) {
+  var batch = articles.slice(offset, offset + count);
   function escJson(obj) { return JSON.stringify(obj).replace(/"/g, '&quot;'); }
+  window._articleOffset = offset;
 
   let html = '';
-  
-  // Featured: first 3 articles (1 main + 2 side)
-  if (articles.length >= 3) {
+
+  // Featured: first 3 articles (1 main + 2 side) - only for first batch
+  if (offset === 0 && batch.length >= 3) {
     html += '<div class="featured-news">';
-    
-    var main = articles[0];
-    var mainImg = main.image_url || getImg(main, 0, window.__newsImgSet__);
+
+    var main = batch[0];
+    var mainImg = main.image_url || getImg(main, offset + 0, window.__newsImgSet__);
     var mainSum = cleanArticleText(main.summary) || (cleanArticleText(main.content) || '').substring(0, 150) + '...';
     var mainMeta = '<span>' + new Date(main.created_at).toLocaleDateString('tr-TR') + '</span>';
     html += '<div class="featured-main" data-id="' + main.id + '" onclick="showArticle(' + escJson(main) + ')">' +
@@ -1767,10 +1780,10 @@ async function loadArticles() {
         '<div class="article-meta" style="color:rgba(255,255,255,0.6)">' + mainMeta + '</div>' +
       '<button class="share-btn" onclick="event.stopPropagation();doShare(\x27copy\x27,event)" title="Linki Kopyala">🔗</button>' +
       '</div></div>';
-    
+
     for (var i = 1; i < 3; i++) {
-      var side = articles[i];
-      var sideImg = side.image_url || getImg(side, i, window.__newsImgSet__);
+      var side = batch[i];
+      var sideImg = side.image_url || getImg(side, offset + i, window.__newsImgSet__);
       var sideSum = cleanArticleText(side.summary) || (cleanArticleText(side.content) || '').substring(0, 70) + '...';
       html += '<div class="featured-side" data-id="' + side.id + '" onclick="showArticle(' + escJson(side) + ')">' +
         '<img src="' + sideImg + '" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0" loading="lazy" onerror="handleImgError(this)">' +
@@ -1782,33 +1795,82 @@ async function loadArticles() {
         '</div></div>';
     }
     html += '</div>';
-  }
-  
-  // Rest: 2-column grid with overlay style
-  if (articles.length > 3) {
-    html += '<div class="news-grid-2">';
-    for (var j = 3; j < articles.length; j++) {
-      var a = articles[j];
-      var restImg = a.image_url || getImg(a, j, window.__newsImgSet__);
-      var restSum = cleanArticleText(a.summary) || (cleanArticleText(a.content) || '').substring(0, 80) + '...';
-      html += '<div class="featured-side" data-id="' + a.id + '" onclick="showArticle(' + escJson(a) + ')" style="cursor:pointer;min-height:200px">' +
-        '<img src="' + restImg + '" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0" loading="lazy" onerror="handleImgError(this)">' +
+
+    // Rest of first batch: 2-column grid
+    if (batch.length > 3) {
+      html += '<div class="news-grid-2">';
+      for (var j = 3; j < batch.length; j++) {
+        var a = batch[j];
+        var restImg = a.image_url || getImg(a, offset + j, window.__newsImgSet__);
+        var restSum = cleanArticleText(a.summary) || (cleanArticleText(a.content) || '').substring(0, 80) + '...';
+        html += '<div class="featured-side" data-id="' + a.id + '" onclick="showArticle(' + escJson(a) + ')" style="cursor:pointer;min-height:200px">' +
+          '<img src="' + restImg + '" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0" loading="lazy" onerror="handleImgError(this)">' +
+          '<div class="featured-overlay">' +
+            '<div class="article-title" style="font-size:15px;font-weight:700;color:#fff">' + cleanArticleText(a.title) + '</div>' +
+            '<div class="article-summary" style="color:rgba(255,255,255,0.7);font-size:12px;line-height:1.3;margin-bottom:4px">' + restSum + '</div>' +
+            '<div class="article-meta" style="color:rgba(255,255,255,0.6)">' + new Date(a.created_at).toLocaleDateString('tr-TR') + '</div>' +
+          '<button class="share-btn" onclick="event.stopPropagation();doShare(\x27copy\x27,event)" title="Linki Kopyala">🔗</button>' +
+          '</div></div>';
+      }
+      html += '</div>';
+    }
+  } else {
+    // Subsequent batches: pure 2-column grid
+    html += '<div class="news-grid-2" style="margin-top:18px">';
+    for (var k = 0; k < batch.length; k++) {
+      var a2 = batch[k];
+      var restImg2 = a2.image_url || getImg(a2, offset + k, window.__newsImgSet__);
+      var restSum2 = cleanArticleText(a2.summary) || (cleanArticleText(a2.content) || '').substring(0, 80) + '...';
+      html += '<div class="featured-side" data-id="' + a2.id + '" onclick="showArticle(' + escJson(a2) + ')" style="cursor:pointer;min-height:200px">' +
+        '<img src="' + restImg2 + '" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0" loading="lazy" onerror="handleImgError(this)">' +
         '<div class="featured-overlay">' +
-          '<div class="article-title" style="font-size:15px;font-weight:700;color:#fff">' + cleanArticleText(a.title) + '</div>' +
-          '<div class="article-summary" style="color:rgba(255,255,255,0.7);font-size:12px;line-height:1.3;margin-bottom:4px">' + restSum + '</div>' +
-          '<div class="article-meta" style="color:rgba(255,255,255,0.6)">' + new Date(a.created_at).toLocaleDateString('tr-TR') + '</div>' +
+          '<div class="article-title" style="font-size:15px;font-weight:700;color:#fff">' + cleanArticleText(a2.title) + '</div>' +
+          '<div class="article-summary" style="color:rgba(255,255,255,0.7);font-size:12px;line-height:1.3;margin-bottom:4px">' + restSum2 + '</div>' +
+          '<div class="article-meta" style="color:rgba(255,255,255,0.6)">' + new Date(a2.created_at).toLocaleDateString('tr-TR') + '</div>' +
         '<button class="share-btn" onclick="event.stopPropagation();doShare(\x27copy\x27,event)" title="Linki Kopyala">🔗</button>' +
         '</div></div>';
     }
     html += '</div>';
   }
-  
-  container.innerHTML = html;
-  } catch(e) {
-    console.error('[AI Legion] loadArticles error:', e);
-    document.getElementById('articles-list').innerHTML = '<div class="empty-state"><div class="icon">⚠️</div><p>Haberler yüklenemedi</p></div>';
+
+  // Check if there are more articles
+  var hasMore = (offset + count) < articles.length;
+
+  // Remove existing load-more button if any
+  var existingBtn = document.getElementById('load-more-articles');
+  if (existingBtn) existingBtn.remove();
+
+  if (offset === 0) {
+    container.innerHTML = html;
+  } else {
+    container.insertAdjacentHTML('beforeend', html);
+  }
+
+  // Add "Daha Fazla Yükle" button if more articles exist
+  if (hasMore) {
+    var btnHtml = '<div style="text-align:center;margin-top:24px">' +
+      '<button id="load-more-articles" onclick="loadMoreArticles()" style="background:var(--bg2);border:1px solid var(--border);color:var(--text);padding:12px 32px;border-radius:10px;cursor:pointer;font-size:15px;font-weight:600;display:inline-flex;align-items:center;gap:8px;transition:all 0.2s">' +
+      '➕ Daha Fazla Haber Yükle <span style="font-size:12px;color:var(--text3);font-weight:400">(' + (offset + count) + ' / ' + articles.length + ' gösteriliyor)</span></button></div>';
+    container.insertAdjacentHTML('beforeend', btnHtml);
   }
 }
+
+function loadMoreArticles() {
+  if (!window._allArticles || !window._allArticles.length) return;
+  window._articleOffset += window._articlesPerPage;
+  var container = document.getElementById('articles-list');
+  var btn = document.getElementById('load-more-articles');
+  if (btn) btn.remove();
+  renderArticleBatch(container, window._allArticles, window._articleOffset, window._articlesPerPage);
+  // Scroll to the newly added content
+  setTimeout(function() {
+    var grids = container.querySelectorAll('.news-grid-2');
+    if (grids.length > 0) {
+      grids[grids.length - 1].scrollIntoView({behavior: 'smooth', block: 'start'});
+    }
+  }, 100);
+}
+
 
 function showArticle(article) {
   const detail = document.getElementById('article-detail-view');
