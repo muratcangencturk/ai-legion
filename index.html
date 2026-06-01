@@ -1850,7 +1850,7 @@ function renderArticleBatch(container, articles, offset, count) {
   if (hasMore) {
     var btnHtml = '<div style="text-align:center;margin-top:24px">' +
       '<button id="load-more-articles" onclick="loadMoreArticles()" style="background:var(--bg2);border:1px solid var(--border);color:var(--text);padding:12px 32px;border-radius:10px;cursor:pointer;font-size:15px;font-weight:600;display:inline-flex;align-items:center;gap:8px;transition:all 0.2s">' +
-      '➕ Daha Fazla Haber Yükle <span style="font-size:12px;color:var(--text3);font-weight:400">(' + (offset + count) + ' / ' + articles.length + ' gösteriliyor)</span></button></div>';
+      '➕ Daha Fazla + <span style="font-size:12px;color:var(--text3);font-weight:400">(' + (offset + count) + ' / ' + articles.length + ' gösteriliyor)</span></button></div>';
     container.insertAdjacentHTML('beforeend', btnHtml);
   }
 }
