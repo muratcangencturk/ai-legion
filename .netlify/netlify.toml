@@ -1,0 +1,62 @@
+headersOrigin = "config"
+plugins = []
+
+[functions]
+
+[functions."*"]
+
+[build]
+publish = "/home/ubuntu/ai-legion"
+publishOrigin = "config"
+
+[build.environment]
+
+[build.processing]
+
+[build.processing.css]
+
+[build.processing.html]
+
+[build.processing.images]
+
+[build.processing.js]
+
+[build.services]
+
+[[headers]]
+for = "/"
+
+[headers.values]
+Content-Type = "text/html; charset=UTF-8"
+Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+for = "/index.html"
+
+[headers.values]
+Content-Type = "text/html; charset=UTF-8"
+Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+for = "/*"
+
+[headers.values]
+Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+for = "/assets/images/*"
+
+[headers.values]
+Cache-Control = "public, max-age=0, must-revalidate"
+
+[[redirects]]
+from = "/*"
+to = "/index.html"
+status = 200.0
+force = false
+
+[redirects.query]
+
+[redirects.conditions]
+
+[redirects.headers]
