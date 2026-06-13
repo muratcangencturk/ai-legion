@@ -806,18 +806,6 @@
     .newsletter-submit:hover{background:var(--gold2);transform:translateY(-1px)}
     .newsletter-msg{font-size:12px;margin-top:6px;color:var(--green2);display:none}
 
-    /* ===== v3.0 PWA INSTALL BANNER ===== */
-    .pwa-install{position:fixed;bottom:24px;left:24px;right:24px;max-width:480px;margin:0 auto;background:var(--bg2);border:2px solid var(--gold);border-radius:16px;padding:16px 20px;box-shadow:0 8px 32px rgba(0,0,0,0.4);z-index:9990;display:none;flex-direction:column;gap:12px;animation:pwaSlideUp 0.3s}
-    .pwa-install.show{display:flex}
-    @keyframes pwaSlideUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
-    .pwa-install-text{color:var(--text);font-size:14px;line-height:1.5}
-    .pwa-install-text strong{color:var(--gold)}
-    .pwa-install-actions{display:flex;gap:8px;justify-content:flex-end}
-    .pwa-install-btn{padding:8px 16px;border-radius:8px;border:none;cursor:pointer;font-size:13px;font-weight:600;font-family:inherit;transition:all 0.2s}
-    .pwa-install-accept{background:var(--gold);color:#000}
-    .pwa-install-accept:hover{background:var(--gold2)}
-    .pwa-install-dismiss{background:transparent;color:var(--text2);border:1px solid var(--border)}
-    .pwa-install-dismiss:hover{color:var(--text);border-color:var(--text2)}
 
     /* ===== v3.0 KEYBOARD SHORTCUTS HINT ===== */
     .kbd-hint{font-family:monospace;font-size:10px;background:var(--bg3);color:var(--text2);padding:1px 5px;border-radius:3px;border:1px solid var(--border);margin-left:4px;vertical-align:middle}
@@ -882,17 +870,6 @@
       <span><span class="search-kbd">↵</span> Aç</span>
       <span><span class="search-kbd">ESC</span> Kapat</span>
     </div>
-  </div>
-</div>
-
-<!-- v3.0 PWA Install Banner -->
-<div class="pwa-install" id="pwa-install" role="dialog" aria-label="Uygulamayı yükle">
-  <div class="pwa-install-text">
-    <strong>📱 AI Legion</strong> uygulamasını cihazınıza yükleyin — hızlı erişim ve çevrimdışı okuma!
-  </div>
-  <div class="pwa-install-actions">
-    <button class="pwa-install-btn pwa-install-dismiss" id="pwa-dismiss" aria-label="Kapat">Sonra</button>
-    <button class="pwa-install-btn pwa-install-accept" id="pwa-accept" aria-label="Yükle">Yükle</button>
   </div>
 </div>
 
@@ -1027,6 +1004,13 @@
             <summary style="font-weight:700;color:var(--text);cursor:pointer;font-size:15px">AI ile nasıl para kazanılır 2026?</summary>
             <p style="margin-top:10px;color:var(--text2);font-size:14px;line-height:1.7">2026'da AI ile para kazanma yöntemleri: (1) AI ajan kiralama (müşteri destek, satış için aylık $500-$5000), (2) Micro-SaaS ürünleri (Cursor 2.5, Claude Code ile 30 günde $10K MRR), (3) Freelance AI hizmetleri (Upwork/Fiverr), (4) AI içerik üretimi. Detaylı rehber AI Legion Öğren sekmesinde.</p>
           </details>
+        </section>
+
+        <!-- v3.0 PWA Install (Static, Below FAQ) -->
+        <section class="pwa-install-section" id="pwa-install-section" style="margin:24px 0 0;padding:24px;background:var(--bg2);border:1px solid var(--gold);border-radius:16px;text-align:center" aria-labelledby="pwa-install-heading">
+          <h3 id="pwa-install-heading" style="font-size:20px;font-weight:800;color:var(--gold);margin-bottom:8px;display:flex;align-items:center;justify-content:center;gap:8px">📱 AI Legion Uygulamasını Yükle</h3>
+          <p style="color:var(--text2);font-size:14px;line-height:1.6;margin:0 auto 16px;max-width:560px">Cihazınıza yükleyerek hızlı erişim, çevrimdışı okuma ve bildirim özelliklerinden yararlanın. Tek tıkla ana ekranınıza ekleyin.</p>
+          <button class="pwa-install-btn" id="pwa-install-btn" aria-label="AI Legion uygulamasını yükle" style="padding:12px 28px;background:var(--gold);color:#000;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;transition:all 0.2s">📥 Uygulamayı Yükle</button>
         </section>
       </div>
     </div>
@@ -5286,35 +5270,44 @@ document.addEventListener('click',function(e){
     setTimeout(function() { el.classList.remove('show'); }, ms || 2400);
   };
 
-  // ============= PWA INSTALL PROMPT =============
+  // ============= PWA INSTALL PROMPT (Static Button — No Popup) =============
   var _pwaInstallEvent = null;
+  var _pwaInstalled = false;
   window.addEventListener('beforeinstallprompt', function(e) {
     e.preventDefault();
     _pwaInstallEvent = e;
-    if (!localStorage.getItem('ai_legion_pwa_dismissed') && !window.matchMedia('(display-mode: standalone)').matches) {
-      setTimeout(function() {
-        var banner = document.getElementById('pwa-install');
-        if (banner) banner.classList.add('show');
-      }, 30000);
-    }
   });
   document.addEventListener('DOMContentLoaded', function() {
-    var accept = document.getElementById('pwa-accept');
-    var dismiss = document.getElementById('pwa-dismiss');
-    if (accept) accept.addEventListener('click', function() {
-      var banner = document.getElementById('pwa-install');
-      if (banner) banner.classList.remove('show');
-      if (_pwaInstallEvent) { _pwaInstallEvent.prompt(); _pwaInstallEvent = null; }
-    });
-    if (dismiss) dismiss.addEventListener('click', function() {
-      var banner = document.getElementById('pwa-install');
-      if (banner) banner.classList.remove('show');
-      localStorage.setItem('ai_legion_pwa_dismissed', '1');
+    var btn = document.getElementById('pwa-install-btn');
+    if (btn) btn.addEventListener('click', function() {
+      if (_pwaInstalled) {
+        showV3Toast('✅ AI Legion zaten yüklü');
+        return;
+      }
+      if (_pwaInstallEvent) {
+        _pwaInstallEvent.prompt();
+        _pwaInstallEvent.userChoice.then(function(choice) {
+          if (choice && choice.outcome === 'accepted') {
+            _pwaInstalled = true;
+            showV3Toast('🎉 AI Legion yükleniyor...');
+          } else {
+            showV3Toast('Yükleme iptal edildi');
+          }
+          _pwaInstallEvent = null;
+        });
+      } else {
+        // iOS Safari veya beforeinstallprompt desteklemeyen tarayıcılar
+        var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        if (isIOS) {
+          showV3Toast('📲 iOS: Safari\'de Paylaş → Ana Ekrana Ekle');
+        } else {
+          showV3Toast('Tarayıcı yüklemeyi henüz desteklemiyor. Chrome/Edge ile deneyin.');
+        }
+      }
     });
   });
   window.addEventListener('appinstalled', function() {
-    var banner = document.getElementById('pwa-install');
-    if (banner) banner.classList.remove('show');
+    _pwaInstalled = true;
     showV3Toast('🎉 AI Legion yüklendi!');
   });
 
