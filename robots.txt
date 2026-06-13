@@ -5,7 +5,7 @@ Allow: /
 Crawl-delay: 1
 
 # Sitemap
-Sitemap: https://ai-legion.netlify.app/sitemap.xml
+Sitemap: https://ailegion.bond/sitemap.xml
 
 # Block common bots that waste bandwidth
 User-agent: MJ12bot
