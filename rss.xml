@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>AI Legion - Yapay Zeka Haberleri</title>
+    <link>https://ailegion.bond/</link>
+    <description>Türkiye'nin en kapsamlı yapay zeka platformu. Günlük AI haberleri, model karşılaştırmaları, AI araçları, prompt kütüphanesi.</description>
+    <language>tr-TR</language>
+    <copyright>© 2026 AI Legion</copyright>
+    <managingEditor>ailegionx@outlook.com (AI Legion)</managingEditor>
+    <webMaster>ailegionx@outlook.com (AI Legion)</webMaster>
+    <lastBuildDate>Sat, 13 Jun 2026 15:00:00 +0300</lastBuildDate>
+    <ttl>60</ttl>
+    <image>
+      <url>https://ailegion.bond/logo.png</url>
+      <title>AI Legion</title>
+      <link>https://ailegion.bond/</link>
+      <width>1280</width>
+      <height>720</height>
+    </image>
+    <atom:link href="https://ailegion.bond/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>AI Legion - Yapay Zeka Haberleri, Modeller, Araçlar ve Promptlar</title>
+      <link>https://ailegion.bond/</link>
+      <description>Claude Fable 5, GPT-5.5, Claude Opus 4.7, Gemini Omni Flash ve daha fazlası. Güncel yapay zeka haberleri, model karşılaştırmaları, SWE-bench ve LMSYS Elo benchmark sonuçları.</description>
+      <dc:creator>AI Legion</dc:creator>
+      <pubDate>Sat, 13 Jun 2026 15:00:00 +0300</pubDate>
+      <category>Yapay Zeka</category>
+      <guid isPermaLink="true">https://ailegion.bond/</guid>
+    </item>
+  </channel>
+</rss>

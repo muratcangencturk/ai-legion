@@ -1,0 +1,66 @@
+{
+  "name": "AI Legion - Yapay Zeka Topluluğu",
+  "short_name": "AI Legion",
+  "description": "Türkiye'nin en kapsamlı yapay zeka platformu. Günlük haberler, model karşılaştırmaları, AI araçları, prompt kütüphanesi.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0a0a0a",
+  "theme_color": "#c9a84c",
+  "lang": "tr-TR",
+  "dir": "ltr",
+  "categories": ["news", "education", "productivity", "technology"],
+  "icons": [
+    {
+      "src": "logo.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Haberler",
+      "url": "/?section=news",
+      "description": "Güncel AI haberleri"
+    },
+    {
+      "name": "Modeller",
+      "url": "/?section=models",
+      "description": "AI modelleri karşılaştırması"
+    },
+    {
+      "name": "Araçlar",
+      "url": "/?section=tools",
+      "description": "AI araçları rehberi"
+    },
+    {
+      "name": "Promptlar",
+      "url": "/?section=prompts",
+      "description": "Prompt kütüphanesi"
+    }
+  ],
+  "share_target": {
+    "action": "/?share=true",
+    "method": "GET",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  },
+  "prefer_related_applications": false
+}
