@@ -1337,6 +1337,19 @@
         <div class="section-title">📖 Kütüphane</div>
       </div>
 
+      <!-- Son Eklenenler (Dynamic, newest at top) -->
+      <div id="library-latest-section" style="display:none">
+        <div class="section-header" style="margin-top:8px">
+          <div class="section-title" style="font-size:16px">📌 Son Eklenenler</div>
+        </div>
+        <div class="card" style="margin-bottom:16px;padding:16px 20px;background:linear-gradient(135deg,rgba(212,175,55,0.08),rgba(212,175,55,0.02));border-color:rgba(212,175,55,0.3)">
+          <p style="font-size:13px;color:var(--text2);line-height:1.7">
+            En son eklenen kitap, rehber ve kaynaklar. Yeni içerikler her zaman en üstte görünür.
+          </p>
+        </div>
+        <div id="library-latest-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-bottom:32px"></div>
+      </div>
+
       <!-- AI El Kitapları -->
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-bottom:32px">
         <div class="card" style="padding:20px;display:flex;flex-direction:column;gap:12px">
@@ -2614,6 +2627,7 @@ function showPage(page) {
   if (page === 'prompts') loadPrompts();
   if (page === 'models') loadModels();
   if (page === 'videos') loadVideos();
+  if (page === 'library') loadLibrary();
   if (page === 'arena') populateArenaDropdowns();
   if (page === 'profile' && currentUser) loadProfile(currentUser.username);
   if (page === 'admin' && currentUser?.is_admin) { loadAdminStats(); loadAdminPosts(); renderNavManager(); }
@@ -4032,7 +4046,7 @@ var allLearn = [
   // ===== MAY-HAZİRAN 2026 YENİ EKLENENLER (EN ÜSTTE) =====
   { category: 'İleri Seviye', emoji: '🧠', image: 'https://img.icons8.com/fluency/48/brain.png', title: 'MCP Apps 2026: İnteraktif UI Standardı ve Agent Deneyimi', summary: 'Anthropic\'in geliştirdiği MCP standardı 2026\'da mcp-ui üzerine MCP Apps extension ile yeni bir döneme geçti. AI ajanları artık interaktif UI (dashboard, form, veri) sunabiliyor.', readTime: '15 dk', content: 'MCP (Model Context Protocol) Apps, 2026 yılında Anthropic tarafından mcp-ui üzerine inşa edilen resmi extension. MCP Apps standart protokolünü text ve structured data\'nın ötesine taşıyarak interaktif UI bileşenlerinin (dashboard, form, veri görselleştirme) standart teslimatını sağlıyor.\\n\\nMCP Apps, base MCP spec\'in sağladığı tools, resources ve prompts\'a ek olarak yeni bir "UI components" kanalı ekliyor. Bir agent artık sadece metin döndürmek yerine, kullanıcının doğrudan etkileşim kurabileceği butonlar, tablolar, grafikler gösterebiliyor. Örneğin bir SQL agent, sorgu sonuçlarını interaktif bir tablo olarak sunabilir ve kullanıcı doğrudan filtreleme yapabilir.\\n\\nRehberimiz, sıfırdan MCP Apps uyumlu sunucu yazmaktan, mevcut MCP server\'ı Apps uyumlu hale getirmeye kadar her adımı örneklerle anlatıyor. mcp-ui SDK kullanımı, Claude Desktop ve diğer client uyumluluğu, authentication (OAuth 2.1) gibi gelişmiş konular dahil.', image_url: 'assets/images/news_346.jpg' },
   { category: 'Araştırma', emoji: '🔬', image: 'https://img.icons8.com/fluency/48/test-tube.png', title: 'Letta (MemGPT) 2026: LLM-as-OS Runtime ile Stateful Agents', summary: 'Berkeley MemGPT paper temelli, Nisan 2026\'da Letta olarak olgunlaşan framework. Ajan kendi hafıza katmanlarını OS gibi yönetiyor.', readTime: '18 dk', content: 'Letta (eski adı MemGPT), 2026 yılında "LLM-as-OS" runtime konseptiyle agent framework dünyasında önemli bir yere sahip. Berkeley\'in 2023 MemGPT paper\'ından evrilen Letta, ajanın kendi hafıza katmanlarını (RAM/disk gibi) yönetmesini sağlayan benzersiz bir mimari sunuyor.\\n\\nCore memory blocks, archival memory (vector store) ve recall memory (recent messages) olmak üzere üç katman halinde organize edilen hafıza sistemi, ajanın tool calling ile kendi hafızasını sorgulamasına, eklemesine ve değiştirmesine olanak tanıyor. Bu yaklaşım, geleneksel "kaydır-kopyala" context yönetiminden çok daha esnek.\\n\\nRehberimiz, Letta\'nın teknik mimarisini, kurulumunu, Python SDK ve REST API kullanımını detaylı şekilde anlatıyor. OpenAI, Anthropic, Google ve lokal LLM desteği ile kendi stateful agentınızı dakikalar içinde ayağa kaldırabilirsiniz. MemGPT paper\'ın orijinal sanal bellek penceresi yönetimi kavramı, Letta\'da daha da geliştirildi.', image_url: 'assets/images/news_347.jpg' },
-  { category: 'İleri Seviye', emoji: '⚡', image: 'https://img.icons8.com/fluency/48/lightning-bolt.png', title: 'DeepSeek V4 Açık Kaynak Devrimi: Kod Odaklı Reasoning Lideri', summary: 'DeepSeek V4 Preview (24 Nisan 2026) açık kaynak yayınlandı. Engram koşullu hafıza entegrasyonu ile yeni nesil.', readTime: '12 dk', content: 'DeepSeek V4 Preview, 24 Nisan 2026\'da DeepSeek tarafından açık kaynak olarak yayınlandı. V3\'ten farklı olarak kod ve reasoning\'e özel optimizasyonlarla gelen V4, Engram koşullu hafıza (conditional memory) entegrasyonu ile yeni bir mimari sunuyor.\\n\\nV4 Preview, kod yazma benchmarklarında dramatik iyileşme gösteriyor. SWE-bench Verified, HumanEval ve LiveCodeBench üzerinde önceki nesil DeepSeek modellerini geride bırakıyor. Özellikle çok dosyalı refactoring ve dependency management gibi karmaşık coding görevlerinde güçlü.\\n\\nRehberimiz, V4 Preview\'ı kurmayı, inference ayarlarını optimize etmeyi, fine-tuning stratejilerini ve self-hosted deployment seçeneklerini anlatıyor. Açık kaynak olması sayesinde kendi sunucunuzda tam kontrol ile çalıştırabilir, fine-tune edebilir ve ticari projelerinizde kullanabilirsiniz.', image_url: 'assets/images/news_348.jpg' },
+  { category: 'İleri Seviye', emoji: '⚡', image: 'https://img.icons8.com/fluency/48/lightning-bolt.png', title: 'DeepSeek V4 Açık Kaynak Devrimi: Kod Odaklı Reasoning Lideri', summary: 'DeepSeek V4 Preview (24 Nisan 2026) açık kaynak yayınlandı. Engram koşullu hafıza entegrasyonu ile yeni nesil.', readTime: '12 dk', content: 'DeepSeek V4 Preview, 24 Nisan 2026\'da DeepSeek tarafından açık kaynak olarak yayınlandı. V3\'ten farklı olarak kod ve reasoning\'e özel optimizasyonlarla gelen V4, Engram koşullu hafıza (conditional memory) entegrasyonu ile yeni bir mimari sunuyor.\n\nV4 Preview, kod yazma benchmarklarında dramatik iyileşme gösteriyor. SWE-bench Verified, HumanEval ve LiveCodeBench üzerinde önceki nesil DeepSeek modellerini geride bırakıyor. Özellikle çok dosyalı refactoring ve dependency management gibi karmaşık coding görevlerinde güçlü.\\n\\nRehberimiz, V4 Preview\'ı kurmayı, inference ayarlarını optimize etmeyi, fine-tuning stratejilerini ve self-hosted deployment seçeneklerini anlatıyor. Açık kaynak olması sayesinde kendi sunucunuzda tam kontrol ile çalıştırabilir, fine-tune edebilir ve ticari projelerinizde kullanabilirsiniz.', image_url: 'assets/images/news_348.jpg' },
   { category: 'Otomasyon', emoji: '🔄', image: 'https://img.icons8.com/fluency/48/sync.png', title: 'LangGraph 1.2.5 ile Production Agent Pipeline (Haziran 2026)', summary: 'LangGraph 1.2.5 (12 Haziran 2026) ile production-grade stateful agent grafikleri oluşturun. Durable execution.', readTime: '14 dk', content: 'LangGraph, 2026 yılında LangChain State of AI raporuna göre production deployment\'ta AutoGen\'ı geçerek en çok kullanılan agent framework oldu. v1.2.5 sürümü (12 Haziran 2026) durable execution, conditional edges, time-travel debugging gibi production-düzey özelliklerle öne çıkıyor.\\n\\nLangGraph mimarisi directed graph + nodes + edges üzerine kurulu. Conditional edges, ajanın runtime\'da karar vererek farklı node\'lara yönlenmesini sağlıyor. Durable execution sayesinde long-running agent görevleri (saatler, günler) kesintisiz çalışabiliyor. LangGraph Studio IDE ile visual debugging, time-travel inspection mümkün.\\n\\nRehberimiz, sıfırdan ilk LangGraph agentınızı oluşturmaktan, production deployment (Kubernetes, AWS), observability (LangSmith) ve human-in-the-loop patternlerine kadar her adımı kapsıyor. Müşteri destek, araştırma asistanı, kod review pipeline gibi 8 farklı gerçek dünya senaryosu örneklerle inceleniyor.', image_url: 'assets/images/news_349.jpg' },
   { category: 'Agent', emoji: '🕵️', image: 'https://img.icons8.com/fluency/48/inspection.png', title: 'Hermes Agent v0.16 "The Surface Release" İnceleme (5 Haziran 2026)', summary: 'Nous Research Hermes Agent v0.16. 874 commit, 542 PR, 1,962 dosya. Yeni native desktop app.', readTime: '13 dk', content: 'Hermes Agent v0.16, Nous Research tarafından 5 Haziran 2026\'da yayınlandı. "The Surface Release" kod adlı bu sürüm, v0.15.2\'den bu yana 874 commit, 542 PR ve 205,216 satır kod değişikliği içeriyor. En önemli yenilik: yeni native desktop uygulaması (100 PR üzerine kurulu).\\n\\nHermes Agent, "seninle büyüyen ajan" mottosuyla, deneyimlerden öğrenen ve zamanla daha akıllı hale gelen bir mimari sunuyor. 170 community contributor, 2 P0 ve 62 P1 issue çözüldü. Skills sistemi, persistent memory, multi-platform desteği (Telegram, Discord, Slack, CLI) ve cross-platform macOS/Windows/Linux uyumluluğu güçlendirildi.\\n\\nRehberimiz, Hermes Agent v0.16\'yı kurmayı, native desktop app özelliklerini, yeni skills sistemini, multi-model routing (OpenAI/Anthropic/Google/DeepSeek/lokal) kurulumunu ve production deployment stratejilerini detaylı şekilde anlatıyor.', image_url: 'assets/images/news_350.jpg' },
   { category: 'Kıyaslama', emoji: '📊', image: 'https://img.icons8.com/fluency/48/line-chart.png', title: 'LMSYS Chatbot Arena Haziran 2026: Gemini Omni vs GPT-5.5 Spud', summary: 'Dünya çapında milyonlarca oylamayla belirlenen en güncel AI model sıralaması. Haziran 2026 sonuçları.', readTime: '10 dk', content: 'LMSYS Chatbot Arena (Haziran 2026), kullanıcı oylamalarına dayanan en güvenilir AI model değerlendirme platformu. Son haftalarda 50+ milyon oylamayla belirlenen sıralamada zirvede Gemini Omni Flash, GPT-5.5 "Spud", Grok 4.3 ve Claude Opus 4.7 var.\\n\\nBu sonuçlar, Mayıs 2026\'da Google I/O\'da tanıtılan Gemini Omni Flash\'ın multimodal video yetenekleriyle öne çıktığını gösteriyor. GPT-5.5 "Spud" ise genel amaçlı reasoning ve coding kategorilerinde güçlü. Grok 4.3 (maliyet-etkin frontier) ve Claude Opus 4.7 (coding lideri) yakın takipte.\\n\\nRehberimiz, her modelin güçlü ve zayıf yönlerini kategori bazında inceliyor. Hangi model hangi iş için en uygun, fiyat/performans karşılaştırması, multimodal özellikler ve kurumsal kullanım için öneriler sunuyoruz.', image_url: 'assets/images/news_351.jpg' },
@@ -4080,6 +4094,54 @@ var allLearn = [
  ];
  function loadLearnContent() {
  renderLearn(allLearn);
+ }
+
+ // ===== LIBRARY (KÜTÜPHANE) - Latest additions sort =====
+ var libraryLatest = [
+   // Yeni eklenenler BURAYA eklenir (en yeni = array'in EN ÜSTÜNDE)
+   { emoji: '📘', title: 'Kütüphane Sıralama Güncellemesi', desc: 'Yeni eklenen kitap/rehber kaynaklar artık otomatik olarak en üstte gösterilecek. Bu örnek kayıt yeni sıralama sistemini test ediyor.', buttons: [{label: '🔗 GitHub', url: 'https://github.com/muratcangencturk/ai-legion'}], addedAt: '2026-06-15' }
+ ];
+
+ function loadLibrary() {
+   var section = document.getElementById('library-latest-section');
+   var grid = document.getElementById('library-latest-grid');
+   if (!section || !grid) return;
+   if (!libraryLatest || libraryLatest.length === 0) {
+     section.style.display = 'none';
+     return;
+   }
+   // En yeni eklenen EN ÜSTTE olacak şekilde sırala (addedAt DESC)
+   var sorted = libraryLatest.slice().sort(function(a, b) {
+     var da = a.addedAt || '';
+     var db = b.addedAt || '';
+     if (da === db) return 0;
+     return db.localeCompare(da); // newest first
+   });
+   // Build cards
+   var html = '';
+   sorted.forEach(function(item) {
+     html += '<div class="card" style="padding:20px;display:flex;flex-direction:column;gap:12px">';
+     if (item.emoji) html += '<div style="font-size:24px">' + item.emoji + '</div>';
+     html += '<div style="font-size:15px;font-weight:700;color:var(--text)">' + item.title + '</div>';
+     html += '<div style="font-size:12px;color:var(--text3);line-height:1.6">' + item.desc + '</div>';
+     if (item.addedAt) {
+       html += '<div style="font-size:11px;color:var(--gold);font-weight:600">📅 ' + item.addedAt + ' tarihinde eklendi</div>';
+     }
+     if (item.buttons && item.buttons.length) {
+       html += '<div style="display:flex;gap:8px;margin-top:auto;flex-wrap:wrap">';
+       item.buttons.forEach(function(btn) {
+         var isDownload = btn.url && (btn.url.indexOf('.pdf') >= 0 || btn.label.indexOf('PDF') >= 0);
+         var style = isDownload
+           ? 'padding:8px 16px;background:var(--gold);color:#000;border-radius:8px;text-decoration:none;font-size:12px;font-weight:600'
+           : 'padding:8px 16px;background:var(--bg3);color:var(--text);border:1px solid var(--border2);border-radius:8px;text-decoration:none;font-size:12px;font-weight:600';
+         html += '<a href="' + btn.url + '" target="_blank" rel="noopener" style="' + style + '">' + btn.label + '</a>';
+       });
+       html += '</div>';
+     }
+     html += '</div>';
+   });
+   grid.innerHTML = html;
+   section.style.display = 'block';
  }
 
 function filterLearn(cat, el) {
