@@ -2403,26 +2403,6 @@ let allTools = [
   { name: 'codegraph', description: 'Claude Code, Codex, Cursor için önceden indekslenmiş kod bilgi grafiği. Daha az token, daha az tool çağrısı.', icon: 'network', link: 'https://github.com/colbymchenry/codegraph' },
   { name: 'CopilotKit', description: 'AI ajanları için frontend stack — React, Angular, mobil, Slack. AG-UI protokolünün yaratıcısı.', icon: 'code', link: 'https://copilotkit.ai' }
 ];
-  { name: "Perplexity Pro", description: "AI arama motoru. Real-time web, citation'lı yanıtlar, Pro Search modu.", icon: "search", link: "https://perplexity.ai" },
-  { name: "MCP Apps", description: "Anthropic'in mcp-ui extension'ı. Agent'lara interaktif UI (dashboard, form) standardı.", icon: "apps", link: "https://modelcontextprotocol.io" },
-  { name: "SubQ 1M", description: "İlk subquadratic LLM. Compute lineer büyür, 1M context API + 12M token enterprise config.", icon: "bolt", link: "https://subquadratic.ai" },
-  { name: "Kimi K2.6 API", description: "Moonshot AI. 1T-param MoE, 256K context, 300-agent swarm, modified MIT lisans.", icon: "api", link: "https://kimi.moonshot.cn" },
-  { name: "Qwen 3.7-Plus API", description: "Alibaba. Vision-language yükseltmesi. Qwen-VLA: vision-language-action.", icon: "api", link: "https://qwen.alibaba.com" },
-  { name: "DeepSeek V4 Preview", description: "Açık kaynak kod odaklı reasoning. Engram koşullu hafıza, SWE-bench lideri.", icon: "code", link: "https://deepseek.com" },
-  { name: "Grok 4.3", description: "xAI Grok 4.3 (4 Mayıs 2026). Maliyet-etkin frontier, 1M-token context, native video input.", icon: "brain", link: "https://x.ai" },
-  { name: "Anthropic API", description: "Claude API. Claude Fable 5, Opus 4.7, Sonnet 4.5, Haiku 4.7. Tool use, vision, prompt caching.", icon: "api", link: "https://anthropic.com" },
-  { name: "v0 Templates", description: "Vercel v0'nun UI template kütüphanesi. Landing, dashboard, e-ticaret, form bileşenleri.", icon: "template", link: "https://v0.dev/templates" },
-  { name: "OpenAgents Hub", description: "Topluluk ajan marketplace. Browse, fork, deploy. Çoklu framework: LangGraph, CrewAI, AutoGen.", icon: "hub", link: "https://openagents.org" },
-  { name: "Spheron GPU", description: "Dezentralize GPU cloud. AI inference ve training için uygun fiyatlı.", icon: "gpu", link: "https://spheron.network" },
-  { name: "AI Code Reviewer", description: "Kod kalitesini artıran, güvenlik açıklarını tespit eden ve iyileştirme önerileri sunan AI destekli kod inceleme aracı.", icon: "code-review", link: "https://www.producthunt.com/posts/ai-code-reviewer" },
-  { name: "Agent-Reach", description: "AI ajanınıza tüm interneti görün. Twitter, Reddit, YouTube, GitHub, Bilibili'de tek CLI, sıfır API ücreti.", icon: "globe", link: "https://github.com/Panniantong/Agent-Reach" },
-  { name: "Understand-Anything", description: "Herhangi bir kodu interaktif bilgi grafiğine dönüştür. Claude Code, Codex, Cursor ve diğer ajanlarla çalışır.", icon: "code", link: "https://github.com/Lum1104/Understand-Anything" },
-  { name: "headroom", description: "LLM'e göndermeden önce tool çıktılarını ve logları sıkıştır. %60-95 daha az token, aynı yanıtlar.", icon: "compress", link: "https://github.com/chopratejas/headroom" },
-  { name: "agentmemory", description: "AI kodlama ajanları için #1 kalıcı hafıza çözümü. Gerçek dünya benchmarklarında test edilmiş.", icon: "database", link: "https://github.com/rohitg00/agentmemory" },
-  { name: "CloakBrowser", description: "Stealth Chromium — tüm bot tespit testlerini geçer. Playwright yerine kullanılabilir.", icon: "browser", link: "https://github.com/CloakHQ/CloakBrowser" },
-  { name: "codegraph", description: "Claude Code, Codex, Cursor için önceden indekslenmiş kod bilgi grafiği. Daha az token, daha az tool çağrısı.", icon: "network", link: "https://github.com/colbymchenry/codegraph" },
-  { name: "CopilotKit", description: "AI ajanları için frontend stack — React, Angular, mobil, Slack. AG-UI protokolünün yaratıcısı.", icon: "code", link: "https://copilotkit.ai" }
-];
   let allAgents = [
     // ===== HAZİRAN 2026 YENİ EKLENENLER (EN ÜSTTE) =====
     { id: 118, name: 'Google ADK', category: 'Framework', icon: 'https://img.icons8.com/fluency/48/agent.png', emoji: '🔥', description: 'Google\'ın Haziran 2026 Agent Development Kit\'i. Gemini 2.5 entegrasyonu, multimodal agent pipeline, A2A protocol native.', url: 'https://google.github.io/adk-docs', repo: 'google/adk', stars: '5k+', free: true, rating: 4.9, tags: ['Google', 'Multimodal', 'A2A'], features: ['Gemini 2.5 native', 'A2A protocol', 'Multimodal pipeline', 'Google Cloud entegrasyonu', 'Production-ready'] },
@@ -2445,6 +2425,7 @@ let allTools = [
     { id: 115, name: 'Mastra', category: 'Framework', icon: 'https://img.icons8.com/fluency/48/workflow.png', emoji: '🌊', description: 'Mastra. TypeScript için agent framework. Modern web stack entegrasyonu, workflow engine, RAG built-in, deploy anywhere, observability.', url: 'https://mastra.ai', free: true, rating: 4.6, tags: ['TypeScript', 'Modern Stack', 'Workflows'], features: ['TypeScript native', 'Workflow engine', 'RAG built-in', 'Deploy anywhere', 'Observability'] },
     { id: 116, name: 'Browser-Use', category: 'Ajan', icon: 'https://img.icons8.com/fluency/48/browser.png', emoji: '🌐', description: 'Browser-Use. AI ajanların web tarayıcı kontrol etmesini sağlayan açık kaynak kütüphane. 25K+ yıldız. 2026 sürümü vision + DOM operasyonları.', url: 'https://github.com/browser-use/browser-use', stars: '25k+', free: true, rating: 4.8, tags: ['Açık Kaynak', 'Browser', 'Agent'], features: ['Browser automation', 'Vision + DOM', 'Multi-tab', 'Cookie handling', 'Proxy support'] },
     { id: 117, name: 'E2B Sandbox', category: 'Framework', icon: 'https://img.icons8.com/fluency/48/sandbox.png', emoji: '📦', description: 'E2B Sandbox. AI ajanlar için güvenli code execution ortamı. Isolated sandbox, 2 saniyede başlar. Multi-language, network access, file system.', url: 'https://e2b.dev', free: true, rating: 4.7, tags: ['Sandbox', 'Code Execution', 'Cloud'], features: ['Isolated sandbox', '2s startup', 'Multi-language', 'Network access', 'File system'] }
+];
 let allPrompts = [
   // ===== HAZİRAN 2026 YENİ EKLENENLER (EN ÜSTTE) =====
   { id: 116, category: 'AI', title: 'Google ADK Agent Pipeline', description: 'Google ADK ile multimodal agent pipeline tasarla', prompt: '@Q@Google Agent Development Kit (ADK) kullanarak şu görevi çöz:\n\nGörev: [GÖREV]\n\n1. Ajan mimarisi: multimodal input (metin, görsel, ses, video), Gemini 2.5 entegrasyonu, A2A protocol uyumlu\n2. Tool tanımları: name, description, inputSchema (JSON Schema)\n3. Hafıza yönetimi: Letta/MemGPT style core/archival/recall memory katmanları\n4. Güvenlik: OWASP LLM Top 10 uyumlu guardrails, audit log, incident response\n5. Deployment: Google Cloud Run, Vertex AI entegrasyonu, CI/CD pipeline\n6. Monitoring: LangSmith, Logfire, custom metrics\n\nÇıktı: Tam çalışır Python kodu + README + test senaryoları.@Q@', tags: ['Google ADK', 'Multimodal', 'A2A', 'Production'] },
@@ -3524,6 +3505,7 @@ var allModels = [
   { rank: 11, name: 'GPT-5.5', lmsys: 1488, mmlu: 88.2, swe_bench: 74.9, aime: 83.0, humaneval: 91.8, context: '256K', release: '2026-03-15', url: 'https://openai.com/news/gpt-5-5', icon: 'https://img.icons8.com/fluency/48/openai.png', color: '#1da1f2', description: 'GPT-5.5 önceki nesil frontier model. 256K context, multimodal, agentic workflows.' },
   { rank: 12, name: 'Gemini 3.1 Pro', lmsys: 1493, mmlu: 87.9, swe_bench: 80.6, aime: 79.0, humaneval: 90.2, context: '1M', release: '2026-02-20', url: 'https://blog.google/technology/ai/gemini-3-1-pro/', icon: 'https://img.icons8.com/fluency/48/google.png', color: '#1da1f2', description: 'Gemini 3.1 Pro önceki nesil multimodal model. 1M context, multimodal, agentic workflows.' }
 ];
+var arenaModels = {
   'falcon-180b': { name: 'Falcon 180B', lmsys: 1168, mmlu: 67.2, swe_bench: 15.1, aime: 22.0, humaneval: 61.8, color: '#1da1f2' },
   'internlm2': { name: 'InternLM2', lmsys: 1155, mmlu: 66.8, swe_bench: 16.5, aime: 24.0, humaneval: 62.4, color: '#8b5cf6' },
   'dbrx': { name: 'DBRX', lmsys: 1142, mmlu: 65.5, swe_bench: 14.8, aime: 20.0, humaneval: 60.2, color: '#ff6900' },
@@ -3782,7 +3764,7 @@ let allVideos = [
     description: 'LangGraph, CrewAI, AutoGen ve no-code AI araçlarının 2026 karşılaştırması. Production deployment önerileri.',
     thumb: 'https://img.youtube.com/vi/2w35MwbIWZk/mqdefault.jpg'
   }
-];,
+,
 
         // ===== YOUTUBE - TURKCE =====
     { id:1, platform:'youtube', category:'Başlangıç', url:'https://www.youtube.com/watch?v=0Wpna736wwE', title:'Yapay Zeka Caginda Hayatta Kalma Rehberi!', channel:'Barış Özcan', duration:'18:42', views:'2.1M', date:'2025-06-15', description:'Yapay zeka devrinde islerinizi nasil koruyacaksiniz? Rehberimizde tum detaylar.', thumb:'https://img.youtube.com/vi/0Wpna736wwE/mqdefault.jpg' },
@@ -3828,7 +3810,6 @@ let allVideos = [
     { id:37, platform:'youtube', category:'Eğitim', url:'https://www.youtube.com/watch?v=aircAruvnKk', title:'Acik Kaynak Modeller Kiyaslamasi: Llama 4 vs Qwen 3.6 vs Mistral', channel:'AI Comparison', duration:'34:15', views:'2.3M', date:'2026-04-10', description:'En iyi acik kaynak modeller detayli kiyaslama.', thumb:'https://img.youtube.com/vi/aircAruvnKk/mqdefault.jpg' },
   ];
   renderVideos(allVideos);
-}
 
 function filterVideos(cat, el) {
   if (el) { document.querySelectorAll('#videos-tabs .tab').forEach(t => t.classList.remove('active')); el.classList.add('active'); }
