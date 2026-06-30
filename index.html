@@ -1468,6 +1468,42 @@ async function sb(path, opts = {}) {
 let currentUser = null;
 let allTools = [
   {
+    "name": "Cursor",
+    "description": "Yapay zeka destekli kod editörü. Agent modu, Tab otomatik tamamlama ve Composer ile geliştirme süreçlerini hızlandırıyor. iOS uygulaması ile mobil destek (Haziran 2026).",
+    "icon": "code",
+    "link": "https://cursor.sh"
+  },
+  {
+    "name": "Devin Desktop",
+    "description": "Cognition Labs'in AI geliştiricisi. Windsurf'ün devamı. Yerel ve bulut agent'ları tek arayüzden yönetme. Tam IDE özellikleri.",
+    "icon": "code",
+    "link": "https://devin.ai/desktop"
+  },
+  {
+    "name": "Bolt.new",
+    "description": "StackBlitz'in AI destekli web geliştirme platformu. Tarayıcıda full-stack uygulama oluşturma, deploy ve API entegrasyonu.",
+    "icon": "code",
+    "link": "https://bolt.new"
+  },
+  {
+    "name": "v0",
+    "description": "Vercel'in UI oluşturma aracı. Tailwind CSS ile responsive arayüzler üretir. Next.js projeleri için optimize.",
+    "icon": "code",
+    "link": "https://v0.dev"
+  },
+  {
+    "name": "Lovable",
+    "description": "AI destekli full-stack geliştirme platformu. React, Node.js, PostgreSQL ile uygulama oluşturma ve deploy.",
+    "icon": "code",
+    "link": "https://lovable.dev"
+  },
+  {
+    "name": "Letta",
+    "description": "AI agent'ları için hafıza ve durum yönetimi. LLM'lere uzun süreli bellek sağlayan açık kaynaklı platform.",
+    "icon": "brain",
+    "link": "https://letta.com"
+  },
+  {
     "name": "CopilotKit",
     "description": "AI ajanları için frontend stack — React, Angular, mobil, Slack. AG-UI protokolünün yaratıcısı.",
     "icon": "code",
@@ -1475,6 +1511,24 @@ let allTools = [
   }
 ];
   let allAgents = [
+    {
+      "name": "OpenAI Agents SDK",
+      "description": "OpenAI'nin yeni agent geliştirme kiti. Function calling, structured output ve multi-agent koordinasyon desteği.",
+      "icon": "robot",
+      "link": "https://openai.com/index/agents-sdk/"
+    },
+    {
+      "name": "Letta",
+      "description": "AI agent'ları için hafıza ve durum yönetimi. LLM'lere uzun süreli bellek sağlayan açık kaynaklı platform.",
+      "icon": "brain",
+      "link": "https://letta.com"
+    },
+    {
+      "name": "LangChain",
+      "description": "LLM uygulamaları için açık kaynaklı framework. RAG, agent'lar ve zincirleme işlemler.",
+      "icon": "link",
+      "link": "https://langchain.com"
+    },
     {
       "name": "CopilotKit",
       "description": "AI ajanları ve generatif UI için açık kaynaklı framework. AG-UI protokolünü destekler.",
@@ -1495,6 +1549,30 @@ let allTools = [
     }
   ];
 let allPrompts = [
+  {
+    "title": "Kod Analizi ve Açıklama",
+    "category": "code",
+    "prompt": "Aşağıdaki kodu detaylı analiz et: 1. Ne yaptığını özetle, 2. Potansiyel hataları ve güvenlik açıklarını belirt, 3. Performans iyileştirme önerileri sun, 4. Kodun hangi durumlarda başarısız olabileceğini açıkla. Kod: [KOD]",
+    "icon": "file-code"
+  },
+  {
+    "title": "Veritabanı Şeması Oluştur",
+    "category": "database",
+    "prompt": "Bir uygulama için veritabanı şeması tasarla: 1. Ana tabloları ve ilişkilerini belirle, 2. Her tablo için uygun indeksleri tanımla, 3. Migration scripti yaz, 4. Örnek verilerle INSERT ifadeleri oluştur. Uygulama tipi: [TİP]",
+    "icon": "database"
+  },
+  {
+    "title": "API Endpoint Tasarla",
+    "category": "api",
+    "prompt": "RESTful API endpoint tasarla: 1. URL yapısını ve HTTP metodunu belirt, 2. Request/Response body şemasını JSON olarak tanımla, 3. Hata kodlarını ve mesajlarını listele, 4. Örnek curl komutları yaz. Özellik: [ÖZELLİK]",
+    "icon": "server"
+  },
+  {
+    "title": "Test Senaryosu Yaz",
+    "category": "testing",
+    "prompt": "Bir fonksiyon/özellik için kapsamlı test senaryoları oluştur: 1. Happy path testleri, 2. Edge case ve boundary durumları, 3. Hata durumu testleri, 4. Her test için beklenen sonucu belirt. Fonksiyon: [FONKSİYON]",
+    "icon": "bug"
+  },
   {
     "title": "AI Ajanı Oluşturma Şablonu",
     "category": "code",
@@ -2685,16 +2763,52 @@ function runArenaComparison() {
 // VIDEOS
 let allVideos = [
   {
-    "title": "AI Agents Explained: How to Create and Use AI Agents in 2026",
-    "channel": "AI Master",
-    "videoId": "VIDEO_ID",
-    "duration": "24:00"
+    "title": "Yapay Zeka Çağında Hayatta Kalma Rehberi",
+    "channel": "Barış Özcan",
+    "videoId": "0Wpna736wwE",
+    "duration": "18:42"
   },
   {
-    "title": "You’re Not Behind (Yet): How to Build AI Agents in 2026 (no coding)",
-    "channel": "Futurepedia",
-    "videoId": "FUTUREPEDIA_ID",
-    "duration": "26:00"
+    "title": "GPT-5.5 İnceleme: Programcı Dostu mu?",
+    "channel": "Fireship",
+    "videoId": "8tx2viHpgA8",
+    "duration": "12:34"
+  },
+  {
+    "title": "DeepSeek R2 Yerel Çalıştırma Rehberi",
+    "channel": "AI Search",
+    "videoId": "7TR-FLWNVHY",
+    "duration": "22:30"
+  },
+  {
+    "title": "Cursor ile AI Kod Editörü Eğitimi",
+    "channel": "Coder Foundry",
+    "videoId": "ocMOZpuAMw4",
+    "duration": "32:10"
+  },
+  {
+    "title": "NVIDIA Yapay Zeka: Her Seyi Değiştiren Yenilik",
+    "channel": "Matt Wolfe",
+    "videoId": "ZQAz_HrUq68",
+    "duration": "25:10"
+  },
+  {
+    "title": "AI Balonu Tartışması: Patlamak Üzerinde mi?",
+    "channel": "Merve Noyan",
+    "videoId": "LYoJnCpRswo",
+    "duration": "28:45"
+  },
+  {
+    "title": "7 Yeni Açık Kaynak AI Aracı",
+    "channel": "Fireship",
+    "videoId": "Xn-gtHDsaPY",
+    "duration": "8:45"
+  },
+  {
+    "title": "MIT Araştırması: AI Projeleri Neden Başarısız Oluyor?",
+    "channel": "AI Explained",
+    "videoId": "ly6YKz9UfQ4",
+    "duration": "15:48"
   }
 ];
 const videoCategories = { 'Başlangıç': '🌱', 'Model İnceleme': '🏆', 'Eğitim': '📚', 'Haber': '📰', 'Para Kazanma': '💰' };
