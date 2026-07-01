@@ -956,6 +956,14 @@
         </p>
       </div>
 
+      <!-- Son Eklenenler (Dynamic) -->
+      <div id="library-latest-section" style="display:none">
+        <div class="section-header" style="margin-top:8px">
+          <div class="section-title" style="font-size:16px">📌 Son Eklenenler</div>
+        </div>
+        <div id="library-latest-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-bottom:32px"></div>
+      </div>
+
       <!-- Claude El Kitapları -->
       <div class="section-header" style="margin-top:24px">
         <div class="section-title" style="font-size:16px">📖 Claude Tarafından Oluşturulmuş El Kitapları</div>
@@ -1754,6 +1762,7 @@ function showPage(page) {
   if (page === 'social') loadPosts();
   if (page === 'agents') loadAgents();
     if (page === 'learn') loadLearnContent();
+  if (page === 'library') loadLibrary();
   loadVideos();
   if (page === 'profile' && currentUser) loadProfile(currentUser.username);
  if (page === 'admin' && currentUser?.is_admin) { loadAdminStats(); loadAdminPosts(); renderNavManager(); }
@@ -3119,6 +3128,67 @@ function loadLearnContent() {
     { category: 'Agent', emoji: '🕹️', image: 'https://img.icons8.com/fluency/48/robot.png', title: 'AI Agent Frameworkleri Kıyaslaması 2026: CrewAI vs AutoGen vs OpenClaw', summary: '2026 en iyi agent framework ü hangisi? Çoklu agent koordinasyonu, maliyet ve özellik karşılaştırması.', readTime: '12 dk', content: 'Yapay zeka ajan framework\u2019leri 2026 yılında olgunlaşmaya devam ediyor. CrewAI, AutoGen ve OpenClaw\u2019ın artıları, eksileri ve gerçek dünya kullanım senaryolarını bu detaylı karşılaştırma rehberinde inceliyoruz.\n\nCrewAI, rol tabanlı mimarisiyle kolay öğrenilebilir ve hızlı prototipleme sunuyor. AutoGen, Microsoft\u2019un gücüyle karmaşık çoklu ajan sistemleri için ideal bir çözüm. OpenClaw ise maliyet optimizasyonu ve Türkçe desteğiyle öne çıkıyor.\n\nHer framework\u2019ün kurulum, kullanım ve ölçeklenebilirlik açısından farklı güçlü yönleri var. Rehberimiz, projenizin ihtiyaçlarına göre en uygun framework\u2019ü seçmenize yardımcı olacak karar ağaçları, performans karşılaştırmaları ve pratik örnekler sunuyor.', image_url: 'assets/images/news_22.jpg' }
   ];
   renderLearn(allLearn);
+}
+
+// LIBRARY LATEST (newest at top via unshift)
+var libraryLatest = [
+  {
+    emoji: '📘',
+    title: 'LangChain Türkçe Rehberi',
+    desc: 'LLM uygulama geliştirme framework\'ü LangChain\'in kapsamlı Türkçe kullanım rehberi. Chains, agents, RAG ve memory yönetimi.',
+    buttons: [
+      { label: '🔗 GitHub', url: 'https://github.com/langchain-ai/langchain' },
+      { label: '📖 Dokümantasyon', url: 'https://python.langchain.com/docs/get_started/introduction' }
+    ],
+    addedAt: '2026-07-01'
+  },
+  {
+    emoji: '🤖',
+    title: 'Hugging Face Transformers Kitabı',
+    desc: 'Hugging Face ekibinin NLP ve transformer modelleri kitabı. BERT, GPT, T5 ve fine-tuning teknikleri.',
+    buttons: [
+      { label: '🔗 GitHub', url: 'https://github.com/huggingface/transformers' },
+      { label: '📖 Online Kitap', url: 'https://huggingface.co/learn/nlp-course/chapter1/1' }
+    ],
+    addedAt: '2026-07-01'
+  },
+  {
+    emoji: '🧠',
+    title: 'Prompt Engineering Guide',
+    desc: 'DAIR.AI tarafından hazırlanan kapsamlı prompt mühendisliği rehberi. CoT, few-shot, ReAct ve ileri teknikler.',
+    buttons: [
+      { label: '🔗 GitHub', url: 'https://github.com/dair-ai/Prompt-Engineering-Guide' },
+      { label: '📖 Website', url: 'https://www.promptingguide.ai' }
+    ],
+    addedAt: '2026-07-01'
+  }
+];
+
+function loadLibrary() {
+  const section = document.getElementById('library-latest-section');
+  const grid = document.getElementById('library-latest-grid');
+  if (!libraryLatest.length) { section.style.display = 'none'; return; }
+  
+  const sorted = libraryLatest.slice().sort((a,b) => (b.addedAt||'').localeCompare(a.addedAt||''));
+  grid.innerHTML = sorted.map(item => {
+    const buttonsHtml = (item.buttons || []).map(btn => {
+      const isPDF = btn.url.endsWith('.pdf');
+      const style = isPDF 
+        ? 'padding:8px 16px;background:var(--gold);color:#000;border-radius:8px;text-decoration:none;font-size:12px;font-weight:600'
+        : 'padding:8px 16px;background:var(--bg3);color:var(--text);border:1px solid var(--border2);border-radius:8px;text-decoration:none;font-size:12px;font-weight:600';
+      return `<a href="${btn.url}" ${isPDF ? 'download' : 'target="_blank" rel="noopener"'} style="${style}">${btn.label}</a>`;
+    }).join('');
+    
+    return `
+      <div class="card" style="padding:20px;display:flex;flex-direction:column;gap:12px">
+        <div style="font-size:24px">${item.emoji}</div>
+        <div style="font-size:15px;font-weight:700;color:var(--text)">${item.title}</div>
+        <div style="font-size:12px;color:var(--text3);line-height:1.6">${item.desc}</div>
+        <div style="display:flex;gap:8px;margin-top:auto;flex-wrap:wrap">${buttonsHtml}</div>
+      </div>
+    `;
+  }).join('');
+  section.style.display = 'block';
 }
 
 function filterLearn(cat, el) {
