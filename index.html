@@ -1476,6 +1476,42 @@ async function sb(path, opts = {}) {
 let currentUser = null;
 let allTools = [
   {
+    "name": "Claude Code",
+    "description": "Anthropic'in terminal tabanlı AI kodlama ajanı. 3000+ MCP aracı, 12+ saat otonom oturumlar, çoklu dosya düzenleme ve CLI entegrasyonu. SWE-bench'te en yüksek skorlardan biri.",
+    "icon": "terminal",
+    "link": "https://docs.anthropic.com/en/docs/claude-code/overview"
+  },
+  {
+    "name": "Windsurf",
+    "description": "Codeium tarafından geliştirilen AI-native IDE (VS Code fork). Cascade agentic modu, SWE-1.6 modeli (950 tok/s), Devin bulut ajan entegrasyonu. LogRocket AI Dev Tool Power Rankings lideri.",
+    "icon": "wind",
+    "link": "https://codeium.com/windsurf"
+  },
+  {
+    "name": "GitHub Copilot",
+    "description": "GitHub'ın AI pair programmer'ı. 2026'da agent modu, çoklu dosya düzenleme ve gelişmiş kod anlama ile VS Code, JetBrains ve Neovim'de çalışıyor.",
+    "icon": "code",
+    "link": "https://github.com/features/copilot"
+  },
+  {
+    "name": "Replit Agent",
+    "description": "Replit'in AI kodlama ajanı. Prompt'tan deploy'a full-stack uygulama oluşturma. Tarayıcıda tam geliştirme ortamı, tek tıkla deploy.",
+    "icon": "code",
+    "link": "https://replit.com"
+  },
+  {
+    "name": "Cline",
+    "description": "VS Code için açık kaynak AI kodlama ajanı. Claude, GPT ve diğer modellerle çalışır. Dosya oluşturma, terminal komutları ve tarayıcı etkileşimi. 100K+ yıldız.",
+    "icon": "terminal",
+    "link": "https://cline.bot"
+  },
+  {
+    "name": "Aider",
+    "description": "Açık kaynak terminal tabanlı AI kodlama ajanı. Çift yönlü dosya düzenleme, git entegrasyonu ve çoklu model desteği. SWE-bench'te güçlü performans.",
+    "icon": "terminal",
+    "link": "https://aider.chat"
+  },
+  {
     "name": "Cursor",
     "description": "Yapay zeka destekli kod editörü. Agent modu, Tab otomatik tamamlama ve Composer ile geliştirme süreçlerini hızlandırıyor. iOS uygulaması ile mobil destek (Haziran 2026).",
     "icon": "code",
@@ -1519,6 +1555,30 @@ let allTools = [
   }
 ];
   let allAgents = [
+    {
+      "name": "Claude Agent SDK",
+      "description": "Anthropic'in 2026'da piyasaya sürdüğü agent geliştirme SDK'sı. MCP protokolü desteği, Claude Code entegrasyonu ve 3000+ araç ile çoklu ajan koordinasyonu.",
+      "icon": "robot",
+      "link": "https://docs.anthropic.com/en/docs/claude-code/agent-sdk"
+    },
+    {
+      "name": "Google ADK",
+      "description": "Google'ın açık kaynak Agent Development Kit'i. Gemini modelleri ile derin entegrasyon, çoklu ajan orchestration ve MCP araç desteği.",
+      "icon": "robot",
+      "link": "https://google.github.io/adk-docs/"
+    },
+    {
+      "name": "Cline",
+      "description": "VS Code için 100K+ yıldızlı açık kaynak AI kodlama ajanı. Claude, GPT ve diğer modellerle dosya oluşturma, terminal komutları ve tarayıcı etkileşimi.",
+      "icon": "terminal",
+      "link": "https://cline.bot"
+    },
+    {
+      "name": "Smolagents",
+      "description": "Hugging Face'in hafif agent framework'ü. CodeAgent ve ToolCallingAgent sınıfları ile modüler ajan oluşturma. Açık kaynak, 15K+ yıldız.",
+      "icon": "robot",
+      "link": "https://huggingface.co/docs/smolagents"
+    },
     {
       "name": "OpenAI Agents SDK",
       "description": "OpenAI'nin yeni agent geliştirme kiti. Function calling, structured output ve multi-agent koordinasyon desteği.",
@@ -2771,6 +2831,36 @@ function runArenaComparison() {
 
 // VIDEOS
 let allVideos = [
+  {
+    "title": "AI Agents in 2026: Kapsamlı Rehber",
+    "channel": "AI Agents",
+    "videoId": "no9VyCKy_oQ",
+    "duration": "24:10"
+  },
+  {
+    "title": "AI Agent Oluşturma ve Kullanma Kılavuzu 2026",
+    "channel": "AI Explained",
+    "videoId": "4TvH-OZhwxI",
+    "duration": "18:35"
+  },
+  {
+    "title": "Her Tür AI Ajanı Açıklandı (2026)",
+    "channel": "AI Master",
+    "videoId": "7iFQ2JcWBkc",
+    "duration": "15:22"
+  },
+  {
+    "title": "AI Agent 2026 Tam Kılavuz",
+    "channel": "AI Automation",
+    "videoId": "n7Om4GxcuqM",
+    "duration": "32:15"
+  },
+  {
+    "title": "AI Agentlar Nedir ve Nasıl Kullanılır? (2026)",
+    "channel": "Tech Academy",
+    "videoId": "usYh7ttW4go",
+    "duration": "20:48"
+  },
   {
     "title": "Yapay Zeka Çağında Hayatta Kalma Rehberi",
     "channel": "Barış Özcan",
