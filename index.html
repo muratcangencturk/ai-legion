@@ -1476,6 +1476,24 @@ async function sb(path, opts = {}) {
 let currentUser = null;
 let allTools = [
   {
+    "name": "Amazon Q Developer",
+    "description": "AWS'nin AI kodlama asistanı. VS Code, JetBrains ve terminal entegrasyonu. AWS servisleri için uzmanlaşmış kod önerileri, güvenlik taraması ve kod incelemesi. AWS SDK ve Serverless uygulamalar için optimize.",
+    "icon": "code",
+    "link": "https://aws.amazon.com/q/developer/"
+  },
+  {
+    "name": "Gemini Code Assist",
+    "description": "Google'ın AI kodlama asistanı. VS Code, JetBrains ve Cloud Workstations entegrasyonu. Gemini 2.5 Flash modeli ile kod üretme, açıklama, test yazma ve kod dönüştürme. Kurumsal kod tabanları için özelleştirilebilir.",
+    "icon": "code",
+    "link": "https://cloud.google.com/products/gemini/code-assist"
+  },
+  {
+    "name": "Sourcegraph Cody",
+    "description": "Kod tabanını anlayan AI asistan. Tüm repo'yu indeksler, context-aware kod önerileri ve otomatik dokümantasyon oluşturma. Birden çok dosya ve repository arasında bağlam taşıma.",
+    "icon": "code",
+    "link": "https://sourcegraph.com/cody"
+  },
+  {
     "name": "Claude Code",
     "description": "Anthropic'in terminal tabanlı AI kodlama ajanı. 3000+ MCP aracı, 12+ saat otonom oturumlar, çoklu dosya düzenleme ve CLI entegrasyonu. SWE-bench'te en yüksek skorlardan biri.",
     "icon": "terminal",
@@ -1556,6 +1574,24 @@ let allTools = [
 ];
   let allAgents = [
     {
+      "name": "LangGraph",
+      "description": "LangChain ekibinden graph-based agent framework. State machine mimarisi ile dayanıklı, dallanmış ve döngülü AI ajanları oluşturma. 36K+ GitHub yıldızı, çoklu ajan orchestration, human-in-the-loop ve streaming desteği.",
+      "icon": "git-branch",
+      "link": "https://langchain-ai.github.io/langgraph/"
+    },
+    {
+      "name": "LlamaIndex",
+      "description": "LLM uygulamaları için veri framework'ü. Özel verilerinizi indeksleme, RAG pipeline'ı kurma ve agentic veri erişimi. 40K+ yıldız, 30'dan fazla veri kaynağı entegrasyonu.",
+      "icon": "database",
+      "link": "https://www.llamaindex.ai/"
+    },
+    {
+      "name": "Pydantic AI",
+      "description": "Python tip güvenli AI agent framework'ü. Pydantic tabanlı structured output, dependency injection, LLM agnostic (OpenAI, Anthropic, Gemini). Logfire ile monitoring dahil.",
+      "icon": "robot",
+      "link": "https://ai.pydantic.dev/"
+    },
+    {
       "name": "Claude Agent SDK",
       "description": "Anthropic'in 2026'da piyasaya sürdüğü agent geliştirme SDK'sı. MCP protokolü desteği, Claude Code entegrasyonu ve 3000+ araç ile çoklu ajan koordinasyonu.",
       "icon": "robot",
@@ -1617,6 +1653,30 @@ let allTools = [
     }
   ];
 let allPrompts = [
+  {
+    "title": "JSON ve API Veri Dönüşümü",
+    "category": "api",
+    "prompt": "Aşağıdaki JSON/API verisini dönüştür: 1. Mevcut yapıyı analiz et, 2. İstenen formata dönüştür (XML, CSV, farklı JSON şeması), 3. Dönüşüm mantığını açıkla, 4. Edge case durumlarını belirt. Kaynak veri: [VERI], Hedef format: [FORMAT]",
+    "icon": "exchange-alt"
+  },
+  {
+    "title": "CSS Stil ve Responsive Tema Oluşturma",
+    "category": "design",
+    "prompt": "Bir web sayfası için CSS tasarla: 1. Genel stil değişkenlerini tanımla (renkler, fontlar, spacing), 2. Mobile-first responsive grid sistemi kur, 3. Dark/light mode desteği ekle, 4. Animasyon ve geçiş efektleri belirle. Sayfa tipi: [SAYFA_TIPI]",
+    "icon": "paint-brush"
+  },
+  {
+    "title": "Hata Ayıklama ve Debug Asistanı",
+    "category": "testing",
+    "prompt": "Aşağıdaki hata/bug için çözüm öner: 1. Hatayı analiz et ve olası nedenleri listele, 2. Adım adım debug stratejisi öner, 3. Console.log/breakpoint nerelere eklenmeli belirt, 4. Kalıcı çözüm için kod düzeltmesi sun. Hata mesajı: [HATA], İlgili kod: [KOD]",
+    "icon": "bug"
+  },
+  {
+    "title": "İçerik Stratejisi ve Blog Planlama",
+    "category": "content",
+    "prompt": "Bir blog/içerik sitesi için 3 aylık içerik stratejisi oluştur: 1. Hedef kitle ve konu kümelerini belirle, 2. Her ay için ana temalar ve alt konular çıkar, 3. SEO anahtar kelimelerini entegre et, 4. Yayın takvimi ve ölçüm metriklerini tanımla. Konu alanı: [ALAN]",
+    "icon": "edit"
+  },
   {
     "title": "Kod Analizi ve Açıklama",
     "category": "code",
@@ -2832,6 +2892,20 @@ function runArenaComparison() {
 // VIDEOS
 let allVideos = [
   {
+    "title": "LangChain ile AI Agent Geliştirme 2026 Rehberi",
+    "url": "https://www.youtube.com/watch?v=AOQyRiwydyo",
+    "category": "agent",
+    "description": "LangChain ile sıfırdan AI agent geliştirmeyi öğrenin. Tool calling, memory, RAG entegrasyonu ve multi-agent sistemler. Uygulamalı örneklerle adım adım rehber.",
+    "addedAt": "2026-07-05"
+  },
+  {
+    "title": "AI Kod Araçları 2026: Cursor, Windsurf, Copilot Karşılaştırması",
+    "url": "https://www.youtube.com/watch?v=SKr_BCuegDU",
+    "category": "tool",
+    "description": "2026'nın en iyi AI kod editörlerini karşılaştırmalı inceleme. Cursor, Windsurf ve Copilot'un güçlü ve zayıf yönleri, hangi kullanım senaryosu için hangi araç seçilmeli?",
+    "addedAt": "2026-07-05"
+  },
+  {
     "title": "AI Agents in 2026: Kapsamlı Rehber",
     "channel": "AI Agents",
     "videoId": "no9VyCKy_oQ",
@@ -3228,6 +3302,24 @@ function loadLearnContent() {
 
 // LIBRARY LATEST (newest at top via unshift)
 var libraryLatest = [
+  {
+    emoji: '⭐',
+    title: 'AI Agent Frameworks Karşılaştırma Rehberi 2026',
+    desc: 'En popüler 10 AI agent frameworkünün yan yana karşılaştırması. LangGraph, CrewAI, AutoGen ve daha fazlası. Alice Labs tarafından 18+ üretim dağıtımından derlenmiş puanlar.',
+    buttons: [
+      { label: '🔗 Karşılaştırma', url: 'https://alicelabs.ai/en/insights/best-ai-agent-frameworks-2026' }
+    ],
+    addedAt: '2026-07-05'
+  },
+  {
+    emoji: '📚',
+    title: 'Awesome AI Agents 2026 — GitHub Listesi',
+    desc: '260+ AI agent, framework ve araç içeren kapsamlı GitHub listesi. 20+ kategoride düzenlenmiş, aylık güncellenen kaynaklar.',
+    buttons: [
+      { label: '🔗 GitHub', url: 'https://github.com/Zijian-Ni/awesome-ai-agents-2026' }
+    ],
+    addedAt: '2026-07-05'
+  },
   {
     emoji: '🤖',
     title: 'CrewAI Framework Dokümantasyonu',
