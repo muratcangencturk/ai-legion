@@ -1476,6 +1476,25 @@ async function sb(path, opts = {}) {
 let currentUser = null;
 let allTools = [
   {
+    "name": "Cursor iOS",
+    "description": "Cursor\'un native iOS uygulaması, Haziran 2026\'da public beta olarak çıkış yaptı. iPhone ve iPad\'de tam AI kodlama deneyimi: Composer agentic modu, terminal erişimi ve proje yönetimi. Mobil geliştirme için game-changer.",
+    "icon": "code",
+    "link": "https://cursor.com/blog/build-from-anywhere-with-cursor-for-ios"
+  },
+  {
+    "name": "Cursor Design Mode",
+    "description": "Haziran 2026\'da eklenen görsel prompt özelliği. Tarayıcıda UI değişikliklerini işaretleyip, çizip veya anlatarak agent\'ların altındaki kodu düzenlemesini sağlar. Görsel-yönlendirmeli kod geliştirme.",
+    "icon": "paint-brush",
+    "link": "https://cursor.com/blog/direct-agents-with-visual-prompts-in-design-mode"
+  },
+  {
+    "name": "Devin Desktop",
+    "description": "Cognition Labs\'in AI geliştirici platformu. Yerel ve bulut agent\'ları tek arayüzden yönetme. Tam IDE özellikleri: syntax highlighting, autocomplete, debugging. Agent fleet management için command center.",
+    "icon": "code",
+    "link": "https://devin.ai/desktop"
+  },
+
+  {
     "name": "Amazon Q Developer",
     "description": "AWS'nin AI kodlama asistanı. VS Code, JetBrains ve terminal entegrasyonu. AWS servisleri için uzmanlaşmış kod önerileri, güvenlik taraması ve kod incelemesi. AWS SDK ve Serverless uygulamalar için optimize.",
     "icon": "code",
@@ -1574,6 +1593,19 @@ let allTools = [
 ];
   let allAgents = [
     {
+      "name": "Google ADK v2.0",
+      "description": "Google\'ın açık kaynak Agent Development Kit\'i, Haziran 2026\'da v2.0 GA. Graph-based Workflow Runtime, built-in evaluation suite, live tracing, model-agnostic (Gemini optimized). Python/TypeScript/Go/Java/Kotlin. 20K+ GitHub yıldızı.",
+      "icon": "robot",
+      "link": "https://adk.dev"
+    },
+    {
+      "name": "LangGraph v1.2.8",
+      "description": "LangChain ekibinden graph-based agent framework. Temmuz 2026 v1.2.8: Standard JSON Schema support (Zod 4, Valibot, ArkType), ContextHubBackend (LangSmith Hub), CLI HTTPS cert support. 36K+ yıldız, multi-agent orchestration, human-in-the-loop.",
+      "icon": "git-branch",
+      "link": "https://langchain-ai.github.io/langgraph/"
+    },
+
+    {
       "name": "LangGraph",
       "description": "LangChain ekibinden graph-based agent framework. State machine mimarisi ile dayanıklı, dallanmış ve döngülü AI ajanları oluşturma. 36K+ GitHub yıldızı, çoklu ajan orchestration, human-in-the-loop ve streaming desteği.",
       "icon": "git-branch",
@@ -1654,6 +1686,37 @@ let allTools = [
   ];
 let allPrompts = [
   {
+    "title": "AI Agent Production Deployment Checklist",
+    "category": "code",
+    "prompt": "Bir AI agent\'ı production\'a deploy etmeden önce kontrol edilmesi gereken her şey: 1. Güvenlik (prompt injection, data leakage), 2. Observability (logging, tracing, metrics), 3. Reliability (retry, fallback, circuit breaker), 4. Cost control (token budgets, model routing), 5. Evaluation (offline/online test setleri). Agent türü: [AGENT_TYPE]",
+    "icon": "shield-alt"
+  },
+  {
+    "title": "Multi-Agent System Architecture Design",
+    "category": "code",
+    "prompt": "Çoklu ajan sistemleri için mimari tasarım: 1. Agent rolleri ve sorumlulukları (researcher, coder, reviewer, orchestrator), 2. İletişim protokolü (message passing, shared memory, tool calls), 3. State management ve persistence, 4. Human-in-the-loop checkpoint\'leri, 5. Hata yayılımı ve isolation stratejileri. Görev: [GOREV]",
+    "icon": "sitemap"
+  },
+  {
+    "title": "RAG Pipeline Optimization",
+    "category": "database",
+    "prompt": "RAG pipeline\'ınızı optimize edin: 1. Chunking stratejisi (fixed, semantic, recursive), 2. Embedding modeli seçimi ve fine-tuning, 3. Retrieval: hybrid search (BM25 + vector), reranking, 4. Generation: citation, groundedness, hallucination detection, 5. Evaluation: RAGAS metrics (faithfulness, answer_relevancy, context_precision). Domain: [DOMAIN]",
+    "icon": "search"
+  },
+  {
+    "title": "Prompt Injection Defense Patterns",
+    "category": "testing",
+    "prompt": "LLM uygulamalarınıza karşı prompt injection saldırılarını engelleyin: 1. Input sanitization ve validation, 2. System prompt hardening (delimiters, instruction hierarchy), 3. Output filtering ve monitoring, 4. Tool call authorization, 5. Red teaming test senaryoları. Uygulama tipi: [APP_TYPE]",
+    "icon": "lock"
+  },
+  {
+    "title": "AI Code Review Automation",
+    "category": "code",
+    "prompt": "PR\'larınız için otomatik AI kod incelemesi tasarlayın: 1. Security vulnerabilities (OWASP Top 10), 2. Performance anti-patterns, 3. Code style ve consistency, 4. Test coverage gaps, 5. Architecture compliance. Repo: [REPO_URL], Dil: [LANGUAGE]",
+    "icon": "eye"
+  },
+
+  {
     "title": "JSON ve API Veri Dönüşümü",
     "category": "api",
     "prompt": "Aşağıdaki JSON/API verisini dönüştür: 1. Mevcut yapıyı analiz et, 2. İstenen formata dönüştür (XML, CSV, farklı JSON şeması), 3. Dönüşüm mantığını açıkla, 4. Edge case durumlarını belirt. Kaynak veri: [VERI], Hedef format: [FORMAT]",
@@ -1715,6 +1778,11 @@ let allPrompts = [
   }
 ];
 var allLearn = [
+    { category: "Agent", emoji: "🤖", image: "https://img.icons8.com/fluency/48/robot.png", title: "Google ADK v2.0 ile Production-Ready AI Agent Geliştirme 2026", summary: "Google\'ın Agent Development Kit v2.0 (GA Haziran 2026) ile enterprise-ready agentlar. Workflow Runtime, typed tools, evaluation suite ve Gemini Enterprise deployment.", readTime: "14 dk", content: "" , image_url: "assets/images/news_01.jpg"},
+    { category: "Araçlar", emoji: "🛠️", image: "https://img.icons8.com/fluency/48/code.png", title: "Cursor Composer 2.5: Agentic Coding Modeli Derinlemesine", summary: "Mayıs 2026\'da çıkan Composer 2.5, Kimi K2.5 backbone ile 79.8% SWE-Bench Multilingual. Multi-file editing, terminal execution, test iteration - Cursor IDE/CLI içinde.", readTime: "12 dk", content: "" , image_url: "assets/images/news_02.jpg"},
+    { category: "Araçlar", emoji: "🎨", image: "https://img.icons8.com/fluency/48/paint-brush.png", title: "Cursor Design Mode: Görsel Promptlarla Agent Yönlendirme", summary: "Haziran 2026\'da eklenen Design Mode ile tarayıcıda UI değişikliklerini işaretleyip, çizip veya anlatarak agent\'ların altındaki kodu düzenlemesini sağlayın. Görsel-yönlendirmeli geliştirme.", readTime: "8 dk", content: "" , image_url: "assets/images/news_03.jpg"},
+    { category: "Agent", emoji: "🦞", image: "https://img.icons8.com/fluency/48/inspection.png", title: "Windsurf Cascade: Codeium\'un Agentic IDE\'si ve Devin Entegrasyonu", summary: "VS Code fork Windsurf, Cascade agentic modu ile flow-aware coding. SWE-1.6 model (950 tok/s), Devin cloud agent entegrasyonu. 1M+ aktif kullanıcı.", readTime: "10 dk", content: "" , image_url: "assets/images/news_04.jpg"},
+
     { category: "Araştırma", emoji: "🔬", image: "https://img.icons8.com/fluency/48/robot.png", title: "AI Agent\u2019lar 2026\u2019da İş Gücünü Nasıl Değiştirecek?", summary: "Otonom AI agentların iş dünyasına etkileri, hangi mesleklerin dönüşeceği ve yeni fırsatlar.", readTime: "12 dk", content: "" , image_url: "assets/images/news_01.jpg"},
     { category: "Agent", emoji: "🦞", image: "https://img.icons8.com/fluency/48/inspection.png", title: "OpenClaw: 367K+ GitHub Yıldızlı Kişisel AI Asistan", summary: "Peter Steinberger tarafından geliştirilen, 25+ platformda çalışan açık kaynak AI asistan. Context pruning ile maliyeti %65 düşürüyor.", readTime: "6 dk", content: "" , image_url: "assets/images/news_07.jpg"},
     { category: "Agent", icon: "https://img.icons8.com/fluency/48/caduceus.png", emoji: "🤖", image: "https://img.icons8.com/fluency/48/caduceus.png", title: "Hermes Agent: Nous Research\u2019ten 130K+ Yıldızlı AI Asistan", summary: "Nous Research tarafından geliştirilen, 15+ platformda çalışan açık kaynak AI agent. Skills, memory ve cron job sistemiyle güçlü otomasyon.", readTime: "5 dk", content: "" , image_url: "assets/images/news_08.jpg"},
@@ -2805,8 +2873,10 @@ async function loadModels() {
 
 // ARENA
 const arenaModels = {
-  'claude-opus-47': { name: 'Claude Opus 4.7', lmsys: 1504, mmlu: 88.7, swe_bench: 74.2, aime: 85.0, humaneval: 92.1, color: '#e0245e' },
-  'gpt-55': { name: 'GPT-5.5', lmsys: 1488, mmlu: 88.2, swe_bench: 74.9, aime: 83.0, humaneval: 91.8, color: '#1da1f2' },
+  'claude-fable-5': { name: 'Claude Fable 5', lmsys: 1509, mmlu: 89.2, swe_bench: 76.8, aime: 87.0, humaneval: 93.5, color: '#e0245e' },
+  'claude-opus-46': { name: 'Claude Opus 4.6', lmsys: 1498, mmlu: 88.5, swe_bench: 74.8, aime: 84.0, humaneval: 92.0, color: '#e0245e' },
+  'claude-opus-47': { name: 'Claude Opus 4.7', lmsys: 1494, mmlu: 88.3, swe_bench: 74.2, aime: 83.0, humaneval: 91.5, color: '#e0245e' },
+  'muse-spark': { name: 'Muse Spark', lmsys: 1488, mmlu: 87.5, swe_bench: 71.5, aime: 79.0, humaneval: 89.8, color: '#1da1f2' },
   'gemini-31-pro': { name: 'Gemini 3.1 Pro', lmsys: 1493, mmlu: 87.9, swe_bench: 80.6, aime: 79.0, humaneval: 90.2, color: '#1da1f2' },
   'grok-4': { name: 'Grok 4', lmsys: 1480, mmlu: 87.1, swe_bench: 75.0, aime: 78.0, humaneval: 89.4, color: '#1da1f2' },
   'claude-sonnet-47': { name: 'Claude Sonnet 4.7', lmsys: 1475, mmlu: 87.5, swe_bench: 82.1, aime: 80.0, humaneval: 91.2, color: '#e0245e' },
@@ -2849,8 +2919,7 @@ const arenaModels = {
   'yi-lightning-3b': { name: 'Yi Lightning 3B', lmsys: 1220, mmlu: 69.5, swe_bench: 22.8, aime: 29.0, humaneval: 67.5, color: '#8b5cf6' },
   'jamba-2': { name: 'Jamba 2', lmsys: 1180, mmlu: 68.1, swe_bench: 20.2, aime: 27.0, humaneval: 63.8, color: '#8b5cf6' },
   'falcon-3-180b': { name: 'Falcon 3 180B', lmsys: 1325, mmlu: 78.5, swe_bench: 38.0, aime: 45.0, humaneval: 79.2, color: '#1da1f2' },
-};
-
+  };
 
 function runArenaComparison() {
   const leftId = document.getElementById('arena-left-model').value;
@@ -2891,6 +2960,43 @@ function runArenaComparison() {
 
 // VIDEOS
 let allVideos = [
+  {
+    "title": "OpenAI is so back... GPT 5.6 Sol first look",
+    "thumbnail": "https://img.youtube.com/vi/KGtko3y2RXQ/mqdefault.jpg",
+    "platform": "youtube",
+    "views": "243K",
+    "date": "2026-07-11",
+    "videoId": "KGtko3y2RXQ",
+    "channel": "Fireship"
+  },
+  {
+    "title": "Did Claude Fable\'s Crown Just Slip?",
+    "thumbnail": "https://img.youtube.com/vi/mWlCituW7wo/mqdefault.jpg",
+    "platform": "youtube",
+    "views": "44K",
+    "date": "2026-07-11",
+    "videoId": "mWlCituW7wo",
+    "channel": "AI Explained"
+  },
+  {
+    "title": "Fable 5 vs GPT 5.6 Sol: The Early Results",
+    "thumbnail": "https://img.youtube.com/vi/y24lF1q4SFY/mqdefault.jpg",
+    "platform": "youtube",
+    "views": "116K",
+    "date": "2026-07-03",
+    "videoId": "y24lF1q4SFY",
+    "channel": "AI Explained"
+  },
+  {
+    "title": "Claude Fable Blocked - 11 Quiet Details on What\'s Next",
+    "thumbnail": "https://img.youtube.com/vi/Qj71N0tBzRo/mqdefault.jpg",
+    "platform": "youtube",
+    "views": "75K",
+    "date": "2026-06-20",
+    "videoId": "Qj71N0tBzRo",
+    "channel": "AI Explained"
+  },
+
   {
     "title": "LangChain ile AI Agent Geliştirme 2026 Rehberi",
     "url": "https://www.youtube.com/watch?v=AOQyRiwydyo",
@@ -3302,6 +3408,55 @@ function loadLearnContent() {
 
 // LIBRARY LATEST (newest at top via unshift)
 var libraryLatest = [
+  {
+    emoji: '🚀',
+    title: 'Google ADK v2.0 Documentation & Examples',
+    desc: 'Google Agent Development Kit v2.0 (GA Haziran 2026) resmi dokümantasyonu. Graph-based Workflow Runtime, typed tools, built-in evaluation, live tracing. Python/TypeScript/Go/Java/Kotlin.',
+    buttons: [
+      { label: '🔗 Resmi Docs', url: 'https://adk.dev' },
+      { label: '📖 GitHub', url: 'https://github.com/google/adk-python' }
+    ],
+    addedAt: '2026-07-11'
+  },
+  {
+    emoji: '📱',
+    title: 'Cursor iOS App - Mobile AI Coding',
+    desc: 'Cursor native iOS uygulaması (Haziran 2026 public beta). iPhone/iPad tam AI kodlama: Composer agentic mode, terminal, proje yönetimi. Mobil geliştirme için game-changer.',
+    buttons: [
+      { label: '🔗 Blog Post', url: 'https://cursor.com/blog/build-from-anywhere-with-cursor-for-ios' },
+      { label: '📥 App Store', url: 'https://apps.apple.com/app/cursor-ai-code-editor/id6475628456' }
+    ],
+    addedAt: '2026-06-29'
+  },
+  {
+    emoji: '🎨',
+    title: 'Cursor Design Mode - Visual Agent Prompting',
+    desc: 'Haziran 2026 yeni özelliği: tarayıcıda UI değişikliklerini işaretleyip, çizip veya anlatarak agent\u0027ları yönlendirin. Görsel promptlarla kod düzenleme - design-to-code workflow.',
+    buttons: [
+      { label: '🔗 Blog Post', url: 'https://cursor.com/blog/direct-agents-with-visual-prompts-in-design-mode' }
+    ],
+    addedAt: '2026-06-05'
+  },
+  {
+    emoji: '🏢',
+    title: 'Devin Desktop - Agent Command Center',
+    desc: 'Cognition Labs\u0027 Devin Desktop: yerel ve bulut agent\u0027ları tek arayüzden yönetin. Tam IDE (syntax highlighting, autocomplete, debugging), agent fleet management. Production-ready agent orchestration.',
+    buttons: [
+      { label: '🔗 Devin Desktop', url: 'https://devin.ai/desktop' },
+      { label: '📖 Learn More', url: 'https://devin.ai/desktop' }
+    ],
+    addedAt: '2026-06-15'
+  },
+  {
+    emoji: '📊',
+    title: 'LMSYS Chatbot Arena July 2026 Leaderboard',
+    desc: 'En güncel LMSYS Elo sıralaması: Claude Fable 5 (1509), Opus 4.6/4.7 Thinking (1504/1503), GPT-5.6 Sol xHigh (1486). 100+ model karşılaştırması.',
+    buttons: [
+      { label: '🔗 Arena Leaderboard', url: 'https://lmarena.ai/leaderboard' }
+    ],
+    addedAt: '2026-07-11'
+  },
+
   {
     emoji: '⭐',
     title: 'AI Agent Frameworks Karşılaştırma Rehberi 2026',
