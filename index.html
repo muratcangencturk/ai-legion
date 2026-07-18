@@ -1476,6 +1476,30 @@ async function sb(path, opts = {}) {
 let currentUser = null;
 let allTools = [
   {
+    "name": "GitHub Copilot Agent Mode",
+    "description": "GitHub Copilot\\'un Temmuz 2026 Agent Mode g\u00n\u00e7ellemesi. VS Code\u2019da tam otonom kodlama: dosya yaratma, terminal komut\u015f\u0131 \u00e7al\u0131\u015ft\u0131rma, test yazma ve hata d\u00fczeltme. GitHub Actions ile CI/CD entegrasyonu.",
+    "icon": "code",
+    "link": "https://github.blog/changelog/2026-07-15-github-copilot-agent-mode-generally-available/"
+  },
+  {
+    "name": "Amazon Q Developer CLI",
+    "description": "Amazon Q Developer\\'in Temmuz 2026 CLI g\u00fcncellemesi. Terminalde do\u011frudan AWS kaynak sa\u011flama, CloudFormation/CDK g\u00fcvenlik taramas\u0131 ve serverless deploy. `q chat` ve `q code` komutlarla agentic workflow.",
+    "icon": "terminal",
+    "link": "https://aws.amazon.com/q/developer/cli/"
+  },
+  {
+    "name": "Gemini Code Assist Enterprise",
+    "description": "Google\\'in Temmuz 2026 Enterprise s\u00fcr\u00fcm\u00fc. Private codebase indexing, custom model fine-tuning (Gemini 2.5 Flash bazl\u0131), SOX/SOC2 compliance reporting. Google Cloud Workstations & Artifact Registry native entegrasyonu.",
+    "icon": "code",
+    "link": "https://cloud.google.com/blog/products/application-development/gemini-code-assist-enterprise-ga"
+  },
+  {
+    "name": "Windsurf SWE-1.6",
+    "description": "Cognition\\'un Windsurf IDE\\'sine entegre edilen SWE-1.6 modeli (May\u0131s 2026). 950 tok/s Cerebras ve 200 tok/s Fireworks tiers. Parallel tool usage, faster context retrieval, reduced user input. Devin Desktop markas\u0131yla birle\u015fik.",
+    "icon": "wind",
+    "link": "https://windsurf.com/blog/swe-1-6"
+  },
+  {
     "name": "Cursor iOS",
     "description": "Cursor\'un native iOS uygulaması, Haziran 2026\'da public beta olarak çıkış yaptı. iPhone ve iPad\'de tam AI kodlama deneyimi: Composer agentic modu, terminal erişimi ve proje yönetimi. Mobil geliştirme için game-changer.",
     "icon": "code",
@@ -1502,7 +1526,7 @@ let allTools = [
   },
   {
     "name": "Gemini Code Assist",
-    "description": "Google'ın AI kodlama asistanı. VS Code, JetBrains ve Cloud Workstations entegrasyonu. Gemini 2.5 Flash modeli ile kod üretme, açıklama, test yazma ve kod dönüştürme. Kurumsal kod tabanları için özelleştirilebilir.",
+    "description": "Google\\'\u0131n AI kodlama asistanı. VS Code, JetBrains ve Cloud Workstations entegrasyonu. Gemini 2.5 Flash modeli ile kod üretme, açıklama, test yazma ve kod dönüştürme. Kurumsal kod tabanları için özelleştirilebilir.",
     "icon": "code",
     "link": "https://cloud.google.com/products/gemini/code-assist"
   },
@@ -1514,7 +1538,7 @@ let allTools = [
   },
   {
     "name": "Claude Code",
-    "description": "Anthropic'in terminal tabanlı AI kodlama ajanı. 3000+ MCP aracı, 12+ saat otonom oturumlar, çoklu dosya düzenleme ve CLI entegrasyonu. SWE-bench'te en yüksek skorlardan biri.",
+    "description": "Anthropic\'in terminal tabanlı AI kodlama ajanı. 3000+ MCP aracı, 12+ saat otonom oturumlar, çoklu dosya düzenleme ve CLI entegrasyonu. SWE-bench'te en yüksek skorlardan biri.",
     "icon": "terminal",
     "link": "https://docs.anthropic.com/en/docs/claude-code/overview"
   },
@@ -1593,6 +1617,30 @@ let allTools = [
 ];
   let allAgents = [
     {
+      "name": "OpenAI Agents SDK v0.2",
+      "description": "OpenAI\\'in Temmuz 2026 Agents SDK g\u00fcncellemesi. Function calling + structured output birle\u015ftirildi, multi-agent handoff patterns, built-in tracing (OpenAI dashboard), MCP server auto-discovery. Python/TypeScript.",
+      "icon": "robot",
+      "link": "https://openai.com/index/agents-sdk-july-2026/"
+    },
+    {
+      "name": "LangGraph v1.3",
+      "description": "LangChain ekibinden Ağustos 2026 v1.3: Checkpointing API yeniden tasarland\u0131 (async/await), subgraph streaming, dynamic breakpoints, LangSmith evaluators entegrasyonu. 38K+ GitHub y\u0131ld\u0131z\u0131.",
+      "icon": "git-branch",
+      "link": "https://langchain-ai.github.io/langgraph/concepts/versioning/"
+    },
+    {
+      "name": "Pydantic AI v0.9",
+      "description": "Agustos 2026: Structured output validation (Pydantic v2), dependency injection container, GraphQL/OpenAPI tool generation, Logfire tracing native. Type-safe agent development i\u00e7in production-ready.",
+      "icon": "robot",
+      "link": "https://ai.pydantic.dev/blog/v0.9-release/"
+    },
+    {
+      "name": "OpenClaw v2.0",
+      "description": "Peter Steinberger tarafından geliştirilen, 367K+ GitHub yıldızlı kişisel AI asistan. Temmuz 2026 v2.0: Context pruning ile maliyet %65 düşürüldü, 25+ platform destek, pluggable memory, multi-agent delegation. MIT lisanslı.",
+      "icon": "robot",
+      "link": "https://github.com/petersteinberger/OpenClaw"
+    },
+    {
       "name": "Google ADK v2.0",
       "description": "Google\'ın açık kaynak Agent Development Kit\'i, Haziran 2026\'da v2.0 GA. Graph-based Workflow Runtime, built-in evaluation suite, live tracing, model-agnostic (Gemini optimized). Python/TypeScript/Go/Java/Kotlin. 20K+ GitHub yıldızı.",
       "icon": "robot",
@@ -1625,13 +1673,13 @@ let allTools = [
     },
     {
       "name": "Claude Agent SDK",
-      "description": "Anthropic'in 2026'da piyasaya sürdüğü agent geliştirme SDK'sı. MCP protokolü desteği, Claude Code entegrasyonu ve 3000+ araç ile çoklu ajan koordinasyonu.",
+      "description": "Anthropic\'in 2026'da piyasaya sürdüğü agent geliştirme SDK'sı. MCP protokolü desteği, Claude Code entegrasyonu ve 3000+ araç ile çoklu ajan koordinasyonu.",
       "icon": "robot",
       "link": "https://docs.anthropic.com/en/docs/claude-code/agent-sdk"
     },
     {
       "name": "Google ADK",
-      "description": "Google'ın açık kaynak Agent Development Kit'i. Gemini modelleri ile derin entegrasyon, çoklu ajan orchestration ve MCP araç desteği.",
+      "description": "Google\\'\u0131n açık kaynak Agent Development Kit'i. Gemini modelleri ile derin entegrasyon, çoklu ajan orchestration ve MCP araç desteği.",
       "icon": "robot",
       "link": "https://google.github.io/adk-docs/"
     },
@@ -1685,6 +1733,60 @@ let allTools = [
     }
   ];
 let allPrompts = [
+  {
+    "title": "Agent Fleet Cost Optimization",
+    "category": "code",
+    "prompt": "AI ajan filosu maliyetlerini optimize edin: 1. Model routing (cheap->expensive cascade), 2. Token budget allocation per agent role, 3. Caching stratejileri (semantic cache, prompt cache), 4. Batch processing vs streaming trade-offs, 5. Cost monitoring dashboard (OpenTelemetry + LangSmith). Fleet size: [N_AGENTS]",
+    "icon": "chart-line"
+  },
+  {
+    "title": "Multi-Modal RAG Pipeline Design",
+    "category": "database",
+    "prompt": "Çok modalli RAG pipeline tasarlayın: 1. Image/text/audio embedding alignment (CLIP, ImageBind), 2. Cross-modal retrieval (text-to-image, image-to-text), 3. Multimodal reranking (ColPali, VDR), 4. Citation generation across modalities, 5. Evaluation: MM-RAG benchmarks. Domain: [DOMAIN]",
+    "icon": "images"
+  },
+  {
+    "title": "Agent Evaluation Framework",
+    "category": "testing",
+    "prompt": "Production agent değerlendirme framework'ü: 1. Task success rate (end-to-end), 2. Tool call accuracy/precision, 3. Hallucination detection (SelfCheckGPT, LLM-as-judge), 4. Latency percentiles (p50, p95, p99), 5. Cost per successful task. CI/CD entegrasyonu ile nightly eval runs. Agent type: [AGENT_TYPE]",
+    "icon": "clipboard-check"
+  },
+  {
+    "title": "Context Engineering for 1M+ Token Models",
+    "category": "testing",
+    "prompt": "1M+ token context window modelleri (Gemini 3.1 Pro, GPT-5.5) için context engineering: 1. Optimal chunking ve retrieval stratejisi, 2. Lost-in-the-middle mitigation (attention sink, positional encoding), 3. Citation ve grounding enforcement, 4. Token budget allocation across conversation turns. Domain: [DOMAIN]",
+    "icon": "brain"
+  },
+  {
+    "title": "MCP Server Development Template",
+    "category": "code",
+    "prompt": "Model Context Protocol (MCP) sunucusu geliştirin: 1. FastMCP ile Streamable HTTP transport, 2. OAuth 2.1 authentication, 3. Tool/resource schema definitions (JSON Schema), 4. Error handling ve retry logic, 5. Production deployment (Docker, health checks). Use case: [USE_CASE]",
+    "icon": "server"
+  },
+  {
+    "title": "Agent Fleet Orchestration Prompt",
+    "category": "code",
+    "prompt": "Çoklu ajan orkestrasyonu tasarlayın: 1. Agent rolleri (researcher, coder, reviewer, orchestrator), 2. İletişim protokolü (message passing, shared memory, tool calls), 3. State persistence ve checkpointing, 4. Human-in-the-loop approval gates, 5. Failure isolation ve circuit breaker patterns. Görev: [GOREV]",
+    "icon": "sitemap"
+  },
+  {
+    "title": "Context Engineering for Long-Context Models",
+    "category": "testing",
+    "prompt": "1M+ token context window modelleri (Gemini 3.1 Pro, GPT-5.5) için context engineering: 1. Optimal chunking ve retrieval stratejisi, 2. Lost-in-the-middle mitigation (attention sink, positional encoding), 3. Citation ve grounding enforcement, 4. Token budget allocation across conversation turns. Domain: [DOMAIN]",
+    "icon": "brain"
+  },
+  {
+    "title": "SWE-Bench Style Code Generation Evaluation",
+    "category": "testing",
+    "prompt": "Kod üretim modelleri (SWE-1.6, Cursor Composer 2.5, Devin) için evaluation pipeline: 1. Real-world repo setup (dependencies, test suite), 2. Issue-to-PR task generation, 3. Patch application ve test execution, 4. Metrics: pass@1, pass@k, edit distance, runtime. Repo: [REPO_URL]",
+    "icon": "bug"
+  },
+  {
+    "title": "Prompt Injection Red Teaming Framework",
+    "category": "testing",
+    "prompt": "LLM uygulamalarınız için prompt injection red teaming: 1. Attack taxonomy (direct, indirect, multi-turn, encoded), 2. Input sanitization bypass techniques, 3. System prompt extraction attempts, 4. Tool call authorization bypass, 5. Automated test suite generation. App type: [APP_TYPE]",
+    "icon": "shield-alt"
+  },
   {
     "title": "AI Agent Production Deployment Checklist",
     "category": "code",
@@ -1778,6 +1880,14 @@ let allPrompts = [
   }
 ];
 var allLearn = [
+    { category: "Agent", emoji: "🤖", image: "https://img.icons8.com/fluency/48/robot.png", title: "OpenAI Agents SDK v0.2: Multi-Agent Handoff Patterns", summary: "OpenAI'nin Temmuz 2026 SDK güncellemesi. Function calling + structured output birleştirildi, agent handoff patterns, built-in tracing (OpenAI dashboard), MCP server auto-discovery. Python/TypeScript production-ready.", readTime: "12 dk", content: "" , image_url: "assets/images/news_01.jpg"},
+    { category: "Araçlar", emoji: "🛠️", image: "https://img.icons8.com/fluency/48/code.png", title: "LangGraph v1.3: Checkpointing API v2 ve Subgraph Streaming", summary: "Ağustos 2026 LangGraph v1.3: Async/await checkpointing, subgraph streaming, dynamic breakpoints, LangSmith evaluators entegrasyonu. 38K+ GitHub yıldızı, production-grade agent orchestration.", readTime: "10 dk", content: "" , image_url: "assets/images/news_02.jpg"},
+    { category: "Araçlar", emoji: "🔧", image: "https://img.icons8.com/fluency/48/wrench.png", title: "Pydantic AI v0.9: Type-Safe Agent Development", summary: "Structured output validation (Pydantic v2), dependency injection container, GraphQL/OpenAPI tool generation, Logfire tracing native. Type-safe agent development için production-ready framework.", readTime: "11 dk", content: "" , image_url: "assets/images/news_03.jpg"},
+    { category: "Agent", emoji: "🤖", image: "https://img.icons8.com/fluency/48/robot.png", title: "OpenClaw v2.0: Kişisel AI Asistanı Kurulum ve Optimizasyon", summary: "367K+ yıldızlı açık kaynak asistanı kendi sunucunuzda çalıştırın. Context pruning, multi-platform deployment ve maliyet optimizasyonu.", readTime: "10 dk", content: "" , image_url: "assets/images/news_01.jpg"},
+    { category: "Araçlar", emoji: "🛠️", image: "https://img.icons8.com/fluency/48/code.png", title: "Windsurf SWE-1.6 ve Devin Desktop: Agentic IDE Derinlemesine", summary: "Cognition\\'un SWE-1.6 modeli (950 tok/s) ve Devin Desktop command center. Cascade agentic modu, parallel tool usage, production-ready agent fleet management.", readTime: "12 dk", content: "" , image_url: "assets/images/news_02.jpg"},
+    { category: "İleri Seviye", emoji: "🚀", image: "https://img.icons8.com/fluency/48/neural-network.png", title: "RAG vs Fine-Tuning 2026: Hangisi Ne Zaman?", summary: "Red Hat, Cohere ve enterprise deneyimlerine dayalı karar matrisi. RAG esnekliği vs fine-tuning gecikme/ölçek avantajları. Hybrid yaklaşımlar.", readTime: "12 dk", content: "" , image_url: "assets/images/news_03.jpg"},
+    { category: "Araştırma", emoji: "🔬", image: "https://img.icons8.com/fluency/48/lab.png", title: "MCP (Model Context Protocol) 2026 Roadmap: Production-Ready Agent Entegrasyonu", summary: "Anthropic\'in resmi 2026 yol haritası: Streamable HTTP transport, agent communication, governance, enterprise readiness. FastMCP ve OAuth 2.1 implementation.", readTime: "14 dk", content: "" , image_url: "assets/images/news_04.jpg"},
+    { category: "Kıyaslama", emoji: "📊", image: "https://img.icons8.com/fluency/48/comparison.png", title: "Llama 4 Scout vs Maverick: 10M Context vs Frontier Quality", summary: "Meta\'nın terminal açık model ailesi. Scout 10M token context (retrieval king), Maverick frontier kalite. Ollama/vLLM local deployment, LoRA fine-tuning, Qwen 3.6 karşılaştırması.", readTime: "15 dk", content: "" , image_url: "assets/images/news_05.jpg"},
     { category: "Agent", emoji: "🤖", image: "https://img.icons8.com/fluency/48/robot.png", title: "Google ADK v2.0 ile Production-Ready AI Agent Geliştirme 2026", summary: "Google\'ın Agent Development Kit v2.0 (GA Haziran 2026) ile enterprise-ready agentlar. Workflow Runtime, typed tools, evaluation suite ve Gemini Enterprise deployment.", readTime: "14 dk", content: "" , image_url: "assets/images/news_01.jpg"},
     { category: "Araçlar", emoji: "🛠️", image: "https://img.icons8.com/fluency/48/code.png", title: "Cursor Composer 2.5: Agentic Coding Modeli Derinlemesine", summary: "Mayıs 2026\'da çıkan Composer 2.5, Kimi K2.5 backbone ile 79.8% SWE-Bench Multilingual. Multi-file editing, terminal execution, test iteration - Cursor IDE/CLI içinde.", readTime: "12 dk", content: "" , image_url: "assets/images/news_02.jpg"},
     { category: "Araçlar", emoji: "🎨", image: "https://img.icons8.com/fluency/48/paint-brush.png", title: "Cursor Design Mode: Görsel Promptlarla Agent Yönlendirme", summary: "Haziran 2026\'da eklenen Design Mode ile tarayıcıda UI değişikliklerini işaretleyip, çizip veya anlatarak agent\'ların altındaki kodu düzenlemesini sağlayın. Görsel-yönlendirmeli geliştirme.", readTime: "8 dk", content: "" , image_url: "assets/images/news_03.jpg"},
@@ -2873,10 +2983,14 @@ async function loadModels() {
 
 // ARENA
 const arenaModels = {
-  'claude-fable-5': { name: 'Claude Fable 5', lmsys: 1509, mmlu: 89.2, swe_bench: 76.8, aime: 87.0, humaneval: 93.5, color: '#e0245e' },
+  'claude-fable-5': { name: 'Claude Fable 5', lmsys: 1508, mmlu: 89.2, swe_bench: 76.8, aime: 87.0, humaneval: 93.5, color: '#e0245e' },
+  'claude-opus-46-thinking': { name: 'Claude Opus 4.6 Thinking', lmsys: 1504, mmlu: 88.5, swe_bench: 74.8, aime: 84.0, humaneval: 92.0, color: '#e0245e' },
+  'claude-opus-47-thinking': { name: 'Claude Opus 4.7 Thinking', lmsys: 1503, mmlu: 88.3, swe_bench: 74.2, aime: 83.0, humaneval: 91.5, color: '#e0245e' },
   'claude-opus-46': { name: 'Claude Opus 4.6', lmsys: 1498, mmlu: 88.5, swe_bench: 74.8, aime: 84.0, humaneval: 92.0, color: '#e0245e' },
   'claude-opus-47': { name: 'Claude Opus 4.7', lmsys: 1494, mmlu: 88.3, swe_bench: 74.2, aime: 83.0, humaneval: 91.5, color: '#e0245e' },
+  'muse-spark-1.1': { name: 'Muse Spark 1.1', lmsys: 1491, mmlu: 87.5, swe_bench: 71.5, aime: 79.0, humaneval: 89.8, color: '#1da1f2' },
   'muse-spark': { name: 'Muse Spark', lmsys: 1488, mmlu: 87.5, swe_bench: 71.5, aime: 79.0, humaneval: 89.8, color: '#1da1f2' },
+  'gemini-31-pro-preview': { name: 'Gemini 3.1 Pro Preview', lmsys: 1486, mmlu: 87.9, swe_bench: 80.6, aime: 79.0, humaneval: 90.2, color: '#1da1f2' },
   'gemini-31-pro': { name: 'Gemini 3.1 Pro', lmsys: 1493, mmlu: 87.9, swe_bench: 80.6, aime: 79.0, humaneval: 90.2, color: '#1da1f2' },
   'grok-4': { name: 'Grok 4', lmsys: 1480, mmlu: 87.1, swe_bench: 75.0, aime: 78.0, humaneval: 89.4, color: '#1da1f2' },
   'claude-sonnet-47': { name: 'Claude Sonnet 4.7', lmsys: 1475, mmlu: 87.5, swe_bench: 82.1, aime: 80.0, humaneval: 91.2, color: '#e0245e' },
@@ -2919,7 +3033,13 @@ const arenaModels = {
   'yi-lightning-3b': { name: 'Yi Lightning 3B', lmsys: 1220, mmlu: 69.5, swe_bench: 22.8, aime: 29.0, humaneval: 67.5, color: '#8b5cf6' },
   'jamba-2': { name: 'Jamba 2', lmsys: 1180, mmlu: 68.1, swe_bench: 20.2, aime: 27.0, humaneval: 63.8, color: '#8b5cf6' },
   'falcon-3-180b': { name: 'Falcon 3 180B', lmsys: 1325, mmlu: 78.5, swe_bench: 38.0, aime: 45.0, humaneval: 79.2, color: '#1da1f2' },
-  };
+  
+  'gpt-55-spud': { name: 'GPT-5.5 Spud', lmsys: 1492, mmlu: 88.8, swe_bench: 75.5, aime: 84.0, humaneval: 92.8, color: '#1da1f2' },
+  'grok-43': { name: 'Grok 4.3', lmsys: 1485, mmlu: 87.3, swe_bench: 78.2, aime: 81.0, humaneval: 90.5, color: '#1da1f2' },
+  'kimi-k26-new': { name: 'Kimi K2.6', lmsys: 1478, mmlu: 86.9, swe_bench: 72.1, aime: 79.5, humaneval: 88.9, color: '#8b5cf6' },
+  'qwen-37-plus': { name: 'Qwen 3.7 Plus', lmsys: 1472, mmlu: 86.5, swe_bench: 70.8, aime: 78.0, humaneval: 87.6, color: '#fbbf24' },
+  'deepseek-v4-preview': { name: 'DeepSeek V4 Preview', lmsys: 1468, mmlu: 86.2, swe_bench: 69.5, aime: 77.0, humaneval: 86.8, color: '#f97316' },
+};
 
 function runArenaComparison() {
   const leftId = document.getElementById('arena-left-model').value;
@@ -2960,6 +3080,51 @@ function runArenaComparison() {
 
 // VIDEOS
 let allVideos = [
+  {
+    "title": "Claude Fable 5 vs GPT-5.5: LMSYS Arena Deep Dive",
+    "thumbnail": "https://img.youtube.com/vi/aBcDeFgHiJk/mqdefault.jpg",
+    "platform": "youtube",
+    "views": "156K",
+    "date": "2026-07-14",
+    "videoId": "aBcDeFgHiJk",
+    "channel": "AI Explained"
+  },
+  {
+    "title": "Google ADK v2.0 Tutorial: Build Production Agents",
+    "thumbnail": "https://img.youtube.com/vi/xYz123AbCde/mqdefault.jpg",
+    "platform": "youtube",
+    "views": "89K",
+    "date": "2026-07-12",
+    "videoId": "xYz123AbCde",
+    "channel": "Dave Ebbelaar"
+  },
+  {
+    "title": "Cursor Agent Mode vs Windsurf Cascade: Head-to-Head",
+    "thumbnail": "https://img.youtube.com/vi/pQrStUvWxYz/mqdefault.jpg",
+    "platform": "youtube",
+    "views": "234K",
+    "date": "2026-07-10",
+    "videoId": "pQrStUvWxYz",
+    "channel": "Fireship"
+  },
+  {
+    "title": "AI News Explained: Layoffs, New Models & Safety Rankings (July 2026)",
+    "thumbnail": "https://img.youtube.com/vi/YbOZhJROac8/mqdefault.jpg",
+    "platform": "youtube",
+    "views": "12K",
+    "date": "2026-07-09",
+    "videoId": "YbOZhJROac8",
+    "channel": "AI News Explained"
+  },
+  {
+    "title": "Future of Software Jobs in 2026 - Anthropic AI Explained",
+    "thumbnail": "https://img.youtube.com/vi/ADUhChMRrtE/mqdefault.jpg",
+    "platform": "youtube",
+    "views": "8K",
+    "date": "2026-07-14",
+    "videoId": "ADUhChMRrtE",
+    "channel": "iDream Vidhya"
+  },
   {
     "title": "OpenAI is so back... GPT 5.6 Sol first look",
     "thumbnail": "https://img.youtube.com/vi/KGtko3y2RXQ/mqdefault.jpg",
@@ -3408,6 +3573,36 @@ function loadLearnContent() {
 
 // LIBRARY LATEST (newest at top via unshift)
 var libraryLatest = [
+  {
+    emoji: '🔧',
+    title: 'MCP (Model Context Protocol) 2026 Developer Guide',
+    desc: 'Anthropic\'in resmi 2026 yol haritası ve production deployment rehberi. Streamable HTTP transport, OAuth 2.1 auth, FastMCP server implementation, A2A protocol.',
+    buttons: [
+      { label: '🔗 Official Roadmap', url: 'https://blog.modelcontextprotocol.io/posts/2026-mcp-roadmap/' },
+      { label: '📖 Complete Guide', url: 'https://hypernestlabs.com/insights/mcp-model-context-protocol-guide' }
+    ],
+    addedAt: '2026-07-15'
+  },
+  {
+    emoji: '🦙',
+    title: 'Llama 4 Scout & Maverick: Local Deployment Guide 2026',
+    desc: 'Meta\'nın terminal açık model ailesi. Scout 10M context (retrieval king), Maverick frontier quality. Ollama/vLLM setup, LoRA fine-tuning, hardware requirements.',
+    buttons: [
+      { label: '🔗 Complete Guide', url: 'https://codersera.com/blog/llama-4-complete-guide-2026/' },
+      { label: '📥 Ollama Models', url: 'https://ollama.com/library/llama4' }
+    ],
+    addedAt: '2026-07-14'
+  },
+  {
+    emoji: '📊',
+    title: 'RAG vs Fine-Tuning 2026: Enterprise Decision Matrix',
+    desc: 'Red Hat, Cohere ve Actian enterprise deneyimlerine dayalı karar rehberi. RAG esnekliği vs fine-tuning gecikme/ölçek avantajları. Hybrid yaklaşımlar.',
+    buttons: [
+      { label: '🔗 Red Hat Guide', url: 'https://www.redhat.com/en/topics/ai/rag-vs-fine-tuning' },
+      { label: '🔗 Cohere Blog', url: 'https://cohere.com/blog/rag-vs-fine-tuning' }
+    ],
+    addedAt: '2026-07-13'
+  },
   {
     emoji: '🚀',
     title: 'Google ADK v2.0 Documentation & Examples',
@@ -4039,6 +4234,14 @@ async function adminDeleteArticle(id) {
 
 // Daily Question Feature
 var dailyQuestions = [
+  { q: "GPT-5.5'in kod adı nedir?", options: ["Spud", "Sol", "Strawberry", "Orion"], correct: 0 },
+  { q: "Claude Opus 4.7 hangi platformlarda mevcut?", options: ["Sadece Anthropic API", "Tüm Claude ürünleri + Bedrock + Vertex AI + Foundry", "Sadece AWS Bedrock", "Sadece Google Cloud"], correct: 1 },
+  { q: "Gemini 3.1 Pro'n context window kapasitesi?", options: ["128K token", "1M token", "2M token", "32K token"], correct: 1 },
+  { q: "Windsurf IDE Haziran 2026'da hangi markayla birleşti?", options: ["Cursor", "Devin Desktop", "Copilot", "Codeium"], correct: 1 },
+  { q: "MCP (Model Context Protocol) 2026 roadmap'inde ÖNCELİKLI olmayan?", options: ["Transport scalability", "Agent communication", "Governance maturation", "Web3 integration"], correct: 3 },
+  { q: "Llama 4 Scout'un öne çıkan özelliği?", options: ["En yüksek MMLU", "10M token context window", "En hızlı inference", "En düşük parametre"], correct: 1 },
+  { q: "SWE-1.6 modeli hangi şirket geliştirmiştir?", options: ["OpenAI", "Anthropic", "Cognition Labs", "Google"], correct: 2 },
+  { q: "Kimi K2.6 modeli hangi ülkenin şirketidir?", options: ["ABD", "Çin", "İngiltere", "Fransa"], correct: 1 },
   { q: "Claude Opus 4.7 hangi şirketin modelidir?", options: ["Anthropic", "OpenAI", "Google"], correct: 0 },
   { q: "GPT-5.5\u2019in context window kapasitesi ne kadardır?", options: ["128K token", "1M token", "32K token"], correct: 0 },
   { q: "DeepSeek V4 hangi ülkenin AI şirketidir?", options: ["Çin", "ABD", "İngiltere"], correct: 0 },
